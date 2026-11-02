@@ -41,6 +41,8 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/ComposeSmokeTest.kt` | the smoke test the visual suite stands on |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the two families per theme, and the weights asked of the variable body faces |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonStage.kt` | `ToonStage` (B-13): the theme's stage colour with the gouache tile at 256 dp in Ink & Gouache, flat in Bright Cel |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonTypography.kt` | `ToonTypeSpec.textStyle` (B-29): a step of the type scale in the theme's faces, for a screen's own text |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/ScreensFixtures.kt` | the Screens page's nine phone screens and its desktop layout, against the page rendered by the design's runtime (B-29) |
 | `toon-core/src/commonMain/composeResources/drawable` | the four texture tiles, byte for byte the vendored ones in `reference/design-system/assets/textures` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonGeometry.kt` | the engine's shape functions ported (B-04): `ToonRandom`, `roundRectPoints`, `wobblePoints`, `shapePoints`, `inkLinePoints`, `starPoints`, `burstPoints` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonInk.kt` | the drawing primitives (B-09): `smoothPath`, `polygonPath`, `drawInkBody` with shadow and night rim, `drawFocusRing`, `place` |
@@ -214,6 +216,11 @@ None at runtime.
 - The stage's tile is chosen by the theme's stage colour (B-13): a theme of the caller's own, with
   another stage colour, gets a flat stage. The paper tiles ship with the gouache ones, as the design
   keeps them, and nothing draws them yet; the four add 0.5 MB.
+- The screen references (`Screens_*`) are the Screens page itself, rendered by the design's runtime
+  with reduced motion (B-29), not a scene of the engine's. Two of the page's CSS habits are modelled
+  in the fixtures, not in the components: a line box shorter than the face's own line (Shrikhand
+  at `line-height: 1`), centred as CSS's negative half-leading puts it, and an inline component's
+  line box as tall as the page body's strut (the desktop's progress bar, 19.2 dp for 14).
 - The worm arches out of its tube by up to 11 dp and the linear indicator is laid out 14 dp tall: the
   kit pads its box 18 dp above. A parent that clips cuts the arch.
 - A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the
