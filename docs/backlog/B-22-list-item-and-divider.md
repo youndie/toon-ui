@@ -1,7 +1,7 @@
 ---
 id: B-22
 title: "ListItem and Divider"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
