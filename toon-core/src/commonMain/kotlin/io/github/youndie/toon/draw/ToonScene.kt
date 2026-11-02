@@ -32,9 +32,11 @@ import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonColors
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.atan2
 import kotlin.math.cos
 import kotlin.math.max
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 // A component's frame as the engine returns it (B-14): layers of paths (`L`) drawn in order, then
 // text (`X`) on top, as `toSvg` writes them. Building the frame as data before drawing it is what
@@ -45,8 +47,9 @@ import kotlin.math.sin
  * How a layer's [ToonLayer.numbers] join: `M` then quadratic `Q` pairs, or `M` then `L` points. An
  * [Iris] is the engine's `iris`, a rectangle with a round hole filled even-odd, kept as its `d` writes
  * it: `M0 0`, `H` w, `V` h, `H0`, then `M` the circle's right point and two arcs `A r r 0 1 0 x y`.
+ * An [Arc] is `M x y` and one circular arc `A r r 0 large sweep x y`, as the circular progress draws.
  */
-internal enum class ToonSegments { Quad, Line, Iris }
+internal enum class ToonSegments { Quad, Line, Iris, Arc }
 
 /** A 2D affine transform as SVG writes it, `[a c e; b d f]`: what `place` and `scaleAbout` prefix. */
 internal class ToonAffine(
@@ -139,6 +142,7 @@ internal class ToonLayer(
 ) {
     val path: Path by lazy {
         if (segments == ToonSegments.Iris) return@lazy irisPath(numbers)
+        if (segments == ToonSegments.Arc) return@lazy arcPath(numbers)
         shape ?: Path().apply {
             moveTo(numbers[0], numbers[1])
             val step = if (segments == ToonSegments.Quad) 4 else 2
@@ -505,3 +509,37 @@ private fun irisPath(n: FloatArray): Path =
         val cx = n[8] - r
         if (r > 0f) addOval(Rect(cx - r, n[9] - r, cx + r, n[9] + r))
     }
+
+/**
+ * One SVG arc of a circle, `M x0 y0 A r r 0 large sweep x1 y1`, from [n] in that order: its centre
+ * found from the two ends and the flags, as SVG's implementation notes do it (F.6.5).
+ */
+private fun arcPath(n: FloatArray): Path {
+    val x0 = n[0].toDouble()
+    val y0 = n[1].toDouble()
+    var r = n[2].toDouble()
+    val large = n[5] != 0f
+    val sweep = n[6] != 0f
+    val x1 = n[7].toDouble()
+    val y1 = n[8].toDouble()
+    val hx = (x0 - x1) / 2
+    val hy = (y0 - y1) / 2
+    val d2 = hx * hx + hy * hy
+    if (r * r < d2) r = sqrt(d2)
+    val coef = sqrt(max(0.0, (r * r - d2) / d2)) * (if (large == sweep) -1 else 1)
+    val cx = coef * hy + (x0 + x1) / 2
+    val cy = -coef * hx + (y0 + y1) / 2
+    val start = atan2(y0 - cy, x0 - cx)
+    var delta = atan2(y1 - cy, x1 - cx) - start
+    if (sweep && delta < 0) delta += 2 * PI
+    if (!sweep && delta > 0) delta -= 2 * PI
+    return Path().apply {
+        moveTo(n[0], n[1])
+        arcTo(
+            Rect((cx - r).toFloat(), (cy - r).toFloat(), (cx + r).toFloat(), (cy + r).toFloat()),
+            (start * 180 / PI).toFloat(),
+            (delta * 180 / PI).toFloat(),
+            false,
+        )
+    }
+}

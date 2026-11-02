@@ -408,6 +408,26 @@ export const SNACK_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     snackMoment(false, t))),
 ]);
 
+// ---- Progress (B-25): `toon-ui MVP Components.dc.html` ----
+const PROGRESS_PAGE = [
+  "out.prog = { cells: [['Linear / Indeterminate', E.linear(T, { w: 240, ...E.worm(420) }), 240, 14], ['Linear / 40 %', E.linear(T, { w: 240, a: 0, b: .4 }), 240, 14], ['Linear / Complete', E.linear(T, { w: 240, a: 0, b: 1 }), 240, 14], ['Circular / Indeterminate', E.circular(T, { ph: 300 }), 48, 48], ['Circular / 65 %', E.circular(T, { value: .65 }), 48, 48]]",
+  ".map(([n, sc, w, h]) => C('Progress / ' + n, sc, w, h, [10, 10, 10, 10])),",
+  "frames: [0, 300, 600, 900].map(t => { const w = E.worm(t); return Fr(`${t} ms`, `tail ${n0(E.c01(w.a) * 100)} % · head ${n0(E.c01(w.b) * 100)} %`, E.linear(T, { w: 200, ...w }), 200, 14, [16, 8, 8, 8]); }) },",
+  "frames: [0, 250, 500, 750].map(t => Fr(`${t} ms`, `angle ${n0(((t / 1000 * 2 * Math.PI) + .7 * Math.sin(t / 1000 * 2 * Math.PI)) * 180 / Math.PI)}°`, E.circular(T, { ph: t }), 48, 48, [8, 8, 8, 8])) },",
+];
+// A worm cell is the engine's `worm` at its age, so the cell holds the curve as well as the drawing.
+export const PROGRESS_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  sceneCell('Progress', theme, themeName, 'Linear_Indeterminate', 240, 14, [10, 10, 10, 10], { kind: 'worm', w: 240, t: 420 }, 'E.linear(T, { w: 240, ...E.worm(420) })', call('toonWormScene', 'tokens', '240f', '420f')),
+  ...[['Linear_40', .4], ['Linear_Complete', 1]].map(([n, b]) => sceneCell('Progress', theme, themeName, n, 240, 14, [10, 10, 10, 10], { kind: 'linear', w: 240, b },
+    `E.linear(T, { w: 240, a: 0, b: ${b} })`, call('toonLinearScene', 'tokens', '240f', '0f', kf(b), 'worm = false'))),
+  sceneCell('Progress', theme, themeName, 'Circular_Indeterminate', 48, 48, [10, 10, 10, 10], { kind: 'circular', ph: 300 }, 'E.circular(T, { ph: 300 })', call('toonCircularScene', 'tokens', 'null', '300f')),
+  sceneCell('Progress', theme, themeName, 'Circular_65', 48, 48, [10, 10, 10, 10], { kind: 'circular', value: .65 }, 'E.circular(T, { value: .65 })', call('toonCircularScene', 'tokens', '0.65f', '0f')),
+  ...[0, 300, 600, 900].map(t => sceneCell('Progress', theme, themeName, `Worm_${t}ms`, 200, 14, [16, 8, 8, 8], { kind: 'worm', w: 200, t },
+    `E.linear(T, { w: 200, ...E.worm(${t}) })`, call('toonWormScene', 'tokens', '200f', `${t}f`))),
+  ...[0, 250, 500, 750].map(t => sceneCell('Progress', theme, themeName, `Spin_${t}ms`, 48, 48, [8, 8, 8, 8], { kind: 'circular', ph: t },
+    `E.circular(T, { ph: ${t} })`, call('toonCircularScene', 'tokens', 'null', `${t}f`))),
+]);
+
 // ---- Dialog (B-24): `toon-ui MVP Components.dc.html` ----
 const DIALOG_PAGE = [
   "out.dialog = { cells: [['Destructive', {}], ['Confirm focused', { focus: 'confirm' }], ['Cancel focused', { focus: 'cancel' }], ['Basic', { title: 'Leave the plan?', body: ['Changes you made will be', 'kept as a draft.'], confirm: 'Leave', destructive: false }]].map(([n, o]) => C('Dialog / ' + n, E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, o), 360, 460, [0, 0, 0, 0], .62)),",
@@ -475,6 +495,7 @@ export const FRAME_PROBES = {
 };
 
 export const missingPageText = [
+  ...PROGRESS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...DIALOG_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...SNACK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...LIST_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -490,4 +511,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS };
