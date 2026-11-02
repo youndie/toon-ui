@@ -1,7 +1,7 @@
 ---
 id: B-15
 title: "IconButton and Badge"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
