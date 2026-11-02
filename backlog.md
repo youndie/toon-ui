@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-19](docs/backlog/B-19-text-field.md) `[ ]` | TextField: drawn frame over a real input, label lift, error shake with stars | P1 | M | B-10, B-12 |
+| [B-19](docs/backlog/B-19-text-field.md) `[~]` | TextField: drawn frame over a real input, label lift, error shake with stars | P1 | M | B-10, B-12 |
 | [B-20](docs/backlog/B-20-chip.md) `[ ]` | Chip: filter, assist, input; inflate and paint-in; a 48 dp target | P1 | S | B-10, B-12 |
 | [B-21](docs/backlog/B-21-card.md) `[ ]` | Card: tilt, drop-in with dust and cascade, press lean, swipe dismiss with a hole | P1 | L | B-10, B-12 |
 | [B-22](docs/backlog/B-22-list-item-and-divider.md) `[ ]` | ListItem and Divider | P1 | S | B-10, B-09 |

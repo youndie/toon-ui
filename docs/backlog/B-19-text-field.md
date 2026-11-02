@@ -1,7 +1,7 @@
 ---
 id: B-19
 title: "TextField: drawn frame over a real input, label lift, error shake with stars"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-2-components
