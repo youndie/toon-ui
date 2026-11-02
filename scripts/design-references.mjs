@@ -36,13 +36,8 @@ const OUTLINES = join(ROOT, 'toon-core/src/desktopTest/resources/design-goldens/
 
 const THEMES = { il: 'InkGouacheLight', in: 'InkGouacheNight', bc: 'BrightCel' };
 
-// The MVP page's Divider cells: `E.divider(T, { seed: i, ...o })` at 342 × 12 with 4 px padding.
-const DIVIDERS = [['Full', { x1: 342, th: 3 }], ['Inset', { x0: 56, x1: 342, th: 3 }], ['Thick', { x1: 342, th: 4.6 }], ['Short', { x1: 120, th: 2.4 }]];
-export const REFERENCES = Object.entries(THEMES).flatMap(([key, theme]) =>
-  DIVIDERS.map(([state, o], i) => ({
-    group: 'Divider', name: `${state}_${theme}`, theme: key, w: 342, h: 12, pad: [4, 4, 4, 4],
-    scene: `E.divider(T, ${JSON.stringify({ seed: i, ...o })})`,
-  })));
+// The Divider's cells, the floor's ruler (B-06), are scripts/component-cells.mjs's since B-22.
+export const REFERENCES = [];
 
 // B-09: a plain body, the Principles page's `blk()` with the night rim left on, and the same body
 // focused (`ring` at 6 px outset, as `btn` draws it).

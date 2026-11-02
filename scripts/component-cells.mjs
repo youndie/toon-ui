@@ -383,7 +383,45 @@ export const CARD_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     CARD_STACK(t), call('CardFrames.dismiss', 'tokens', `${t}f`))),
 ]);
 
+// ---- Divider and ListItem (B-22): `toon-ui MVP Components.dc.html` ----
+const LIST_PAGE = [
+  "out.div = { cells: [['Full', { x1: 342, th: 3 }], ['Inset', { x0: 56, x1: 342, th: 3 }], ['Thick', { x1: 342, th: 4.6 }], ['Short', { x1: 120, th: 2.4 }]].map(([n, o], i) => C('Divider / ' + n, E.divider(T, { seed: i, ...o }), 342, 12, [4, 4, 4, 4])), specs: [] };",
+  "const li = [['One-line / Chevron', { icon: 'star', title: 'Favourites', trailing: 'chevron' }], ['Two-line / Switch', { icon: 'bell', title: 'Reminders', sub: 'At noon', trailing: 'switch', on: true }], ['Pressed', { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag: 1 }], ['Selected', { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'check', on: true, sel: true }], ['Focused', { icon: 'bell', title: 'Reminders', sub: 'At noon', trailing: 'switch', on: true, focus: true }], ['Disabled', { icon: 'person', title: 'Shared with', sub: 'Nobody yet', trailing: 'chevron', disabled: true }]];",
+  "const liF = [['0 ms', 0, true], ['50 ms', 50, true], ['100 ms · held', 100, true], ['+60 ms', 60, false], ['+130 ms', 130, false], ['+220 ms', 220, false]];",
+  "out.list = { cells: li.map(([n, o], i) => C('ListItem / ' + n, E.listItem(T, { seed: i, ...o }), 342, 72, [8, 10, 10, 10])),",
+  "frames: liF.map(([lb, t, d]) => { const s = E.listPress(t, d); return Fr(lb, `sag ${n2(s)} · rule ${n2(6 * s)} dp`, E.listItem(T, { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag: s }), 342, 72, [6, 10, 14, 10], .45); }) }] };",
+];
+const DIVIDERS = [['Full', { x1: 342, th: 3 }], ['Inset', { x0: 56, x1: 342, th: 3 }], ['Thick', { x1: 342, th: 4.6 }], ['Short', { x1: 120, th: 2.4 }]];
+// The Divider's cells are the floor's ruler (research D3): one filled inkLine, whose numbers match the
+// engine's within 0.05 dp, so what they differ by in pixels is the rasterisers.
+export const DIVIDER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => DIVIDERS.map(([n, o], i) =>
+  sceneCell('Divider', theme, themeName, n, 342, 12, [4, 4, 4, 4], { seed: i, ...o }, `E.divider(T, ${js({ seed: i, ...o })})`,
+    call('toonDividerScene', 'tokens', kf(o.x0 || 0), kf(o.x1), kf(o.th), String(i)))));
+const TRAIL = { chevron: 'Chevron', switch: 'Switch', check: 'Check' };
+const listLook = (o, i) => {
+  const a = [];
+  if (o.on) a.push('on = true');
+  if (o.sag) a.push(`sag = ${kf(o.sag)}`);
+  if (o.sel) a.push('selected = true');
+  if (i) a.push(`seed = ${i}`);
+  if (o.disabled) a.push('disabled = true');
+  if (o.focus) a.push('focus = true');
+  return call('ToonListItemLook', ...a);
+};
+const listScene = (o, i) => call('toonListItemScene', 'tokens', '342f', `ToonIcons.${pascal(o.icon)}`, JSON.stringify(o.title), JSON.stringify(o.sub || ''), `ToonListTrailing.${TRAIL[o.trailing]}`, listLook(o, i));
+const LIST_STATES = [['One-line / Chevron', { icon: 'star', title: 'Favourites', trailing: 'chevron' }], ['Two-line / Switch', { icon: 'bell', title: 'Reminders', sub: 'At noon', trailing: 'switch', on: true }], ['Pressed', { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag: 1 }], ['Selected', { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'check', on: true, sel: true }], ['Focused', { icon: 'bell', title: 'Reminders', sub: 'At noon', trailing: 'switch', on: true, focus: true }], ['Disabled', { icon: 'person', title: 'Shared with', sub: 'Nobody yet', trailing: 'chevron', disabled: true }]];
+const LIST_FRAMES = [['0ms', 0, true], ['50ms', 50, true], ['100msHeld', 100, true], ['Plus60ms', 60, false], ['Plus130ms', 130, false], ['Plus220ms', 220, false]];
+export const LIST_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...LIST_STATES.map(([n, o], i) => sceneCell('ListItem', theme, themeName, n.replace(' / ', '_').replace('-', ''), 342, 72, [8, 10, 10, 10], { seed: i, ...o },
+    `E.listItem(T, ${js({ seed: i, ...o })})`, listScene(o, i))),
+  ...LIST_FRAMES.map(([lb, t, d]) => {
+    const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag: E.listPress(t, d) };
+    return sceneCell('ListItem', theme, themeName, `Press_${lb}`, 342, 72, [6, 10, 14, 10], o, `E.listItem(T, ${js(o)})`, listScene(o, 0));
+  }),
+]);
+
 export const missingPageText = [
+  ...LIST_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...CARD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...CHIP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...FIELD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
@@ -396,4 +434,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS };
