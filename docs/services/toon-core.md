@@ -43,6 +43,9 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonGeometry.kt` | the engine's shape functions ported (B-04): `ToonRandom`, `roundRectPoints`, `wobblePoints`, `shapePoints`, `inkLinePoints`, `starPoints`, `burstPoints` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/draw/EngineGeometryGoldensTest.kt` | numeric parity of that port against the goldens, with the measured tolerances |
 | `toon-core/src/desktopTest/resources/engine-goldens` | the engine's geometry and curves as JSON, written by `scripts/engine-goldens.mjs` (B-03); the port is tested against them |
+| `toon-core/src/desktopTest/snapshots` | viddik goldens (B-06), checked by `check` |
+| `toon-core/src/desktopTest/snapshots/design` | the Chrome references, written by `scripts/design-references.mjs`, with a `manifest.json` naming the Chrome and the engine |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/DividerParityFixtures.kt` | the Divider fixtures the floor is measured on |
 | `toon-core/src/commonMain/composeResources` | the font files (`font`) and their OFL texts (`files/licences`) |
 
 ## 3. How it is built
@@ -64,6 +67,7 @@ this once.
 | Library | compose-resources | the bundled fonts |
 | Build | sborka 0.4.0.111 | conventions and the `wip` catalog, the same build as oldge-ui |
 | Test | Compose ui-test, `compose.desktop.currentOs` (desktopTest only) | off-screen composition on the host's Skia |
+| Test | viddik 0.7.0 (Maven Central) with KSP | goldens on `check`, and `viddikDesignParity` against the Chrome references |
 
 ## 5. Infrastructure and deploy
 

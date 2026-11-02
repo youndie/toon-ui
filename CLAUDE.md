@@ -46,7 +46,11 @@ make check          # the documentation gate (docs-bootstrap checkers)
 The documentation checkers are docs-bootstrap's, at the version the `uses: youndie/docs-bootstrap@…`
 line in `.github/workflows/check.yaml` pins. The first `make check` fetches that version into
 `.docs-bootstrap/`, and there are no copies under `scripts/`. `make fix` regenerates the backlog
-index. `make goldens` rewrites the engine goldens (`scripts/engine-goldens.mjs`, B-03), and `make
+index. `make references` re-renders the Chrome design references
+(`scripts/design-references.mjs`, B-06; needs Google Chrome, so it is not in the gate), and
+`./gradlew :toon-core:viddikDesignParity` reports each fixture against its reference. A
+component's parity is read against the floor measured on the Divider (research D3), not against
+viddik's default 5 %. `make goldens` rewrites the engine goldens (`scripts/engine-goldens.mjs`, B-03), and `make
 check` fails while they are stale against the vendored engine. A file in a sibling repository is cited as `youndie/<repo>@<commit>!/<path>`.
 
 **Builds run on this mac, not on the Linux box.** The project is not in `mutagen sync list`. The

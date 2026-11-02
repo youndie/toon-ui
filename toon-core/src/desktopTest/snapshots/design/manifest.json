@@ -1,0 +1,163 @@
+{
+  "browser": "Chrome/156.0.8078.74",
+  "engine": "49d0090146fc2ad1bad49402645b0fe328056dfe7ee480a45faa979b76d16a37",
+  "scale": 1,
+  "references": [
+    {
+      "file": "Divider_Full_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":0,\"x1\":342,\"th\":3})"
+    },
+    {
+      "file": "Divider_Inset_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":1,\"x0\":56,\"x1\":342,\"th\":3})"
+    },
+    {
+      "file": "Divider_Thick_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":2,\"x1\":342,\"th\":4.6})"
+    },
+    {
+      "file": "Divider_Short_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":3,\"x1\":120,\"th\":2.4})"
+    },
+    {
+      "file": "Divider_Full_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":0,\"x1\":342,\"th\":3})"
+    },
+    {
+      "file": "Divider_Inset_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":1,\"x0\":56,\"x1\":342,\"th\":3})"
+    },
+    {
+      "file": "Divider_Thick_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":2,\"x1\":342,\"th\":4.6})"
+    },
+    {
+      "file": "Divider_Short_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":3,\"x1\":120,\"th\":2.4})"
+    },
+    {
+      "file": "Divider_Full_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":0,\"x1\":342,\"th\":3})"
+    },
+    {
+      "file": "Divider_Inset_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":1,\"x0\":56,\"x1\":342,\"th\":3})"
+    },
+    {
+      "file": "Divider_Thick_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":2,\"x1\":342,\"th\":4.6})"
+    },
+    {
+      "file": "Divider_Short_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 12,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "E.divider(T, {\"seed\":3,\"x1\":120,\"th\":2.4})"
+    }
+  ]
+}
