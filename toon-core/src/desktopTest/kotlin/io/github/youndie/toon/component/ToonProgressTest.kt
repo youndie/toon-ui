@@ -12,6 +12,7 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
 import io.github.youndie.toon.theme.ToonTheme
+import io.github.youndie.toon.tokens.inkGouacheLight
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -99,5 +100,35 @@ class ToonProgressTest {
                 ),
             )
         }
+    }
+
+    @Test
+    fun `under reduce motion the worm is a static bar at 33 percent and the blob stands still`() {
+        fun numbers(scene: io.github.youndie.toon.draw.ToonScene) = scene.layers.map { it.numbers.toList() }
+        val bar = toonLinearScene(inkGouacheLight, 280f, 0f, .33f, worm = false)
+        for (t in listOf(0f, 300f, 700f)) {
+            assertEquals(
+                numbers(bar),
+                numbers(toonProgressFrameAt(inkGouacheLight, ToonProgressKind.Linear, 280f, -1f, t, true)),
+            )
+            assertEquals(
+                numbers(toonCircularScene(inkGouacheLight, null, 0f)),
+                numbers(toonProgressFrameAt(inkGouacheLight, ToonProgressKind.Circular, 48f, -1f, t, true)),
+            )
+        }
+        // Without it, the worm crawls and the blob turns.
+        assertEquals(
+            numbers(toonWormScene(inkGouacheLight, 280f, 300f)),
+            numbers(toonProgressFrameAt(inkGouacheLight, ToonProgressKind.Linear, 280f, -1f, 300f, false)),
+        )
+        assertEquals(
+            numbers(toonCircularScene(inkGouacheLight, null, 300f)),
+            numbers(toonProgressFrameAt(inkGouacheLight, ToonProgressKind.Circular, 48f, -1f, 300f, false)),
+        )
+        // A known value is drawn as it is, motion or not.
+        assertEquals(
+            numbers(toonLinearScene(inkGouacheLight, 280f, 0f, .4f, worm = false)),
+            numbers(toonProgressFrameAt(inkGouacheLight, ToonProgressKind.Linear, 280f, .4f, 300f, true)),
+        )
     }
 }

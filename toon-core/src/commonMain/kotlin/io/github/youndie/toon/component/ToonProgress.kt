@@ -77,19 +77,32 @@ public fun ToonProgress(
                     if (alive) ProgressBarRangeInfo.Indeterminate else ProgressBarRangeInfo(min(1f, value), 0f..1f)
             },
     ) {
-        val t = clock.toFloat()
-        val scene =
-            if (linear) {
-                val w = width.value
-                when {
-                    !alive -> toonLinearScene(tokens, w, 0f, value, worm = false)
-                    reduce -> toonLinearScene(tokens, w, 0f, REDUCED_SHARE, worm = false)
-                    else -> toonWormScene(tokens, w, t)
-                }
-            } else {
-                toonCircularScene(tokens, if (alive) null else min(1f, value), if (reduce) 0f else t)
-            }
-        drawScene(scene)
+        drawScene(toonProgressFrameAt(tokens, kind, width.value, value, clock.toFloat(), reduce))
+    }
+}
+
+/**
+ * The kit's `C.progress.scene` at [t] ms into the loop. Under reduce motion — the MVP page's words —
+ * the linear one is a static bar at 33 % and the circular one a static blob.
+ */
+internal fun toonProgressFrameAt(
+    tokens: ToonTokens,
+    kind: ToonProgressKind,
+    w: Float,
+    value: Float,
+    t: Float,
+    reduceMotion: Boolean,
+): ToonScene {
+    val alive = value < 0
+    if (kind ==
+        ToonProgressKind.Circular
+    ) {
+        return toonCircularScene(tokens, if (alive) null else min(1f, value), if (reduceMotion) 0f else t)
+    }
+    return when {
+        !alive -> toonLinearScene(tokens, w, 0f, value, worm = false)
+        reduceMotion -> toonLinearScene(tokens, w, 0f, REDUCED_SHARE, worm = false)
+        else -> toonWormScene(tokens, w, t)
     }
 }
 
