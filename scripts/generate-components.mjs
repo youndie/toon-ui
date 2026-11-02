@@ -69,6 +69,23 @@ const PRELUDE = {
     cell: `// The MVP page's list item cells and press strip against the engine's \`listItem\` drawn in Chrome.
 `,
   },
+  TopAppBar: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonTopAppBarVariant',
+      'io.github.youndie.toon.component.ToonTopBarKey',
+      'io.github.youndie.toon.component.ToonTopBarLook',
+      'io.github.youndie.toon.component.toonSway',
+      'io.github.youndie.toon.component.toonTopBarScene',
+      'io.github.youndie.toon.icon.ToonIcons',
+    ],
+    cell: `// The MVP page's top app bar cells and its sway strip against the engine's \`topBar\` drawn in Chrome.
+`,
+  },
   Progress: {
     imports: [
       'androidx.compose.runtime.Composable',
