@@ -203,7 +203,7 @@ internal class ToonSwayClock {
         if (at == PENDING_START) at = now
     }
 
-    private fun age(): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    private fun age(): Float? = nowMs.let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
 
     fun running(): Boolean = age()?.let { it < SWAY_MS } ?: false
 

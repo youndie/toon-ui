@@ -298,7 +298,18 @@ private class ToonFieldClock {
         if (errorAt == PENDING_START) errorAt = now
     }
 
-    private fun age(at: Long?): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    private fun age(at: Long?): Float? =
+        nowMs.let { now ->
+            at?.let {
+                if (it ==
+                    PENDING_START
+                ) {
+                    0f
+                } else {
+                    (now - it).toFloat()
+                }
+            }
+        }
 
     fun focusAge(): Float? = age(focusAt)
 

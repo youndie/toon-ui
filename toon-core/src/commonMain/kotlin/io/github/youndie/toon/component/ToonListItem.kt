@@ -235,7 +235,18 @@ private class ToonListClock {
         if (toggleAt == PENDING_START) toggleAt = now
     }
 
-    private fun age(at: Long?): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    private fun age(at: Long?): Float? =
+        nowMs.let { now ->
+            at?.let {
+                if (it ==
+                    PENDING_START
+                ) {
+                    0f
+                } else {
+                    (now - it).toFloat()
+                }
+            }
+        }
 
     fun pressAge(): Float? = age(pressAt)
 

@@ -145,8 +145,8 @@ internal class ToonTooltipClock(
 
     /** Milliseconds since the change, or null at rest — as the kit's `t` is. */
     fun age(): Float? =
-        at
-            ?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+        nowMs
+            .let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
             ?.takeIf { it < PLAY_MS }
 
     fun running(): Boolean = age() != null

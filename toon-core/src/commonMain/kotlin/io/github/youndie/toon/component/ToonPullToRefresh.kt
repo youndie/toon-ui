@@ -196,7 +196,18 @@ internal class ToonPullState(
         if (doneAt == PENDING_START) doneAt = now
     }
 
-    private fun age(at: Long?): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    private fun age(at: Long?): Float? =
+        nowMs.let { now ->
+            at?.let {
+                if (it ==
+                    PENDING_START
+                ) {
+                    0f
+                } else {
+                    (now - it).toFloat()
+                }
+            }
+        }
 
     /**
      * The spinner turns for as long as the refresh lasts, and the end plays out; under reduce motion

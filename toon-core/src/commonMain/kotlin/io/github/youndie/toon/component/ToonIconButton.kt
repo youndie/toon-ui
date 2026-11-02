@@ -194,9 +194,20 @@ private class ToonIconButtonClock {
 
     fun running(): Boolean = (bounceAge() ?: BOUNCE_MS) < BOUNCE_MS || (popAge() ?: POP_MS) < POP_MS
 
-    fun bounceAge(): Float? = bounceAt?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    fun bounceAge(): Float? =
+        nowMs.let { now ->
+            bounceAt?.let {
+                if (it ==
+                    PENDING_START
+                ) {
+                    0f
+                } else {
+                    (now - it).toFloat()
+                }
+            }
+        }
 
-    fun popAge(): Float? = popAt?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    fun popAge(): Float? = nowMs.let { now -> popAt?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
 }
 
 private const val PENDING_START = -1L

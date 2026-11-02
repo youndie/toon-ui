@@ -90,7 +90,7 @@ public class ToonTabsState internal constructor(
         if (at == PENDING_START) at = now
     }
 
-    internal fun age(): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    internal fun age(): Float? = nowMs.let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
 
     internal fun running(): Boolean = age()?.let { it < SWITCH_MS } ?: false
 

@@ -202,7 +202,7 @@ private class ToonFabClock(
         if (landAt == PENDING_START) landAt = now
     }
 
-    fun landAge(): Float? = landAt?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    fun landAge(): Float? = nowMs.let { now -> landAt?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
 
     fun landing(delayMs: Int): Boolean = landAge()?.let { it < LAND_MS + delayMs } ?: false
 }

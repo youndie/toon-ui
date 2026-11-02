@@ -243,7 +243,7 @@ private class ToonNavClock(
         if (at == PENDING_START) at = now
     }
 
-    fun age(): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    fun age(): Float? = nowMs.let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
 
     fun running(): Boolean = age()?.let { it < SELECT_MS } ?: false
 }

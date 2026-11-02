@@ -203,7 +203,7 @@ internal class ToonToggleClock {
         if (startedAt == PENDING_START) startedAt = now
     }
 
-    fun age(): Float? = startedAt?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    fun age(): Float? = nowMs.let { now -> startedAt?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
 
     fun running(durationMs: Float): Boolean = age()?.let { it < durationMs } ?: false
 }
