@@ -78,7 +78,7 @@ help:
 	@echo "make check   - the gate and the reports: exactly what CI runs"
 	@echo "make gate    - the blocking half alone"
 	@echo "make report  - non-blocking: BDD coverage, code anchors"
-	@echo "make fix     - regenerate the backlog index, fill in missing coverage-map lines"
+	@echo "make fix     - regenerate the backlog index and the component catalogue, fill in missing coverage-map lines"
 	@echo "make tokens  - rewrite ToonTokens.kt from the design"
 	@echo "make icons   - rewrite ToonIcons.kt and the icon fixtures from the engine's ICONS"
 	@echo "make fx      - rewrite the FX fixtures from the FX page's frame strips"
@@ -97,6 +97,7 @@ gate: docs-gate
 	node scripts/generate-icons.mjs --check
 	node scripts/generate-fx.mjs --check
 	node scripts/generate-components.mjs --check
+	node scripts/component-catalogue.mjs --check
 
 # B-06: re-render the Chrome references from the engine (needs Google Chrome; not part of the gate,
 # which also runs on CI's Linux, where the references were not drawn).
@@ -127,7 +128,9 @@ goldens:
 
 report: docs-report
 
+# B-31: the component catalogue is regenerated with the backlog index.
 fix: docs-fix
+	node scripts/component-catalogue.mjs
 
 # -- where the checks come from. Nothing below is meant to be edited. ------------------------------
 
