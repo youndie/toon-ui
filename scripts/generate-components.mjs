@@ -40,6 +40,20 @@ const BADGE_IMPORTS = [
 
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  Switch: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonSwitchLook',
+      'io.github.youndie.toon.component.ToonSwitchOrigin',
+      'io.github.youndie.toon.component.toonSwitchScene',
+    ],
+    cell: `// The Core page's switch cells and toggle strip against the engine's \`sw\` drawn in Chrome.
+`,
+  },
   Checkbox: {
     imports: [
       'androidx.compose.runtime.Composable',

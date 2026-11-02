@@ -152,7 +152,9 @@ for (const [name, { at, f }] of Object.entries(curves)) {
   const rows = at.map(f);
   const cols = { at: round(at) };
   if (typeof rows[0] === 'object' && rows[0] !== null) {
-    for (const key of Object.keys(rows[0])) cols[key] = rows.map(r => round(r[key]));
+    // Every key any row has: a curve's later phases add fields (the switch's echo and wave), null before.
+    const keys = [...new Set(rows.flatMap(r => Object.keys(r)))];
+    for (const key of keys) cols[key] = rows.map(r => (r[key] === undefined ? null : round(r[key])));
   } else cols.value = rows.map(round);
   sampled[name] = cols;
 }
@@ -200,7 +202,7 @@ const fx = {
 // text's place. The port builds the same frame as data and is held to it layer by layer, which no
 // pixel diff can do through a large fill. Without a DOM, `tw` measures text as length × size × 0.55
 // (research §1.2); the test gives the port the same width.
-const FRAME_GROUPS = ['Button', 'IconButton', 'Badge', 'Fab', 'Checkbox', 'Radio'];
+const FRAME_GROUPS = ['Button', 'IconButton', 'Badge', 'Fab', 'Checkbox', 'Radio', 'Switch'];
 // The press section's `document` stub would make `iconOutline` reach for a DOM it does not have; the
 // frames are taken without it, as every other golden here is.
 const documentStub = globalThis.document;
