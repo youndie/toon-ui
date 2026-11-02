@@ -31,6 +31,7 @@ import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
@@ -100,7 +101,10 @@ public fun ToonRadioGroup(
                         }
                     }.focusable(enabled, interaction),
             ) {
-                drawScene(toonRadioScene(tokens, option, look.copy(disabled = !enabled, focus = focused)), text)
+                // The engine draws in dp (research D5); the canvas is pixels (B-47).
+                inDp {
+                    drawScene(toonRadioScene(tokens, option, look.copy(disabled = !enabled, focus = focused)), text)
+                }
             }
         }
     }

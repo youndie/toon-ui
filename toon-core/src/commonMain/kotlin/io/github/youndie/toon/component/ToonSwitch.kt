@@ -32,6 +32,7 @@ import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
@@ -99,7 +100,11 @@ public fun ToonSwitch(
                 change(on)
             }.focusable(enabled, interaction),
     ) {
-        drawScene(toonSwitchRowScene(tokens, label, w, look.copy(disabled = !enabled, focus = focused)), text)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            drawScene(toonSwitchRowScene(tokens, label, w, look.copy(disabled = !enabled, focus = focused)), text)
+        }
     }
 }
 

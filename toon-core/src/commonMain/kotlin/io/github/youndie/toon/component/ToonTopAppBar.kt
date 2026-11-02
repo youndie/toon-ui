@@ -38,6 +38,7 @@ import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
@@ -137,12 +138,12 @@ public fun ToonTopAppBar(
             }.pointerInput(actions, nav, w) {
                 awaitEachGesture {
                     val down = awaitFirstDown()
-                    pressed = toonTopBarTarget(w, actions.size, nav, down.position.x)
+                    pressed = toonTopBarTarget(w, actions.size, nav, down.position.x / density)
                     val up = waitForUpOrCancellation()
                     pressed = null
                     if (up == null) return@awaitEachGesture
                     sway.kick()
-                    when (val key = toonTopBarTarget(w, actions.size, nav, up.position.x)) {
+                    when (val key = toonTopBarTarget(w, actions.size, nav, up.position.x / density)) {
                         ToonTopBarKey.Nav -> goBack()
                         is ToonTopBarKey.Action -> act(actions[key.index])
                         null -> Unit
@@ -150,12 +151,16 @@ public fun ToonTopAppBar(
                 }
             },
     ) {
-        val look = ToonTopBarLook(scrolled = scrolled, pressed = pressed)
-        val rot = sway.angle(reduce)
-        drawScene(
-            toonTopBarScene(tokens, w, title, variant, actions, nav, look).placed(0f, 0f, 1f, rot, w / 2, PIVOT_Y),
-            texts,
-        )
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            val look = ToonTopBarLook(scrolled = scrolled, pressed = pressed)
+            val rot = sway.angle(reduce)
+            drawScene(
+                toonTopBarScene(tokens, w, title, variant, actions, nav, look).placed(0f, 0f, 1f, rot, w / 2, PIVOT_Y),
+                texts,
+            )
+        }
     }
 }
 

@@ -26,6 +26,7 @@ import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.burstPoints
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
@@ -78,8 +79,11 @@ public fun ToonBadge(
             if (!dot && count > 0) this.text = AnnotatedString(badgeLabel(count))
         },
     ) {
-        if (moment.flash != null) drawToonFlash(tokens.colors, moment.flash, CX, CY, FLASH_SIZE)
-        moment.look?.let { drawScene(toonBadgeScene(tokens, it).placed(CX, CY), text) }
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+        inDp {
+            if (moment.flash != null) drawToonFlash(tokens.colors, moment.flash, CX, CY, FLASH_SIZE)
+            moment.look?.let { drawScene(toonBadgeScene(tokens, it).placed(CX, CY), text) }
+        }
     }
 }
 

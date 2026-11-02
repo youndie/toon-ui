@@ -37,6 +37,7 @@ import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
@@ -100,12 +101,20 @@ public fun ToonSnackbar(
                     val down = awaitFirstDown()
                     val up = waitForUpOrCancellation()
                     // The kit's action target: the last 110 dp of the sign.
-                    if (up != null && clock.shown && action.isNotEmpty() && down.position.x > w - ACTION_TARGET) act()
+                    if (up != null && clock.shown && action.isNotEmpty() &&
+                        down.position.x / density > w - ACTION_TARGET
+                    ) {
+                        act()
+                    }
                 }
             },
     ) {
-        val moment = toonSnackbarFrameAt(clock.shown, clock.age(), reduce) ?: return@Canvas
-        drawScene(toonSnackbarScene(tokens, w, text, action, type, moment), texts)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            val moment = toonSnackbarFrameAt(clock.shown, clock.age(), reduce) ?: return@Canvas
+            drawScene(toonSnackbarScene(tokens, w, text, action, type, moment), texts)
+        }
     }
 }
 

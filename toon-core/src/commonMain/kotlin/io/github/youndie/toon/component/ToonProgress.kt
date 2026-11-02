@@ -23,6 +23,7 @@ import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.spinnerPoints
@@ -77,7 +78,10 @@ public fun ToonProgress(
                     if (alive) ProgressBarRangeInfo.Indeterminate else ProgressBarRangeInfo(min(1f, value), 0f..1f)
             },
     ) {
-        drawScene(toonProgressFrameAt(tokens, kind, width.value, value, clock.toFloat(), reduce))
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+        inDp {
+            drawScene(toonProgressFrameAt(tokens, kind, width.value, value, clock.toFloat(), reduce))
+        }
     }
 }
 

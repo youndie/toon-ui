@@ -25,6 +25,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.error
 import androidx.compose.ui.semantics.semantics
@@ -48,6 +49,7 @@ import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.fx.LocalToonFxEmitter
@@ -94,6 +96,7 @@ public fun ToonTextField(
     var layout by remember { mutableStateOf<TextLayoutResult?>(null) }
     var bounds by remember { mutableStateOf(Rect.Zero) }
     val w = width.value
+    val density = LocalDensity.current.density
     val hasError = error.isNotEmpty()
 
     LaunchedEffect(focused) { clock.focusChanged() }
@@ -104,7 +107,8 @@ public fun ToonTextField(
             fx.emit(
                 ToonFxEvent.FieldError(
                     bounds,
-                    at = Offset(bounds.left + w - 30, bounds.top + FIELD_TOP - 4),
+                    // Root coordinates are pixels; the engine's offsets are dp.
+                    at = Offset(bounds.left + (w - 30) * density, bounds.top + (FIELD_TOP - 4) * density),
                     spread = 26f,
                 ),
             )
@@ -141,26 +145,30 @@ public fun ToonTextField(
             .onGloballyPositioned { bounds = it.boundsInRoot() },
     ) {
         Canvas(Modifier.fillMaxSize()) {
-            val caretX =
-                layout?.let { l ->
-                    CARET_GAP +
-                        l.getCursorRect(min(l.layoutInput.text.length, value.length)).left
+            // The engine draws in dp (research D5); the canvas is pixels (B-47).
+            inDp {
+                val caretX =
+                    layout?.let { l ->
+                        // The field's own layout is in pixels.
+                        CARET_GAP +
+                            l.getCursorRect(min(l.layoutInput.text.length, value.length)).left / density
+                    }
+                val look =
+                    moment.look.copy(
+                        label = label,
+                        helper = if (hasError) error else helper,
+                        error = hasError,
+                        disabled = !enabled,
+                        caretX = if (moment.caretOn) caretX else null,
+                    )
+                var scene = toonFieldScene(tokens, w, look)
+                if (drawStars &&
+                    moment.stars != null
+                ) {
+                    scene += toonStarsScene(tokens.colors, moment.stars, w - 30, -4f, 26f)
                 }
-            val look =
-                moment.look.copy(
-                    label = label,
-                    helper = if (hasError) error else helper,
-                    error = hasError,
-                    disabled = !enabled,
-                    caretX = if (moment.caretOn) caretX else null,
-                )
-            var scene = toonFieldScene(tokens, w, look)
-            if (drawStars &&
-                moment.stars != null
-            ) {
-                scene += toonStarsScene(tokens.colors, moment.stars, w - 30, -4f, 26f)
+                drawScene(scene.placed(moment.shake, FIELD_TOP), text)
             }
-            drawScene(scene.placed(moment.shake, FIELD_TOP), text)
         }
         BasicTextField(
             value = value,
