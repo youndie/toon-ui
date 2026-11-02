@@ -1,7 +1,7 @@
 ---
 id: B-48
 title: "FX host: draw each effect where its event puts it"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-2-components

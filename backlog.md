@@ -60,7 +60,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
-| [B-48](docs/backlog/B-48-fx-host-event-points.md) `[ ]` | FX host: draw each effect where its event puts it | P2 | S | - |
+| [B-48](docs/backlog/B-48-fx-host-event-points.md) `[~]` | FX host: draw each effect where its event puts it | P2 | S | - |
 | [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[?]` | TopAppBar: with three or more actions the middle ones are 40 dp targets | P2 | S | - |
 | [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[?]` | Menu: with three or more items the middle ones are 44 dp targets | P2 | S | - |
 | [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[ ]` | Check the two-effect clocks under a first composition | P3 | S | - |
