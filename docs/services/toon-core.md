@@ -80,6 +80,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSnackbar.kt` | `ToonSnackbar` (B-23): `toonSnackScene` is the engine's `snack`, `toonSnkShow` and `toonSnkHide` its curves, `toonSnackbarFrameAt` the kit's `C.snackbar` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSnackbarHost.kt` | `ToonSnackbarHost` and `ToonSnackbarHostState` (B-23): one sign at a time |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonDialog.kt` | `ToonDialog` (B-24): `toonDialogCardScene` is the engine's `dialog`, `toonDialogOpen` and `toonDialogClose` its curves, `toonDialogLayerScene` the kit's `C.dialog` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonProgress.kt` | `ToonProgress` (B-25): `toonLinearScene` and `toonCircularScene` are the engine's `linear` and `circular`, `toonWorm` its `worm` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -175,6 +176,11 @@ None at runtime.
   (confirm first), Enter or Space presses it, Escape cancels. The kit has none of it; the focused
   cells on the MVP page are what it draws.
 - Every component draws the engine's numbers in the canvas's pixels, right only at density 1 (B-47).
+- An indeterminate progress indicator asks for a frame every frame for as long as it is shown, as the
+  kit's global clock does; it does not take a slot of the idle budget, which is for decoration. A UI
+  test with one on screen sets `mainClock.autoAdvance = false` (`ToonProgressTest`).
+- The worm arches out of its tube by up to 11 dp and the linear indicator is laid out 14 dp tall: the
+  kit pads its box 18 dp above. A parent that clips cuts the arch.
 - A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the
   fly-up from 90 dp below (the kit's box pads it 36 above and 110 below). A parent that clips its
   children cuts the sign's entrance; give it room or don't clip.

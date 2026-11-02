@@ -15095,6 +15095,513 @@
         0
       ],
       "scene": "E.dialogScene(T, E.dialogClose(300))"
+    },
+    {
+      "file": "Progress_Linear_Indeterminate_InkGouacheLight.png",
+      "theme": "il",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, ...E.worm(420) })"
+    },
+    {
+      "file": "Progress_Linear_40_InkGouacheLight.png",
+      "theme": "il",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, a: 0, b: 0.4 })"
+    },
+    {
+      "file": "Progress_Linear_Complete_InkGouacheLight.png",
+      "theme": "il",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, a: 0, b: 1 })"
+    },
+    {
+      "file": "Progress_Circular_Indeterminate_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.circular(T, { ph: 300 })"
+    },
+    {
+      "file": "Progress_Circular_65_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.circular(T, { value: .65 })"
+    },
+    {
+      "file": "Progress_Worm_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(0) })"
+    },
+    {
+      "file": "Progress_Worm_300ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(300) })"
+    },
+    {
+      "file": "Progress_Worm_600ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(600) })"
+    },
+    {
+      "file": "Progress_Worm_900ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(900) })"
+    },
+    {
+      "file": "Progress_Spin_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 0 })"
+    },
+    {
+      "file": "Progress_Spin_250ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 250 })"
+    },
+    {
+      "file": "Progress_Spin_500ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 500 })"
+    },
+    {
+      "file": "Progress_Spin_750ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 750 })"
+    },
+    {
+      "file": "Progress_Linear_Indeterminate_InkGouacheNight.png",
+      "theme": "in",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, ...E.worm(420) })"
+    },
+    {
+      "file": "Progress_Linear_40_InkGouacheNight.png",
+      "theme": "in",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, a: 0, b: 0.4 })"
+    },
+    {
+      "file": "Progress_Linear_Complete_InkGouacheNight.png",
+      "theme": "in",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, a: 0, b: 1 })"
+    },
+    {
+      "file": "Progress_Circular_Indeterminate_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.circular(T, { ph: 300 })"
+    },
+    {
+      "file": "Progress_Circular_65_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.circular(T, { value: .65 })"
+    },
+    {
+      "file": "Progress_Worm_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(0) })"
+    },
+    {
+      "file": "Progress_Worm_300ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(300) })"
+    },
+    {
+      "file": "Progress_Worm_600ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(600) })"
+    },
+    {
+      "file": "Progress_Worm_900ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(900) })"
+    },
+    {
+      "file": "Progress_Spin_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 0 })"
+    },
+    {
+      "file": "Progress_Spin_250ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 250 })"
+    },
+    {
+      "file": "Progress_Spin_500ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 500 })"
+    },
+    {
+      "file": "Progress_Spin_750ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 750 })"
+    },
+    {
+      "file": "Progress_Linear_Indeterminate_BrightCel.png",
+      "theme": "bc",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, ...E.worm(420) })"
+    },
+    {
+      "file": "Progress_Linear_40_BrightCel.png",
+      "theme": "bc",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, a: 0, b: 0.4 })"
+    },
+    {
+      "file": "Progress_Linear_Complete_BrightCel.png",
+      "theme": "bc",
+      "w": 240,
+      "h": 14,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.linear(T, { w: 240, a: 0, b: 1 })"
+    },
+    {
+      "file": "Progress_Circular_Indeterminate_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.circular(T, { ph: 300 })"
+    },
+    {
+      "file": "Progress_Circular_65_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        10,
+        10,
+        10
+      ],
+      "scene": "E.circular(T, { value: .65 })"
+    },
+    {
+      "file": "Progress_Worm_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(0) })"
+    },
+    {
+      "file": "Progress_Worm_300ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(300) })"
+    },
+    {
+      "file": "Progress_Worm_600ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(600) })"
+    },
+    {
+      "file": "Progress_Worm_900ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 14,
+      "pad": [
+        16,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.linear(T, { w: 200, ...E.worm(900) })"
+    },
+    {
+      "file": "Progress_Spin_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 0 })"
+    },
+    {
+      "file": "Progress_Spin_250ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 250 })"
+    },
+    {
+      "file": "Progress_Spin_500ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 500 })"
+    },
+    {
+      "file": "Progress_Spin_750ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        8,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.circular(T, { ph: 750 })"
     }
   ]
 }

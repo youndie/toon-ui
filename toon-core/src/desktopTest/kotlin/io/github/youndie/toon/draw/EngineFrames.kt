@@ -71,7 +71,11 @@ internal object EngineFrames {
         var x = 0f
         var y = 0f
         Regex("([MLQAHVhvlZz])([^MLQAHVhvlZz]*)").findAll(d).forEach { m ->
-            val v = Regex("-?\\d+(?:\\.\\d+)?").findAll(m.groupValues[2]).map { it.value.toFloat() }.toList()
+            // A number may start at its point (`h.01`, the worm's eye), as SVG allows.
+            val v =
+                Regex(
+                    "-?(?:\\d+(?:\\.\\d+)?|\\.\\d+)",
+                ).findAll(m.groupValues[2]).map { it.value.toFloat() }.toList()
             when (m.groupValues[1]) {
                 "M", "L" -> {
                     v.chunked(2).forEach { (a, b) ->

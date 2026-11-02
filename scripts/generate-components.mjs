@@ -69,6 +69,21 @@ const PRELUDE = {
     cell: `// The MVP page's list item cells and press strip against the engine's \`listItem\` drawn in Chrome.
 `,
   },
+  Progress: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.toonCircularScene',
+      'io.github.youndie.toon.component.toonLinearScene',
+      'io.github.youndie.toon.component.toonWormScene',
+    ],
+    cell: `// The MVP page's progress cells and its worm and spin loops against the engine's \`linear\` and
+// \`circular\` drawn in Chrome.
+`,
+  },
   Dialog: {
     imports: [
       'androidx.compose.runtime.Composable',
