@@ -227,8 +227,8 @@ internal class ToonMenuClock(
 
     /** Milliseconds since the change, or null at rest — as the kit's `t` is, so an open ends unrolled exactly. */
     fun age(): Float? =
-        at
-            ?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+        nowMs
+            .let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
             ?.takeIf { it < playMs }
 
     fun running(): Boolean = age() != null

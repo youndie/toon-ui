@@ -134,8 +134,8 @@ internal class ToonTransitionState<S>(
 
     /** Milliseconds into the transition, or null once it has played. */
     fun age(): Float? =
-        at
-            ?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+        nowMs
+            .let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
             ?.takeIf { it < toonTransitionMs(kind) }
 
     fun running(): Boolean = age() != null

@@ -219,7 +219,7 @@ private class ToonBadgeClock(
         if (hideAt == PENDING_START) hideAt = now
     }
 
-    fun age(at: Long?): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    fun age(at: Long?): Float? = nowMs.let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
 
     fun running(): Boolean =
         listOf(age(appearAt) to APPEAR_MS, age(countAt) to COUNT_MS, age(hideAt) to HIDE_MS).any { (a, d) ->

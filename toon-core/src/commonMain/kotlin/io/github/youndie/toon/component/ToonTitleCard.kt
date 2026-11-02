@@ -165,8 +165,8 @@ internal class ToonTitleCardClock {
 
     /** Milliseconds into the entrance, or null once it has played. */
     fun age(): Float? =
-        at
-            ?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+        nowMs
+            .let { now -> at?.let { if (it == PENDING_START) 0f else (now - it).toFloat() } }
             ?.takeIf { it < ENTER_MS }
 
     fun running(): Boolean = age() != null

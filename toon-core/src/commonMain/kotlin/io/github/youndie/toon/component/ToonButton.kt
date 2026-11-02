@@ -268,9 +268,9 @@ private class ToonButtonClock {
 
     fun buzzing(): Boolean = buzzStartMs.let { it == PENDING || (it != null && nowMs - it < BUZZ_MS) }
 
-    fun loadAge(): Float? = loadStartMs?.let { if (it == PENDING) 0f else (nowMs - it).toFloat() }
+    fun loadAge(): Float? = nowMs.let { now -> loadStartMs?.let { if (it == PENDING) 0f else (now - it).toFloat() } }
 
-    fun buzzAge(): Float? = buzzStartMs?.let { if (it == PENDING) 0f else (nowMs - it).toFloat() }
+    fun buzzAge(): Float? = nowMs.let { now -> buzzStartMs?.let { if (it == PENDING) 0f else (now - it).toFloat() } }
 }
 
 private inline fun DrawScope.withAlpha(
