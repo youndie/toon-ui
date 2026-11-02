@@ -210,7 +210,7 @@ const frames = Object.fromEntries(FRAME_GROUPS.map(group => [group, Object.fromE
   return [c.name, {
     theme: c.theme,
     opts: c.opts,
-    L: sc.L.map(l => ({ d: l.d, fill: l.fill, stroke: l.stroke, sw: r6(l.sw), tf: l.tf, op: r6(l.op), dash: l.dash })),
+    L: sc.L.map(l => ({ d: l.d, fill: l.fill, stroke: l.stroke, sw: r6(l.sw), tf: l.tf, op: r6(l.op), dash: l.dash, doff: Number(l.doff) })),
     X: sc.X.map(x => ({ s: String(x.s), x: r6(x.x), y: r6(x.y), fill: x.fill, op: r6(x.op), anchor: x.anchor, fw: x.fw, fs: x.fs })),
   }];
 }))]));

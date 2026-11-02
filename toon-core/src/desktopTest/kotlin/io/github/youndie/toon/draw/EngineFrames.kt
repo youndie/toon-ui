@@ -118,7 +118,20 @@ internal object EngineFrames {
             assertEquals(stroked, mine.stroke > 0, "$name layer $i: stroked")
             if (stroked) assertEquals(l.f("sw")!!, mine.stroke, 1e-6f, "$name layer $i: stroke width")
             val dash = l["dash"]?.jsonPrimitive?.content?.takeIf { it != "none" }
-            assertEquals(dash, mine.dash?.joinToString(" ") { it.toInt().toString() }, "$name layer $i: dash")
+            assertEquals(
+                dash,
+                mine.dash?.joinToString(" ") {
+                    if (it % 1f ==
+                        0f
+                    ) {
+                        it.toInt().toString()
+                    } else {
+                        it.toString()
+                    }
+                },
+                "$name layer $i: dash",
+            )
+            assertEquals(l.f("doff") ?: 0f, mine.dashOffset, 5e-3f + 1e-4f, "$name layer $i: dash offset")
             val expected = numbers(d)
             assertEquals(expected.size, mine.numbers.size, "$name layer $i: coordinates")
             for (k in expected.indices) worst = max(worst, abs(expected[k] - mine.numbers[k]))

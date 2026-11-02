@@ -37,7 +37,8 @@ internal enum class ToonSegments { Quad, Line }
 /**
  * One path of a frame, as the engine's `L`: its coordinates in the order the engine writes its `d`,
  * the [color] it fills (or strokes, when [stroke] is above 0, with round caps and joins as `toSvg`
- * draws every stroke), [alpha], and its `transform`: a translation [dx], [dy], then a [scale].
+ * draws every stroke, dashed by [dash] from [dashOffset]), [alpha], and its `transform`: a translation
+ * [dx], [dy], then a [scale].
  *
  * A path the engine does not compute from numbers — an icon — comes as a ready [shape], with the
  * engine's own `d` for it as [source]. Without a DOM the engine strokes an icon's centerline
@@ -57,6 +58,7 @@ internal class ToonLayer(
     val shape: Path? = null,
     val source: String? = null,
     val iconBase: Float? = null,
+    val dashOffset: Float = 0f,
 ) {
     val path: Path by lazy {
         shape ?: Path().apply {
@@ -95,6 +97,7 @@ internal class ToonLayer(
             shape,
             source,
             iconBase,
+            dashOffset,
         )
 }
 
@@ -254,7 +257,7 @@ internal fun DrawScope.drawScene(
                     join = StrokeJoin.Round,
                     pathEffect =
                         l.dash?.let {
-                            PathEffect.dashPathEffect(it)
+                            PathEffect.dashPathEffect(it, l.dashOffset)
                         },
                 )
             } else {
