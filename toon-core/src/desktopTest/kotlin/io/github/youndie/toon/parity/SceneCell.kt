@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonTextRenderer
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.theme.ToonTheme
 import io.github.youndie.toon.tokens.ToonTokens
@@ -35,7 +36,7 @@ internal fun SceneCell(
     ToonTheme(tokens) {
         val text = rememberToonText()
         Canvas(Modifier.size(width.dp, height.dp).background(tokens.colors.stage)) {
-            drawScene(SceneCellScope(tokens, text).scene().placed(left.toFloat(), top.toFloat()), text)
+            inDp { drawScene(SceneCellScope(tokens, text).scene().placed(left.toFloat(), top.toFloat()), text) }
         }
     }
 }

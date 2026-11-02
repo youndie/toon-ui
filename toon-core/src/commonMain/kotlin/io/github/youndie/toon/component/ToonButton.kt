@@ -48,6 +48,7 @@ import io.github.youndie.toon.draw.ToonTextRenderer
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
@@ -166,17 +167,21 @@ public fun ToonButton(
                 true
             },
     ) {
-        val dx = buzz?.let { toonVibeOffset(it / BUZZ_MS) } ?: 0f
-        if (buzz != null) drawToonVibe(tokens.colors, buzz / BUZZ_MS, 0f, 0f, w, ToonSize.BUTTON)
-        translate(dx, 0f) {
-            if (fade != null && fade < 1f) {
-                // Reduce motion's `fade 120`: the resting button fades into the loading one.
-                withAlpha(
-                    1 - fade,
-                ) { drawToonButton(tokens, variant, w, label, labelWidth, look.copy(lt = null), text) }
-                withAlpha(fade) { drawToonButton(tokens, variant, w, label, labelWidth, look, text) }
-            } else {
-                drawToonButton(tokens, variant, w, label, labelWidth, look, text)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            val dx = buzz?.let { toonVibeOffset(it / BUZZ_MS) } ?: 0f
+            if (buzz != null) drawToonVibe(tokens.colors, buzz / BUZZ_MS, 0f, 0f, w, ToonSize.BUTTON)
+            translate(dx, 0f) {
+                if (fade != null && fade < 1f) {
+                    // Reduce motion's `fade 120`: the resting button fades into the loading one.
+                    withAlpha(
+                        1 - fade,
+                    ) { drawToonButton(tokens, variant, w, label, labelWidth, look.copy(lt = null), text) }
+                    withAlpha(fade) { drawToonButton(tokens, variant, w, label, labelWidth, look, text) }
+                } else {
+                    drawToonButton(tokens, variant, w, label, labelWidth, look, text)
+                }
             }
         }
     }
@@ -469,6 +474,9 @@ internal fun ToonButtonFrame(
     val text = rememberToonText()
     val labelWidth = remember(label, text) { text.measure(label, BUTTON_LABEL).multiParagraph.width }
     Canvas(modifier.size(width.dp, ToonSize.BUTTON.dp)) {
-        drawToonButton(tokens, variant, width, label, labelWidth, look, text)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+        inDp {
+            drawToonButton(tokens, variant, width, label, labelWidth, look, text)
+        }
     }
 }

@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Path
@@ -19,6 +20,7 @@ import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.drawscope.withTransform
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
@@ -26,6 +28,7 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.theme.Toon
@@ -400,6 +403,7 @@ private val RING_DASH = floatArrayOf(7f, 5f)
 internal class ToonTextRenderer(
     private val measurer: TextMeasurer,
     private val fonts: ToonFontFamilies,
+    private val fontScale: Float = 1f,
 ) {
     fun measure(
         text: String,
@@ -417,6 +421,8 @@ internal class ToonTextRenderer(
                 fontWeight = FontWeight(style.weight),
                 fontSize = style.size.sp,
             ),
+            // Laid out in dp, as the frame is drawn ([inDp]); the user's font scale still applies.
+            density = Density(1f, fontScale),
         )
 }
 
@@ -425,7 +431,8 @@ internal class ToonTextRenderer(
 internal fun rememberToonText(): ToonTextRenderer {
     val measurer = rememberTextMeasurer()
     val fonts = Toon.fonts
-    return remember(measurer, fonts) { ToonTextRenderer(measurer, fonts) }
+    val fontScale = LocalDensity.current.fontScale
+    return remember(measurer, fonts, fontScale) { ToonTextRenderer(measurer, fonts, fontScale) }
 }
 
 /**
@@ -567,3 +574,12 @@ private fun arcPath(n: FloatArray): Path {
         )
     }
 }
+
+/**
+ * Draws [block] in dp: the engine's numbers are dp (research D5) and a canvas is pixels, so a frame
+ * is scaled by the density once, here (B-47). Text measured by [ToonTextRenderer] is in dp too.
+ */
+internal inline fun DrawScope.inDp(block: DrawScope.() -> Unit) = scale(density, density, Offset.Zero, block)
+
+/** The draw scope's size in dp, to use inside [inDp]. */
+internal val DrawScope.sizeDp: Size get() = Size(size.width / density, size.height / density)

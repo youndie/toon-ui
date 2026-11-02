@@ -41,9 +41,11 @@ import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.irisLayer
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.shapePoints
+import io.github.youndie.toon.draw.sizeDp
 import io.github.youndie.toon.fx.LocalToonFxEmitter
 import io.github.youndie.toon.fx.NoToonFxHost
 import io.github.youndie.toon.fx.ToonFxEvent
@@ -161,9 +163,9 @@ public fun ToonDialog(
                                 awaitFirstDown()
                                 val up = waitForUpOrCancellation() ?: return@awaitEachGesture
                                 // Coordinates are taken as dp, as every component draws them (B-47).
-                                val w = size.width.toFloat()
-                                val h = size.height.toFloat()
-                                when (toonDialogHit(w, h, cardH, up.position.x, up.position.y)) {
+                                val w = size.width / density
+                                val h = size.height / density
+                                when (toonDialogHit(w, h, cardH, up.position.x / density, up.position.y / density)) {
                                     ToonDialogHit.Confirm -> ok()
                                     ToonDialogHit.Cancel -> no()
                                     null -> Unit
@@ -175,11 +177,14 @@ public fun ToonDialog(
                 },
             ),
     ) {
-        val w = size.width
-        val h = size.height
-        val moment = toonDialogFrameAt(clock.open, clock.age(), reduce) ?: return@Canvas
-        val scene = toonDialogLayerScene(tokens, w, h, card, cardH, moment, stars = fx === NoToonFxHost)
-        drawScene(scene, texts)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+        inDp {
+            val w = sizeDp.width
+            val h = sizeDp.height
+            val moment = toonDialogFrameAt(clock.open, clock.age(), reduce) ?: return@Canvas
+            val scene = toonDialogLayerScene(tokens, w, h, card, cardH, moment, stars = fx === NoToonFxHost)
+            drawScene(scene, texts)
+        }
     }
 }
 

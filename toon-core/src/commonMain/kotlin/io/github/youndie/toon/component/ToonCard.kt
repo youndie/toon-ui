@@ -39,6 +39,7 @@ import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.fx.LocalToonFxEmitter
@@ -139,13 +140,13 @@ public fun ToonCard(
                 awaitEachGesture {
                     val down = awaitFirstDown()
                     if (state.gone || state.dismissing) return@awaitEachGesture
-                    state.press(down.position.x, w)
+                    state.press(down.position.x / density, w)
                     var moved = false
                     while (true) {
                         val ev = awaitPointerEvent()
                         val change = ev.changes.firstOrNull { it.id == down.id } ?: break
                         if (!change.pressed) break
-                        val d = change.position.x - down.position.x
+                        val d = change.position.x / density - down.position.x / density
                         if (dismissible && abs(d) > MOVE_SLOP) moved = true
                         if (moved) {
                             state.drag(d)
@@ -157,13 +158,30 @@ public fun ToonCard(
                 }
             },
     ) {
-        val scene =
-            toonCardFrame(tokens, i, w, title, meta, time, rot0, state, delay, reduce, selected, !enabled, holeLocal)
-        if (scene.fade != null) {
-            // Reduce motion's `fade 120`: the card fades in on appear and out on dismiss.
-            drawScene(scene.scene.placed(0f, 0f, scene.fade), text)
-        } else {
-            drawScene(scene.scene, text)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+        inDp {
+            val scene =
+                toonCardFrame(
+                    tokens,
+                    i,
+                    w,
+                    title,
+                    meta,
+                    time,
+                    rot0,
+                    state,
+                    delay,
+                    reduce,
+                    selected,
+                    !enabled,
+                    holeLocal,
+                )
+            if (scene.fade != null) {
+                // Reduce motion's `fade 120`: the card fades in on appear and out on dismiss.
+                drawScene(scene.scene.placed(0f, 0f, scene.fade), text)
+            } else {
+                drawScene(scene.scene, text)
+            }
         }
     }
 }

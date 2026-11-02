@@ -43,6 +43,7 @@ import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.inkLinePoints
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
@@ -169,23 +170,27 @@ public fun ToonTabs(
             .pointerInput(n, w) {
                 awaitEachGesture {
                     val down = awaitFirstDown()
-                    pressed = toonNavSlot(w, n, down.position.x)
+                    pressed = toonNavSlot(w, n, down.position.x / density)
                     val up = waitForUpOrCancellation()
                     pressed = null
-                    if (up != null) choose(toonNavSlot(w, n, up.position.x))
+                    if (up != null) choose(toonNavSlot(w, n, up.position.x / density))
                 }
             },
     ) {
-        val a = toonTabsFrameAt(state.age(), state.from, state.sel, w / n, reduce)
-        val look =
-            ToonTabsLook(
-                sel = a.sel ?: state.sel,
-                ia = a.ia,
-                ib = a.ib,
-                pressed = pressed,
-                focus = focusOn.takeIf { focused },
-            )
-        drawScene(toonTabsScene(tokens, w, labels, look), texts)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            val a = toonTabsFrameAt(state.age(), state.from, state.sel, w / n, reduce)
+            val look =
+                ToonTabsLook(
+                    sel = a.sel ?: state.sel,
+                    ia = a.ia,
+                    ib = a.ib,
+                    pressed = pressed,
+                    focus = focusOn.takeIf { focused },
+                )
+            drawScene(toonTabsScene(tokens, w, labels, look), texts)
+        }
     }
 }
 

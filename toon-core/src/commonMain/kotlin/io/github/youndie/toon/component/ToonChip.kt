@@ -33,6 +33,7 @@ import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
@@ -123,12 +124,16 @@ public fun ToonChip(
                 click()
             }.focusable(enabled, interaction),
     ) {
-        val scene =
-            toonChipScene(tokens, variant, label, labelWidth, icon, look.copy(disabled = !enabled, focus = focused))
-        translate(0f, CHIP_TOP) {
-            // The kit's place: the shape turns about its centre; the label keeps level.
-            rotate(tilt, Offset(w / 2, CHIP_H / 2)) { drawScene(ToonScene(scene.layers, emptyList())) }
-            drawScene(ToonScene(emptyList(), scene.labels), text)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            val scene =
+                toonChipScene(tokens, variant, label, labelWidth, icon, look.copy(disabled = !enabled, focus = focused))
+            translate(0f, CHIP_TOP) {
+                // The kit's place: the shape turns about its centre; the label keeps level.
+                rotate(tilt, Offset(w / 2, CHIP_H / 2)) { drawScene(ToonScene(scene.layers, emptyList())) }
+                drawScene(ToonScene(emptyList(), scene.labels), text)
+            }
         }
     }
 }

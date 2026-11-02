@@ -42,6 +42,7 @@ import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.inkLinePoints
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
@@ -135,20 +136,23 @@ public fun ToonListItem(
                 }
             }.focusable(enabled, interaction),
     ) {
-        val look =
-            toonListItemFrameAt(clock.pressAge(), clock.releaseAge(), clock.toggleAge(), checked, trailing, reduce)
-        drawScene(
-            toonListItemScene(
-                tokens,
-                w,
-                icon,
-                title,
-                sub,
-                trailing,
-                look.copy(seed = index, last = last, disabled = !enabled, focus = focused),
-            ),
-            text,
-        )
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+        inDp {
+            val look =
+                toonListItemFrameAt(clock.pressAge(), clock.releaseAge(), clock.toggleAge(), checked, trailing, reduce)
+            drawScene(
+                toonListItemScene(
+                    tokens,
+                    w,
+                    icon,
+                    title,
+                    sub,
+                    trailing,
+                    look.copy(seed = index, last = last, disabled = !enabled, focus = focused),
+                ),
+                text,
+            )
+        }
     }
 }
 

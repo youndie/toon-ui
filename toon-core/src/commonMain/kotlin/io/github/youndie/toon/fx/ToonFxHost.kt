@@ -22,6 +22,8 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.layout.positionInRoot
 import io.github.youndie.toon.draw.ToonRadii
+import io.github.youndie.toon.draw.inDp
+import io.github.youndie.toon.draw.sizeDp
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonColors
 
@@ -295,9 +297,12 @@ internal fun ToonFxHost(
             .drawWithContent {
                 drawContent()
                 val now = state.frameMs
-                for (p in state.playing) {
-                    val t = if (p.startMs < 0) 0f else (now - p.startMs).toFloat()
-                    drawToonFx(colors, p, t, origin)
+                // Events arrive in root pixels; effects are drawn in dp, as the engine's are (B-47).
+                inDp {
+                    for (p in state.playing) {
+                        val t = if (p.startMs < 0) 0f else (now - p.startMs).toFloat()
+                        drawToonFx(colors, p, t, origin, density)
+                    }
                 }
             },
     ) {
@@ -306,7 +311,8 @@ internal fun ToonFxHost(
 }
 
 /**
- * One effect at [t] ms, its root coordinates moved into the host's by the host's origin [o]. Effects
+ * One effect at [t] ms, its root coordinates moved into the host's by the host's origin [o] and
+ * from pixels into dp by [px], the density. Effects
  * without a point of their own sit on the element as the FX page sets them on its block: speed lines
  * from the left edge, buzz arcs either side, the hole on the outline, sweat off the top, and the iris
  * closing on the element's centre over the whole host.
@@ -316,8 +322,12 @@ private fun DrawScope.drawToonFx(
     p: ToonFxPlaying,
     t: Float,
     o: Offset,
+    px: Float,
 ) {
-    val b = p.event.bounds.translate(-o)
+    val b =
+        p.event.bounds
+            .translate(-o)
+            .let { Rect(it.left / px, it.top / px, it.right / px, it.bottom / px) }
     val u = t / p.event.fx.durationMs
     when (val e = p.event) {
         is ToonFxEvent.Land -> {
@@ -346,7 +356,7 @@ private fun DrawScope.drawToonFx(
         }
 
         is ToonFxEvent.SceneChange -> {
-            drawToonIris(colors, toonIrisAt(t).k, size.width, size.height, b.center.x, b.center.y)
+            drawToonIris(colors, toonIrisAt(t).k, sizeDp.width, sizeDp.height, b.center.x, b.center.y)
         }
 
         is ToonFxEvent.Crash -> {

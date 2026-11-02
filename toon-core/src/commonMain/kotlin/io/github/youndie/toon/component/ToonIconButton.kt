@@ -28,6 +28,7 @@ import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.fx.drawToonFlash
@@ -104,21 +105,25 @@ public fun ToonIconButton(
                 click()
             }.focusable(enabled, interaction),
     ) {
-        if (sel && moment.flash != null) drawToonFlash(tokens.colors, moment.flash, CENTER, CENTER, FLASH_SIZE)
-        drawScene(
-            toonIconButtonScene(
-                tokens,
-                icon,
-                variant,
-                ToonIconButtonLook(
-                    p = press.progress,
-                    iy = moment.iy,
-                    selected = sel,
-                    disabled = !enabled,
-                    focus = focused,
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            if (sel && moment.flash != null) drawToonFlash(tokens.colors, moment.flash, CENTER, CENTER, FLASH_SIZE)
+            drawScene(
+                toonIconButtonScene(
+                    tokens,
+                    icon,
+                    variant,
+                    ToonIconButtonLook(
+                        p = press.progress,
+                        iy = moment.iy,
+                        selected = sel,
+                        disabled = !enabled,
+                        focus = focused,
+                    ),
                 ),
-            ),
-        )
+            )
+        }
     }
 }
 

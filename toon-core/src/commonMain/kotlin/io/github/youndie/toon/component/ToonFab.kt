@@ -29,6 +29,7 @@ import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
@@ -102,8 +103,12 @@ public fun ToonFab(
             }.toonPressable(press, enabled = enabled) { click() }
             .focusable(enabled, interaction),
     ) {
-        val look = moment.look.copy(p = press.progress, disabled = !enabled, focus = focused)
-        drawScene(toonFabLandScene(tokens, icon, label, labelWidth, look, moment.appear, w), text)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            val look = moment.look.copy(p = press.progress, disabled = !enabled, focus = focused)
+            drawScene(toonFabLandScene(tokens, icon, label, labelWidth, look, moment.appear, w), text)
+        }
     }
 }
 

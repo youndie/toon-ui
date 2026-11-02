@@ -34,6 +34,7 @@ import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
@@ -97,24 +98,28 @@ public fun ToonCheckbox(
                 change(on)
             }.focusable(enabled, interaction),
     ) {
-        val scene = toonCheckboxScene(tokens, label, look.copy(disabled = !enabled, focus = focused, error = error))
-        if (look.fade != null && look.fade < 1f) {
-            // Reduce motion's `fade 120`: the unchecked box fades into the checked one.
-            drawScene(
-                toonCheckboxScene(
-                    tokens,
-                    label,
-                    ToonCheckboxLook(on = false, disabled = !enabled, error = error),
-                ).placed(
-                    0f,
-                    0f,
-                    1 - look.fade,
-                ),
-                text,
-            )
-            drawScene(scene.placed(0f, 0f, look.fade), text)
-        } else {
-            drawScene(scene, text)
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+
+        inDp {
+            val scene = toonCheckboxScene(tokens, label, look.copy(disabled = !enabled, focus = focused, error = error))
+            if (look.fade != null && look.fade < 1f) {
+                // Reduce motion's `fade 120`: the unchecked box fades into the checked one.
+                drawScene(
+                    toonCheckboxScene(
+                        tokens,
+                        label,
+                        ToonCheckboxLook(on = false, disabled = !enabled, error = error),
+                    ).placed(
+                        0f,
+                        0f,
+                        1 - look.fade,
+                    ),
+                    text,
+                )
+                drawScene(scene.placed(0f, 0f, look.fade), text)
+            } else {
+                drawScene(scene, text)
+            }
         }
     }
 }

@@ -11,6 +11,7 @@ import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.inkLinePoints
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
@@ -39,7 +40,10 @@ public fun ToonDivider(
     val tokens = Toon.tokens
     val w = width.value
     Canvas(modifier.size(width, DIVIDER_H.dp)) {
-        drawScene(toonDividerScene(tokens, if (inset) INSET else 0f, w, weight.thickness, seed))
+        // The engine draws in dp (research D5); the canvas is pixels (B-47).
+        inDp {
+            drawScene(toonDividerScene(tokens, if (inset) INSET else 0f, w, weight.thickness, seed))
+        }
     }
 }
 

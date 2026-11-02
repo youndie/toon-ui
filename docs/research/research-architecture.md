@@ -308,9 +308,11 @@ The engine works in CSS px at 390-wide phone frames. One px is one dp. Text is i
 scales with the system font, and text never scales with its shape (the brief's rule and the
 sketch's pattern).
 
-*Not yet applied (found in B-24):* no component scales its canvas by the density; each draws the
-engine's numbers in pixels, which is right only at density 1, where every test and reference runs.
-B-47 puts the scale in one place.
+*Applied in B-47 (found in B-24):* until then no component scaled its canvas by the density, which
+is right only at density 1, where every test and reference runs. A frame is now drawn inside
+`inDp`, the one scale by the density; the text renderer lays labels out at density 1 with the
+user's font scale, so a label is not scaled twice; pointer positions, the text field's caret and
+the FX host's root bounds are read in dp.
 
 ### D6. The `compose/` sketch is read for its pattern, not copied
 
