@@ -88,6 +88,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt` | `ToonTopAppBar` (B-26): `toonTopBarScene` is the engine's `topBar`, `toonSway` its `sway`, `ToonTopAppBarState` the fling kick |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonNavigationBar.kt` | `ToonNavigationBar` (B-27): `toonNavBarScene` is the engine's `navBar`, `toonNavSelect` its `navSelect` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTabs.kt` | `ToonTabs` and `ToonTabsState` (B-28): `toonTabsScene` is the engine's `tabs`, `toonTabsSwitch` its `tabsSwitch` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSlider.kt` | `ToonSlider` (B-36): `toonSliderScene` is the engine's `slider` and `rope`, `toonSliderGrab` its `sliderGrab` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the four faces and their Cyrillic backing faces (B-35): `withBacking` puts each run of Cyrillic in the backing face |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
@@ -227,6 +228,12 @@ None at runtime.
   40 dp: one or two actions are 48 dp targets. A middle one of three or more stays 40 dp (B-49).
 - The navigation bar and the tabs are one node each for a screen reader: the selected item as its
   state, every item as an action, not a node per item (B-30).
+- The slider's keyboard and a screen reader move it one stop, or a twentieth of the rope when it
+  has none (B-36); the kit has no keyboard, so the step is the library's.
+- Two screen references, `Screens_List_BrightCel` and `Screens_Settings_BrightCel`, come out of a
+  fresh render a little different now and then: 13 pixels of the navigation bar by up to 2 levels,
+  under the 16 every parity reads with. `scripts/design-references.mjs --check` compares bytes and
+  reports them; the committed files stand (found in B-36, against B-29's byte-for-byte claim).
 - The worm arches out of its tube by up to 11 dp and the linear indicator is laid out 14 dp tall: the
   kit pads its box 18 dp above. A parent that clips cuts the arch.
 - A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the

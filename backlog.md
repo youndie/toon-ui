@@ -52,14 +52,13 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (15)
+## Open (14)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
-| [B-36](docs/backlog/B-36-slider.md) `[~]` | Slider: a ball on a rope that squashes when grabbed | P2 | S | B-10 |
 | [B-37](docs/backlog/B-37-menu.md) `[ ]` | Menu: a paper scroll that unrolls under its trigger | P2 | S | B-10, B-11 |
 | [B-38](docs/backlog/B-38-bottom-sheet.md) `[ ]` | BottomSheet: a sheet with a tab that slides up with overshoot | P2 | M | B-10, B-22 |
 | [B-39](docs/backlog/B-39-navigation-drawer.md) `[ ]` | NavigationDrawer: a door on three hinges that swings and shivers | P2 | M | B-10 |
@@ -72,7 +71,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-48](docs/backlog/B-48-fx-host-event-points.md) `[ ]` | FX host: draw each effect where its event puts it | P2 | S | - |
 | [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[?]` | TopAppBar: with three or more actions the middle ones are 40 dp targets | P2 | S | - |
 
-## Closed (34)
+## Closed (35)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -111,6 +110,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-26](docs/backlog/B-26-top-app-bar.md) `[x]` - TopAppBar: a sign on two nails that sways
 - [B-27](docs/backlog/B-27-navigation-bar.md) `[x]` - NavigationBar: jumping icon, dust, paint-stroke indicator
 - [B-28](docs/backlog/B-28-tabs.md) `[x]` - Tabs: bookmarks on an ink shelf, the indicator smears across
+- [B-36](docs/backlog/B-36-slider.md) `[x]` - Slider: a ball on a rope that squashes when grabbed
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
