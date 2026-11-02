@@ -44,7 +44,7 @@ const MAP = {
   NavBar: { composable: 'ToonNavigationBar', engine: ['navBar'], item: 'B-27', group: 'NavigationBar' },
   NavDrawer: { composable: 'ToonNavigationDrawer', engine: ['drawer', 'drawerOpen', 'drawerClose'], item: 'B-39', group: 'NavigationDrawer' },
   Progress: { composable: 'ToonProgress', engine: ['linear', 'circular'], item: 'B-25', group: 'Progress' },
-  PullToRefresh: { engine: ['pull'], item: 'B-42' },
+  PullToRefresh: { composable: 'ToonPullToRefresh', engine: ['pull', 'pullRelease'], item: 'B-42', group: 'PullToRefresh' },
   RadioGroup: { composable: 'ToonRadioGroup', engine: ['radio'], item: 'B-17', group: 'Radio' },
   Segmented: { composable: 'ToonSegmented', engine: ['segmented', 'segSwitch'], item: 'B-41', group: 'Segmented' },
   Slider: { composable: 'ToonSlider', engine: ['slider', 'sliderGrab'], item: 'B-36', group: 'Slider' },
