@@ -70,6 +70,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonFab.kt` | `ToonFab` (B-16): `toonFabScene` is the engine's `fab`, `toonFabAppear` its landing, `toonFabLandScene` the two with the dust |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCheckbox.kt` | `ToonCheckbox` (B-17): `toonCheckboxScene` is the engine's `check`, `toonChkAnim` its `chkAnim` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonRadioGroup.kt` | `ToonRadioGroup` (B-17): `toonRadioScene` is the engine's `radio`, `toonRadioSelect` its `radioSelect` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSwitch.kt` | `ToonSwitch` (B-18): `toonSwitchScene` is the engine's `sw`, `toonSwAnim` its `swAnim` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -147,8 +148,9 @@ None at runtime.
   every frame, so a Compose UI test that waits for idle never gets there. Such a test sets
   `mainClock.autoAdvance = false` and advances the clock itself (`ToonFabTest`), as with any infinite
   animation.
-- The checkbox and the radio squash under a press to the spec pages' Pressed cells (0.86), which the
-  kit does not do: its controllers act on the release only (B-17).
+- The checkbox, the radio and the switch squash under a press to the spec pages' Pressed cells (0.86; the
+  switch's thumb 1.18 × 0.84 on its bottom), which the kit does not do: its controllers act on the
+  release only (B-17, B-18).
 - An icon's outline and fill are built once per glyph and weight and kept in the glyph, as the engine
   caches per name and base (B-15). Two threads drawing a new glyph at once may each build it; the
   result is the same.

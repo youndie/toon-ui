@@ -50,6 +50,13 @@ internal object EngineFrames {
             Cell(name, themes.getValue(o.getValue("theme").jsonPrimitive.content), o.getValue("opts").jsonObject, o)
         }
 
+    private data class Quad(
+        val what: String,
+        val golden: Float,
+        val mine: Float,
+        val tolerance: Float,
+    )
+
     fun JsonObject.f(key: String): Float? = this[key]?.jsonPrimitive?.float
 
     private fun hex(c: Color) = "#%06X".format(c.toArgb() and 0xFFFFFF)
@@ -60,22 +67,58 @@ internal object EngineFrames {
             .map { it.value.toFloat() }
             .toList()
 
-    /** Every `translate` of a transform summed, and its `scale`: what `place` and `icon` write. */
-    private fun transform(tf: String): Triple<Float, Float, Float> {
-        var x = 0f
-        var y = 0f
-        Regex("translate\\(([-\\d.]+) ([-\\d.]+)\\)").findAll(tf).forEach {
-            x += it.groupValues[1].toFloat()
-            y += it.groupValues[2].toFloat()
-        }
-        val s =
-            Regex("scale\\(([-\\d.]+)\\)")
-                .find(tf)
-                ?.groupValues
-                ?.get(1)
-                ?.toFloat() ?: 1f
-        return Triple(x, y, s)
+    /** An affine transform as SVG writes it, `[a c e; b d f]`. */
+    private class Affine(
+        val a: Float = 1f,
+        val b: Float = 0f,
+        val c: Float = 0f,
+        val d: Float = 1f,
+        val e: Float = 0f,
+        val f: Float = 0f,
+    ) {
+        operator fun times(o: Affine) =
+            Affine(
+                a * o.a + c * o.b,
+                b * o.a + d * o.b,
+                a * o.c + c * o.d,
+                b * o.c + d * o.d,
+                a * o.e + c * o.f + e,
+                b * o.e + d * o.f + f,
+            )
     }
+
+    /** The engine's `transform`: its `translate`, `scale` and `rotate` operations, composed in order. */
+    private fun transform(tf: String): Affine =
+        Regex("(translate|scale|rotate)\\(([^)]*)\\)").findAll(tf).fold(Affine()) { m, op ->
+            val v =
+                op.groupValues[2]
+                    .trim()
+                    .split(Regex("[ ,]+"))
+                    .map { it.toFloat() }
+            m *
+                when (op.groupValues[1]) {
+                    "translate" -> {
+                        Affine(e = v[0], f = v.getOrElse(1) { 0f })
+                    }
+
+                    "scale" -> {
+                        Affine(a = v[0], d = v.getOrElse(1) { v[0] })
+                    }
+
+                    else -> {
+                        val r = Math.toRadians(v[0].toDouble())
+                        val (cx, cy) = if (v.size == 3) v[1] to v[2] else 0f to 0f
+                        val cos = kotlin.math.cos(r).toFloat()
+                        val sin = kotlin.math.sin(r).toFloat()
+                        Affine(e = cx, f = cy) * Affine(cos, sin, -sin, cos) * Affine(e = -cx, f = -cy)
+                    }
+                }
+        }
+
+    /** A layer's own transform: its translation, then its scale about its pivot. */
+    private fun ToonLayer.affine(): Affine =
+        Affine(e = dx, f = dy) * Affine(e = pivotX, f = pivotY) * Affine(a = scale, d = scaleY) *
+            Affine(e = -pivotX, f = -pivotY)
 
     /** Asserts [scene] is [cell]'s frame and returns its worst path coordinate off the engine's. */
     fun compare(
@@ -90,10 +133,21 @@ internal object EngineFrames {
             val l = e.jsonObject
             val mine = scene.layers[i]
             val stroked = l.getValue("stroke").jsonPrimitive.content != "none"
-            val (dx, dy, scale) = transform(l.getValue("tf").jsonPrimitive.content)
-            assertEquals(dx, mine.dx, TOLERANCE, "$name layer $i: x offset")
-            assertEquals(dy, mine.dy, TOLERANCE, "$name layer $i: y offset")
-            assertEquals(scale, mine.scale, 5e-4f, "$name layer $i: scale")
+            val tf = transform(l.getValue("tf").jsonPrimitive.content)
+            val own = mine.affine()
+            // The engine writes a scale to three decimals and an offset to one; a pivot carries the
+            // scale's rounding into the offset, so only a layer with one gets that much more.
+            val carried = 5e-4f * maxOf(kotlin.math.abs(mine.pivotX), kotlin.math.abs(mine.pivotY))
+            for ((what, g, m, tol) in listOf(
+                Quad("scale x", tf.a, own.a, 5e-4f),
+                Quad("skew y", tf.b, own.b, 5e-4f),
+                Quad("skew x", tf.c, own.c, 5e-4f),
+                Quad("scale y", tf.d, own.d, 5e-4f),
+                Quad("x offset", tf.e, own.e, TOLERANCE + carried),
+                Quad("y offset", tf.f, own.f, TOLERANCE + carried),
+            )) {
+                assertEquals(g, m, tol, "$name layer $i: $what")
+            }
             assertEquals(l.f("op")!!, mine.alpha, 1e-5f, "$name layer $i: opacity")
             val d = l.getValue("d").jsonPrimitive.content
             if (mine.source != null) {

@@ -233,7 +233,40 @@ export const RADIO_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
   }),
 ]);
 
+// ---- Switch (B-18): `toon-ui Core.dc.html` ----
+const SWITCH_PAGE = [
+  "const sCells = [['Off', { on: false }], ['On', { on: true }], ['Pressed', { on: true, pressed: true, sx: 1.18, sy: .84 }], ['Focused', { on: true, focus: true }], ['Disabled', { on: false, disabled: true }], ['Disabled / On', { on: true, disabled: true }]]",
+  ".map(([S, o]) => C(`Switch / ${S}`, this.sw(T, o), 60, 48, [8, 14, 8, 10]));",
+  "frames: [0, 40, 90, 140, 220, 320].map(t => { const a = this.swAnim(t, 0, 1); return Fr(`${t} ms`, `x ${(a.pos * 26).toFixed(0)} · sX ${a.sx.toFixed(2)} · sY ${a.sy.toFixed(2)}`, this.sw(T, { ...a, on: a.trackOn }), 60, 48, [6, 12, 6, 10]); }) },",
+  "reduce: 'instant', desc: 'Thumb pulls back 40 ms",
+];
+const ORIGIN = { c: 'Centre', l: 'Left', r: 'Right' };
+const switchLook = o => {
+  const a = [];
+  if (o.on) a.push('on = true');
+  if (o.pos != null) a.push(`pos = ${kf(o.pos)}`);
+  if (o.sx != null && o.sx !== 1) a.push(`sx = ${kf(o.sx)}`);
+  if (o.sy != null && o.sy !== 1) a.push(`sy = ${kf(o.sy)}`);
+  if (o.origin && o.origin !== 'c') a.push(`origin = ToonSwitchOrigin.${ORIGIN[o.origin]}`);
+  if (o.trackOn != null && o.trackOn !== !!o.on) a.push(`trackOn = ${o.trackOn}`);
+  if (o.echo) a.push(`echo = ${kf(o.echo)}`);
+  if (o.wave != null) a.push(`wave = ${kf(o.wave)}`);
+  if (o.pressed) a.push('pressed = true');
+  if (o.disabled) a.push('disabled = true');
+  if (o.focus) a.push('focus = true');
+  return call('ToonSwitchLook', ...a);
+};
+const SWITCH_STATES = [['Off', { on: false }], ['On', { on: true }], ['Pressed', { on: true, pressed: true, sx: 1.18, sy: .84 }], ['Focused', { on: true, focus: true }], ['Disabled', { on: false, disabled: true }], ['Disabled / On', { on: true, disabled: true }]];
+export const SWITCH_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...SWITCH_STATES.map(([n, o]) => sceneCell('Switch', theme, themeName, n.replace(' / ', '_'), 60, 48, [8, 14, 8, 10], o, `E.sw(T, ${js(o)})`, call('toonSwitchScene', 'tokens', switchLook(o)))),
+  ...[0, 40, 90, 140, 220, 320].map(t => {
+    const a = E.swAnim(t, 0, 1), o = { ...a, on: a.trackOn };
+    return sceneCell('Switch', theme, themeName, `Toggle_${t}ms`, 60, 48, [6, 12, 6, 10], o, `E.sw(T, ${js(o)})`, call('toonSwitchScene', 'tokens', switchLook(o)));
+  }),
+]);
+
 export const missingPageText = [
+  ...SWITCH_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...CHECK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...RADIO_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...FAB_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -242,4 +275,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS };
