@@ -1,7 +1,7 @@
 ---
 id: B-09
 title: "Ink drawing primitives: body with hard shadow and night rim, focus ring, placement"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-materials
