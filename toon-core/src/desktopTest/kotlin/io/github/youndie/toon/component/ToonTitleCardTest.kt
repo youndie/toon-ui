@@ -35,7 +35,7 @@ class ToonTitleCardTest {
 
     @Test
     fun `every title card cell and enter frame is the engine's`() {
-        val cells = EngineFrames.cells("TitleCard")
+        val cells = EngineFrames.cells("TitleCard") + EngineFrames.cells("TitleCardProbe")
         val worst =
             cells.maxOf { cell ->
                 val scene =
@@ -44,14 +44,38 @@ class ToonTitleCardTest {
                             .getValue("kind")
                             .jsonPrimitive.content
                     ) {
-                        "splash" -> TitleFrames.splash(cell.tokens)
-                        "empty" -> TitleFrames.empty(cell.tokens, noDom)
-                        else -> TitleFrames.enter(cell.tokens, cell.opts.f("t")!!)
+                        "splash" -> {
+                            TitleFrames.splash(cell.tokens)
+                        }
+
+                        "empty" -> {
+                            TitleFrames.empty(cell.tokens, noDom)
+                        }
+
+                        "noSub" -> {
+                            toonTitleCardScene(cell.tokens, 360f, 520f, ToonTitleLook())
+                        }
+
+                        "kitEmpty" -> {
+                            toonTitleCardKitScene(
+                                cell.tokens,
+                                360f,
+                                420f,
+                                true,
+                                "Nothing yet",
+                                "Your weekend is wide open",
+                                toonSplashAt(cell.opts.f("t")!!),
+                            )
+                        }
+
+                        else -> {
+                            TitleFrames.enter(cell.tokens, cell.opts.f("t")!!)
+                        }
                     }
                 EngineFrames.compare(cell, scene)
             }
         println("title card frames: ${cells.size} cells, worst coordinate $worst dp")
-        assertEquals(21, cells.size)
+        assertEquals(27, cells.size)
         assertTrue(worst <= EngineFrames.TOLERANCE, "worst coordinate $worst dp")
     }
 

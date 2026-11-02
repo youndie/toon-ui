@@ -756,6 +756,13 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-43: a card with no line under its title, which no page cell shows (the title sits 11 dp lower),
+  // and the kit's own empty state 300 ms in, whose stars burst where the splash's do.
+  TitleCardProbe: Object.entries(THEMES).flatMap(([theme, themeName]) => [
+    sceneCell('TitleCardProbe', theme, themeName, 'NoSub', 360, 520, [0, 0, 0, 0], { kind: 'noSub' }, 'E.titleCard(T, { W: 360, H: 520 })', ''),
+    sceneCell('TitleCardProbe', theme, themeName, 'KitEmpty_300ms', 360, 420, [0, 0, 0, 0], { kind: 'kitEmpty', t: 300 },
+      "(() => { const a = E.splashAt(300), W = 360, H = 420; return E.cat(E.titleCard(T, { W, H, cy: H * .4, pw: 260, ph: 110, fs: 34, title: 'Nothing yet', sub: 'Your weekend is wide open', s: a.s, phase: a.phase, textOp: a.textOp }), E.stars(T, a.stars || 0, W / 2, H * .42 - 60, 90)); })()", ''),
+  ]),
   // B-41: a press on the selected segment, which no page cell shows: the engine shades no press under
   // the drop, though the label still sinks.
   SegmentedProbe: Object.entries(THEMES).map(([theme, themeName]) => {
