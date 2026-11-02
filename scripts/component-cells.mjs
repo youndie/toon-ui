@@ -708,6 +708,12 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-41: a press on the selected segment, which no page cell shows: the engine shades no press under
+  // the drop, though the label still sinks.
+  SegmentedProbe: Object.entries(THEMES).map(([theme, themeName]) => {
+    const o = { sel: 0, pressed: 0 };
+    return sceneCell('SegmentedProbe', theme, themeName, 'PressedSelected', 260, 44, [0, 0, 0, 0], { kind: 'state', ...o }, `E.segmented(T, Object.assign({ w: 260 }, ${JSON.stringify(o)}))`, '');
+  }),
   // B-39: a press on the selected row, which no page cell shows: the engine draws the selection, not
   // the press, under it.
   NavigationDrawerProbe: Object.entries(THEMES).map(([theme, themeName]) => {

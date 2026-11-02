@@ -2,12 +2,15 @@ package io.github.youndie.toon.component
 
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performKeyInput
@@ -41,7 +44,7 @@ class ToonSegmentedTest {
 
     @Test
     fun `every segmented cell and switch frame is the engine's`() {
-        val cells = EngineFrames.cells("Segmented")
+        val cells = EngineFrames.cells("Segmented") + EngineFrames.cells("SegmentedProbe")
         val worst =
             cells.maxOf { cell ->
                 val o = cell.opts
@@ -66,7 +69,7 @@ class ToonSegmentedTest {
                 EngineFrames.compare(cell, scene)
             }
         println("segmented frames: ${cells.size} cells, worst coordinate $worst dp")
-        assertEquals(30, cells.size)
+        assertEquals(33, cells.size)
         assertTrue(worst <= EngineFrames.TOLERANCE, "worst coordinate $worst dp")
     }
 
@@ -101,6 +104,7 @@ class ToonSegmentedTest {
     @Test
     fun `a switch plays 700 ms, and under reduce motion the drop moves at once`() {
         assertEquals(toonSegSwitch(160f, 0, 2, 100f), toonSegmentedFrameAt(160f, 0, 2, 100f, false))
+        assertEquals(toonSegSwitch(699f, 0, 2, 100f), toonSegmentedFrameAt(699f, 0, 2, 100f, false))
         assertEquals(ToonSegmentedMotion(), toonSegmentedFrameAt(700f, 0, 2, 100f, false))
         assertEquals(ToonSegmentedMotion(), toonSegmentedFrameAt(160f, 0, 2, 100f, true))
         assertEquals(ToonSegmentedMotion(), toonSegmentedFrameAt(null, 0, 2, 100f, false))
@@ -131,6 +135,35 @@ class ToonSegmentedTest {
             assertEquals(labels, actions.map { it.label })
             actions[0].action()
             assertEquals(listOf(2, 1, 0), heard)
+        }
+    }
+
+    @Test
+    fun `the focus ring is drawn only while the segmented button has the focus`() {
+        runComposeUiTest {
+            setContent { ToonTheme(reduceMotion = true) { ToonSegmented(labels, Modifier.testTag("seg")) } }
+            val seg = onNodeWithTag("seg")
+            val before =
+                seg.captureToImage().toPixelMap().let { m ->
+                    IntArray(m.width * m.height) {
+                        m[
+                            it % m.width, it /
+                                m.width,
+                        ].toArgb()
+                    }
+                }
+            seg.performSemanticsAction(SemanticsActions.RequestFocus)
+            waitForIdle()
+            val after =
+                seg.captureToImage().toPixelMap().let { m ->
+                    IntArray(m.width * m.height) {
+                        m[
+                            it % m.width, it /
+                                m.width,
+                        ].toArgb()
+                    }
+                }
+            assertTrue(!before.contentEquals(after), "focusing changed nothing drawn")
         }
     }
 
