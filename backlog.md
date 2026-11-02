@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (31)
+## Open (30)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-15](docs/backlog/B-15-icon-button-and-badge.md) `[~]` | IconButton and Badge | P1 | S | B-10, B-11, B-12 |
 | [B-16](docs/backlog/B-16-fab.md) `[ ]` | FAB: regular and extended, lands with dust | P1 | S | B-10, B-12 |
 | [B-17](docs/backlog/B-17-checkbox-and-radio.md) `[ ]` | Checkbox and RadioGroup | P1 | M | B-10, B-12 |
 | [B-18](docs/backlog/B-18-switch.md) `[ ]` | Switch: wind-up, smear, slap, colour wave | P1 | M | B-10, B-12 |
@@ -88,7 +87,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (14)
+## Closed (15)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -111,6 +110,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 **Each MVP component matches its strips and cells in three themes**
 
 - [B-14](docs/backlog/B-14-button.md) `[x]` - Button: filled, outlined, text; loading blob, idle breath, disabled buzz
+- [B-15](docs/backlog/B-15-icon-button-and-badge.md) `[x]` - IconButton and Badge
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
