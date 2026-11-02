@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-24](docs/backlog/B-24-dialog.md) `[ ]` | Dialog: iris spotlight in, pop and stars out | P1 | M | B-10, B-12 |
+| [B-24](docs/backlog/B-24-dialog.md) `[~]` | Dialog: iris spotlight in, pop and stars out | P1 | M | B-10, B-12 |
 | [B-25](docs/backlog/B-25-progress.md) `[ ]` | Progress: the inchworm and the spinning blob | P1 | S | B-09 |
 | [B-26](docs/backlog/B-26-top-app-bar.md) `[ ]` | TopAppBar: a sign on two nails that sways | P1 | S | B-10 |
 | [B-27](docs/backlog/B-27-navigation-bar.md) `[ ]` | NavigationBar: jumping icon, dust, paint-stroke indicator | P1 | S | B-10, B-12 |

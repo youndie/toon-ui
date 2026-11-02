@@ -1,7 +1,7 @@
 ---
 id: B-24
 title: "Dialog: iris spotlight in, pop and stars out"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-2-components
