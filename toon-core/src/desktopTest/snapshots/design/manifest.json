@@ -4760,6 +4760,1371 @@
         2
       ],
       "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Fx_Dust_20ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 20 / 300, 98, 112, 46), E.dust(T, 20 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_100ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 100 / 300, 98, 112, 46), E.dust(T, 100 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_200ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 200 / 300, 98, 112, 46), E.dust(T, 200 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_280ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 280 / 300, 98, 112, 46), E.dust(T, 280 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Stars_30ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 30 / 350, 130 + E.shake(30), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_120ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 120 / 350, 130 + E.shake(120), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 240 / 350, 130 + E.shake(240), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_330ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 330 / 350, 130 + E.shake(330), 56, 40)"
+    },
+    {
+      "file": "Fx_Speed_10ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 10 / 200, 78.2197, 62, 48)"
+    },
+    {
+      "file": "Fx_Speed_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 60 / 200, 149.3789, 62, 48)"
+    },
+    {
+      "file": "Fx_Speed_170ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 170 / 200, 90, 62, 48)"
+    },
+    {
+      "file": "Fx_Flash_10ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 10 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_40ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 40 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_90ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 90 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_150ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 150 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_200ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 200 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Shake_20ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 20 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 60 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_100ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 100 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_180ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 180 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_300ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 300 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Iris_100ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(100)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_200ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(200)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_260ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(260)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_420ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(420)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_600ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(600)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Hole_20ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 20 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_80ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 80 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_160ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 160 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_250ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 250 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Sweat_40ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 40 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_100ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 100 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_180ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 180 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_260ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 260 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_330ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 330 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Dust_20ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 20 / 300, 98, 112, 46), E.dust(T, 20 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_100ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 100 / 300, 98, 112, 46), E.dust(T, 100 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_200ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 200 / 300, 98, 112, 46), E.dust(T, 200 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_280ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 280 / 300, 98, 112, 46), E.dust(T, 280 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Stars_30ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 30 / 350, 130 + E.shake(30), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_120ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 120 / 350, 130 + E.shake(120), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 240 / 350, 130 + E.shake(240), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_330ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 330 / 350, 130 + E.shake(330), 56, 40)"
+    },
+    {
+      "file": "Fx_Speed_10ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 10 / 200, 78.2197, 62, 48)"
+    },
+    {
+      "file": "Fx_Speed_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 60 / 200, 149.3789, 62, 48)"
+    },
+    {
+      "file": "Fx_Speed_170ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 170 / 200, 90, 62, 48)"
+    },
+    {
+      "file": "Fx_Flash_10ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 10 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_40ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 40 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_90ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 90 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_150ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 150 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_200ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 200 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Shake_20ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 20 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 60 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_100ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 100 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_180ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 180 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_300ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 300 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Iris_100ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(100)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_200ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(200)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_260ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(260)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_420ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(420)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_600ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(600)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Hole_20ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 20 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_80ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 80 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_160ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 160 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_250ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 250 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Sweat_40ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 40 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_100ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 100 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_180ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 180 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_260ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 260 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_330ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 330 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Dust_20ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 20 / 300, 98, 112, 46), E.dust(T, 20 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_100ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 100 / 300, 98, 112, 46), E.dust(T, 100 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_200ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 200 / 300, 98, 112, 46), E.dust(T, 200 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Dust_280ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.dust(T, 280 / 300, 98, 112, 46), E.dust(T, 280 / 300, 162, 112, 46))"
+    },
+    {
+      "file": "Fx_Stars_30ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 30 / 350, 130 + E.shake(30), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_120ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 120 / 350, 130 + E.shake(120), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 240 / 350, 130 + E.shake(240), 56, 40)"
+    },
+    {
+      "file": "Fx_Stars_330ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.stars(T, 330 / 350, 130 + E.shake(330), 56, 40)"
+    },
+    {
+      "file": "Fx_Speed_10ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 10 / 200, 78.2197, 62, 48)"
+    },
+    {
+      "file": "Fx_Speed_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 60 / 200, 149.3789, 62, 48)"
+    },
+    {
+      "file": "Fx_Speed_170ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.speed(T, 170 / 200, 90, 62, 48)"
+    },
+    {
+      "file": "Fx_Flash_10ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 10 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_40ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 40 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_90ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 90 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_150ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 150 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Flash_200ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.flash(T, 200 / 220, 130, 84, 46)"
+    },
+    {
+      "file": "Fx_Shake_20ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 20 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 60 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_100ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 100 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_180ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 180 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Shake_300ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.vibe(T, 300 / 320, 90, 62, 80, 48).L, X: [] })"
+    },
+    {
+      "file": "Fx_Iris_100ms_BrightCel.png",
+      "theme": "bc",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(100)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_200ms_BrightCel.png",
+      "theme": "bc",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(200)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_260ms_BrightCel.png",
+      "theme": "bc",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(260)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_420ms_BrightCel.png",
+      "theme": "bc",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(420)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Iris_600ms_BrightCel.png",
+      "theme": "bc",
+      "w": 180,
+      "h": 320,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "({ L: E.irisScene(T, E.irisAt(600)).L.filter(l => l.fr === 'evenodd' || l.fill === 'none'), X: [] })"
+    },
+    {
+      "file": "Fx_Hole_20ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 20 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_80ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 80 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_160ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 160 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Hole_250ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.hole(T, 250 / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5)"
+    },
+    {
+      "file": "Fx_Sweat_40ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 40 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_100ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 100 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_180ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 180 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_260ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 260 / 360, 90, 62, 80)"
+    },
+    {
+      "file": "Fx_Sweat_330ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 150,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.sweat(T, 330 / 360, 90, 62, 80)"
     }
   ]
 }
