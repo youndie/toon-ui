@@ -369,6 +369,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to pull-to-refresh in B-42:* `static spinner`; the band still follows the finger, the release lands on a spinner that does not turn, and it goes at once when done.
 
+*Applied to the title card in B-43:* `fade 120`; the card fades in at rest, without the pop, the flowing rings or the stars.
+
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret

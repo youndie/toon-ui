@@ -19814,6 +19814,279 @@
         0
       ],
       "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = { ...E.pullRelease(320, 110), off: 54 + (77 - 54) * Math.max(0, 1 - 320 / 160) }, off = a.off ?? (a.d || 0) * .7; return E.cat(E.place(bg, 0, 30 + off), E.pull(T, { W, ...a })); })()"
+    },
+    {
+      "file": "TitleCard_Splash_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = { s: 1, textOp: 1 }, H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_EmptyState_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 420,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.titleCard(T, { W: 360, H: 420, cy: 170, pw: 260, ph: 110, fs: 34, title: 'Nothing yet', sub: 'Your weekend is wide open' }), E.place(E.btn(T, { v: 'filled', w: 220, label: 'Add a plan' }), 70, 300))"
+    },
+    {
+      "file": "TitleCard_Enter_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(0), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_120ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(120), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(240), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_400ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(400), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_700ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(700), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Splash_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = { s: 1, textOp: 1 }, H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_EmptyState_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 420,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.titleCard(T, { W: 360, H: 420, cy: 170, pw: 260, ph: 110, fs: 34, title: 'Nothing yet', sub: 'Your weekend is wide open' }), E.place(E.btn(T, { v: 'filled', w: 220, label: 'Add a plan' }), 70, 300))"
+    },
+    {
+      "file": "TitleCard_Enter_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(0), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_120ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(120), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(240), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_400ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(400), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_700ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(700), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Splash_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = { s: 1, textOp: 1 }, H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_EmptyState_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 420,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.cat(E.titleCard(T, { W: 360, H: 420, cy: 170, pw: 260, ph: 110, fs: 34, title: 'Nothing yet', sub: 'Your weekend is wide open' }), E.place(E.btn(T, { v: 'filled', w: 220, label: 'Add a plan' }), 70, 300))"
+    },
+    {
+      "file": "TitleCard_Enter_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(0), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_120ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(120), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(240), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_400ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(400), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "TitleCard_Enter_700ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const a = E.splashAt(700), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
     }
   ],
   "screens": [

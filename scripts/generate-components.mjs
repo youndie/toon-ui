@@ -163,6 +163,19 @@ const PRELUDE = {
 // drawn in Chrome over the page's cards (PullFrames).
 `,
   },
+  TitleCard: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.BUTTON_LABEL',
+    ],
+    cell: `// The v1 page's title card cells — the splash and the empty state — and its enter strip against the
+// engine's \`titleCard\` drawn in Chrome (TitleFrames).
+`,
+  },
   Menu: {
     imports: [
       'androidx.compose.runtime.Composable',
