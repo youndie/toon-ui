@@ -18332,6 +18332,318 @@
         0
       ],
       "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(450, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":1,\"scrim\":1,\"textOp\":1}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_ItemPressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":1,\"scrim\":1,\"textOp\":1,\"pressed\":2}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_HalfOpen_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":0.5,\"scrim\":0.5,\"textOp\":0}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(0), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_80ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(80), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_160ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(160), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(240), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_420ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(420), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":1,\"scrim\":1,\"textOp\":1}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_ItemPressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":1,\"scrim\":1,\"textOp\":1,\"pressed\":2}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_HalfOpen_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":0.5,\"scrim\":0.5,\"textOp\":0}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(0), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_80ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(80), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_160ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(160), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(240), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_420ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(420), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":1,\"scrim\":1,\"textOp\":1}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_ItemPressed_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":1,\"scrim\":1,\"textOp\":1,\"pressed\":2}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_HalfOpen_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"sx\":0.5,\"scrim\":0.5,\"textOp\":0}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(0), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_80ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(80), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_160ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(160), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(240), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "NavigationDrawer_Open_420ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(420), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
     }
   ],
   "screens": [

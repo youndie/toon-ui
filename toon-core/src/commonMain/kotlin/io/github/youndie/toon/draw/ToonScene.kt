@@ -318,6 +318,31 @@ internal class ToonScene(
     }
 
     /**
+     * The layers, not the texts, under the engine's `matrix(a b c d 0 0) rotate(r 0 py)`, as the
+     * drawer prefixes its door: [a] and [b] written to three decimals, [rotation] to two.
+     */
+    fun skewedAbout(
+        a: Float,
+        b: Float,
+        rotation: Float,
+        py: Float,
+    ): ToonScene {
+        val m =
+            ToonAffine(a = a, b = b) * ToonAffine.translate(0f, py) * ToonAffine.rotate(rotation) *
+                ToonAffine.translate(0f, -py)
+        return ToonScene(
+            layers.map {
+                it.copy(
+                    outer = m * it.outer,
+                    outerSlack = it.outerSlack + (ROTATE_ROUNDING + MATRIX_ROUNDING) * abs(py) + ROTATE_PIVOT_ROUNDING,
+                    outerTurn = it.outerTurn + ROTATE_ROUNDING + MATRIX_ROUNDING,
+                )
+            },
+            labels,
+        )
+    }
+
+    /**
      * What the engine's `f` does to the pair about a pivot [p] scaled by [s]: it writes `translate(f(p))`
      * and `translate(f(-p))`, and `Math.round` takes a half up, so off the 0.1 grid the two ends round
      * apart (146.25 → 146.3 and −146.2) and the second is scaled.
@@ -342,6 +367,9 @@ internal class ToonScene(
 
         /** `scaleAbout` writes a scale to three decimals. */
         private const val SCALE_ROUNDING = 5e-4f
+
+        /** `matrix` written to three decimals. */
+        private const val MATRIX_ROUNDING = 5e-4f
     }
 }
 

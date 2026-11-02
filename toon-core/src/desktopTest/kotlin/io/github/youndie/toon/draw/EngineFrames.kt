@@ -162,9 +162,9 @@ internal object EngineFrames {
             )
     }
 
-    /** The engine's `transform`: its `translate`, `scale` and `rotate` operations, composed in order. */
+    /** The engine's `transform`: its `translate`, `scale`, `rotate` and `matrix` operations, composed in order. */
     private fun transform(tf: String): Affine =
-        Regex("(translate|scale|rotate)\\(([^)]*)\\)").findAll(tf).fold(Affine()) { m, op ->
+        Regex("(translate|scale|rotate|matrix)\\(([^)]*)\\)").findAll(tf).fold(Affine()) { m, op ->
             val v =
                 op.groupValues[2]
                     .trim()
@@ -178,6 +178,10 @@ internal object EngineFrames {
 
                     "scale" -> {
                         Affine(a = v[0], d = v.getOrElse(1) { v[0] })
+                    }
+
+                    "matrix" -> {
+                        Affine(v[0], v[1], v[2], v[3], v[4], v[5])
                     }
 
                     else -> {
