@@ -83,6 +83,20 @@ const PRELUDE = {
 // (TabsFrames).
 `,
   },
+  Slider: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonSliderLook',
+      'io.github.youndie.toon.component.toonSliderGrab',
+      'io.github.youndie.toon.component.toonSliderScene',
+    ],
+    cell: `// The v1 page's slider cells and its grab strip against the engine's \`slider\` drawn in Chrome.
+`,
+  },
   TabsShape: {
     imports: [
       'androidx.compose.runtime.Composable',
