@@ -62,6 +62,12 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/fx/ToonHoleGoldensTest.kt` | the hole's silhouette point by point against `engine-goldens/fx.json` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/FxParityFixtures.kt` | the FX page's 35 strip frames in three themes, generated from `scripts/fx-cells.mjs` (`make fx`) |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/InkParityTest.kt` | every reference against its golden by the ink ratio, under the Divider's ink floor (research D3) |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonButton.kt` | `ToonButton` (B-14): `toonButtonScene` is the engine's `btn`, `toonButtonFrameAt` the kit's `C.button` over time |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonTest.kt` | clicks on release, loading, disabled, idle and reduce motion over time |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/ButtonParityFixtures.kt` | the Core page's button cells and strips, with `ButtonShapeParityFixtures.kt` (no label) and `TextFloorParityFixtures.kt` (label alone), generated from `scripts/component-cells.mjs` (`make components`) |
 | `toon-core/src/desktopTest/snapshots` | viddik goldens (B-06), checked by `check` |
 | `toon-core/src/desktopTest/snapshots/design` | the Chrome references, written by `scripts/design-references.mjs`, with a `manifest.json` naming the Chrome and the engine |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/DividerParityFixtures.kt` | the Divider fixtures the floor is measured on |
@@ -127,6 +133,11 @@ None at runtime.
   component works in a preview without a host, and nothing in it tells that its effects went nowhere.
 - An effect's point defaults to where the FX page puts it on its demo block. A component that fires
   one passes the engine's own numbers, which differ per component (B-12, research D3).
+- Text is measured against a floor of its own (research D3): Compose on desktop lays glyphs at whole
+  pixels and Chrome on the mac at fractions, so a label drawn right still differs by about 2 % of its
+  cell. The same label measures 74 dp wide here and 73.44 in Chrome.
+- The button draws its disabled buzz itself, as the kit does, and emits no `button.buzz` event: the
+  host would draw the arcs a second time.
 - A held press stops asking for frames once it is fully down and wakes on the release (B-10).
   Holding a button costs nothing after the first 80 ms.
 - A refused idle slot is not handed over when one frees up: an element that starts breathing later

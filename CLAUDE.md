@@ -51,10 +51,13 @@ index. `make references` re-renders the Chrome design references
 `./gradlew :toon-core:viddikDesignParity` reports each fixture against its reference. A
 component's parity is read against the floor measured on the Divider (research D3), not against
 viddik's default 5 % — and, as a share of the inked pixels, by `InkParityTest` in `check` (B-12).
+A component is also held to the engine's own frame for every cell, layer by layer
+(`engine-goldens/components.json`, B-14): build it as a `ToonScene`, not straight onto the canvas.
 `make tokens` rewrites `ToonTokens.kt`
 (`scripts/generate-tokens.mjs`, B-07), and `make check` fails while it is stale. `make icons` does the
 same for the icon glyphs and their parity fixtures (`scripts/generate-icons.mjs`, B-11), and `make fx`
-for the FX fixtures from the FX page's strips (`scripts/generate-fx.mjs`, B-12). `make goldens` rewrites the engine goldens (`scripts/engine-goldens.mjs`, B-03), and `make
+for the FX fixtures from the FX page's strips (`scripts/generate-fx.mjs`, B-12), and `make components`
+for each component's cells on its spec page (`scripts/component-cells.mjs`, B-14). `make goldens` rewrites the engine goldens (`scripts/engine-goldens.mjs`, B-03), and `make
 check` fails while they are stale against the vendored engine. A file in a sibling repository is cited as `youndie/<repo>@<commit>!/<path>`.
 
 **Builds run on this mac, not on the Linux box.** The project is not in `mutagen sync list`. The
@@ -72,7 +75,7 @@ changing it, so a newer version is taken on a branch of its own, never by overwr
    (research §1.1); a re-import keeps them unless the owner supplies new ones.
 2. **Diff** `toon-engine.js` by function — `THEMES`, `ICONS`, each renderer, each curve — and put
    the diff in the commit body.
-3. **Regenerate** the tokens (`make tokens`), the icons (`make icons`), the FX fixtures (`make fx`), the goldens (`make goldens`) and the references in the same branch, and update research
+3. **Regenerate** the tokens (`make tokens`), the icons (`make icons`), the FX fixtures (`make fx`), the component fixtures (`make components`), the goldens (`make goldens`) and the references in the same branch, and update research
    §1.1 with the new snapshot.
 
 ## Rules that are easy to get wrong here
