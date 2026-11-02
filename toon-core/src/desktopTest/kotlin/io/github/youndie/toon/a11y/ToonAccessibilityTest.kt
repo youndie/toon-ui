@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.LiveRegionMode
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.SemanticsActions
@@ -237,6 +238,8 @@ class ToonAccessibilityTest {
         with(node { ToonSnackbar("Plan added", it, action = "Undo") }) {
             assertEquals("Plan added", text)
             assertEquals(listOf("Undo"), actions)
+            // Announced when it appears, without cutting in on what is being read.
+            assertEquals(LiveRegionMode.Polite, node.config.getOrNull(SemanticsProperties.LiveRegion))
             // The action's target: the last 110 dp of the 56 dp sign.
             assertTrue(hDp >= target && 110 >= target)
         }
