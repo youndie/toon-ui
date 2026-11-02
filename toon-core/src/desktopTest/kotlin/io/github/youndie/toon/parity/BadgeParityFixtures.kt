@@ -20,78 +20,81 @@ import io.github.youndie.viddik.annotations.ViddikScreenshot
 @Composable
 fun BadgeDotInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("", dot = true))
+        toonBadgeScene(tokens, ToonBadgeLook("", dot = true))
     }
 
 @ViddikScreenshot(group = "Badge", name = "1digit_InkGouacheLight", width = 60, height = 40)
 @Composable
 fun Badge1digitInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("3"))
+        toonBadgeScene(tokens, ToonBadgeLook("3"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "2digits_InkGouacheLight", width = 60, height = 40)
 @Composable
 fun Badge2digitsInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("12"))
+        toonBadgeScene(tokens, ToonBadgeLook("12"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Overflow_InkGouacheLight", width = 60, height = 40)
 @Composable
 fun BadgeOverflowInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("99+"))
+        toonBadgeScene(tokens, ToonBadgeLook("99+"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "OnIconButton_InkGouacheLight", width = 80, height = 70)
 @Composable
 fun BadgeOnIconButtonInkGouacheLight() =
     SceneCell(inkGouacheLight, 80, 70, 10, 12) {
-        toonIconButtonScene(it, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +
-            toonBadgeScene(it, ToonBadgeLook("3")).placed(40f, 6f)
+        toonIconButtonScene(tokens, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +
+            toonBadgeScene(tokens, ToonBadgeLook("3")).placed(40f, 6f)
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_0ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeAppear0msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0f, numOp = 0f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0f, numOp = 0f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_42ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeAppear42msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0.930222f, numOp = 0f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0.930222f, numOp = 0f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_90ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeAppear90msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 1.3f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 1.3f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_180ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeAppear180msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0.950026f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0.950026f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_280ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeAppear280msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 1.000174f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 1.000174f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_0ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeCount0msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 1f, oldDy = 0f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 1f, oldDy = 0f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_60ms_InkGouacheLight", width = 60, height = 44)
@@ -99,7 +102,7 @@ fun BadgeCount0msInkGouacheLight() =
 fun BadgeCount60msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
         toonBadgeScene(
-            it,
+            tokens,
             ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 0.4f, oldDy = -5.04f, dx = 0f, old = "3"),
         )
     }
@@ -108,99 +111,111 @@ fun BadgeCount60msInkGouacheLight() =
 @Composable
 fun BadgeCount120msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = -3f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = -3f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_180ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeCount180msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_240ms_InkGouacheLight", width = 60, height = 44)
 @Composable
 fun BadgeCount240msInkGouacheLight() =
     SceneCell(inkGouacheLight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Dot_InkGouacheNight", width = 60, height = 40)
 @Composable
 fun BadgeDotInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("", dot = true))
+        toonBadgeScene(tokens, ToonBadgeLook("", dot = true))
     }
 
 @ViddikScreenshot(group = "Badge", name = "1digit_InkGouacheNight", width = 60, height = 40)
 @Composable
 fun Badge1digitInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("3"))
+        toonBadgeScene(tokens, ToonBadgeLook("3"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "2digits_InkGouacheNight", width = 60, height = 40)
 @Composable
 fun Badge2digitsInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("12"))
+        toonBadgeScene(tokens, ToonBadgeLook("12"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Overflow_InkGouacheNight", width = 60, height = 40)
 @Composable
 fun BadgeOverflowInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("99+"))
+        toonBadgeScene(tokens, ToonBadgeLook("99+"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "OnIconButton_InkGouacheNight", width = 80, height = 70)
 @Composable
 fun BadgeOnIconButtonInkGouacheNight() =
     SceneCell(inkGouacheNight, 80, 70, 10, 12) {
-        toonIconButtonScene(it, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +
-            toonBadgeScene(it, ToonBadgeLook("3")).placed(40f, 6f)
+        toonIconButtonScene(tokens, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +
+            toonBadgeScene(tokens, ToonBadgeLook("3")).placed(40f, 6f)
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_0ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeAppear0msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0f, numOp = 0f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0f, numOp = 0f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_42ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeAppear42msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0.930222f, numOp = 0f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0.930222f, numOp = 0f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_90ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeAppear90msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 1.3f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 1.3f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_180ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeAppear180msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0.950026f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0.950026f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_280ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeAppear280msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 1.000174f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 1.000174f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_0ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeCount0msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 1f, oldDy = 0f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 1f, oldDy = 0f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_60ms_InkGouacheNight", width = 60, height = 44)
@@ -208,7 +223,7 @@ fun BadgeCount0msInkGouacheNight() =
 fun BadgeCount60msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
         toonBadgeScene(
-            it,
+            tokens,
             ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 0.4f, oldDy = -5.04f, dx = 0f, old = "3"),
         )
     }
@@ -217,99 +232,111 @@ fun BadgeCount60msInkGouacheNight() =
 @Composable
 fun BadgeCount120msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = -3f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = -3f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_180ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeCount180msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_240ms_InkGouacheNight", width = 60, height = 44)
 @Composable
 fun BadgeCount240msInkGouacheNight() =
     SceneCell(inkGouacheNight, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Dot_BrightCel", width = 60, height = 40)
 @Composable
 fun BadgeDotBrightCel() =
     SceneCell(brightCel, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("", dot = true))
+        toonBadgeScene(tokens, ToonBadgeLook("", dot = true))
     }
 
 @ViddikScreenshot(group = "Badge", name = "1digit_BrightCel", width = 60, height = 40)
 @Composable
 fun Badge1digitBrightCel() =
     SceneCell(brightCel, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("3"))
+        toonBadgeScene(tokens, ToonBadgeLook("3"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "2digits_BrightCel", width = 60, height = 40)
 @Composable
 fun Badge2digitsBrightCel() =
     SceneCell(brightCel, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("12"))
+        toonBadgeScene(tokens, ToonBadgeLook("12"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Overflow_BrightCel", width = 60, height = 40)
 @Composable
 fun BadgeOverflowBrightCel() =
     SceneCell(brightCel, 60, 40, 30, 20) {
-        toonBadgeScene(it, ToonBadgeLook("99+"))
+        toonBadgeScene(tokens, ToonBadgeLook("99+"))
     }
 
 @ViddikScreenshot(group = "Badge", name = "OnIconButton_BrightCel", width = 80, height = 70)
 @Composable
 fun BadgeOnIconButtonBrightCel() =
     SceneCell(brightCel, 80, 70, 10, 12) {
-        toonIconButtonScene(it, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +
-            toonBadgeScene(it, ToonBadgeLook("3")).placed(40f, 6f)
+        toonIconButtonScene(tokens, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +
+            toonBadgeScene(tokens, ToonBadgeLook("3")).placed(40f, 6f)
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_0ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeAppear0msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0f, numOp = 0f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0f, numOp = 0f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_42ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeAppear42msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0.930222f, numOp = 0f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0.930222f, numOp = 0f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_90ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeAppear90msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 1.3f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 1.3f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_180ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeAppear180msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 0.950026f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 0.950026f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Appear_280ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeAppear280msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("3", s = 1.000174f, numOp = 1f))
+        toonBadgeScene(tokens, ToonBadgeLook("3", s = 1.000174f, numOp = 1f))
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_0ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeCount0msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 1f, oldDy = 0f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 1f, oldDy = 0f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_60ms_BrightCel", width = 60, height = 44)
@@ -317,7 +344,7 @@ fun BadgeCount0msBrightCel() =
 fun BadgeCount60msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
         toonBadgeScene(
-            it,
+            tokens,
             ToonBadgeLook("4", numOp = 0f, numDy = -12f, oldOp = 0.4f, oldDy = -5.04f, dx = 0f, old = "3"),
         )
     }
@@ -326,19 +353,28 @@ fun BadgeCount60msBrightCel() =
 @Composable
 fun BadgeCount120msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = -3f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = -3f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_180ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeCount180msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }
 
 @ViddikScreenshot(group = "Badge", name = "Count_240ms_BrightCel", width = 60, height = 44)
 @Composable
 fun BadgeCount240msBrightCel() =
     SceneCell(brightCel, 60, 44, 30, 22) {
-        toonBadgeScene(it, ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"))
+        toonBadgeScene(
+            tokens,
+            ToonBadgeLook("4", numOp = 1f, numDy = 0f, oldOp = 0f, oldDy = -14f, dx = 0f, old = "3"),
+        )
     }

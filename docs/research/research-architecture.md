@@ -235,7 +235,14 @@ by 1.96–2.30 % of its cell, 48–54 % of its ink. Cells with text are held to 
 without a DOM the engine strokes the centerline at the weight's base width, which is what the frame
 golden holds, and the outline itself is B-11's — several texts with their own weights, and the
 engine's `place`. The frame goldens are taken with the kit's `document` stub removed, or
-`iconOutline` reaches for a DOM it does not have. Every later component is built on these frames. So a component's parity
+`iconOutline` reaches for a DOM it does not have. Every later component is built on these frames.
+*Corrected in B-16:* the reference page built each scene before its fonts had loaded, so every
+width the engine takes from `tw` came from the fallback face — the extended FAB's body and the text
+button's underline. The page now builds the scene once the bundled faces load; the extended FAB went
+from 10.20 % of its cell to 4.39 %, the text button from 44.67 % of its ink to 36.71 %, and no other
+reference moved. What is left on the extended FAB is the label's width itself: Chrome measures
+"New plan" at 17 px about 69.4 dp, Compose with whole-pixel advances about 70, and a body sized from
+it shifts every wobble point along its outline. So a component's parity
 is read against its own Divider-like floor in the commit body, not against the 5 % default, and the
 default stays the report's threshold only. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
 implementation and the HTML can only be photographed. Here the design is a function that can be

@@ -40,6 +40,23 @@ const BADGE_IMPORTS = [
 
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  Fab: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.component.FAB_LABEL',
+      'io.github.youndie.toon.component.ToonFabAppear',
+      'io.github.youndie.toon.component.ToonFabLook',
+      'io.github.youndie.toon.component.toonFabLandScene',
+      'io.github.youndie.toon.component.toonFabScene',
+      'io.github.youndie.toon.icon.ToonIcons',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+    ],
+    cell: `// The MVP page's FAB cells and landing strip against the engine's \`fab\` and \`dust\` drawn in Chrome.
+`,
+  },
   IconButton: {
     imports: ICON_BUTTON_IMPORTS,
     cell: `// The MVP page's icon button cells and tap strip against the engine's \`iconBtn\` drawn in Chrome.

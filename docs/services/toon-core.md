@@ -67,6 +67,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonBadge.kt` | `ToonBadge` (B-15): `toonBadgeScene` is the engine's `badge`, with `badgeAppear` and `badgeCount` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/draw/EngineFrames.kt` | the frame comparison every component's frame test makes against `engine-goldens/components.json` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/SceneCell.kt` | a spec page's cell drawn from a frame, what the generated fixtures from B-15 on call |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonFab.kt` | `ToonFab` (B-16): `toonFabScene` is the engine's `fab`, `toonFabAppear` its landing, `toonFabLandScene` the two with the dust |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -140,6 +141,10 @@ None at runtime.
 - Text is measured against a floor of its own (research D3): Compose on desktop lays glyphs at whole
   pixels and Chrome on the mac at fractions, so a label drawn right still differs by about 2 % of its
   cell. The same label measures 74 dp wide here and 73.44 in Chrome.
+- A component that breathes while idle (the FAB by default, a button with `idle`) asks for a frame
+  every frame, so a Compose UI test that waits for idle never gets there. Such a test sets
+  `mainClock.autoAdvance = false` and advances the clock itself (`ToonFabTest`), as with any infinite
+  animation.
 - An icon's outline and fill are built once per glyph and weight and kept in the glyph, as the engine
   caches per name and base (B-15). Two threads drawing a new glyph at once may each build it; the
   result is the same.

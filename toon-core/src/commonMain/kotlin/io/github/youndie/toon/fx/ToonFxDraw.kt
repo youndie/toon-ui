@@ -13,11 +13,15 @@ import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.graphics.vector.PathParser
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.draw.ToonInsets
+import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonRandom
+import io.github.youndie.toon.draw.ToonScene
+import io.github.youndie.toon.draw.drawScene
 import io.github.youndie.toon.draw.polygonPath
 import io.github.youndie.toon.draw.roundRectPoints
 import io.github.youndie.toon.draw.shapePoints
+import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.smoothPath
 import io.github.youndie.toon.draw.starPoints
 import io.github.youndie.toon.motion.toonSpring
@@ -79,12 +83,12 @@ private val DUST_DIRS =
     )
 
 /**
- * The engine's `dust`: puffs fanning out sideways and up from ([cx], [cy]) over spread [s], one per
- * row of [dirs] (x, y, size), five by default. [k] scales the puffs and [gap] pushes each side's out,
- * the options the navigation bar's landing passes (`o.k`, `o.gap`, `o.dirs`).
+ * The engine's `dust` as frame layers: puffs fanning out sideways and up from ([cx], [cy]) over spread
+ * [s], one per row of [dirs] (x, y, size), five by default. [k] scales the puffs and [gap] pushes each
+ * side's out, the options the navigation bar's landing passes (`o.k`, `o.gap`, `o.dirs`).
  */
 @OptIn(InternalToonApi::class)
-internal fun DrawScope.drawToonDust(
+internal fun toonDustScene(
     colors: ToonColors,
     u: Float,
     cx: Float,
@@ -93,10 +97,11 @@ internal fun DrawScope.drawToonDust(
     k: Float = 1f,
     gap: Float = 0f,
     dirs: List<FloatArray> = DUST_DIRS,
-) {
-    if (u <= 0 || u >= 1) return
+): ToonScene {
+    if (u <= 0 || u >= 1) return ToonScene.Empty
     val e = 1 - (1 - u).pow(2.2f)
     val fr = min(3, floor(u * 4).toInt())
+    val layers = mutableListOf<ToonLayer>()
     dirs.forEachIndexed { j, (dx, dy, size) ->
         val r = (3 + 9 * sqrt(u)) * size * (s / 40 * .5f + .5f) * k
         val op = 1 - u.pow(1.6f)
@@ -114,10 +119,23 @@ internal fun DrawScope.drawToonDust(
                 700 + j * 7 + fr * 13,
                 3f,
             )
-        drawPath(smoothPath(g.ink), colors.ink, alpha = op)
-        drawPath(smoothPath(g.fill), colors.fxDust, alpha = op)
+        layers += smoothLayer(g.ink, colors.ink, op)
+        layers += smoothLayer(g.fill, colors.fxDust, op)
     }
+    return ToonScene(layers, emptyList())
 }
+
+/** The engine's `dust`, drawn: [toonDustScene]. */
+internal fun DrawScope.drawToonDust(
+    colors: ToonColors,
+    u: Float,
+    cx: Float,
+    cy: Float,
+    s: Float = 40f,
+    k: Float = 1f,
+    gap: Float = 0f,
+    dirs: List<FloatArray> = DUST_DIRS,
+) = drawScene(toonDustScene(colors, u, cx, cy, s, k, gap, dirs))
 
 /** The engine's `stars`: three stars popping on an arc of radius [s] over ([cx], [cy]), spinning out. */
 @OptIn(InternalToonApi::class)

@@ -75,12 +75,27 @@ internal class ToonLayer(
         }
     }
 
-    /** This layer translated by ([x], [y]) first, as the engine's `place` prefixes a transform. */
+    /** This layer translated by ([x], [y]) first and faded by [opacity], as the engine's `place` does. */
     fun moved(
         x: Float,
         y: Float,
+        opacity: Float = 1f,
     ): ToonLayer =
-        ToonLayer(numbers, segments, closed, color, alpha, dx + x, dy + y, stroke, dash, scale, shape, source, iconBase)
+        ToonLayer(
+            numbers,
+            segments,
+            closed,
+            color,
+            alpha * opacity,
+            dx + x,
+            dy + y,
+            stroke,
+            dash,
+            scale,
+            shape,
+            source,
+            iconBase,
+        )
 }
 
 /** The weight and size of a frame's text, in the theme's body face. */
@@ -89,7 +104,10 @@ internal class ToonTextStyle(
     val size: Float,
 )
 
-/** One text of a frame, as the engine's `X` with `anchor: middle`: [text] centred on [x], on [baseline]. */
+/** Where a text sits on its x, as the engine's `X` anchors: from its start, or centred. */
+internal enum class ToonAnchor { Start, Middle }
+
+/** One text of a frame, as the engine's `X`: [text] on [baseline], [anchor]ed at [x]. */
 internal class ToonLabel(
     val text: String,
     val x: Float,
@@ -97,6 +115,7 @@ internal class ToonLabel(
     val color: Color,
     val alpha: Float,
     val style: ToonTextStyle,
+    val anchor: ToonAnchor = ToonAnchor.Middle,
 )
 
 /** A frame: [layers] in order, then [labels] over them. */
@@ -104,14 +123,25 @@ internal class ToonScene(
     val layers: List<ToonLayer>,
     val labels: List<ToonLabel>,
 ) {
-    /** The engine's `place` without rotation: everything moved by ([x], [y]). */
+    /** The engine's `place` without rotation: everything moved by ([x], [y]) and faded by [opacity]. */
     fun placed(
         x: Float,
         y: Float,
+        opacity: Float = 1f,
     ): ToonScene =
         ToonScene(
-            layers.map { it.moved(x, y) },
-            labels.map { ToonLabel(it.text, it.x + x, it.baseline + y, it.color, it.alpha, it.style) },
+            layers.map { it.moved(x, y, opacity) },
+            labels.map {
+                ToonLabel(
+                    it.text,
+                    it.x + x,
+                    it.baseline + y,
+                    it.color,
+                    it.alpha * opacity,
+                    it.style,
+                    it.anchor,
+                )
+            },
         )
 
     /** The engine's `cat`: [other]'s layers after these, its labels after these. */
@@ -242,11 +272,7 @@ internal fun DrawScope.drawScene(
     for (x in scene.labels) {
         if (x.alpha <= .01f) continue
         val layout = text.measure(x.text, x.style)
-        drawText(
-            layout,
-            x.color,
-            Offset(x.x - layout.multiParagraph.width / 2, x.baseline - layout.firstBaseline),
-            alpha = x.alpha,
-        )
+        val left = if (x.anchor == ToonAnchor.Middle) x.x - layout.multiParagraph.width / 2 else x.x
+        drawText(layout, x.color, Offset(left, x.baseline - layout.firstBaseline), alpha = x.alpha)
     }
 }

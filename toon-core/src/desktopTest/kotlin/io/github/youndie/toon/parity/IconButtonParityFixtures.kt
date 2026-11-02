@@ -18,63 +18,73 @@ import io.github.youndie.viddik.annotations.ViddikScreenshot
 @Composable
 fun IconButtonStandardDefaultInkGouacheLight() =
     SceneCell(inkGouacheLight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Pressed_InkGouacheLight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardPressedInkGouacheLight() =
     SceneCell(inkGouacheLight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Focused_InkGouacheLight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardFocusedInkGouacheLight() =
     SceneCell(inkGouacheLight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(focus = true))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(focus = true))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Selected_InkGouacheLight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardSelectedInkGouacheLight() =
     SceneCell(inkGouacheLight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(selected = true))
+        toonIconButtonScene(
+            tokens,
+            ToonIcons.Heart,
+            ToonIconButtonVariant.Standard,
+            ToonIconButtonLook(selected = true),
+        )
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Disabled_InkGouacheLight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardDisabledInkGouacheLight() =
     SceneCell(inkGouacheLight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(disabled = true))
+        toonIconButtonScene(
+            tokens,
+            ToonIcons.Heart,
+            ToonIconButtonVariant.Standard,
+            ToonIconButtonLook(disabled = true),
+        )
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Filled_Default_InkGouacheLight", width = 70, height = 68)
 @Composable
 fun IconButtonFilledDefaultInkGouacheLight() =
     SceneCell(inkGouacheLight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Edit, ToonIconButtonVariant.Filled, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Edit, ToonIconButtonVariant.Filled, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Filled_Selected_InkGouacheLight", width = 70, height = 68)
 @Composable
 fun IconButtonFilledSelectedInkGouacheLight() =
     SceneCell(inkGouacheLight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Star, ToonIconButtonVariant.Filled, ToonIconButtonLook(selected = true))
+        toonIconButtonScene(tokens, ToonIcons.Star, ToonIconButtonVariant.Filled, ToonIconButtonLook(selected = true))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_0ms_InkGouacheLight", width = 68, height = 74)
 @Composable
 fun IconButtonTap0msInkGouacheLight() =
     SceneCell(inkGouacheLight, 68, 74, 10, 18) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_80msHeld_InkGouacheLight", width = 68, height = 74)
 @Composable
 fun IconButtonTap80msHeldInkGouacheLight() =
     SceneCell(inkGouacheLight, 68, 74, 10, 18) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_Plus70ms_InkGouacheLight", width = 68, height = 74)
@@ -82,7 +92,7 @@ fun IconButtonTap80msHeldInkGouacheLight() =
 fun IconButtonTapPlus70msInkGouacheLight() =
     SceneCell(inkGouacheLight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = -0.302481f, iy = -7f, selected = true),
@@ -94,7 +104,7 @@ fun IconButtonTapPlus70msInkGouacheLight() =
 fun IconButtonTapPlus140msInkGouacheLight() =
     SceneCell(inkGouacheLight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = 0.086975f, selected = true),
@@ -106,7 +116,7 @@ fun IconButtonTapPlus140msInkGouacheLight() =
 fun IconButtonTapPlus200msInkGouacheLight() =
     SceneCell(inkGouacheLight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = -0.009947f, iy = 0.236954f, selected = true),
@@ -118,7 +128,7 @@ fun IconButtonTapPlus200msInkGouacheLight() =
 fun IconButtonTapPlus300msInkGouacheLight() =
     SceneCell(inkGouacheLight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = 0.009107f, iy = 0.092916f, selected = true),
@@ -129,63 +139,73 @@ fun IconButtonTapPlus300msInkGouacheLight() =
 @Composable
 fun IconButtonStandardDefaultInkGouacheNight() =
     SceneCell(inkGouacheNight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Pressed_InkGouacheNight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardPressedInkGouacheNight() =
     SceneCell(inkGouacheNight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Focused_InkGouacheNight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardFocusedInkGouacheNight() =
     SceneCell(inkGouacheNight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(focus = true))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(focus = true))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Selected_InkGouacheNight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardSelectedInkGouacheNight() =
     SceneCell(inkGouacheNight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(selected = true))
+        toonIconButtonScene(
+            tokens,
+            ToonIcons.Heart,
+            ToonIconButtonVariant.Standard,
+            ToonIconButtonLook(selected = true),
+        )
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Disabled_InkGouacheNight", width = 70, height = 68)
 @Composable
 fun IconButtonStandardDisabledInkGouacheNight() =
     SceneCell(inkGouacheNight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(disabled = true))
+        toonIconButtonScene(
+            tokens,
+            ToonIcons.Heart,
+            ToonIconButtonVariant.Standard,
+            ToonIconButtonLook(disabled = true),
+        )
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Filled_Default_InkGouacheNight", width = 70, height = 68)
 @Composable
 fun IconButtonFilledDefaultInkGouacheNight() =
     SceneCell(inkGouacheNight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Edit, ToonIconButtonVariant.Filled, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Edit, ToonIconButtonVariant.Filled, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Filled_Selected_InkGouacheNight", width = 70, height = 68)
 @Composable
 fun IconButtonFilledSelectedInkGouacheNight() =
     SceneCell(inkGouacheNight, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Star, ToonIconButtonVariant.Filled, ToonIconButtonLook(selected = true))
+        toonIconButtonScene(tokens, ToonIcons.Star, ToonIconButtonVariant.Filled, ToonIconButtonLook(selected = true))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_0ms_InkGouacheNight", width = 68, height = 74)
 @Composable
 fun IconButtonTap0msInkGouacheNight() =
     SceneCell(inkGouacheNight, 68, 74, 10, 18) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_80msHeld_InkGouacheNight", width = 68, height = 74)
 @Composable
 fun IconButtonTap80msHeldInkGouacheNight() =
     SceneCell(inkGouacheNight, 68, 74, 10, 18) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_Plus70ms_InkGouacheNight", width = 68, height = 74)
@@ -193,7 +213,7 @@ fun IconButtonTap80msHeldInkGouacheNight() =
 fun IconButtonTapPlus70msInkGouacheNight() =
     SceneCell(inkGouacheNight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = -0.302481f, iy = -7f, selected = true),
@@ -205,7 +225,7 @@ fun IconButtonTapPlus70msInkGouacheNight() =
 fun IconButtonTapPlus140msInkGouacheNight() =
     SceneCell(inkGouacheNight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = 0.086975f, selected = true),
@@ -217,7 +237,7 @@ fun IconButtonTapPlus140msInkGouacheNight() =
 fun IconButtonTapPlus200msInkGouacheNight() =
     SceneCell(inkGouacheNight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = -0.009947f, iy = 0.236954f, selected = true),
@@ -229,7 +249,7 @@ fun IconButtonTapPlus200msInkGouacheNight() =
 fun IconButtonTapPlus300msInkGouacheNight() =
     SceneCell(inkGouacheNight, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = 0.009107f, iy = 0.092916f, selected = true),
@@ -240,63 +260,73 @@ fun IconButtonTapPlus300msInkGouacheNight() =
 @Composable
 fun IconButtonStandardDefaultBrightCel() =
     SceneCell(brightCel, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Pressed_BrightCel", width = 70, height = 68)
 @Composable
 fun IconButtonStandardPressedBrightCel() =
     SceneCell(brightCel, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Focused_BrightCel", width = 70, height = 68)
 @Composable
 fun IconButtonStandardFocusedBrightCel() =
     SceneCell(brightCel, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(focus = true))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(focus = true))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Selected_BrightCel", width = 70, height = 68)
 @Composable
 fun IconButtonStandardSelectedBrightCel() =
     SceneCell(brightCel, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(selected = true))
+        toonIconButtonScene(
+            tokens,
+            ToonIcons.Heart,
+            ToonIconButtonVariant.Standard,
+            ToonIconButtonLook(selected = true),
+        )
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Standard_Disabled_BrightCel", width = 70, height = 68)
 @Composable
 fun IconButtonStandardDisabledBrightCel() =
     SceneCell(brightCel, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(disabled = true))
+        toonIconButtonScene(
+            tokens,
+            ToonIcons.Heart,
+            ToonIconButtonVariant.Standard,
+            ToonIconButtonLook(disabled = true),
+        )
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Filled_Default_BrightCel", width = 70, height = 68)
 @Composable
 fun IconButtonFilledDefaultBrightCel() =
     SceneCell(brightCel, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Edit, ToonIconButtonVariant.Filled, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Edit, ToonIconButtonVariant.Filled, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Filled_Selected_BrightCel", width = 70, height = 68)
 @Composable
 fun IconButtonFilledSelectedBrightCel() =
     SceneCell(brightCel, 70, 68, 10, 10) {
-        toonIconButtonScene(it, ToonIcons.Star, ToonIconButtonVariant.Filled, ToonIconButtonLook(selected = true))
+        toonIconButtonScene(tokens, ToonIcons.Star, ToonIconButtonVariant.Filled, ToonIconButtonLook(selected = true))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_0ms_BrightCel", width = 68, height = 74)
 @Composable
 fun IconButtonTap0msBrightCel() =
     SceneCell(brightCel, 68, 74, 10, 18) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook())
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_80msHeld_BrightCel", width = 68, height = 74)
 @Composable
 fun IconButtonTap80msHeldBrightCel() =
     SceneCell(brightCel, 68, 74, 10, 18) {
-        toonIconButtonScene(it, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
+        toonIconButtonScene(tokens, ToonIcons.Heart, ToonIconButtonVariant.Standard, ToonIconButtonLook(p = 1f))
     }
 
 @ViddikScreenshot(group = "IconButton", name = "Tap_Plus70ms_BrightCel", width = 68, height = 74)
@@ -304,7 +334,7 @@ fun IconButtonTap80msHeldBrightCel() =
 fun IconButtonTapPlus70msBrightCel() =
     SceneCell(brightCel, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = -0.302481f, iy = -7f, selected = true),
@@ -316,7 +346,7 @@ fun IconButtonTapPlus70msBrightCel() =
 fun IconButtonTapPlus140msBrightCel() =
     SceneCell(brightCel, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = 0.086975f, selected = true),
@@ -328,7 +358,7 @@ fun IconButtonTapPlus140msBrightCel() =
 fun IconButtonTapPlus200msBrightCel() =
     SceneCell(brightCel, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = -0.009947f, iy = 0.236954f, selected = true),
@@ -340,7 +370,7 @@ fun IconButtonTapPlus200msBrightCel() =
 fun IconButtonTapPlus300msBrightCel() =
     SceneCell(brightCel, 68, 74, 10, 18) {
         toonIconButtonScene(
-            it,
+            tokens,
             ToonIcons.Heart,
             ToonIconButtonVariant.Standard,
             ToonIconButtonLook(p = 0.009107f, iy = 0.092916f, selected = true),
