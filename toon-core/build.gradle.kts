@@ -57,6 +57,8 @@ kotlin {
             // that published.
             implementation(compose.desktop.currentOs)
             implementation(wip.compose.ui.test)
+            // EngineGoldensTest reads the engine's JSON (B-04); the tree API needs no plugin.
+            implementation(wip.kotlinx.serialization.json)
         }
     }
 }
