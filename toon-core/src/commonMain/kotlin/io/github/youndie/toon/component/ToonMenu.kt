@@ -159,7 +159,7 @@ internal fun toonMenuHeight(n: Int): Float = 14 + n * ITEM_H + 25
 /**
  * The kit's `down`: the item under [y]. The first item's target reaches up to the scroll's top and
  * the last one's down to its bottom, which makes both 48 dp and more (the brief's target) without
- * moving what the design draws; an item between them stays 44 dp (B-50).
+ * moving what the design draws; an item between them stays 44 dp, the owner's named exception (B-50).
  */
 internal fun toonMenuItemAt(
     n: Int,

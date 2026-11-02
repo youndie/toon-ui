@@ -241,7 +241,7 @@ None at runtime.
   has none (B-36); the kit has no keyboard, so the step is the library's.
 - The menu is one node for a screen reader, every item an action, the selected one its state; the
   arrow keys walk the items and Enter or Space chooses (B-37), where the kit has no keyboard. Its
-  first and last targets reach the scroll's edges; a middle item of three or more stays 44 dp (B-50).
+  first and last targets reach the scroll's edges; a middle item of three or more stays 44 dp, the owner's named exception (B-50).
 - The menu is the scroll alone and does not place itself under its trigger: the caller lays it
   out. It draws outside its box while unrolling, the paper overshooting by up to 23 % (36 dp under
   three items at 144 ms), so a parent that clips cuts the overshoot.

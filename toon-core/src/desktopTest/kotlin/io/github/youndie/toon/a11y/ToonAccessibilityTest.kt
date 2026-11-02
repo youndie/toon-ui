@@ -67,13 +67,16 @@ import kotlin.test.assertTrue
 /**
  * B-30: each of the 19 components tells a screen reader what it is (role), what state it is in, and
  * what it says, and each one a finger can press is at least 48 dp each way (the brief's target), even
- * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50), B-38 the bottom sheet and B-39
+ * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp by the owner's named exception (B-50), B-38 the bottom sheet and B-39
  * the navigation drawer, B-40 the tooltip, B-41 the segmented button,
  * B-42 pull-to-refresh, B-43 the title card.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonAccessibilityTest {
     private val target = 48f
+
+    /** The menu's middle items, 44 dp: the owner's named exception to the target (B-50, 2026-11-02). */
+    private val menuMiddleItem = 44
 
     private class Node(
         val role: Role?,
@@ -378,7 +381,7 @@ class ToonAccessibilityTest {
         }
 
     @Test
-    fun `menu names the chosen item and offers each, the first and last 48 dp targets`() {
+    fun `menu names the chosen item and offers each, the first and last 48 dp targets, a middle one 44`() {
         val items = listOf("Edit", "Share", "Delete").map { ToonMenuItem(it) }
         with(node { ToonMenu(items, it, selected = 1) }) {
             assertEquals("Share", state)
@@ -389,6 +392,12 @@ class ToonAccessibilityTest {
             for (i in listOf(0, n - 1)) {
                 val height = (0..200).count { toonMenuItemAt(n, it.toFloat()) == i }
                 assertTrue(height >= target, "$n items: item $i is $height dp tall")
+            }
+            // The owner's named exception (B-50): an item between the first and the last keeps the
+            // design's 44 dp row; it is the scroll's whole width, and 44 is Apple's minimum.
+            for (i in 1 until n - 1) {
+                val height = (0..200).count { toonMenuItemAt(n, it.toFloat()) == i }
+                assertEquals(menuMiddleItem, height, "$n items: item $i is $height dp tall")
             }
         }
     }

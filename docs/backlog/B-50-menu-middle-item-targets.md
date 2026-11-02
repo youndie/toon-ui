@@ -1,7 +1,7 @@
 ---
 id: B-50
 title: "Menu: with three or more items the middle ones are 44 dp targets"
-status: question
+status: done
 priority: P2
 size: S
 stage: stage-4-product
@@ -29,3 +29,9 @@ Which of these, for a menu of three or more items?
 - AC (once answered): every item of the chosen menu is a 48 dp target, or the exception is named
   in the test.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonMenu.kt`.
+
+## Decision (owner, 2026-11-02)
+
+**Option 2: accept 44 dp** for a middle item as a named exception. Nothing the design draws moves.
+`ToonAccessibilityTest` holds the first and last items to 48 dp and every item between them to
+exactly 44 (`menuMiddleItem`), so a narrower row fails as a wider one is noticed.
