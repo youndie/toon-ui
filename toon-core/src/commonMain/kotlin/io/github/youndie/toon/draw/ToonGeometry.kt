@@ -267,3 +267,29 @@ public fun burstPoints(
     }
     return out
 }
+
+/**
+ * One outline of the engine's `spinner`: 30 points of a three-lobed blob of radius [rr] about
+ * ([cx], [cy]), turned by phase [ph] at an uneven speed, squashed by [sx], [sy] onto the bottom of a
+ * blob of nominal radius [r]. The spinner draws it at `r + 3` in ink and at `r` in its fill.
+ */
+@InternalToonApi
+public fun spinnerPoints(
+    cx: Float,
+    cy: Float,
+    r: Float,
+    rr: Float,
+    ph: Float,
+    sx: Float,
+    sy: Float,
+): FloatArray {
+    val ang = ph + 0.7f * sin(ph)
+    val out = FloatArray(60)
+    for (i in 0 until 30) {
+        val a = i / 30f * 2 * PI_F
+        val k = rr * (1 + .2f * sin(3 * a + ang * 2) + .08f * sin(5 * a - ph))
+        out[2 * i] = cx + cos(a + ang) * k * sx
+        out[2 * i + 1] = cy + r * (1 - sy) + sin(a + ang) * k * sy
+    }
+    return out
+}

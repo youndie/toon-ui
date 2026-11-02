@@ -26,6 +26,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { ICONS, ICON_CELLS } from './icon-cells.mjs';
 import { FX_CELLS } from './fx-cells.mjs';
+import { COMPONENT_CELLS } from './component-cells.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const ENGINE = join(ROOT, 'reference/design-system/toon-engine.js');
@@ -61,6 +62,9 @@ REFERENCES.push(...ICON_CELLS.map(c => ({
 
 // B-12: every frame of the FX page's strips (scripts/fx-cells.mjs), the effect alone on the stage.
 REFERENCES.push(...FX_CELLS.map(({ group, name, theme, w, h, pad, scene }) => ({ group, name, theme, w, h, pad, scene })));
+
+// B-14 on: each component's cells on the spec pages (scripts/component-cells.mjs).
+REFERENCES.push(...Object.values(COMPONENT_CELLS).flat().map(({ group, name, theme, w, h, pad, scene }) => ({ group, name, theme, w, h, pad, scene })));
 
 // B-11: the outlines themselves, which only a DOM can compute (`sampleSub` measures an SVG path), so
 // the numeric half of the icon parity is read here rather than in scripts/engine-goldens.mjs.
