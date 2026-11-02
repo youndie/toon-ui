@@ -1,7 +1,7 @@
 ---
 id: B-45
 title: "The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify"
-status: question
+status: done
 priority: P1
 size: S
 stage: stage-1-materials
@@ -32,3 +32,10 @@ The brief: "if an animation does not fit, simplify the animation, do not lower t
 - AC: the owner's choice recorded; the bench re-run shows the chosen scene within the bar, or the
   accepted numbers written into research H1.
 - Anchors: `docs/research/b-05`, `bench/src/commonMain/kotlin/io/github/youndie/toon/bench/FrameCostScene.kt`.
+
+## Decision (owner, 2026-11-02)
+
+**Accept the measured numbers** for a ten-card cascade, the third option: nothing is simplified, and
+the numbers are written into research H1 as accepted, with what the measure did not control (R8 off
+and no baseline profile in the release build; a fixed 16.7 ms bar on FrameMetrics' total). The
+owner chose not to re-measure now.
