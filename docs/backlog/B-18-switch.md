@@ -1,7 +1,7 @@
 ---
 id: B-18
 title: "Switch: wind-up, smear, slap, colour wave"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-2-components
