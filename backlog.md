@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (33)
+## Open (32)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-12](docs/backlog/B-12-fx-layer-and-events.md) `[~]` | FX layer: eight effects and the named events that fire them | P1 | L | B-09 |
 | [B-14](docs/backlog/B-14-button.md) `[ ]` | Button: filled, outlined, text; loading blob, idle breath, disabled buzz | P1 | M | B-10, B-11, B-12 |
 | [B-15](docs/backlog/B-15-icon-button-and-badge.md) `[ ]` | IconButton and Badge | P1 | S | B-10, B-11, B-12 |
 | [B-16](docs/backlog/B-16-fab.md) `[ ]` | FAB: regular and extended, lands with dust | P1 | S | B-10, B-12 |
@@ -90,7 +89,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (12)
+## Closed (13)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -108,6 +107,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-09](docs/backlog/B-09-ink-drawing-primitives.md) `[x]` - Ink drawing primitives: body with hard shadow and night rim, focus ring, placement
 - [B-10](docs/backlog/B-10-press-feedback.md) `[x]` - Press feedback: squash on press, spring from where it got to, action on release
 - [B-11](docs/backlog/B-11-icon-set.md) `[x]` - Icons: 25 centerlines, variable-width outline, Regular and Bold, ToonIcon
+- [B-12](docs/backlog/B-12-fx-layer-and-events.md) `[x]` - FX layer: eight effects and the named events that fire them
 
 **The owner's questions answered; the semantics and contrast tests pass**
 

@@ -210,7 +210,16 @@ the scale. A line 20 % thicker measured 7.80 % against its 1.54 %. A wrong seed 
 measured 4.24 % against its 0.21 %, which still passes viddik's default 5 %. *Extended in B-11:* icons have a
 numeric half too, but only a DOM can compute it (`sampleSub` measures an SVG path element), so the
 same Chrome run writes the engine's `iconOutline` for every glyph and weight to
-`toon-core/src/desktopTest/resources/design-goldens/icon-outlines.json`. So a component's parity
+`toon-core/src/desktopTest/resources/design-goldens/icon-outlines.json`. *Amended in B-12:* the floor
+is a share of the cell, and that does not carry over to a cell its subject inks little of. An effect
+covers a small part of its 260 × 150 cell, and wrong effects measured under 1.54 %: stars spinning
+one way 0.56 %, sweat drops without their stretch 0.50 %, speed lines 10 dp short 0.64 %. So
+`InkParityTest` counts a cell's differing pixels against the pixels either image inks (differs from
+the stage colour), takes the floor the same way over the Divider cells — 14.81 % — and fails on any
+other reference over it, in `check`. Clean, the worst of 459 cells is 13.27 % (Sweat at 40 ms, two
+drops just appearing, all edge); those mutants measure 39–99 %. What no pixel measure sees is a
+pattern inside a large fill: the hole with another crack seed measured 8.70 %. Its polygons come from
+the engine in Node (`engine-goldens/fx.json`) and are compared point by point. So a component's parity
 is read against its own Divider-like floor in the commit body, not against the 5 % default, and the
 default stays the report's threshold only. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
 implementation and the HTML can only be photographed. Here the design is a function that can be
@@ -259,6 +268,13 @@ the current position and velocity), tested by feeding it a timeline.
 `instant`, `fade 120`, `off` and the named static states are implemented as written. This was a
 deviation from the kit while the kit made everything instant. The second snapshot's kit
 cross-fades too (§1.6), so it is no longer one.
+
+*Applied to the FX in B-12* (the FX page's `reduce motion:` line per effect): dust, stars, speed,
+shake, hole and sweat are `off`; shake's "colour change only" is the component's. The flash's
+`fade 120` holds its settled frame (the page's 90 ms frame, full size) and fades it out over 120 ms,
+a reading of the word, since the kit and the page draw no flash at all under reduce motion. The iris's
+`cross-fade 120` is a property of the scene change, which B-44 builds; the wipe itself is off. An
+event reaches its listeners either way, so a sound can follow it.
 
 ### D9. Targets: Android, iOS, desktop, wasm — the gate runs on desktop
 

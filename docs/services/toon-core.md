@@ -56,6 +56,12 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/icon/ToonIcons.kt` | the 25 glyphs, generated from the engine's `ICONS` by `scripts/generate-icons.mjs` (`make icons`) |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/icon/IconOutlineGoldensTest.kt` | every glyph in both weights against Chrome's `iconOutline` (`design-goldens/icon-outlines.json`) |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/IconParityFixtures.kt` | the 348 icon cells against their Chrome references, generated from `scripts/icon-cells.mjs` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/fx/ToonFxDraw.kt` | the engine's eight effects and their curves ported (B-12): dust, stars, speed, flash, vibe, the iris wipe, hole, sweat; `irisAt`, `shake`, `spr` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/fx/ToonFxHost.kt` | `ToonFxHost`, `ToonFxEvent` (the FX page's event names), `ToonFx`, `Toon.fx`, and each effect's reduce-motion word |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/fx/ToonFxHostTest.kt` | events heard, effects played for their length and placed from root coordinates, reduce motion |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/fx/ToonHoleGoldensTest.kt` | the hole's silhouette point by point against `engine-goldens/fx.json` |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/FxParityFixtures.kt` | the FX page's 35 strip frames in three themes, generated from `scripts/fx-cells.mjs` (`make fx`) |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/InkParityTest.kt` | every reference against its golden by the ink ratio, under the Divider's ink floor (research D3) |
 | `toon-core/src/desktopTest/snapshots` | viddik goldens (B-06), checked by `check` |
 | `toon-core/src/desktopTest/snapshots/design` | the Chrome references, written by `scripts/design-references.mjs`, with a `manifest.json` naming the Chrome and the engine |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/DividerParityFixtures.kt` | the Divider fixtures the floor is measured on |
@@ -117,6 +123,10 @@ None at runtime.
 - An icon's centerline is measured enlarged 1024 times (B-11). Skia's `PathMeasure` flattens a curve
   to about half a unit, a percent of an icon's length on the 24 dp grid, and that dropped samples
   against the engine. Any later port that samples a small path along its length meets the same.
+- `Toon.fx` outside a `ToonFxHost` is an emitter that drops every event, listeners included. A
+  component works in a preview without a host, and nothing in it tells that its effects went nowhere.
+- An effect's point defaults to where the FX page puts it on its demo block. A component that fires
+  one passes the engine's own numbers, which differ per component (B-12, research D3).
 - A held press stops asking for frames once it is fully down and wakes on the release (B-10).
   Holding a button costs nothing after the first 80 ms.
 - A refused idle slot is not handed over when one frees up: an element that starts breathing later
