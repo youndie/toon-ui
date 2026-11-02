@@ -17,8 +17,13 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.component.ToonButton
 import io.github.youndie.toon.component.ToonCard
 import io.github.youndie.toon.component.ToonDialog
@@ -125,6 +130,8 @@ class ToonDensityTest {
             }
             // The action's target is the last 110 dp of 342: dp 300 is pixel 600.
             onNodeWithTag("snack").performTouchInput { click(Offset(200f, 56f)) }
+            // Pixel 440 is dp 220, short of the target at 232; read as dp, it would be inside.
+            onNodeWithTag("snack").performTouchInput { click(Offset(440f, 56f)) }
             assertEquals(0, actions)
             onNodeWithTag("snack").performTouchInput { click(Offset(600f, 56f)) }
             assertEquals(1, actions)
@@ -177,9 +184,41 @@ class ToonDensityTest {
                     }
                 }
             }
+            // 120 pixels is 60 dp, short of the 80 dp a dismissal takes; read as dp, it would be past it.
+            onNodeWithTag("card").performTouchInput { swipeLeft(startX = centerX, endX = centerX - 120f) }
+            waitForIdle()
+            assertEquals(0, dismissed)
             onNodeWithTag("card").performTouchInput { swipeLeft() }
             waitForIdle()
             assertEquals(1, dismissed)
+        }
+    }
+
+    @Test
+    fun `labels are laid out in dp whatever the density, at the user's font scale`() {
+        val style = ToonTextStyle(700, 18f)
+        for (d in listOf(1f, 2f, 2.625f)) {
+            lateinit var text: ToonTextRenderer
+            lateinit var plain: TextMeasurer
+            runComposeUiTest {
+                setContent {
+                    CompositionLocalProvider(LocalDensity provides Density(d, fontScale = 1.3f)) {
+                        ToonTheme {
+                            text = rememberToonText()
+                            plain = rememberTextMeasurer()
+                        }
+                    }
+                }
+                waitForIdle()
+            }
+            val dp =
+                plain.measure(
+                    "Add plan",
+                    TextStyle(fontWeight = FontWeight(700), fontSize = 18.sp),
+                    density = Density(1f, fontScale = 1.3f),
+                )
+            val mine = text.measure("Add plan", style)
+            assertEquals(dp.size.height, mine.size.height, "line height in dp at density $d")
         }
     }
 }
