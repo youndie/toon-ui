@@ -150,6 +150,19 @@ const PRELUDE = {
 // Chrome (SegFrames).
 `,
   },
+  PullToRefresh: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonPullLook',
+    ],
+    cell: `// The v1 page's pull-to-refresh cells and its pull and release strips against the engine's \`pull\`
+// drawn in Chrome over the page's cards (PullFrames).
+`,
+  },
   Menu: {
     imports: [
       'androidx.compose.runtime.Composable',

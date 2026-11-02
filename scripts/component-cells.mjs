@@ -452,6 +452,35 @@ export const SHEET_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     SHEET_SCENE(`E.sheetMove(${t}, true, 260)`), call('SheetFrames.open', 'tokens', `${t}f`))),
 ]);
 
+// ---- PullToRefresh (B-42): `toon-ui v1 Components.dc.html` ----
+const PULL_PAGE = [
+  "out.pull = { cells: [['Pulling', { d: 50, bsy: 1.2 }], ['Stretched', { d: 110, bsy: 1.45, bsx: .82 }], ['Refreshing', { band: false, blobY: 40, off: 54 }]].map(([n, a]) => C('PullToRefresh / ' + n, this.pullScene(T, a), 360, 260, [0, 0, 0, 0], .5)),",
+  "frames: [0, 40, 80, 120].map(d => Fr(`pull ${d} dp`, `band ${n2(3.8 - Math.min(2.2, d / 55))} dp`, this.pullScene(T, { d, bsy: 1 + d / 240, bsx: 1 - d / 600 }), 360, 260, [0, 0, 0, 0], .36)) },",
+  "frames: [0, 60, 120, 200, 320].map(t => { const a = E.pullRelease(t, 110); return Fr(`${t} ms`, `band ${n0(a.by)} · blob ${n0(a.blobY)}`, this.pullScene(T, { ...a, off: 54 + (77 - 54) * Math.max(0, 1 - t / 160) }), 360, 260, [0, 0, 0, 0], .36); }) }] };",
+  "pullScene(T, a, W = 360) { const E = this.E, off = a.off ?? (a.d || 0) * .7; return E.cat(E.place(this.bgCards(T, W), 0, 30 + off), E.pull(T, { W, ...a })); }",
+];
+// The page's `bgCards` and `pullScene`, verbatim but for `this`.
+const PULL_SCENE = a => `(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = ${a}, off = a.off ?? (a.d || 0) * .7; return E.cat(E.place(bg, 0, 30 + off), E.pull(T, { W, ...a })); })()`;
+const PULL_STATES = [['Pulling', { d: 50, bsy: 1.2 }], ['Stretched', { d: 110, bsy: 1.45, bsx: .82 }], ['Refreshing', { band: false, blobY: 40, off: 54 }]];
+const pullLook = a => {
+  const o = [];
+  if (a.d != null) o.push(`d = ${kf(a.d)}`);
+  if (a.band === false) o.push('band = false');
+  if (a.blobY != null) o.push(`blobY = ${kf(a.blobY)}`);
+  if (a.bsx != null) o.push(`bsx = ${kf(a.bsx)}`);
+  if (a.bsy != null) o.push(`bsy = ${kf(a.bsy)}`);
+  return call('ToonPullLook', ...o);
+};
+// A release frame is the engine's `pullRelease` at its age, so the cell holds the curve as well as the drawing.
+export const PULL_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...PULL_STATES.map(([n, a]) => sceneCell('PullToRefresh', theme, themeName, n, 360, 260, [0, 0, 0, 0], { kind: 'state', ...a },
+    PULL_SCENE(js(a)), a.off == null ? call('PullFrames.scene', 'tokens', pullLook(a)) : call('PullFrames.scene', 'tokens', pullLook(a), kf(a.off)))),
+  ...[0, 40, 80, 120].map(d => sceneCell('PullToRefresh', theme, themeName, `Pull_${d}dp`, 360, 260, [0, 0, 0, 0], { kind: 'pull', d },
+    PULL_SCENE(`{ d: ${d}, bsy: 1 + ${d} / 240, bsx: 1 - ${d} / 600 }`), call('PullFrames.pull', 'tokens', `${d}f`))),
+  ...[0, 60, 120, 200, 320].map(t => sceneCell('PullToRefresh', theme, themeName, `Release_${t}ms`, 360, 260, [0, 0, 0, 0], { kind: 'release', t },
+    PULL_SCENE(`{ ...E.pullRelease(${t}, 110), off: 54 + (77 - 54) * Math.max(0, 1 - ${t} / 160) }`), call('PullFrames.release', 'tokens', `${t}f`))),
+]);
+
 // ---- Segmented (B-41): `toon-ui v1 Components.dc.html` ----
 const SEG_PAGE = [
   "out.seg = { cells: [['Day', { sel: 0 }], ['Week', { sel: 1 }], ['Month pressed', { sel: 0, pressed: 2 }], ['Week focused', { sel: 0, focus: 1 }], ['Disabled', { sel: 0, disabled: true }]].map(([n, o]) => C('Segmented / ' + n, E.segmented(T, { w: 260, ...o }), 260, 44, [10, 14, 12, 10])),",
@@ -742,6 +771,7 @@ export const missingPageText = [
   ...DRAWER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TIP_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...SEG_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
+  ...PULL_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -761,4 +791,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS, Tooltip: TIP_CELLS, Segmented: SEG_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS, Tooltip: TIP_CELLS, Segmented: SEG_CELLS, PullToRefresh: PULL_CELLS };
