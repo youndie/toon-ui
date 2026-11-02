@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (30)
+## Open (29)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-16](docs/backlog/B-16-fab.md) `[~]` | FAB: regular and extended, lands with dust | P1 | S | B-10, B-12 |
 | [B-17](docs/backlog/B-17-checkbox-and-radio.md) `[ ]` | Checkbox and RadioGroup | P1 | M | B-10, B-12 |
 | [B-18](docs/backlog/B-18-switch.md) `[ ]` | Switch: wind-up, smear, slap, colour wave | P1 | M | B-10, B-12 |
 | [B-19](docs/backlog/B-19-text-field.md) `[ ]` | TextField: drawn frame over a real input, label lift, error shake with stars | P1 | M | B-10, B-12 |
@@ -87,7 +86,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (15)
+## Closed (16)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -111,6 +110,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 - [B-14](docs/backlog/B-14-button.md) `[x]` - Button: filled, outlined, text; loading blob, idle breath, disabled buzz
 - [B-15](docs/backlog/B-15-icon-button-and-badge.md) `[x]` - IconButton and Badge
+- [B-16](docs/backlog/B-16-fab.md) `[x]` - FAB: regular and extended, lands with dust
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
