@@ -79,6 +79,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonDivider.kt` | `ToonDivider` (B-22): `toonDividerScene` is the engine's `divider` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSnackbar.kt` | `ToonSnackbar` (B-23): `toonSnackScene` is the engine's `snack`, `toonSnkShow` and `toonSnkHide` its curves, `toonSnackbarFrameAt` the kit's `C.snackbar` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSnackbarHost.kt` | `ToonSnackbarHost` and `ToonSnackbarHostState` (B-23): one sign at a time |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonDialog.kt` | `ToonDialog` (B-24): `toonDialogCardScene` is the engine's `dialog`, `toonDialogOpen` and `toonDialogClose` its curves, `toonDialogLayerScene` the kit's `C.dialog` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -165,6 +166,15 @@ None at runtime.
 - A card's hole goes to the FX host when there is one (`card.gone`), else the card draws it, turned
   with the card; the host's hole is not turned (B-21).
 - A list of cards — the 40 ms cascade and the close-up after a dismiss — is not built: B-46.
+- A dialog is a full-screen layer: the caller puts it over the content it dims (a `Box` with both),
+  and it fills its box. Closed, it takes no input, so it can stay composed (B-24).
+- A dialog's pop hands its stars to a `ToonFxHost` 170 ms into the close (`dialog.pop`), which plays
+  them whole; without a host the dialog draws them itself, as the kit does, and the kit stops drawing
+  the close at 320 ms, when the stars are 43 % through (B-24).
+- The dialog's keyboard: the layer takes the focus, Tab and the arrows move it between the buttons
+  (confirm first), Enter or Space presses it, Escape cancels. The kit has none of it; the focused
+  cells on the MVP page are what it draws.
+- Every component draws the engine's numbers in the canvas's pixels, right only at density 1 (B-47).
 - A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the
   fly-up from 90 dp below (the kit's box pads it 36 above and 110 below). A parent that clips its
   children cuts the sign's entrance; give it room or don't clip.

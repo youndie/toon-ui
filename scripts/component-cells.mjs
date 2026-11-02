@@ -109,9 +109,10 @@ const fmt = (node, indent) => {
 };
 const rounded = o => Object.fromEntries(Object.entries(o).map(([k, x]) => [k, typeof x === 'number' ? num(x) : x]));
 // A cell drawn by SceneCell: the page's padding, the frame's origin at its left and top.
-const sceneCell = (group, theme, themeName, name, w, h, pad, opts, scene, kotlinScene) => ({
+// A trailing [lambda] is passed as the call's last argument, outside its parentheses.
+const sceneCell = (group, theme, themeName, name, w, h, pad, opts, scene, kotlinScene, lambda) => ({
   group, name: `${name}_${themeName}`, theme, themeName, w, h, pad, opts: rounded(opts), scene,
-  kotlin: `SceneCell(${TOKENS[theme]}, ${w + pad[1] + pad[3]}, ${h + pad[0] + pad[2]}, ${pad[3]}, ${pad[0]}) {\n        ${fmt(kotlinScene, 8)}\n    }`,
+  kotlin: `SceneCell(${TOKENS[theme]}, ${w + pad[1] + pad[3]}, ${h + pad[0] + pad[2]}, ${pad[3]}, ${pad[0]}) {\n        ${fmt(kotlinScene, 8)}${lambda ? ` ${lambda}` : ''}\n    }`,
 });
 const ibLook = o => {
   const a = [];
@@ -407,6 +408,25 @@ export const SNACK_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     snackMoment(false, t))),
 ]);
 
+// ---- Dialog (B-24): `toon-ui MVP Components.dc.html` ----
+const DIALOG_PAGE = [
+  "out.dialog = { cells: [['Destructive', {}], ['Confirm focused', { focus: 'confirm' }], ['Cancel focused', { focus: 'cancel' }], ['Basic', { title: 'Leave the plan?', body: ['Changes you made will be', 'kept as a draft.'], confirm: 'Leave', destructive: false }]].map(([n, o]) => C('Dialog / ' + n, E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, o), 360, 460, [0, 0, 0, 0], .62)),",
+  "frames: [0, 60, 120, 200, 400].map(t => { const a = E.dialogOpen(t); return Fr(`${t} ms`, `iris r ${n0(a.R)} · scale ${n2(a.s)}`, E.dialogScene(T, a), 360, 460, [0, 0, 0, 0], .36); }) },",
+  "frames: [0, 80, 140, 180, 300].map(t => { const a = E.dialogClose(t); return Fr(`${t} ms`, `scale ${n2(a.s)} · iris r ${n0(a.R)}`, E.dialogScene(T, a), 360, 460, [0, 0, 0, 0], .36); }) },",
+];
+const DIALOG_STATES = [['Destructive', {}], ['ConfirmFocused', { focus: 'confirm' }], ['CancelFocused', { focus: 'cancel' }], ['Basic', { title: 'Leave the plan?', body: ['Changes you made will be', 'kept as a draft.'], confirm: 'Leave', destructive: false }]];
+// A strip frame is the engine's curve at that age, so the cell holds the curve as well as the drawing;
+// the label widths are measured by the cell's renderer, which only the text button's underline reads.
+const WIDTH = '{ text.measure(it, BUTTON_LABEL).multiParagraph.width }';
+export const DIALOG_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...DIALOG_STATES.map(([n, o], i) => sceneCell('Dialog', theme, themeName, n, 360, 460, [0, 0, 0, 0], { kind: 'state', i },
+    `E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, ${JSON.stringify(o)})`, call('DialogFrames.cell', 'tokens', String(i)), WIDTH)),
+  ...[0, 60, 120, 200, 400].map(t => sceneCell('Dialog', theme, themeName, `Open_${t}ms`, 360, 460, [0, 0, 0, 0], { kind: 'open', t },
+    `E.dialogScene(T, E.dialogOpen(${t}))`, call('DialogFrames.open', 'tokens', `${t}f`), WIDTH)),
+  ...[0, 80, 140, 180, 300].map(t => sceneCell('Dialog', theme, themeName, `Close_${t}ms`, 360, 460, [0, 0, 0, 0], { kind: 'close', t },
+    `E.dialogScene(T, E.dialogClose(${t}))`, call('DialogFrames.close', 'tokens', `${t}f`), WIDTH)),
+]);
+
 // ---- Divider and ListItem (B-22): `toon-ui MVP Components.dc.html` ----
 const LIST_PAGE = [
   "out.div = { cells: [['Full', { x1: 342, th: 3 }], ['Inset', { x0: 56, x1: 342, th: 3 }], ['Thick', { x1: 342, th: 4.6 }], ['Short', { x1: 120, th: 2.4 }]].map(([n, o], i) => C('Divider / ' + n, E.divider(T, { seed: i, ...o }), 342, 12, [4, 4, 4, 4])), specs: [] };",
@@ -455,6 +475,7 @@ export const FRAME_PROBES = {
 };
 
 export const missingPageText = [
+  ...DIALOG_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...SNACK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...LIST_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...CARD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
@@ -469,4 +490,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS };

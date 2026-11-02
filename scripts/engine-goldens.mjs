@@ -202,7 +202,7 @@ const fx = {
 // text's place. The port builds the same frame as data and is held to it layer by layer, which no
 // pixel diff can do through a large fill. Without a DOM, `tw` measures text as length × size × 0.55
 // (research §1.2); the test gives the port the same width.
-const FRAME_GROUPS = ['Button', 'IconButton', 'Badge', 'Fab', 'Checkbox', 'Radio', 'Switch', 'TextField', 'Chip', 'Card', 'Divider', 'ListItem', 'Snackbar'];
+const FRAME_GROUPS = ['Button', 'IconButton', 'Badge', 'Fab', 'Checkbox', 'Radio', 'Switch', 'TextField', 'Chip', 'Card', 'Divider', 'ListItem', 'Snackbar', 'Dialog'];
 // The press section's `document` stub would make `iconOutline` reach for a DOM it does not have; the
 // frames are taken without it, as every other golden here is.
 const documentStub = globalThis.document;
@@ -213,8 +213,9 @@ const frames = Object.fromEntries([...FRAME_GROUPS, ...Object.keys(FRAME_PROBES)
   return [c.name, {
     theme: c.theme,
     opts: c.opts,
-    L: sc.L.map(l => ({ d: l.d, fill: l.fill, stroke: l.stroke, sw: r6(l.sw), tf: l.tf, op: r6(l.op), dash: l.dash, doff: Number(l.doff) })),
-    X: sc.X.map(x => ({ s: String(x.s), x: r6(x.x), y: r6(x.y), fill: x.fill, op: r6(x.op), anchor: x.anchor, fw: x.fw, fs: x.fs })),
+    // The fill rule and the display face are written only where they differ from the default (B-24).
+    L: sc.L.map(l => ({ d: l.d, fill: l.fill, stroke: l.stroke, sw: r6(l.sw), tf: l.tf, op: r6(l.op), dash: l.dash, doff: Number(l.doff), ...(l.fr === 'evenodd' ? { fr: l.fr } : {}) })),
+    X: sc.X.map(x => ({ s: String(x.s), x: r6(x.x), y: r6(x.y), fill: x.fill, op: r6(x.op), anchor: x.anchor, fw: x.fw, fs: x.fs, ...(x.ff === E.THEMES[c.theme].display ? { face: 'display' } : {}) })),
   }];
 }))]));
 globalThis.document = documentStub;

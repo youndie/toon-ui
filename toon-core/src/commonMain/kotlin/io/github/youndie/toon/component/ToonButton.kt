@@ -20,6 +20,7 @@ import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
@@ -303,6 +304,10 @@ internal data class ToonButtonLook(
     val lt: Float? = null,
     /** The spinner's clock in ms. */
     val spin: Float = 0f,
+    /** The engine's `fill`: a body colour in place of the variant's, drawn without a rim (B-24). */
+    val fill: Color? = null,
+    /** The engine's `lc`: a label colour in place of the variant's. */
+    val labelColor: Color? = null,
 )
 
 /** The label's style: the Core page's Title step in the theme's body face. */
@@ -367,16 +372,14 @@ internal fun toonButtonScene(
                 fill =
                     if (dis) {
                         c.disabled
-                    } else if (filled) {
-                        c.primary
                     } else {
-                        c.surface
+                        o.fill ?: if (filled) c.primary else c.surface
                     },
                 colors = c,
                 shadow = if (dis) 0f else (if (filled) s.shadow else s.shadow * .6f) * (1 - c01(p)),
                 inkAlpha = if (dis) .35f else 1f,
                 rim =
-                    if (c.rim == null || dis) {
+                    if (c.rim == null || dis || o.fill != null) {
                         null
                     } else if (filled) {
                         c.primaryHighlight
@@ -396,10 +399,8 @@ internal fun toonButtonScene(
     val lc =
         if (dis) {
             c.textMuted
-        } else if (filled) {
-            c.onPrimary
         } else {
-            c.text
+            o.labelColor ?: if (filled) c.onPrimary else c.text
         }
     val lh = h * (if (pl > 0) 1 - .15f * pl else 1 - .26f * pl)
     val ly = h / 2 + fs * .35f + (h - lh) / 2 + 2 * c01(pl)

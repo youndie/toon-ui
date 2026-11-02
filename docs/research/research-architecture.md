@@ -236,6 +236,9 @@ all of them — `scripts/component-cells.mjs` adds probe frames the engine draws
 between, recorded for the frame tests and never rendered.
 *Extended in B-23:* a group whose ink sits under the Divider's floor though it carries text (the
 snackbar, 4.27 % at worst against 14.81 %) is held to that floor, not to the text floor.
+*Extended in B-24:* a frame carries the iris — a rectangle with a round hole, filled even-odd, held
+to the engine's `d` arc by arc — and texts in the theme's display face; the goldens write the fill
+rule and the face only where they differ from the default, so no earlier frame changed.
 *Extended in B-15:* a frame carries icons as ready paths, held to the engine's own `d` for them —
 without a DOM the engine strokes the centerline at the weight's base width, which is what the frame
 golden holds, and the outline itself is B-11's — several texts with their own weights, and the
@@ -274,6 +277,10 @@ The engine works in CSS px at 390-wide phone frames. One px is one dp. Text is i
 scales with the system font, and text never scales with its shape (the brief's rule and the
 sketch's pattern).
 
+*Not yet applied (found in B-24):* no component scales its canvas by the density; each draws the
+engine's numbers in pixels, which is right only at density 1, where every test and reference runs.
+B-47 puts the scale in one place.
+
 ### D6. The `compose/` sketch is read for its pattern, not copied
 
 The pattern is adopted: one frame clock per animating component that stops when done, closed-form
@@ -304,6 +311,8 @@ cross-fades too (§1.6), so it is no longer one.
 *Applied to the list item in B-22:* `instant`.
 
 *Applied to the snackbar in B-23:* show and hide `fade 120`; the faded sign hangs at rest.
+
+*Applied to the dialog in B-24:* open and close `fade 120`; the layer fades at rest, without the pop or the stars.
 
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 

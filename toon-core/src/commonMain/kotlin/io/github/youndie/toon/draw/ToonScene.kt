@@ -4,10 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -39,8 +41,12 @@ import kotlin.math.sin
 // lets a test hold a component to the engine number by number — every coordinate, colour, opacity
 // and offset of every layer — where a pixel diff loses a 0.4 dp shadow in a large fill.
 
-/** How a layer's [ToonLayer.numbers] join: `M` then quadratic `Q` pairs, or `M` then `L` points. */
-internal enum class ToonSegments { Quad, Line }
+/**
+ * How a layer's [ToonLayer.numbers] join: `M` then quadratic `Q` pairs, or `M` then `L` points. An
+ * [Iris] is the engine's `iris`, a rectangle with a round hole filled even-odd, kept as its `d` writes
+ * it: `M0 0`, `H` w, `V` h, `H0`, then `M` the circle's right point and two arcs `A r r 0 1 0 x y`.
+ */
+internal enum class ToonSegments { Quad, Line, Iris }
 
 /** A 2D affine transform as SVG writes it, `[a c e; b d f]`: what `place` and `scaleAbout` prefix. */
 internal class ToonAffine(
@@ -132,6 +138,7 @@ internal class ToonLayer(
     val outerTurn: Float = 0f,
 ) {
     val path: Path by lazy {
+        if (segments == ToonSegments.Iris) return@lazy irisPath(numbers)
         shape ?: Path().apply {
             moveTo(numbers[0], numbers[1])
             val step = if (segments == ToonSegments.Quad) 4 else 2
@@ -195,10 +202,12 @@ internal class ToonLayer(
         )
 }
 
-/** The weight and size of a frame's text, in the theme's body face. */
+/** The weight and size of a frame's text, in the theme's body face or its display face. */
 internal class ToonTextStyle(
     val weight: Int,
     val size: Float,
+    /** The theme's display face (`T.display`) instead of its body face. */
+    val display: Boolean = false,
 )
 
 /** Where a text sits on its x, as the engine's `X` anchors: from its start, centred, or to its end. */
@@ -362,11 +371,12 @@ internal fun ringLayer(
 
 private val RING_DASH = floatArrayOf(7f, 5f)
 
-/** Lays out a frame's texts in the theme's body face; [measurer] caches the layouts. */
+/** Lays out a frame's texts in the theme's body or display face; [measurer] caches the layouts. */
 @Stable
 internal class ToonTextRenderer(
     private val measurer: TextMeasurer,
     private val body: FontFamily,
+    private val display: FontFamily = body,
 ) {
     fun measure(
         text: String,
@@ -374,7 +384,11 @@ internal class ToonTextRenderer(
     ): TextLayoutResult =
         measurer.measure(
             text,
-            TextStyle(fontFamily = body, fontWeight = FontWeight(style.weight), fontSize = style.size.sp),
+            TextStyle(
+                fontFamily = if (style.display) display else body,
+                fontWeight = FontWeight(style.weight),
+                fontSize = style.size.sp,
+            ),
         )
 }
 
@@ -382,8 +396,8 @@ internal class ToonTextRenderer(
 @Composable
 internal fun rememberToonText(): ToonTextRenderer {
     val measurer = rememberTextMeasurer()
-    val body = Toon.fonts.body
-    return remember(measurer, body) { ToonTextRenderer(measurer, body) }
+    val fonts = Toon.fonts
+    return remember(measurer, fonts) { ToonTextRenderer(measurer, fonts.body, fonts.display) }
 }
 
 /**
@@ -439,3 +453,55 @@ internal fun DrawScope.drawScene(
         drawText(layout, x.color, Offset(left, x.baseline - layout.firstBaseline), alpha = x.alpha)
     }
 }
+
+/** The engine's `iris` with the window [w] × [h] and a hole of radius [r] about ([cx], [cy]), as its `d`. */
+internal fun irisLayer(
+    w: Float,
+    h: Float,
+    cx: Float,
+    cy: Float,
+    r: Float,
+    color: Color,
+    alpha: Float,
+): ToonLayer =
+    ToonLayer(
+        floatArrayOf(
+            0f,
+            0f,
+            w,
+            0f,
+            w,
+            h,
+            0f,
+            h,
+            cx + r,
+            cy,
+            r,
+            r,
+            0f,
+            1f,
+            0f,
+            cx - r,
+            cy,
+            r,
+            r,
+            0f,
+            1f,
+            0f,
+            cx + r,
+            cy,
+        ),
+        ToonSegments.Iris,
+        true,
+        color,
+        alpha,
+    )
+
+private fun irisPath(n: FloatArray): Path =
+    Path().apply {
+        fillType = PathFillType.EvenOdd
+        addRect(Rect(0f, 0f, n[4], n[5]))
+        val r = n[10]
+        val cx = n[8] - r
+        if (r > 0f) addOval(Rect(cx - r, n[9] - r, cx + r, n[9] + r))
+    }

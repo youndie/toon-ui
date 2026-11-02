@@ -64,13 +64,13 @@ internal object EngineFrames {
     /**
      * A path's coordinates as absolute numbers in the order the port keeps them: the start, then each
      * segment's control point (for `Q`) and end. The engine writes `M`, `L`, `Q` and `Z` absolute, and
-     * the text field's caret in relative `h` and `v`, which this resolves.
+     * the text field's caret in relative `h` and `v`, which this resolves, and the iris's arcs in `A`.
      */
     private fun numbers(d: String): List<Float> {
         val out = mutableListOf<Float>()
         var x = 0f
         var y = 0f
-        Regex("([MLQHVhvlZz])([^MLQHVhvlZz]*)").findAll(d).forEach { m ->
+        Regex("([MLQAHVhvlZz])([^MLQAHVhvlZz]*)").findAll(d).forEach { m ->
             val v = Regex("-?\\d+(?:\\.\\d+)?").findAll(m.groupValues[2]).map { it.value.toFloat() }.toList()
             when (m.groupValues[1]) {
                 "M", "L" -> {
@@ -86,6 +86,15 @@ internal object EngineFrames {
                         out += q
                         x = q[2]
                         y = q[3]
+                    }
+                }
+
+                "A" -> {
+                    // An arc as written: its radii, rotation and two flags, then its end (the iris).
+                    v.chunked(7).forEach { a ->
+                        out += a
+                        x = a[5]
+                        y = a[6]
                     }
                 }
 
@@ -250,6 +259,11 @@ internal object EngineFrames {
                     .uppercase()
             assertEquals(colour, hex(mine.color), "$name layer $i: colour")
             assertEquals(stroked, mine.stroke > 0, "$name layer $i: stroked")
+            assertEquals(
+                l["fr"]?.jsonPrimitive?.content == "evenodd",
+                mine.segments == ToonSegments.Iris,
+                "$name layer $i: even-odd fill",
+            )
             if (stroked) assertEquals(l.f("sw")!!, mine.stroke, 1e-6f, "$name layer $i: stroke width")
             val dash = l["dash"]?.jsonPrimitive?.content?.takeIf { it != "none" }
             assertEquals(
@@ -295,6 +309,11 @@ internal object EngineFrames {
             assertEquals(x.f("op")!!, mine.alpha, 1e-5f, "$name text $i: opacity")
             assertEquals(x.f("fw")!!.toInt(), mine.style.weight, "$name text $i: weight")
             assertEquals(x.f("fs")!!, mine.style.size, 1e-6f, "$name text $i: size")
+            assertEquals(
+                x["face"]?.jsonPrimitive?.content == "display",
+                mine.style.display,
+                "$name text $i: display face",
+            )
             assertEquals(
                 x.getValue("anchor").jsonPrimitive.content,
                 mine.anchor.name.lowercase(),
