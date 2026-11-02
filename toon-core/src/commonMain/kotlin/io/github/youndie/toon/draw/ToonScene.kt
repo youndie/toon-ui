@@ -30,6 +30,8 @@ import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonColors
+import io.github.youndie.toon.type.ToonFontFamilies
+import io.github.youndie.toon.type.withBacking
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
@@ -390,21 +392,28 @@ internal fun ringLayer(
 
 private val RING_DASH = floatArrayOf(7f, 5f)
 
-/** Lays out a frame's texts in the theme's body or display face; [measurer] caches the layouts. */
+/**
+ * Lays out a frame's texts in the theme's body or display face, Cyrillic in the face that backs it
+ * (B-35); [measurer] caches the layouts.
+ */
 @Stable
 internal class ToonTextRenderer(
     private val measurer: TextMeasurer,
-    private val body: FontFamily,
-    private val display: FontFamily = body,
+    private val fonts: ToonFontFamilies,
 ) {
     fun measure(
         text: String,
         style: ToonTextStyle,
     ): TextLayoutResult =
         measurer.measure(
-            text,
+            withBacking(
+                text,
+                if (style.display) fonts.displayCyrillic else fonts.bodyCyrillic,
+                style.size,
+                style.weight,
+            ),
             TextStyle(
-                fontFamily = if (style.display) display else body,
+                fontFamily = if (style.display) fonts.display else fonts.body,
                 fontWeight = FontWeight(style.weight),
                 fontSize = style.size.sp,
             ),
@@ -416,7 +425,7 @@ internal class ToonTextRenderer(
 internal fun rememberToonText(): ToonTextRenderer {
     val measurer = rememberTextMeasurer()
     val fonts = Toon.fonts
-    return remember(measurer, fonts) { ToonTextRenderer(measurer, fonts.body, fonts.display) }
+    return remember(measurer, fonts) { ToonTextRenderer(measurer, fonts) }
 }
 
 /**
