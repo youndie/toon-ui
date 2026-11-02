@@ -42,7 +42,7 @@ const MAP = {
   ListItem: { composable: 'ToonListItem', engine: ['listItem'], item: 'B-22', group: 'ListItem' },
   Menu: { composable: 'ToonMenu', engine: ['menu', 'menuUnroll'], item: 'B-37', group: 'Menu' },
   NavBar: { composable: 'ToonNavigationBar', engine: ['navBar'], item: 'B-27', group: 'NavigationBar' },
-  NavDrawer: { engine: ['drawer'], item: 'B-39' },
+  NavDrawer: { composable: 'ToonNavigationDrawer', engine: ['drawer', 'drawerOpen', 'drawerClose'], item: 'B-39', group: 'NavigationDrawer' },
   Progress: { composable: 'ToonProgress', engine: ['linear', 'circular'], item: 'B-25', group: 'Progress' },
   PullToRefresh: { engine: ['pull'], item: 'B-42' },
   RadioGroup: { composable: 'ToonRadioGroup', engine: ['radio'], item: 'B-17', group: 'Radio' },

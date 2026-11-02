@@ -91,6 +91,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSlider.kt` | `ToonSlider` (B-36): `toonSliderScene` is the engine's `slider` and `rope`, `toonSliderGrab` its `sliderGrab` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonMenu.kt` | `ToonMenu` (B-37): `toonMenuScene` is the engine's `menu`, `toonMenuUnroll` its `menuUnroll`, `ToonMenuClock` the kit's 600 and 400 ms |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonBottomSheet.kt` | `ToonBottomSheet` (B-38): `toonSheetScene` is the engine's `sheet`, `toonSheetMove` its `sheetMove`, `toonSheetLayerScene` the kit's `C.sheet` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonNavigationDrawer.kt` | `ToonNavigationDrawer` (B-39): `toonDrawerScene` is the engine's `drawer`, `toonDrawerOpen` and `toonDrawerClose` its curves; the door's skew is `ToonScene.skewedAbout` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the four faces and their Cyrillic backing faces (B-35): `withBacking` puts each run of Cyrillic in the backing face |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
@@ -241,6 +242,9 @@ None at runtime.
 - The bottom sheet fills its parent and its sheet runs 6 dp past either side and 40 below, as the
   engine draws it; it has no drag, since the kit has none (B-38). A release above its tongue closes
   it; between the tongue and the first row it does nothing.
+- The navigation drawer's door is squeezed and sheared as the engine's SVG transform does it, its
+  ink with it, the one place a stroke is transformed rather than rebuilt; the engine draws it that
+  way (B-39). The focused row's ring is the library's: the engine has none for the drawer.
 - Two screen references, `Screens_List_BrightCel` and `Screens_Settings_BrightCel`, come out of a
   fresh render a little different now and then: 13 pixels of the navigation bar by up to 2 levels,
   under the 16 every parity reads with. `scripts/design-references.mjs --check` compares bytes and
