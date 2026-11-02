@@ -208,10 +208,14 @@ private fun Settings(
     var calm by remember { mutableStateOf(false) }
     At(0, 28) { ToonTopAppBar("Settings", actions = emptyList()) }
     Column(Modifier.offset(24.dp, 120.dp)) {
-        ToonListItem("Reminders", icon = ToonIcons.Bell, sub = "At noon on Saturday", trailing = ToonListTrailing.Switch, on = reminders, onCheckedChange = {
-            reminders =
-                it
-        })
+        ToonListItem(
+            "Reminders",
+            icon = ToonIcons.Bell,
+            sub = "At noon on Saturday",
+            trailing = ToonListTrailing.Switch,
+            on = reminders,
+            onCheckedChange = { reminders = it },
+        )
         ToonListItem("Weekend starts", icon = ToonIcons.Calendar, sub = "Saturday", index = 1)
         ToonListItem(
             "Share plans",
@@ -221,10 +225,15 @@ private fun Settings(
             on = true,
             index = 2,
         )
-        ToonListItem("Calm motion", icon = ToonIcons.Info, sub = "Fewer bounces, no effects", trailing = ToonListTrailing.Switch, on = calm, last = true, onCheckedChange = {
-            calm =
-                it
-        })
+        ToonListItem(
+            "Calm motion",
+            icon = ToonIcons.Info,
+            sub = "Fewer bounces, no effects",
+            trailing = ToonListTrailing.Switch,
+            on = calm,
+            last = true,
+            onCheckedChange = { calm = it },
+        )
     }
     At(24, 430) { ToonDivider(width = 342.dp) }
     At(28, 462) {
