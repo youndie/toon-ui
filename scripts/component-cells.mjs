@@ -452,6 +452,25 @@ export const SHEET_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     SHEET_SCENE(`E.sheetMove(${t}, true, 260)`), call('SheetFrames.open', 'tokens', `${t}f`))),
 ]);
 
+// ---- Tooltip (B-40): `toon-ui v1 Components.dc.html` ----
+const TIP_PAGE = [
+  "out.tip = { cells: [['Default', { text: 'Tap to add a plan' }], ['Long', { text: 'Long-press a card to move it' }], ['Inflating', { text: 'Tap to add a plan', s: .6 }]].map(([n, o]) => { const tp = E.tooltip(T, o); return C('Tooltip / ' + n, E.place(tp, tp.w / 2, 46), tp.w, 46, [6, 8, 6, 8]); }),",
+  "frames: [0, 60, 120, 200, 320].map(t => { const s = E.tipInflate(t, true), tp = E.tooltip(T, { s }); return Fr(`${t} ms`, `scale ${n2(s)}`, E.place(tp, 100, 52), 200, 56, [4, 4, 4, 4]); }) }] };",
+];
+const TIP_STATES = [['Default', { text: 'Tap to add a plan' }], ['Long', { text: 'Long-press a card to move it' }], ['Inflating', { text: 'Tap to add a plan', s: .6 }]];
+const tipWidth = text => `text.measure(${JSON.stringify(text)}, TIP_TEXT).multiParagraph.width`;
+// A cell is the engine's balloon width as Node measures the text (length × 14 × 0.55), wider than
+// Chrome's and Compose's own; the page places the tip at half the measured width, so in Chrome and in
+// Compose the balloon sits left of the cell's middle. A strip frame is `tipInflate` at its age.
+export const TIP_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...TIP_STATES.map(([n, o]) => sceneCell('Tooltip', theme, themeName, n, Math.ceil(E.tooltip(E.THEMES[theme], o).w), 46, [6, 8, 6, 8], { kind: 'state', ...o },
+    `(() => { const tp = E.tooltip(T, ${js(o)}); return E.place(tp, tp.w / 2, 46); })()`,
+    call('TipFrames.cell', 'tokens', JSON.stringify(o.text), kf(o.s ?? 1), tipWidth(o.text)))),
+  ...[0, 60, 120, 200, 320].map(t => sceneCell('Tooltip', theme, themeName, `Inflate_${t}ms`, 200, 56, [4, 4, 4, 4], { kind: 'inflate', t },
+    `(() => { const s = E.tipInflate(${t}, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()`,
+    call('TipFrames.inflate', 'tokens', `${t}f`, tipWidth('Tap to add a plan')))),
+]);
+
 // ---- NavigationDrawer (B-39): `toon-ui v1 Components.dc.html` ----
 const DRAWER_PAGE = [
   "out.drawer = { cells: [['Open', {}], ['Item pressed', { pressed: 2 }], ['Half open', { sx: .5, scrim: .5, textOp: 0 }]].map(([n, a]) => C('NavigationDrawer / ' + n, this.drawerScene(T, { sx: 1, scrim: 1, textOp: 1, ...a }), 360, 520, [0, 0, 0, 0], .5)),",
@@ -691,6 +710,7 @@ export const missingPageText = [
   ...MENU_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...SHEET_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...DRAWER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
+  ...TIP_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -710,4 +730,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS, Tooltip: TIP_CELLS };
