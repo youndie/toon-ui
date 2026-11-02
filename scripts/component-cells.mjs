@@ -420,6 +420,16 @@ export const LIST_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
   }),
 ]);
 
+// Frames the engine draws at moments no spec cell shows, recorded for the frame tests only (no
+// reference, no fixture): a pressed row passes through these sags in its first 30 ms, where the press
+// tint's opacity, c01(sag × 1.4), is neither 0 nor 1 — every page frame clamps it.
+export const FRAME_PROBES = {
+  ListItemProbe: Object.entries(THEMES).flatMap(([theme, themeName]) => [.2, .4, .6].map(sag => {
+    const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
+    return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
+  })),
+};
+
 export const missingPageText = [
   ...LIST_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...CARD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),

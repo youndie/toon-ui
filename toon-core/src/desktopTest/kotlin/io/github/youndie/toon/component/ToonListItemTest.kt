@@ -40,7 +40,8 @@ class ToonListItemTest {
                 "switch" to ToonListTrailing.Switch,
                 "check" to ToonListTrailing.Check,
             )
-        val cells = EngineFrames.cells("ListItem")
+        // The page's cells, and the probes at sags no page frame shows (scripts/component-cells.mjs).
+        val cells = EngineFrames.cells("ListItem") + EngineFrames.cells("ListItemProbe")
         val worst =
             cells.maxOf { cell ->
                 val o = cell.opts
