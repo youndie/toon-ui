@@ -1,7 +1,7 @@
 ---
 id: B-39
 title: "NavigationDrawer: a door on three hinges that swings and shivers"
-status: open
+status: wip
 priority: P2
 size: M
 stage: stage-2-components

@@ -59,7 +59,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
-| [B-39](docs/backlog/B-39-navigation-drawer.md) `[ ]` | NavigationDrawer: a door on three hinges that swings and shivers | P2 | M | B-10 |
+| [B-39](docs/backlog/B-39-navigation-drawer.md) `[~]` | NavigationDrawer: a door on three hinges that swings and shivers | P2 | M | B-10 |
 | [B-40](docs/backlog/B-40-tooltip.md) `[ ]` | Tooltip: a speech balloon that inflates from its tail | P2 | S | B-09 |
 | [B-41](docs/backlog/B-41-segmented.md) `[ ]` | Segmented button: a shared outline and a paint-drop selection | P2 | S | B-10 |
 | [B-42](docs/backlog/B-42-pull-to-refresh.md) `[ ]` | Pull-to-refresh: a rubber band that flings the spinner into place | P2 | M | B-25 |
