@@ -14549,6 +14549,552 @@
         16
       ],
       "scene": "(() => { const a = E.snkHide(240); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 240 > 70 ? (240 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Dialog_Destructive_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {})"
+    },
+    {
+      "file": "Dialog_ConfirmFocused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"focus\":\"confirm\"})"
+    },
+    {
+      "file": "Dialog_CancelFocused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"focus\":\"cancel\"})"
+    },
+    {
+      "file": "Dialog_Basic_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"title\":\"Leave the plan?\",\"body\":[\"Changes you made will be\",\"kept as a draft.\"],\"confirm\":\"Leave\",\"destructive\":false})"
+    },
+    {
+      "file": "Dialog_Open_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(0))"
+    },
+    {
+      "file": "Dialog_Open_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(60))"
+    },
+    {
+      "file": "Dialog_Open_120ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(120))"
+    },
+    {
+      "file": "Dialog_Open_200ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(200))"
+    },
+    {
+      "file": "Dialog_Open_400ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(400))"
+    },
+    {
+      "file": "Dialog_Close_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(0))"
+    },
+    {
+      "file": "Dialog_Close_80ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(80))"
+    },
+    {
+      "file": "Dialog_Close_140ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(140))"
+    },
+    {
+      "file": "Dialog_Close_180ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(180))"
+    },
+    {
+      "file": "Dialog_Close_300ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(300))"
+    },
+    {
+      "file": "Dialog_Destructive_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {})"
+    },
+    {
+      "file": "Dialog_ConfirmFocused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"focus\":\"confirm\"})"
+    },
+    {
+      "file": "Dialog_CancelFocused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"focus\":\"cancel\"})"
+    },
+    {
+      "file": "Dialog_Basic_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"title\":\"Leave the plan?\",\"body\":[\"Changes you made will be\",\"kept as a draft.\"],\"confirm\":\"Leave\",\"destructive\":false})"
+    },
+    {
+      "file": "Dialog_Open_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(0))"
+    },
+    {
+      "file": "Dialog_Open_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(60))"
+    },
+    {
+      "file": "Dialog_Open_120ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(120))"
+    },
+    {
+      "file": "Dialog_Open_200ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(200))"
+    },
+    {
+      "file": "Dialog_Open_400ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(400))"
+    },
+    {
+      "file": "Dialog_Close_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(0))"
+    },
+    {
+      "file": "Dialog_Close_80ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(80))"
+    },
+    {
+      "file": "Dialog_Close_140ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(140))"
+    },
+    {
+      "file": "Dialog_Close_180ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(180))"
+    },
+    {
+      "file": "Dialog_Close_300ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(300))"
+    },
+    {
+      "file": "Dialog_Destructive_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {})"
+    },
+    {
+      "file": "Dialog_ConfirmFocused_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"focus\":\"confirm\"})"
+    },
+    {
+      "file": "Dialog_CancelFocused_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"focus\":\"cancel\"})"
+    },
+    {
+      "file": "Dialog_Basic_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, {\"title\":\"Leave the plan?\",\"body\":[\"Changes you made will be\",\"kept as a draft.\"],\"confirm\":\"Leave\",\"destructive\":false})"
+    },
+    {
+      "file": "Dialog_Open_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(0))"
+    },
+    {
+      "file": "Dialog_Open_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(60))"
+    },
+    {
+      "file": "Dialog_Open_120ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(120))"
+    },
+    {
+      "file": "Dialog_Open_200ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(200))"
+    },
+    {
+      "file": "Dialog_Open_400ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogOpen(400))"
+    },
+    {
+      "file": "Dialog_Close_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(0))"
+    },
+    {
+      "file": "Dialog_Close_80ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(80))"
+    },
+    {
+      "file": "Dialog_Close_140ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(140))"
+    },
+    {
+      "file": "Dialog_Close_180ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(180))"
+    },
+    {
+      "file": "Dialog_Close_300ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 460,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.dialogScene(T, E.dialogClose(300))"
     }
   ]
 }
