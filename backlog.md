@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-03](docs/backlog/B-03-engine-golden-harness.md) `[ ]` | Engine harness: run toon-engine.js in Node and emit golden JSON | P0 | M | B-01 |
+| [B-03](docs/backlog/B-03-engine-golden-harness.md) `[~]` | Engine harness: run toon-engine.js in Node and emit golden JSON | P0 | M | B-01 |
 | [B-04](docs/backlog/B-04-geometry-port-and-numeric-parity.md) `[ ]` | Geometry port: Mulberry32, rr, wob, shape, squash, inkLine, with numeric parity | P0 | M | B-03 |
 | [B-05](docs/backlog/B-05-frame-cost-measurement.md) `[ ]` | Measure the frame cost of per-frame geometry before components depend on it | P0 | M | B-04 |
 | [B-06](docs/backlog/B-06-pixel-references-and-floor.md) `[ ]` | Pixel references: render every state in headless Chrome, measure parity's floor | P0 | L | B-01, B-02 |

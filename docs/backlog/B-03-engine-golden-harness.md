@@ -1,7 +1,7 @@
 ---
 id: B-03
 title: "Engine harness: run toon-engine.js in Node and emit golden JSON"
-status: open
+status: wip
 priority: P0
 size: M
 stage: stage-0-risks
