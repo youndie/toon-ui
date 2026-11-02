@@ -1,7 +1,7 @@
 ---
 id: B-05
 title: "Measure the frame cost of per-frame geometry before components depend on it"
-status: open
+status: wip
 priority: P0
 size: M
 stage: stage-0-risks
