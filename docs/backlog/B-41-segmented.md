@@ -1,7 +1,7 @@
 ---
 id: B-41
 title: "Segmented button: a shared outline and a paint-drop selection"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-2-components
