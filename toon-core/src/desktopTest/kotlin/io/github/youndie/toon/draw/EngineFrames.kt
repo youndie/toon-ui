@@ -61,11 +61,73 @@ internal object EngineFrames {
 
     private fun hex(c: Color) = "#%06X".format(c.toArgb() and 0xFFFFFF)
 
-    private fun numbers(d: String) =
-        Regex("-?\\d+(?:\\.\\d+)?")
-            .findAll(d)
-            .map { it.value.toFloat() }
-            .toList()
+    /**
+     * A path's coordinates as absolute numbers in the order the port keeps them: the start, then each
+     * segment's control point (for `Q`) and end. The engine writes `M`, `L`, `Q` and `Z` absolute, and
+     * the text field's caret in relative `h` and `v`, which this resolves.
+     */
+    private fun numbers(d: String): List<Float> {
+        val out = mutableListOf<Float>()
+        var x = 0f
+        var y = 0f
+        Regex("([MLQHVhvlZz])([^MLQHVhvlZz]*)").findAll(d).forEach { m ->
+            val v = Regex("-?\\d+(?:\\.\\d+)?").findAll(m.groupValues[2]).map { it.value.toFloat() }.toList()
+            when (m.groupValues[1]) {
+                "M", "L" -> {
+                    v.chunked(2).forEach { (a, b) ->
+                        x = a
+                        y = b
+                        out += listOf(a, b)
+                    }
+                }
+
+                "Q" -> {
+                    v.chunked(4).forEach { q ->
+                        out += q
+                        x = q[2]
+                        y = q[3]
+                    }
+                }
+
+                "H" -> {
+                    v.forEach {
+                        x = it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "V" -> {
+                    v.forEach {
+                        y = it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "h" -> {
+                    v.forEach {
+                        x += it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "v" -> {
+                    v.forEach {
+                        y += it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "l" -> {
+                    v.chunked(2).forEach { (a, b) ->
+                        x += a
+                        y += b
+                        out += listOf(x, y)
+                    }
+                }
+            }
+        }
+        return out
+    }
 
     /** An affine transform as SVG writes it, `[a c e; b d f]`. */
     private class Affine(

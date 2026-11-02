@@ -22,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -57,10 +56,8 @@ import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
-import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.round
 
 // A port of the engine's `field`, `fldFocus` and `shake` and the kit's `C.textfield` (B-19): a drawn
 // frame over a real `BasicTextField` whose own caret is hidden. The frame thickens and hops on focus,
@@ -309,12 +306,6 @@ private val FIELD_RADII = ToonRadii(14f, 10f, 16f, 11f)
 /** The engine's caret `x` for a value: it guesses 8.6 dp a character, 2 after a 20 dp inset. */
 internal fun engineCaretX(value: String): Float = 20 + value.length * 8.6f + 2
 
-/** The engine's number formatting, `f`: one decimal, none when whole. */
-private fun f(v: Float): String {
-    val r = round(v * 10) / 10
-    return if (r == floor(r)) r.toInt().toString() else r.toString()
-}
-
 /** The engine's `field`: one frame [w] dp wide and 56 tall, from its top left. */
 @OptIn(InternalToonApi::class)
 internal fun toonFieldScene(
@@ -370,22 +361,13 @@ internal fun toonFieldScene(
     }
     if (o.caretX != null) {
         val cx = o.caretX
-        val caret =
-            Path().apply {
-                moveTo(cx, 18f)
-                relativeLineTo(3.2f, 0f)
-                relativeLineTo(0f, 22f)
-                relativeLineTo(-3.2f, 0f)
-                close()
-            }
+        // The engine's `M x 18 h3.2 v22 h-3.2 Z`.
         layers +=
             ToonLayer(
-                FloatArray(0),
+                floatArrayOf(cx, 18f, cx + 3.2f, 18f, cx + 3.2f, 40f, cx, 40f),
                 ToonSegments.Line,
                 true,
                 c.primary,
-                shape = caret,
-                source = "M${f(cx)} 18 h3.2 v22 h-3.2 Z",
             )
     }
     if (o.helper.isNotEmpty()) {
