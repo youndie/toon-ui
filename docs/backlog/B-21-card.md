@@ -1,7 +1,7 @@
 ---
 id: B-21
 title: "Card: tilt, drop-in with dust and cascade, press lean, swipe dismiss with a hole"
-status: open
+status: wip
 priority: P1
 size: L
 stage: stage-2-components
