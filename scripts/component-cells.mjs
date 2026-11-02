@@ -626,6 +626,11 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-37: the paper's first 20 dp, which no page frame lands in — the strips jump from none to most —
+  // where the body is drawn from 2 dp and only the rolls show below it.
+  MenuProbe: Object.entries(THEMES).flatMap(([theme, themeName]) => [.01, .05, .1].map(u =>
+    sceneCell('MenuProbe', theme, themeName, `U${u * 100}`, 200, 172, [0, 0, 0, 0], { kind: 'state', u },
+      `E.menu(T, Object.assign(${MENU_JS}, { u: ${u} }))`, ''))),
 };
 
 export const missingPageText = [

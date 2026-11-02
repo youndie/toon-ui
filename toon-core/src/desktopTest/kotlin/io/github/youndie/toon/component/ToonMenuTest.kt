@@ -43,7 +43,7 @@ import kotlin.test.assertTrue
 class ToonMenuTest {
     @Test
     fun `every menu cell and strip frame is the engine's`() {
-        val cells = EngineFrames.cells("Menu")
+        val cells = EngineFrames.cells("Menu") + EngineFrames.cells("MenuProbe")
         val worst =
             cells.maxOf { cell ->
                 val o = cell.opts
@@ -76,7 +76,7 @@ class ToonMenuTest {
                 EngineFrames.compare(cell, scene)
             }
         println("menu frames: ${cells.size} cells, worst coordinate $worst dp")
-        assertEquals(42, cells.size)
+        assertEquals(51, cells.size)
         assertTrue(worst <= EngineFrames.TOLERANCE, "worst coordinate $worst dp")
     }
 
