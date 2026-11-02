@@ -1,8 +1,19 @@
 package io.github.youndie.toon.fx
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.toPixelMap
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.theme.ToonTheme
 import kotlin.test.Test
@@ -71,6 +82,36 @@ class ToonFxHostTest {
     fun `under reduce motion the iris wipe is off`() =
         run(reduceMotion = true, ToonFxEvent.SceneChange(card)) { _, playingAt ->
             assertEquals(0, playingAt(16))
+        }
+
+    @Test
+    fun `an effect lands where its root coordinates say, wherever the host sits`() =
+        runComposeUiTest {
+            var emitter: ToonFxEmitter? = null
+            mainClock.autoAdvance = false
+            setContent {
+                ToonTheme {
+                    Box(Modifier.padding(start = 40.dp, top = 30.dp)) {
+                        ToonFxHost(Modifier.size(300.dp, 200.dp).testTag("host")) {
+                            emitter = Toon.fx
+                            Box(Modifier.fillMaxSize().background(Toon.colors.stage))
+                        }
+                    }
+                }
+            }
+            waitForIdle()
+            // Puffs at root (148, 180) and (212, 180): host (108, 150) and (172, 150).
+            runOnIdle { checkNotNull(emitter).emit(ToonFxEvent.Land("card", Rect(140f, 130f, 220f, 178f))) }
+            mainClock.advanceTimeBy(100)
+            val image = onNodeWithTag("host").captureToImage().toPixelMap()
+            val stage = image[0, 0]
+
+            fun inked(
+                x0: Int,
+                y0: Int,
+            ) = (x0 - 12..x0 + 12).any { x -> (y0 - 24..y0 + 4).any { y -> image[x, y] != stage } }
+            assertTrue(inked(108, 150), "no dust at the event's point")
+            assertTrue(!inked(148, 190), "dust drawn without the host's offset")
         }
 
     @Test

@@ -12,7 +12,8 @@ import kotlin.test.Test
 import kotlin.test.assertTrue
 
 /**
- * B-12: parity measured against the ink, not the cell. viddik's percentage is of the whole cell, and
+ * B-12: parity measured against the ink, not the cell, for every reference the Divider's floor does
+ * not come from. viddik's percentage is of the whole cell, and
  * an effect covers a small part of its 260 × 150 cell, so a wrong effect stays under the Divider's
  * 1.54 % floor: stars spinning one way measured 0.56 %, sweat drops without their stretch 0.50 %.
  * Here a cell's differing pixels are counted against the pixels either image inks (differs from
@@ -52,18 +53,18 @@ class InkParityTest {
         return if (ink == 0) 0.0 else diff.toDouble() / ink
     }
 
-    private fun cells(group: String) =
+    private fun cells(group: String?) =
         checkNotNull(File(snapshots, "design").list())
-            .filter { it.startsWith("${group}_") && it.endsWith(".png") }
+            .filter { it.endsWith(".png") && (group == null || it.startsWith("${group}_")) }
             .sorted()
 
     @Test
-    fun `every effect frame is within the divider's ink floor`() {
+    fun `every cell is within the divider's ink floor`() {
         val floor = cells("Divider").maxOf(::inkRatio)
-        val fx = cells("Fx").associateWith(::inkRatio)
-        val worst = fx.maxBy { it.value }
-        println("ink floor (Divider): ${pct(floor)}; worst FX: ${worst.key} ${pct(worst.value)}")
-        val over = fx.filterValues { it > floor }
+        val all = cells(null).filterNot { it.startsWith("Divider_") }.associateWith(::inkRatio)
+        val worst = all.maxBy { it.value }
+        println("ink floor (Divider): ${pct(floor)}; worst of ${all.size} cells: ${worst.key} ${pct(worst.value)}")
+        val over = all.filterValues { it > floor }
         assertTrue(over.isEmpty(), "over the ink floor ${pct(floor)}: ${over.mapValues { pct(it.value) }}")
     }
 

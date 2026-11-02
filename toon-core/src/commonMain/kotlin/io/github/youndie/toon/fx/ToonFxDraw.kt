@@ -86,7 +86,11 @@ private val DUST_DIRS =
         floatArrayOf(1f, -.3f, 1f),
     )
 
-/** The engine's `dust`: five puffs fanning out sideways and up from ([cx], [cy]) over spread [s]. */
+/**
+ * The engine's `dust`: puffs fanning out sideways and up from ([cx], [cy]) over spread [s], one per
+ * row of [dirs] (x, y, size), five by default. [k] scales the puffs and [gap] pushes each side's out,
+ * the options the navigation bar's landing passes (`o.k`, `o.gap`, `o.dirs`).
+ */
 @OptIn(InternalToonApi::class)
 internal fun DrawScope.drawToonDust(
     colors: ToonColors,
@@ -94,14 +98,17 @@ internal fun DrawScope.drawToonDust(
     cx: Float,
     cy: Float,
     s: Float = 40f,
+    k: Float = 1f,
+    gap: Float = 0f,
+    dirs: List<FloatArray> = DUST_DIRS,
 ) {
     if (u <= 0 || u >= 1) return
     val e = 1 - (1 - u).pow(2.2f)
     val fr = min(3, floor(u * 4).toInt())
-    DUST_DIRS.forEachIndexed { j, (dx, dy, k) ->
-        val r = (3 + 9 * sqrt(u)) * k * (s / 40 * .5f + .5f)
+    dirs.forEachIndexed { j, (dx, dy, size) ->
+        val r = (3 + 9 * sqrt(u)) * size * (s / 40 * .5f + .5f) * k
         val op = 1 - u.pow(1.6f)
-        val px = cx + dx * s * e
+        val px = cx + sign(dx) * gap + dx * s * e
         val py = cy + dy * s * .55f * e
         val g =
             shapePoints(

@@ -44,8 +44,11 @@ public enum class ToonFx(
 
 /**
  * A named event that fires an effect: the FX page's names (`card.land`, `field.error`, `dialog.pop` …),
- * which will carry sounds later as well. [bounds] is the element that fired it, in root coordinates
- * (`boundsInRoot()`); the effect is placed on it as the FX page places it on its demo block.
+ * which will carry sounds later as well. [bounds] is the element that fired it, and every point an
+ * event takes is in root coordinates too (`boundsInRoot()`, `positionInRoot()`). Where an event takes
+ * a point and a size, their defaults place the effect on [bounds] as the FX page places it on its
+ * 80 × 48 demo block; a component passes the engine's own numbers for it instead (the card's dust
+ * from (34, 86) at 36, the field's stars at (w − 30, −4) at 26, the badge's flash at 15).
  */
 public sealed class ToonFxEvent {
     /** The spec's name of the event, as a listener (sound, analytics) reads it. */
@@ -59,35 +62,44 @@ public sealed class ToonFxEvent {
 
     override fun toString(): String = "ToonFxEvent($name)"
 
-    /** `*.land`: an element landed. Dust. */
+    /** `*.land`: an element landed. Dust from each of [puffs] over [spread] dp. */
     public class Land(
         public val source: String,
         override val bounds: Rect,
+        public val puffs: List<Offset> =
+            listOf(Offset(bounds.left + 8, bounds.bottom + 2), Offset(bounds.right - 8, bounds.bottom + 2)),
+        public val spread: Float = 46f,
     ) : ToonFxEvent() {
         override val name: String get() = "$source.land"
         override val fx: ToonFx get() = ToonFx.Dust
     }
 
-    /** `*.hit`: an element was struck. Stars. */
+    /** `*.hit`: an element was struck. Stars. Stars on an arc of [spread] dp over [at]. */
     public class Hit(
         public val source: String,
         override val bounds: Rect,
+        public val at: Offset = Offset(bounds.center.x, bounds.top - 6),
+        public val spread: Float = 40f,
     ) : ToonFxEvent() {
         override val name: String get() = "$source.hit"
         override val fx: ToonFx get() = ToonFx.Stars
     }
 
-    /** `field.error`: a text field refused its input. Stars. */
+    /** `field.error`: a text field refused its input. Stars. Stars on an arc of [spread] dp over [at]. */
     public class FieldError(
         override val bounds: Rect,
+        public val at: Offset = Offset(bounds.center.x, bounds.top - 6),
+        public val spread: Float = 40f,
     ) : ToonFxEvent() {
         override val name: String get() = "field.error"
         override val fx: ToonFx get() = ToonFx.Stars
     }
 
-    /** `dialog.pop`: a dialog closed with a pop. Stars, unlike every other `*.pop`. */
+    /** `dialog.pop`: a dialog closed with a pop. Stars, unlike every other `*.pop`. Stars on an arc of [spread] dp over [at]. */
     public class DialogPop(
         override val bounds: Rect,
+        public val at: Offset = Offset(bounds.center.x, bounds.top - 6),
+        public val spread: Float = 40f,
     ) : ToonFxEvent() {
         override val name: String get() = "dialog.pop"
         override val fx: ToonFx get() = ToonFx.Stars
@@ -102,10 +114,12 @@ public sealed class ToonFxEvent {
         override val fx: ToonFx get() = ToonFx.Speed
     }
 
-    /** `*.pop`, `badge.pop` among them: an element appeared with a pop. Flash. */
+    /** `*.pop`, `badge.pop` among them: an element appeared with a pop. Flash. A burst of [size] dp behind [at]. */
     public class Pop(
         public val source: String,
         override val bounds: Rect,
+        public val at: Offset = Offset(bounds.center.x, bounds.center.y - 2),
+        public val size: Float = 46f,
     ) : ToonFxEvent() {
         init {
             require(source != "dialog") { "dialog.pop plays stars: use DialogPop" }
@@ -115,9 +129,11 @@ public sealed class ToonFxEvent {
         override val fx: ToonFx get() = ToonFx.Flash
     }
 
-    /** `success`: an action was confirmed. Flash. */
+    /** `success`: an action was confirmed. Flash. A burst of [size] dp behind [at]. */
     public class Success(
         override val bounds: Rect,
+        public val at: Offset = Offset(bounds.center.x, bounds.center.y - 2),
+        public val size: Float = 46f,
     ) : ToonFxEvent() {
         override val name: String get() = "success"
         override val fx: ToonFx get() = ToonFx.Flash
@@ -278,7 +294,7 @@ internal fun ToonFxHost(
                 val now = state.frameMs
                 for (p in state.playing) {
                     val t = if (p.startMs < 0) 0f else (now - p.startMs).toFloat()
-                    drawToonFx(colors, p, t, p.event.bounds.translate(-origin))
+                    drawToonFx(colors, p, t, origin)
                 }
             },
     ) {
@@ -287,16 +303,18 @@ internal fun ToonFxHost(
 }
 
 /**
- * One effect at [t] ms, placed on its element's bounds [b] in the host's coordinates as the FX page places it on its 80 × 48 block at
- * (90, 62): dust from both bottom corners, stars on an arc over the top, speed lines from the left
- * edge, the flash behind the centre, buzz arcs either side, the hole on the outline, sweat off the top.
+ * One effect at [t] ms, its root coordinates moved into the host's by the host's origin [o]. Effects
+ * without a point of their own sit on the element as the FX page sets them on its block: speed lines
+ * from the left edge, buzz arcs either side, the hole on the outline, sweat off the top, and the iris
+ * closing on the element's centre over the whole host.
  */
 private fun DrawScope.drawToonFx(
     colors: ToonColors,
     p: ToonFxPlaying,
     t: Float,
-    b: Rect,
+    o: Offset,
 ) {
+    val b = p.event.bounds.translate(-o)
     val u = t / p.event.fx.durationMs
     when (val e = p.event) {
         is ToonFxEvent.Land -> {
@@ -339,5 +357,20 @@ private fun DrawScope.drawToonFx(
         is ToonFxEvent.Worry -> {
             drawToonSweat(colors, u, b.left, b.top, b.width)
         }
+    }
+}
+
+/** The flash at [at], or under reduce motion its settled frame fading out over its 120 ms. */
+private fun DrawScope.drawFlash(
+    colors: ToonColors,
+    p: ToonFxPlaying,
+    t: Float,
+    at: Offset,
+    size: Float,
+) {
+    if (p.reduced) {
+        drawToonFlash(colors, FLASH_SETTLED_U, at.x, at.y, size, opacity = 1 - t / p.durationMs)
+    } else {
+        drawToonFlash(colors, t / p.event.fx.durationMs, at.x, at.y, size)
     }
 }
