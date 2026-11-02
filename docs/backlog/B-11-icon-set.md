@@ -1,7 +1,7 @@
 ---
 id: B-11
 title: "Icons: 25 centerlines, variable-width outline, Regular and Bold, ToonIcon"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-materials
