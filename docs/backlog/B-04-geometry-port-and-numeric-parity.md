@@ -1,7 +1,7 @@
 ---
 id: B-04
 title: "Geometry port: Mulberry32, rr, wob, shape, squash, inkLine, with numeric parity"
-status: open
+status: wip
 priority: P0
 size: M
 stage: stage-0-risks
