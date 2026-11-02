@@ -1,7 +1,7 @@
 ---
 id: B-23
 title: "Snackbar: flies up on its rope, swings, anticipates down"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
