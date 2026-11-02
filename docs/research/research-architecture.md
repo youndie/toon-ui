@@ -292,6 +292,9 @@ the current position and velocity), tested by feeding it a timeline.
 deviation from the kit while the kit made everything instant. The second snapshot's kit
 cross-fades too (§1.6), so it is no longer one.
 
+*Applied to the checkbox and radio in B-17:* a check is `fade 120`, the kit's cross-fade from the
+unchecked frame to the checked one; an uncheck and the radio's drop are `instant`.
+
 *Applied to the FX in B-12* (the FX page's `reduce motion:` line per effect): dust, stars, speed,
 shake, hole and sweat are `off`; shake's "colour change only" is the component's. The flash's
 `fade 120` holds its settled frame (the page's 90 ms frame, full size) and fades it out over 120 ms,
