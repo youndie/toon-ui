@@ -209,8 +209,8 @@ None at runtime.
   text renderer and the text field's visual transformation build; Compose has no per-glyph fallback
   between bundled families. A label in another script the design's faces lack (Greek, say) still
   falls to the platform's face.
-- viddik's default verification is not strict, and a label's size or weight can move in a large
-  goldens sheet unseen (`Cyrillic_Sheet_*`); the faces are held by `ToonCyrillicMetricsTest`.
+- The Cyrillic faces are held twice: by the `Cyrillic_Sheet_*` goldens, which fail when a backing's
+  scale or weight moves, and by `ToonCyrillicMetricsTest`, which says which (B-35, corrected in B-29).
 - The stage's tile is chosen by the theme's stage colour (B-13): a theme of the caller's own, with
   another stage colour, gets a flat stage. The paper tiles ship with the gouache ones, as the design
   keeps them, and nothing draws them yet; the four add 0.5 MB.
