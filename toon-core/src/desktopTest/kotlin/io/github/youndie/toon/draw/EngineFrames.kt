@@ -145,6 +145,11 @@ internal object EngineFrames {
             assertEquals(x.f("op")!!, mine.alpha, 1e-5f, "$name text $i: opacity")
             assertEquals(x.f("fw")!!.toInt(), mine.style.weight, "$name text $i: weight")
             assertEquals(x.f("fs")!!, mine.style.size, 1e-6f, "$name text $i: size")
+            assertEquals(
+                x.getValue("anchor").jsonPrimitive.content,
+                mine.anchor.name.lowercase(),
+                "$name text $i: anchor",
+            )
         }
         return worst
     }
