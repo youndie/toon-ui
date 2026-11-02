@@ -408,6 +408,30 @@ export const SNACK_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     snackMoment(false, t))),
 ]);
 
+// ---- TopAppBar (B-26): `toon-ui MVP Components.dc.html` ----
+const TOP_PAGE = [
+  "out.top = { cells: [['Small', {}, 0], ['Center', { variant: 'center', title: 'Plans' }, 0], ['Scrolled', { scrolled: true }, -1.2], ['Nav / Pressed', { pressed: 'nav' }, 0], ['Nav / Focused', { focus: 'nav' }, 0], ['Action / Pressed', { pressed: 0 }, 0], ['Action / Focused', { focus: 1 }, 0]].map(([n, o, rot]) => C('TopAppBar / ' + n, E.place(E.topBar(T, o), 0, 0, rot, 195, -40), 390, 76, [8, 8, 12, 8], .8)),",
+  "frames: [0, 90, 180, 280, 450, 700].map(t => { const r = E.sway(t, 28); return Fr(`${t} ms`, `rot ${r >= 0 ? '+' : ''}${n2(r)}°`, E.place(E.topBar(T, { scrolled: true }), 0, 0, r, 195, -40), 390, 76, [8, 8, 12, 8], .4); }) }] };",
+];
+const TOP_STATES = [['Small', {}, 0], ['Center', { variant: 'center', title: 'Plans' }, 0], ['Scrolled', { scrolled: true }, -1.2], ['Nav_Pressed', { pressed: 'nav' }, 0], ['Nav_Focused', { focus: 'nav' }, 0], ['Action_Pressed', { pressed: 0 }, 0], ['Action_Focused', { focus: 1 }, 0]];
+const topKey = k => k === 'nav' ? 'ToonTopBarKey.Nav' : `ToonTopBarKey.Action(${k})`;
+const topLook = o => {
+  const a = [];
+  if (o.scrolled) a.push('scrolled = true');
+  if (o.pressed != null) a.push(`pressed = ${topKey(o.pressed)}`);
+  if (o.focus != null) a.push(`focus = ${topKey(o.focus)}`);
+  return call('ToonTopBarLook', ...a);
+};
+// The engine's defaults: "Saturday", the small variant, search and more, the back arrow.
+const topScene = (o, rot) => call(`${fmt(call('toonTopBarScene', 'tokens', '390f', JSON.stringify(o.title || 'Saturday'), `ToonTopAppBarVariant.${o.variant === 'center' ? 'Center' : 'Small'}`, 'listOf(ToonIcons.Search, ToonIcons.More)', 'true', topLook(o)), 8)}.placed`, '0f', '0f', '1f', rot, '195f', '-40f');
+export const TOP_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...TOP_STATES.map(([n, o, rot]) => sceneCell('TopAppBar', theme, themeName, n, 390, 76, [8, 8, 12, 8], { kind: 'state', rot, ...o, pressed: o.pressed ?? null, focus: o.focus ?? null },
+    `E.place(E.topBar(T, ${JSON.stringify(o)}), 0, 0, ${rot}, 195, -40)`, topScene(o, kf(rot)))),
+  // A sway frame is the engine's `sway` at its age, so the cell holds the curve as well as the drawing.
+  ...[0, 90, 180, 280, 450, 700].map(t => sceneCell('TopAppBar', theme, themeName, `Sway_${t}ms`, 390, 76, [8, 8, 12, 8], { kind: 'sway', t, scrolled: true },
+    `E.place(E.topBar(T, { scrolled: true }), 0, 0, E.sway(${t}, 28), 195, -40)`, topScene({ scrolled: true }, `toonSway(${t}f, 28f)`))),
+]);
+
 // ---- Progress (B-25): `toon-ui MVP Components.dc.html` ----
 const PROGRESS_PAGE = [
   "out.prog = { cells: [['Linear / Indeterminate', E.linear(T, { w: 240, ...E.worm(420) }), 240, 14], ['Linear / 40 %', E.linear(T, { w: 240, a: 0, b: .4 }), 240, 14], ['Linear / Complete', E.linear(T, { w: 240, a: 0, b: 1 }), 240, 14], ['Circular / Indeterminate', E.circular(T, { ph: 300 }), 48, 48], ['Circular / 65 %', E.circular(T, { value: .65 }), 48, 48]]",
@@ -495,6 +519,7 @@ export const FRAME_PROBES = {
 };
 
 export const missingPageText = [
+  ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...PROGRESS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...DIALOG_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...SNACK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
@@ -511,4 +536,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS };
