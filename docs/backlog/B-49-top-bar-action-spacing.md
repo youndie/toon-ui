@@ -1,7 +1,7 @@
 ---
 id: B-49
 title: "TopAppBar: with three or more actions the middle ones are 40 dp targets"
-status: question
+status: done
 priority: P2
 size: S
 stage: stage-4-product
@@ -31,3 +31,9 @@ Which of these, for a bar with three or more actions?
 - AC (once answered): every action of the chosen bar is a 48 dp target, or the exception is named
   in the test.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt`.
+
+## Decision (owner, 2026-11-02)
+
+**Option 2: accept 40 × 76 dp** for a middle action as a named exception. Nothing the design draws
+moves. `ToonAccessibilityTest` holds the outermost and innermost actions to 48 dp and, for three and
+four actions, every action between them to exactly 40 (`topBarMiddleAction`).
