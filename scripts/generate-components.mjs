@@ -97,6 +97,19 @@ const PRELUDE = {
     cell: `// The v1 page's slider cells and its grab strip against the engine's \`slider\` drawn in Chrome.
 `,
   },
+  BottomSheet: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonSheetMotion',
+    ],
+    cell: `// The v1 page's bottom sheet cells and its open strip against the engine's \`sheet\` drawn in Chrome
+// over the page's cards (SheetFrames).
+`,
+  },
   Menu: {
     imports: [
       'androidx.compose.runtime.Composable',
