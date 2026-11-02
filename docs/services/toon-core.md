@@ -19,6 +19,9 @@ else. It compiles for Android, iOS (`iosArm64`, `iosSimulatorArm64`), desktop JV
 desktop test suite composes off-screen (B-01). Tokens, geometry, drawing primitives, icons, FX and the
 components land here item by item (backlog stages 0–2).
 
+The bundled fonts are here too (B-02): `type/ToonFontFamilies.kt` gives each theme a display and a
+body family, internal until the theme provider (B-08) exposes them.
+
 It deliberately does **not** depend on any Material artefact (research D2). It holds no sample app
 and no design references; those get modules or directories of their own when their items arrive.
 It is not published yet (B-32).
@@ -36,6 +39,8 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `gradle/libs.versions.toml` | the sborka version and the Android SDK levels; the compiler and Compose come from `wip` |
 | `gradle.properties` | the coordinates and licence sborka reads (`sborka.*`) |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/ComposeSmokeTest.kt` | the smoke test the visual suite stands on |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the two families per theme, and the weights asked of the variable body faces |
+| `toon-core/src/commonMain/composeResources` | the font files (`font`) and their OFL texts (`files/licences`) |
 
 ## 3. How it is built
 
@@ -53,6 +58,7 @@ this once.
 | Kind | Name | What for |
 |---|---|---|
 | Library | Compose runtime, foundation, ui (from `wip`) | everything drawn |
+| Library | compose-resources | the bundled fonts |
 | Build | sborka 0.4.0.111 | conventions and the `wip` catalog, the same build as oldge-ui |
 | Test | Compose ui-test, `compose.desktop.currentOs` (desktopTest only) | off-screen composition on the host's Skia |
 
@@ -85,6 +91,8 @@ None at runtime.
   desktop tests. It does **not** compile `iosArm64` or Android main. Those are
   `:toon-core:compileKotlinIosArm64` and `:toon-core:compileAndroidMain`, run by hand in B-01 (both
   green). A change that breaks only a device target passes `check`.
-- `toon-core/src/commonMain/kotlin/io/github/youndie/toon/ToonCore.kt` holds one internal
-  placeholder constant. ktlint refuses an empty file, and without a main source the iOS, wasm and
-  Android compilations are `NO-SOURCE`, which proves nothing. B-07 replaces it.
+- `compose.components.resources` is a deprecated accessor in the build script (two `w:` lines on
+  every configuration). The plugin's own accessor keeps its version tied to the Compose plugin's,
+  and oldge-ui made the same trade.
+- The body faces are variable files with a default instance of Light 300. Below Android 8 a
+  `wght` setting may not apply (research H7).

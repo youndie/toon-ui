@@ -108,6 +108,14 @@ into the items that meet them (B-07), so they are not lost.
 | Titan One: OFL, `TitanOne-Regular.ttf`, subsets latin, latin-ext. | `google/fonts@6c1dbe27dcf7d817d4b62cec033ba77fa8e2a5ec!/ofl/titanone/METADATA.pb` |
 | Fredoka: OFL, variable `Fredoka[wdth,wght].ttf`, subsets hebrew, latin, latin-ext. | `google/fonts@6c1dbe27dcf7d817d4b62cec033ba77fa8e2a5ec!/ofl/fredoka/METADATA.pb` |
 
+**Bundled in B-02.** The four files are in `toon-core/src/commonMain/composeResources/font`,
+byte for byte as google/fonts has them at that commit (SHA-256 `8ba32f6d…` Shrikhand, `26ad3db9…`
+Figtree, `563ff6de…` Titan One, `2ba02e68…` Fredoka), renamed only to fit compose-resources. Their
+licences are in `toon-core/src/commonMain/composeResources/files/licences`. The `fvar` tables read:
+Figtree `wght` 300–900, default 300; Fredoka `wght` 300–700, default 300, and `wdth` 75–125. Titan
+One's OFL reserves the name "Titan", one more reason to ship the files unmodified rather than cut
+static instances.
+
 **Consequence.** All four can be bundled: the brief's licence condition holds. But no family covers
 Cyrillic, and the owner's apps are Russian-language. A Russian label in toon-ui would be drawn in a
 fallback font, which is exactly the oldge-ui finding (`youndie/oldge-ui@618cef8b923d7e0e501752240e6a727eed51e48c!/docs/research/research-architecture.md`, §1.6).
@@ -263,6 +271,7 @@ otherwise follows oldge-ui (B-32).
 | H3 | **Fonts without Cyrillic** (§1.4). | Cyrillic is in scope (owner, 2026-11-02). B-35 finds the backing faces; the risk left is that no OFL face reads as one family with Shrikhand, and then a role changes face, which goes back to the owner. |
 | H4 | **The design keeps moving.** The project is live: the engine went from `?v=8` to `?v=10` within the day of the import (§1.1). | The import is a snapshot. A re-import is an item that diffs the engine and re-emits the goldens (B-34). |
 | H5 | **The sketch does not compile** (§1.5, the `fillMaxSize` helper). | Irrelevant to the port (D6), but stated as read, not run. B-01 compiles nothing from `compose/`; if anyone does, the result goes here. |
+| H7 | **Variable weights below Android 8.** Each body weight is a `wght` setting on one variable file. Android applies font variations from API 26, and `minSdk` is 24. On 7.x the body text would then render at the files' default instance, Light 300, for every weight. Read, not run: nothing visual runs on Android (D9). | Checked on a device or emulator at API 24–25 when one is available. If it holds, either raise `minSdk` to 26 or bundle static instances for Android only, which makes them modified fonts (§1.4). The owner decides. |
 | H6 | **Textures.** The four tiles came from the owner, not from DesignSync, and differ from the project's pixels by up to 22 levels (§1.1). | References and library use the same vendored files, so parity is unaffected. B-13 checks the wrap, the gouache tiles' vertical one first. |
 | R1 | **The FX and idle budget get exceeded silently.** The brief allows at most 2 idle elements per screen; `LocalIdleBudget = 2` in the sketch enforces nothing. | B-08 makes the budget a counted resource, and a third idle request falls back to static, observable in a test. |
 

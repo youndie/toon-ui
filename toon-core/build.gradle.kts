@@ -45,6 +45,9 @@ kotlin {
             implementation(wip.compose.runtime)
             implementation(wip.compose.foundation)
             implementation(wip.compose.ui)
+            // The bundled fonts (B-02). Not in `wip`, and the plugin's accessor is the one place its
+            // version follows the Compose plugin's own (oldge-ui does the same).
+            implementation(compose.components.resources)
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
@@ -56,6 +59,10 @@ kotlin {
             implementation(wip.compose.ui.test)
         }
     }
+}
+
+compose.resources {
+    packageOfResClass = "io.github.youndie.toon.resources"
 }
 
 // The shared iOS metadata compilation, and only it, without warnings-as-errors. CMP 1.12's own graph
