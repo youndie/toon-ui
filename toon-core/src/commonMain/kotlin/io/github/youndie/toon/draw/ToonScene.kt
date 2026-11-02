@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.StrokeCap
@@ -15,6 +16,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
@@ -26,6 +28,11 @@ import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonColors
+import kotlin.math.PI
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.max
+import kotlin.math.sin
 
 // A component's frame as the engine returns it (B-14): layers of paths (`L`) drawn in order, then
 // text (`X`) on top, as `toSvg` writes them. Building the frame as data before drawing it is what
@@ -34,6 +41,57 @@ import io.github.youndie.toon.tokens.ToonColors
 
 /** How a layer's [ToonLayer.numbers] join: `M` then quadratic `Q` pairs, or `M` then `L` points. */
 internal enum class ToonSegments { Quad, Line }
+
+/** A 2D affine transform as SVG writes it, `[a c e; b d f]`: what `place` and `scaleAbout` prefix. */
+internal class ToonAffine(
+    val a: Float = 1f,
+    val b: Float = 0f,
+    val c: Float = 0f,
+    val d: Float = 1f,
+    val e: Float = 0f,
+    val f: Float = 0f,
+) {
+    val isIdentity: Boolean get() = a == 1f && b == 0f && c == 0f && d == 1f && e == 0f && f == 0f
+
+    operator fun times(o: ToonAffine): ToonAffine =
+        ToonAffine(
+            a * o.a + c * o.b,
+            b * o.a + d * o.b,
+            a * o.c + c * o.d,
+            b * o.c + d * o.d,
+            a * o.e + c * o.f + e,
+            b * o.e + d * o.f + f,
+        )
+
+    fun toMatrix(): Matrix =
+        Matrix().apply {
+            values[Matrix.ScaleX] = a
+            values[Matrix.SkewY] = b
+            values[Matrix.SkewX] = c
+            values[Matrix.ScaleY] = d
+            values[Matrix.TranslateX] = e
+            values[Matrix.TranslateY] = f
+        }
+
+    companion object {
+        val Identity: ToonAffine = ToonAffine()
+
+        fun translate(
+            x: Float,
+            y: Float,
+        ): ToonAffine = ToonAffine(e = x, f = y)
+
+        fun scale(
+            x: Float,
+            y: Float,
+        ): ToonAffine = ToonAffine(a = x, d = y)
+
+        fun rotate(degrees: Float): ToonAffine {
+            val r = degrees * PI.toFloat() / 180
+            return ToonAffine(cos(r), sin(r), -sin(r), cos(r))
+        }
+    }
+}
 
 /**
  * One path of a frame, as the engine's `L`: its coordinates in the order the engine writes its `d`,
@@ -45,6 +103,9 @@ internal enum class ToonSegments { Quad, Line }
  * A path the engine does not compute from numbers — an icon — comes as a ready [shape], with the
  * engine's own `d` for it as [source]. Without a DOM the engine strokes an icon's centerline
  * [iconBase] wide instead of filling its outline (research §1.2), which is what a frame golden holds.
+ *
+ * [outer] is the transform `place` and `scaleAbout` write before the layer's own; [outerPairs],
+ * [outerSlack] and [outerTurn] carry what the engine's rounding of them allows the comparison.
  */
 internal class ToonLayer(
     val numbers: FloatArray,
@@ -65,6 +126,10 @@ internal class ToonLayer(
     val pivotX: Float = 0f,
     val pivotY: Float = 0f,
     val rotation: Float = 0f,
+    val outer: ToonAffine = ToonAffine.Identity,
+    val outerPairs: Int = 0,
+    val outerSlack: Float = 0f,
+    val outerTurn: Float = 0f,
 ) {
     val path: Path by lazy {
         shape ?: Path().apply {
@@ -89,14 +154,29 @@ internal class ToonLayer(
         y: Float,
         opacity: Float = 1f,
     ): ToonLayer =
+        if (outer.isIdentity) {
+            copy(alpha = alpha * opacity, dx = dx + x, dy = dy + y)
+        } else {
+            copy(alpha = alpha * opacity, outer = ToonAffine.translate(x, y) * outer)
+        }
+
+    fun copy(
+        alpha: Float = this.alpha,
+        dx: Float = this.dx,
+        dy: Float = this.dy,
+        outer: ToonAffine = this.outer,
+        outerPairs: Int = this.outerPairs,
+        outerSlack: Float = this.outerSlack,
+        outerTurn: Float = this.outerTurn,
+    ): ToonLayer =
         ToonLayer(
             numbers,
             segments,
             closed,
             color,
-            alpha * opacity,
-            dx + x,
-            dy + y,
+            alpha,
+            dx,
+            dy,
             stroke,
             dash,
             scale,
@@ -108,6 +188,10 @@ internal class ToonLayer(
             pivotX,
             pivotY,
             rotation,
+            outer,
+            outerPairs,
+            outerSlack,
+            outerTurn,
         )
 }
 
@@ -136,14 +220,36 @@ internal class ToonScene(
     val layers: List<ToonLayer>,
     val labels: List<ToonLabel>,
 ) {
-    /** The engine's `place` without rotation: everything moved by ([x], [y]) and faded by [opacity]. */
+    /**
+     * The engine's `place`: everything moved by ([x], [y]), the layers turned [rotation] degrees about
+     * ([px], [py]) — the engine moves texts and never turns them — and faded by [opacity].
+     */
     fun placed(
         x: Float,
         y: Float,
         opacity: Float = 1f,
-    ): ToonScene =
-        ToonScene(
-            layers.map { it.moved(x, y, opacity) },
+        rotation: Float = 0f,
+        px: Float = 0f,
+        py: Float = 0f,
+    ): ToonScene {
+        val layers =
+            if (rotation == 0f) {
+                layers.map { it.moved(x, y, opacity) }
+            } else {
+                // `translate(dx dy) rotate(r px py)`, the angle written to two decimals.
+                val turn =
+                    ToonAffine.translate(x + px, y + py) * ToonAffine.rotate(rotation) * ToonAffine.translate(-px, -py)
+                layers.map {
+                    it.copy(
+                        alpha = it.alpha * opacity,
+                        outer = turn * it.outer,
+                        outerSlack = it.outerSlack + ROTATE_ROUNDING * max(abs(px), abs(py)) + ROTATE_PIVOT_ROUNDING,
+                        outerTurn = it.outerTurn + ROTATE_ROUNDING,
+                    )
+                }
+            }
+        return ToonScene(
+            layers,
             labels.map {
                 ToonLabel(
                     it.text,
@@ -156,12 +262,42 @@ internal class ToonScene(
                 )
             },
         )
+    }
+
+    /** The engine's `scaleAbout`: the layers, not the texts, scaled by [sx], [sy] about ([px], [py]). */
+    fun scaledAbout(
+        px: Float,
+        py: Float,
+        sx: Float,
+        sy: Float,
+    ): ToonScene {
+        if (sx == 1f && sy == 1f) return this
+        val m = ToonAffine.translate(px, py) * ToonAffine.scale(sx, sy) * ToonAffine.translate(-px, -py)
+        return ToonScene(
+            layers.map {
+                it.copy(
+                    outer = m * it.outer,
+                    outerPairs = it.outerPairs + 1,
+                    outerSlack = it.outerSlack + SCALE_ROUNDING * max(abs(px), abs(py)),
+                    outerTurn = it.outerTurn + SCALE_ROUNDING,
+                )
+            },
+            labels,
+        )
+    }
 
     /** The engine's `cat`: [other]'s layers after these, its labels after these. */
     operator fun plus(other: ToonScene): ToonScene = ToonScene(layers + other.layers, labels + other.labels)
 
     companion object {
         val Empty: ToonScene = ToonScene(emptyList(), emptyList())
+
+        /** `place` writes an angle to two decimals, 0.005°, and its pivot to one, 0.05 dp. */
+        private const val ROTATE_ROUNDING = 8.73e-5f
+        private const val ROTATE_PIVOT_ROUNDING = .005f
+
+        /** `scaleAbout` writes a scale to three decimals. */
+        private const val SCALE_ROUNDING = 5e-4f
     }
 }
 
@@ -273,19 +409,22 @@ internal fun DrawScope.drawScene(
             } else {
                 Fill
             }
-        translate(l.dx, l.dy) {
-            rotate(l.rotation, Offset.Zero) {
-                if (l.scale == 1f && l.scaleY == 1f) {
-                    drawPath(l.path, l.color, alpha = l.alpha, style = style)
-                } else {
-                    scale(
-                        l.scale,
-                        l.scaleY,
-                        Offset(l.pivotX, l.pivotY),
-                    ) { drawPath(l.path, l.color, alpha = l.alpha, style = style) }
+        val draw: DrawScope.() -> Unit = {
+            translate(l.dx, l.dy) {
+                rotate(l.rotation, Offset.Zero) {
+                    if (l.scale == 1f && l.scaleY == 1f) {
+                        drawPath(l.path, l.color, alpha = l.alpha, style = style)
+                    } else {
+                        scale(
+                            l.scale,
+                            l.scaleY,
+                            Offset(l.pivotX, l.pivotY),
+                        ) { drawPath(l.path, l.color, alpha = l.alpha, style = style) }
+                    }
                 }
             }
         }
+        if (l.outer.isIdentity) draw() else withTransform({ transform(l.outer.toMatrix()) }, draw)
     }
     if (text == null) return
     for (x in scene.labels) {

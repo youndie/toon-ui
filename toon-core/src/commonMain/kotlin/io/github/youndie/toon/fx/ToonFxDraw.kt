@@ -201,14 +201,31 @@ internal fun DrawScope.drawToonSpeed(
     x: Float,
     y: Float,
     h: Float,
-) {
-    if (u < 0 || u >= 1) return
-    floatArrayOf(.15f, .32f, .5f, .68f, .85f).forEachIndexed { j, k ->
-        val len = (50 + 40 * ((j * 7) % 3)) * (1 - u)
-        val yy = y + h * k
-        val x0 = x - 10
-        drawPath(polygonPath(floatArrayOf(x0, yy - 1.8f, x0 - len, yy, x0, yy + 1.8f)), colors.fxLine, alpha = 1 - u)
-    }
+) = drawScene(toonSpeedScene(colors, u, x, y, h))
+
+/** The engine's `speed` as frame layers. */
+internal fun toonSpeedScene(
+    colors: ToonColors,
+    u: Float,
+    x: Float,
+    y: Float,
+    h: Float,
+): ToonScene {
+    if (u < 0 || u >= 1) return ToonScene.Empty
+    val layers =
+        floatArrayOf(.15f, .32f, .5f, .68f, .85f).mapIndexed { j, k ->
+            val len = (50 + 40 * ((j * 7) % 3)) * (1 - u)
+            val yy = y + h * k
+            val x0 = x - 10
+            ToonLayer(
+                floatArrayOf(x0, yy - 1.8f, x0 - len, yy, x0, yy + 1.8f),
+                ToonSegments.Line,
+                true,
+                colors.fxLine,
+                1 - u,
+            )
+        }
+    return ToonScene(layers, emptyList())
 }
 
 private val FLASH_KEYS =
@@ -402,28 +419,39 @@ internal fun DrawScope.drawToonHole(
     h: Float,
     r: ToonRadii,
     seed: Int = 5,
-) {
-    if (u < 0 || u >= 1) return
+) = drawScene(toonHoleScene(colors, u, x, y, w, h, r, seed))
+
+/** The engine's `hole` as frame layers: the silhouette, then the four chips flying off. */
+internal fun toonHoleScene(
+    colors: ToonColors,
+    u: Float,
+    x: Float,
+    y: Float,
+    w: Float,
+    h: Float,
+    r: ToonRadii,
+    seed: Int = 5,
+): ToonScene {
+    if (u < 0 || u >= 1) return ToonScene.Empty
     val cx = x + w / 2
     val cy = y + h / 2
     val op = if (u < .6f) 1f else 1 - (u - .6f) / .4f
     val outline = toonHoleOutline(u, x, y, w, h, r, seed)
-    drawPath(polygonPath(outline.edge), colors.holeEdge, alpha = op)
-    drawPath(polygonPath(outline.ink), colors.ink, alpha = op)
+    val layers = mutableListOf<ToonLayer>()
+    layers += ToonLayer(outline.edge, ToonSegments.Line, true, colors.holeEdge, op)
+    layers += ToonLayer(outline.ink, ToonSegments.Line, true, colors.ink, op)
     val e = 1 - (1 - c01(u * 1.4f)).pow(2)
     HOLE_CHIPS.forEachIndexed { j, (dx, dy) ->
         val px = cx + dx * (w / 2 + 6 + 34 * e)
         val py = cy + dy * (h / 2 + 4 + 26 * e) + 30 * e * e
         val rot = (if (j % 2 == 1) 1 else -1) * 260 * u
         val s2 = 4 + j % 2 * 1.5f
-        val chip = polygonPath(floatArrayOf(-s2, -s2 * .6f, s2, -s2 * .9f, s2 * .5f, s2))
-        translate(px, py) {
-            rotate(rot, Offset.Zero) {
-                scale(1.5f, Offset.Zero) { drawPath(chip, colors.ink, alpha = op * (1 - u)) }
-                drawPath(chip, colors.holeEdge, alpha = op * (1 - u))
-            }
-        }
+        val chip = floatArrayOf(-s2, -s2 * .6f, s2, -s2 * .9f, s2 * .5f, s2)
+        layers +=
+            ToonLayer(chip, ToonSegments.Line, true, colors.ink, op * (1 - u), px, py, scale = 1.5f, rotation = rot)
+        layers += ToonLayer(chip, ToonSegments.Line, true, colors.holeEdge, op * (1 - u), px, py, rotation = rot)
     }
+    return ToonScene(layers, emptyList())
 }
 
 private val HOLE_CHIPS = listOf(-.9f to -.6f, .8f to -.8f, 1f to .3f, -1f to .4f)

@@ -12872,6 +12872,708 @@
         12
       ],
       "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":0.986504,\"swipe\":1})"
+    },
+    {
+      "file": "Card_Default_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":0,\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}), 0, 0, T.rots[0] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Pressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":1,\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\",\"press\":1}), 0, 0, T.rots[1] + -1, 171, 42)"
+    },
+    {
+      "file": "Card_Selected_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":2,\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\",\"sel\":true}), 0, 0, T.rots[2] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Disabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":0,\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\",\"dis\":true}), 0, 0, T.rots[0] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Appear_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(0, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(60, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_120ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(120, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_220ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(220, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_380ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(380, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Press_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 0 })), 0, 0, T.rots[0] - 0, 171, 42)"
+    },
+    {
+      "file": "Card_Press_50ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 0.875 })), 0, 0, T.rots[0] - 0.875, 171, 42)"
+    },
+    {
+      "file": "Card_Press_100ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 1 })), 0, 0, T.rots[0] - 1, 171, 42)"
+    },
+    {
+      "file": "Card_Dismiss_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(0);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (0 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_70ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(70);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (70 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_140ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(140);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (140 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_190ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(190);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (190 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_300ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(300);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (300 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_450ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(450);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (450 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Default_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":0,\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}), 0, 0, T.rots[0] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Pressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":1,\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\",\"press\":1}), 0, 0, T.rots[1] + -1, 171, 42)"
+    },
+    {
+      "file": "Card_Selected_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":2,\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\",\"sel\":true}), 0, 0, T.rots[2] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Disabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":0,\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\",\"dis\":true}), 0, 0, T.rots[0] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Appear_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(0, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(60, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_120ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(120, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_220ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(220, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_380ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(380, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Press_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 0 })), 0, 0, T.rots[0] - 0, 171, 42)"
+    },
+    {
+      "file": "Card_Press_50ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 0.875 })), 0, 0, T.rots[0] - 0.875, 171, 42)"
+    },
+    {
+      "file": "Card_Press_100ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 1 })), 0, 0, T.rots[0] - 1, 171, 42)"
+    },
+    {
+      "file": "Card_Dismiss_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(0);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (0 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_70ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(70);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (70 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_140ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(140);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (140 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_190ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(190);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (190 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_300ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(300);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (300 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_450ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(450);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (450 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Default_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":0,\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}), 0, 0, T.rots[0] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Pressed_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":1,\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\",\"press\":1}), 0, 0, T.rots[1] + -1, 171, 42)"
+    },
+    {
+      "file": "Card_Selected_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":2,\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\",\"sel\":true}), 0, 0, T.rots[2] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Disabled_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        18,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.place(E.card(T, {\"idx\":0,\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\",\"dis\":true}), 0, 0, T.rots[0] + 0, 171, 42)"
+    },
+    {
+      "file": "Card_Appear_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(0, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(60, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_120ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(120, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_220ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(220, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Appear_380ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        40,
+        20,
+        30,
+        20
+      ],
+      "scene": "(() => { const a = E.cardAppear(380, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()"
+    },
+    {
+      "file": "Card_Press_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 0 })), 0, 0, T.rots[0] - 0, 171, 42)"
+    },
+    {
+      "file": "Card_Press_50ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 0.875 })), 0, 0, T.rots[0] - 0.875, 171, 42)"
+    },
+    {
+      "file": "Card_Press_100ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 84,
+      "pad": [
+        20,
+        20,
+        20,
+        20
+      ],
+      "scene": "E.place(E.card(T, Object.assign({ idx: 0 }, {\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"}, { press: 1 })), 0, 0, T.rots[0] - 1, 171, 42)"
+    },
+    {
+      "file": "Card_Dismiss_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(0);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (0 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_70ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(70);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (70 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_140ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(140);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (140 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_190ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(190);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (190 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_300ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(300);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (300 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
+    },
+    {
+      "file": "Card_Dismiss_450ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 288,
+      "pad": [
+        24,
+        20,
+        24,
+        60
+      ],
+      "scene": "(() => { const items = [{\"title\":\"Pancake breakfast\",\"meta\":\"Kitchen, bring syrup\",\"time\":\"9:00\"},{\"title\":\"Bike to the lake\",\"meta\":\"Check the tyre pump\",\"time\":\"11:30\"},{\"title\":\"Paint the fence\",\"meta\":\"Green this time\",\"time\":\"14:00\"}], parts = [], under = [], d = E.cardDismiss(450);\n  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;\n    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (450 - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }\n    if (i === 2) yy += d.n * 102;\n    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }\n  return E.cat(...under, ...parts); })()"
     }
   ]
 }
