@@ -1,7 +1,7 @@
 ---
 id: B-12
 title: "FX layer: eight effects and the named events that fire them"
-status: open
+status: wip
 priority: P1
 size: L
 stage: stage-1-materials

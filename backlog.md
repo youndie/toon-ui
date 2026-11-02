@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-12](docs/backlog/B-12-fx-layer-and-events.md) `[ ]` | FX layer: eight effects and the named events that fire them | P1 | L | B-09 |
+| [B-12](docs/backlog/B-12-fx-layer-and-events.md) `[~]` | FX layer: eight effects and the named events that fire them | P1 | L | B-09 |
 | [B-14](docs/backlog/B-14-button.md) `[ ]` | Button: filled, outlined, text; loading blob, idle breath, disabled buzz | P1 | M | B-10, B-11, B-12 |
 | [B-15](docs/backlog/B-15-icon-button-and-badge.md) `[ ]` | IconButton and Badge | P1 | S | B-10, B-11, B-12 |
 | [B-16](docs/backlog/B-16-fab.md) `[ ]` | FAB: regular and extended, lands with dust | P1 | S | B-10, B-12 |
