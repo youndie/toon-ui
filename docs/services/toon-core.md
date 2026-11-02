@@ -94,6 +94,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonNavigationDrawer.kt` | `ToonNavigationDrawer` (B-39): `toonDrawerScene` is the engine's `drawer`, `toonDrawerOpen` and `toonDrawerClose` its curves; the door's skew is `ToonScene.skewedAbout` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTooltip.kt` | `ToonTooltip` (B-40): `toonTooltipScene` is the engine's `tooltip`, `toonTipInflate` its `tipInflate` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSegmented.kt` | `ToonSegmented` (B-41): `toonSegmentedScene` is the engine's `segmented`, `toonSegSwitch` its `segSwitch` over the tabs' `tabsSwitch` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonPullToRefresh.kt` | `ToonPullToRefresh` (B-42): `toonPullScene` is the engine's `pull`, `toonPullRelease` its `pullRelease`, `toonPullFrameAt` the kit's states |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the four faces and their Cyrillic backing faces (B-35): `withBacking` puts each run of Cyrillic in the backing face |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
@@ -252,6 +253,8 @@ None at runtime.
   it draws 17 dp above the box and 19 % of its width past either side, so a parent that clips cuts it
   (B-40).
 - The segmented button is laid out 48 dp tall and drawn 44, 2 dp down, for its targets (B-41).
+- Pull-to-refresh takes its own drag, with no nested scrolling, and spins until the caller turns
+  `refreshing` back to false; a caller that never sets it leaves it spinning (B-42).
 - An outline's sample counts round half up with 10⁻⁵ of slack (`halfUp`): the engine counts in
   doubles, and a side of a whole half step out of decimals lands a few Float ulps under the half
   (B-41).

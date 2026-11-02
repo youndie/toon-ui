@@ -367,6 +367,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the segmented button in B-41:* `instant`; the drop moves to the new segment at once.
 
+*Applied to pull-to-refresh in B-42:* `static spinner`; the band still follows the finger, the release lands on a spinner that does not turn, and it goes at once when done.
+
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret
