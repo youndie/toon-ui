@@ -85,9 +85,13 @@ function page(ref) {
 <script src="${pathToFileURL(ENGINE).href}"></script></head><body>
 <svg id="s" width="${W}" height="${H}" viewBox="${-l} ${-t} ${W} ${H}" style="display:block"></svg>
 <script>
+  // The engine measures text on a canvas (\`tw\`), so the faces load before the scene is built: a
+  // width taken from the fallback face would size an extended FAB or a text button's underline wrong.
   const E = new window.ToonEngine(), T = E.THEMES[${JSON.stringify(ref.theme)}];
   document.body.style.background = T.bg;
-  document.getElementById('s').innerHTML = E.toSvg(${ref.scene});
+  window.drawn = Promise.all(${JSON.stringify(FACES.map(([f]) => f))}.map(f => document.fonts.load('400 16px "' + f + '"'))).then(() => {
+    document.getElementById('s').innerHTML = E.toSvg(${ref.scene});
+  });
 </script></body></html>`;
 }
 
@@ -146,7 +150,7 @@ async function render(cdp, ref, dir, capture) {
     const loaded = cdp.once('Page.loadEventFired', sessionId);
     await cdp.send('Page.navigate', { url: pathToFileURL(file).href }, sessionId);
     await loaded;
-    await cdp.send('Runtime.evaluate', { awaitPromise: true, expression: 'document.fonts.ready.then(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))' }, sessionId);
+    await cdp.send('Runtime.evaluate', { awaitPromise: true, expression: 'window.drawn.then(() => document.fonts.ready).then(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))' }, sessionId);
     if (errors.length) throw new Error(`${ref.group}_${ref.name}: ${errors.join('; ')}`);
     if (capture) return (await cdp.send('Runtime.evaluate', { expression: capture, returnByValue: true }, sessionId)).result.value;
     const shot = await cdp.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: W, height: H, scale: 1 } }, sessionId);

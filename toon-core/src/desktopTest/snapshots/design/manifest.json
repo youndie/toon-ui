@@ -9674,6 +9674,435 @@
         30
       ],
       "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":0,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Fab_Default_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {})"
+    },
+    {
+      "file": "Fab_Pressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"p\":1})"
+    },
+    {
+      "file": "Fab_Focused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"focus\":true})"
+    },
+    {
+      "file": "Fab_Disabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"disabled\":true})"
+    },
+    {
+      "file": "Fab_Extended_InkGouacheLight.png",
+      "theme": "il",
+      "w": 153,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"label\":\"New plan\"})"
+    },
+    {
+      "file": "Fab_Land_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1,\"sy\":1}), 0, -70, 0, 0, 0, 0), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1,\"sy\":1}), 0, -67.401924, 0, 0, 0, 1), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_160ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.97,\"sy\":1.05}), 0, -52.5, 0, 0, 0, 1), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_230ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1.16,\"sy\":0.8}), 0, 0, 0, 0, 0, 1), E.dust(T, 0, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_300ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.947849,\"sy\":1.065189}), 0, 0, 0, 0, 0, 1), E.dust(T, 0.233333, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_520ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.999644,\"sy\":1.000445}), 0, 0, 0, 0, 0, 1), E.dust(T, 0.966667, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Default_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {})"
+    },
+    {
+      "file": "Fab_Pressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"p\":1})"
+    },
+    {
+      "file": "Fab_Focused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"focus\":true})"
+    },
+    {
+      "file": "Fab_Disabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"disabled\":true})"
+    },
+    {
+      "file": "Fab_Extended_InkGouacheNight.png",
+      "theme": "in",
+      "w": 153,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"label\":\"New plan\"})"
+    },
+    {
+      "file": "Fab_Land_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1,\"sy\":1}), 0, -70, 0, 0, 0, 0), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1,\"sy\":1}), 0, -67.401924, 0, 0, 0, 1), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_160ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.97,\"sy\":1.05}), 0, -52.5, 0, 0, 0, 1), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_230ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1.16,\"sy\":0.8}), 0, 0, 0, 0, 0, 1), E.dust(T, 0, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_300ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.947849,\"sy\":1.065189}), 0, 0, 0, 0, 0, 1), E.dust(T, 0.233333, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_520ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.999644,\"sy\":1.000445}), 0, 0, 0, 0, 0, 1), E.dust(T, 0.966667, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Default_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {})"
+    },
+    {
+      "file": "Fab_Pressed_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"p\":1})"
+    },
+    {
+      "file": "Fab_Focused_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"focus\":true})"
+    },
+    {
+      "file": "Fab_Disabled_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"disabled\":true})"
+    },
+    {
+      "file": "Fab_Extended_BrightCel.png",
+      "theme": "bc",
+      "w": 153,
+      "h": 64,
+      "pad": [
+        14,
+        18,
+        14,
+        14
+      ],
+      "scene": "E.fab(T, {\"label\":\"New plan\"})"
+    },
+    {
+      "file": "Fab_Land_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1,\"sy\":1}), 0, -70, 0, 0, 0, 0), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1,\"sy\":1}), 0, -67.401924, 0, 0, 0, 1), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_160ms_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.97,\"sy\":1.05}), 0, -52.5, 0, 0, 0, 1), E.dust(T, -1, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_230ms_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":1.16,\"sy\":0.8}), 0, 0, 0, 0, 0, 1), E.dust(T, 0, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_300ms_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.947849,\"sy\":1.065189}), 0, 0, 0, 0, 0, 1), E.dust(T, 0.233333, 32, 66, 40))"
+    },
+    {
+      "file": "Fab_Land_520ms_BrightCel.png",
+      "theme": "bc",
+      "w": 64,
+      "h": 64,
+      "pad": [
+        80,
+        34,
+        14,
+        34
+      ],
+      "scene": "E.cat(E.place(E.fab(T, {\"sx\":0.999644,\"sy\":1.000445}), 0, 0, 0, 0, 0, 1), E.dust(T, 0.966667, 32, 66, 40))"
     }
   ]
 }
