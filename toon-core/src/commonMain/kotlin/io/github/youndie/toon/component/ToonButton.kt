@@ -129,18 +129,20 @@ public fun ToonButton(
         }
     }
 
-    val look =
-        ToonButtonLook(
+    val frame =
+        toonButtonFrameAt(
+            nowMs = clock.nowMs,
+            loadAgeMs = clock.loadAge(),
+            buzzAgeMs = clock.buzzAge(),
             p = press.progress,
-            br = if (breathing) 1 + BREATH * (1 - cos(2 * PI.toFloat() * clock.nowMs / BREATH_MS)) else 1f,
-            seed = if (breathing) floor(clock.nowMs / BOIL_MS.toFloat()).toInt() % 3 * BOIL_SEED else 0,
+            breathing = breathing,
             disabled = !enabled,
             focus = focused,
-            lt = clock.loadAge()?.let { if (reduce) SETTLED else it },
-            spin = clock.nowMs.toFloat(),
+            reduceMotion = reduce,
         )
-    val fade = if (reduce) clock.loadAge()?.let { min(1f, it / REDUCED_FADE_MS) } else null
-    val buzz = if (reduce) null else clock.buzzAge()?.takeIf { it < BUZZ_MS }
+    val look = frame.look
+    val fade = frame.fade
+    val buzz = frame.buzz
 
     Canvas(
         modifier
@@ -197,6 +199,47 @@ private const val REDUCED_FADE_MS = 120f
 private const val SETTLED = 1e6f
 
 private const val PENDING = -1L
+
+/**
+ * What the button draws at frame time [nowMs]: its [look], the reduce-motion cross-fade into loading
+ * ([fade], 0 to 1, or null when not fading), and the disabled buzz's age ([buzz], or null).
+ */
+internal class ToonButtonMoment(
+    val look: ToonButtonLook,
+    val fade: Float?,
+    val buzz: Float?,
+)
+
+/**
+ * The kit's `C.button.scene` at frame time [nowMs]: loading [loadAgeMs] and the buzz [buzzAgeMs] ago
+ * (null when neither runs), under press [p]. Idle breathes 1.5 % over 2500 ms and boils through three
+ * seeds at 10 fps. Under reduce motion — the Core page's words — the loading hand-off is `fade 120`
+ * into its settled frame, idle is `off` (no slot is granted), and there is no buzz, as in the kit.
+ */
+internal fun toonButtonFrameAt(
+    nowMs: Long,
+    loadAgeMs: Float?,
+    buzzAgeMs: Float?,
+    p: Float,
+    breathing: Boolean,
+    disabled: Boolean,
+    focus: Boolean,
+    reduceMotion: Boolean,
+): ToonButtonMoment =
+    ToonButtonMoment(
+        look =
+            ToonButtonLook(
+                p = p,
+                br = if (breathing) 1 + BREATH * (1 - cos(2 * PI.toFloat() * nowMs / BREATH_MS)) else 1f,
+                seed = if (breathing) floor(nowMs / BOIL_MS.toFloat()).toInt() % 3 * BOIL_SEED else 0,
+                disabled = disabled,
+                focus = focus,
+                lt = loadAgeMs?.let { if (reduceMotion) SETTLED else it },
+                spin = nowMs.toFloat(),
+            ),
+        fade = if (reduceMotion) loadAgeMs?.let { min(1f, it / REDUCED_FADE_MS) } else null,
+        buzz = if (reduceMotion) null else buzzAgeMs?.takeIf { it < BUZZ_MS },
+    )
 
 /** The button's own clock: frame time, and when loading and the last buzz started. */
 @Stable
