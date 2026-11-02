@@ -1,7 +1,7 @@
 ---
 id: B-40
 title: "Tooltip: a speech balloon that inflates from its tail"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-2-components
