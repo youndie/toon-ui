@@ -77,6 +77,8 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/CardFrames.kt` | the Core page's card cells and strips composed as the page does, `cardStack` included |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonListItem.kt` | `ToonListItem` (B-22): `toonListItemScene` is the engine's `listItem`, `toonListPress` its `listPress` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonDivider.kt` | `ToonDivider` (B-22): `toonDividerScene` is the engine's `divider` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSnackbar.kt` | `ToonSnackbar` (B-23): `toonSnackScene` is the engine's `snack`, `toonSnkShow` and `toonSnkHide` its curves, `toonSnackbarFrameAt` the kit's `C.snackbar` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSnackbarHost.kt` | `ToonSnackbarHost` and `ToonSnackbarHostState` (B-23): one sign at a time |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -163,6 +165,12 @@ None at runtime.
 - A card's hole goes to the FX host when there is one (`card.gone`), else the card draws it, turned
   with the card; the host's hole is not turned (B-21).
 - A list of cards — the 40 ms cascade and the close-up after a dismiss — is not built: B-46.
+- A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the
+  fly-up from 90 dp below (the kit's box pads it 36 above and 110 below). A parent that clips its
+  children cuts the sign's entrance; give it room or don't clip.
+- The snackbar host's durations (4 s, 10 s, indefinite) are Material's: the design says nothing about
+  how long a sign hangs (B-23). `show` returns once the hide has been drawn (260 ms, 120 under reduce
+  motion), so the next sign never overlaps the falling one.
 - A chip's tilt turns its shape about its centre and leaves its label level, as the kit's `place`
   does: it rotates the layers and only moves the texts (B-20).
 - The text field draws its error stars itself only outside a `ToonFxHost`; inside one it sends
