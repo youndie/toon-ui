@@ -50,7 +50,8 @@ index. `make references` re-renders the Chrome design references
 (`scripts/design-references.mjs`, B-06; needs Google Chrome, so it is not in the gate), and
 `./gradlew :toon-core:viddikDesignParity` reports each fixture against its reference. A
 component's parity is read against the floor measured on the Divider (research D3), not against
-viddik's default 5 %. `make goldens` rewrites the engine goldens (`scripts/engine-goldens.mjs`, B-03), and `make
+viddik's default 5 %. `make tokens` rewrites `ToonTokens.kt`
+(`scripts/generate-tokens.mjs`, B-07), and `make check` fails while it is stale. `make goldens` rewrites the engine goldens (`scripts/engine-goldens.mjs`, B-03), and `make
 check` fails while they are stale against the vendored engine. A file in a sibling repository is cited as `youndie/<repo>@<commit>!/<path>`.
 
 **Builds run on this mac, not on the Linux box.** The project is not in `mutagen sync list`. The
@@ -68,7 +69,7 @@ changing it, so a newer version is taken on a branch of its own, never by overwr
    (research §1.1); a re-import keeps them unless the owner supplies new ones.
 2. **Diff** `toon-engine.js` by function — `THEMES`, `ICONS`, each renderer, each curve — and put
    the diff in the commit body.
-3. **Regenerate** the tokens, the goldens (`make goldens`) and the references in the same branch, and update research
+3. **Regenerate** the tokens (`make tokens`), the goldens (`make goldens`) and the references in the same branch, and update research
    §1.1 with the new snapshot.
 
 ## Rules that are easy to get wrong here

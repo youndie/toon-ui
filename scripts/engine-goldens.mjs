@@ -161,6 +161,8 @@ const files = {
   'manifest.json': { engine: 'reference/design-system/toon-engine.js', sha256: engineSha, decimals: 6, pathStep: 0.1, themes, scenes: Object.keys(scenes(E.THEMES.il)), curves: Object.keys(curves) },
   ...Object.fromEntries(themes.map(k => [`geometry-${k}.json`, geometry[k]])),
   'curves.json': sampled,
+  // THEMES as the engine has it, for the token layer's test (B-07).
+  'themes.json': round(E.THEMES),
 };
 
 const check = process.argv.includes('--check');

@@ -1,7 +1,7 @@
 ---
 id: B-07
 title: "Tokens generated from THEMES: colours, shape, type, motion, three themes"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-1-materials
@@ -25,3 +25,18 @@ D4: the token layer is generated from `THEMES` in the vendored engine and never 
 - AC: the three themes compile into `toon-core`; a test asserts one value per family against the
   engine.
 - Anchors: `reference/design-system/toon-engine.js`, `reference/design-system/compose/toon/ui/theme/ToonTheme.kt`.
+
+## Done (2026-11-02)
+
+- `scripts/generate-tokens.mjs` writes `tokens/ToonTokens.kt`: `ToonColors` (all 27 colour keys, the
+  night-only rim pair, the card fills and stickers), `ToonShape`, `ToonTokens` per theme,
+  `ToonTypeScale`, `ToonStroke`, `ToonSize`, `ToonMotion` and `ToonSpring`. `make tokens` writes it;
+  `make check` runs `--check`.
+- **Found:** the type scale, sizes and motion are not in THEMES but in the Core page's token table.
+  They are taken from there, each held to its page text (research D4). The design's fonts are names
+  here; binding them to the bundled files is B-08's theme.
+- `ToonTokensTest` compares every colour, shape number and font name of the three themes with the
+  engine's own THEMES (`engine-goldens/themes.json`, added to B-03's harness). One more test fails
+  if THEMES gains a key the tokens do not carry. Mutant: stage `#CBC3A6` → `#CBC3A7` failed the test
+  ("il.bg") and `--check` ("ToonTokens.kt is stale").
+- `ToonRadii` and `ToonInsets` left `@InternalToonApi`: they are token types now.

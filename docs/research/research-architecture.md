@@ -218,7 +218,14 @@ called, and a pixel diff of a wobbly outline cannot say whether a seed, a radius
 A generator reads `THEMES` from the vendored engine (in Node) and writes the Kotlin token layer.
 The token names are the sketch's readable ones (`stage`, `surface`, `surfacePressed`,
 `primaryHighlight`), mapped from the engine's short keys (`bg`, `paper`, `surface2`, `btnHi`) in one
-table. `make check` fails when the generated file is stale. *Rejected:* the sketch's hand-typed
+table. `make check` fails when the generated file is stale.
+
+*Built in B-07, with one finding:* `THEMES` holds colours, shape numbers and font names only. The
+readable names, the type scale (Display 40/44 … Label 13/16), the control sizes, the motion durations,
+springs and cascade live in the Core page's token table (`colorTokens`, `typeScale`, `shapeTokens` in
+`toon-ui Core.dc.html`), as page code. So `scripts/generate-tokens.mjs` takes values from THEMES by
+running the engine, and the rest from that table. Every value of the second kind is held to the exact
+page text it was read from, and `--check` fails if a re-import changes it. *Rejected:* the sketch's hand-typed
 `ToonTheme.kt`, which already holds a token (`stageWash`) the engine does not.
 
 ### D5. 1 px = 1 dp; text in sp
