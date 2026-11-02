@@ -155,6 +155,9 @@ class ToonDialogTest {
         assertEquals(ToonDialogHit.Cancel, toonDialogHit(390f, 700f, h, 20f, 350f), "outside")
         assertNull(toonDialogHit(390f, 700f, h, 100f, y0 + 40), "on the title")
         assertNull(toonDialogHit(390f, 700f, h, 60f, row), "left of the cancel button")
+        // The cancel area runs 110 dp left of the confirm button, from x 83: wider than the 104 dp button.
+        assertEquals(ToonDialogHit.Cancel, toonDialogHit(390f, 700f, h, 84f, row))
+        assertNull(toonDialogHit(390f, 700f, h, 82f, row))
     }
 
     @Test
@@ -199,6 +202,8 @@ class ToonDialogTest {
             toonDialogLines("aaaa  aaaa\naaaa") { it.length * 28f },
         )
         assertEquals(emptyList(), toonDialogLines(" ") { 0f })
+        assertEquals(listOf("aa bb"), toonDialogLines("aa bb") { if (' ' in it) 252f else 10f })
+        assertEquals(listOf("aa", "bb"), toonDialogLines("aa bb") { if (' ' in it) 253f else 10f })
     }
 
     @Test
