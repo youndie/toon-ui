@@ -1,7 +1,7 @@
 ---
 id: B-26
 title: "TopAppBar: a sign on two nails that sways"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
