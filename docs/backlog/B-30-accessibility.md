@@ -1,7 +1,7 @@
 ---
 id: B-30
 title: "Accessibility: semantics, state descriptions, contrast, targets"
-status: open
+status: wip
 priority: P2
 size: M
 stage: stage-4-product
