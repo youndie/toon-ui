@@ -11234,6 +11234,474 @@
         8
       ],
       "scene": "E.radio(T, {\"sel\":true,\"ds\":1,\"dotY\":0,\"dsx\":1.037897,\"dsy\":0.966314,\"sp\":0.863636})"
+    },
+    {
+      "file": "Switch_Off_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":false})"
+    },
+    {
+      "file": "Switch_On_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true})"
+    },
+    {
+      "file": "Switch_Pressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"pressed\":true,\"sx\":1.18,\"sy\":0.84})"
+    },
+    {
+      "file": "Switch_Focused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"focus\":true})"
+    },
+    {
+      "file": "Switch_Disabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":false,\"disabled\":true})"
+    },
+    {
+      "file": "Switch_Disabled_On_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"disabled\":true})"
+    },
+    {
+      "file": "Switch_Toggle_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":0,\"sx\":1,\"sy\":1,\"origin\":\"c\",\"trackOn\":false,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_40ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":-0.12,\"sx\":1,\"sy\":1,\"origin\":\"c\",\"trackOn\":false,\"echo\":0,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_90ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":0.44,\"sx\":1.5,\"sy\":0.816497,\"origin\":\"c\",\"trackOn\":false,\"echo\":1,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_140ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":0.72,\"sy\":1.2,\"origin\":\"r\",\"trackOn\":true,\"wave\":0,\"on\":true})"
+    },
+    {
+      "file": "Switch_Toggle_220ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":1.090413,\"sy\":0.935419,\"origin\":\"r\",\"trackOn\":true,\"wave\":0.470588,\"on\":true})"
+    },
+    {
+      "file": "Switch_Toggle_320ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":0.979827,\"sy\":1.014409,\"origin\":\"r\",\"trackOn\":true,\"wave\":1,\"on\":true})"
+    },
+    {
+      "file": "Switch_Off_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":false})"
+    },
+    {
+      "file": "Switch_On_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true})"
+    },
+    {
+      "file": "Switch_Pressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"pressed\":true,\"sx\":1.18,\"sy\":0.84})"
+    },
+    {
+      "file": "Switch_Focused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"focus\":true})"
+    },
+    {
+      "file": "Switch_Disabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":false,\"disabled\":true})"
+    },
+    {
+      "file": "Switch_Disabled_On_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"disabled\":true})"
+    },
+    {
+      "file": "Switch_Toggle_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":0,\"sx\":1,\"sy\":1,\"origin\":\"c\",\"trackOn\":false,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_40ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":-0.12,\"sx\":1,\"sy\":1,\"origin\":\"c\",\"trackOn\":false,\"echo\":0,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_90ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":0.44,\"sx\":1.5,\"sy\":0.816497,\"origin\":\"c\",\"trackOn\":false,\"echo\":1,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_140ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":0.72,\"sy\":1.2,\"origin\":\"r\",\"trackOn\":true,\"wave\":0,\"on\":true})"
+    },
+    {
+      "file": "Switch_Toggle_220ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":1.090413,\"sy\":0.935419,\"origin\":\"r\",\"trackOn\":true,\"wave\":0.470588,\"on\":true})"
+    },
+    {
+      "file": "Switch_Toggle_320ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":0.979827,\"sy\":1.014409,\"origin\":\"r\",\"trackOn\":true,\"wave\":1,\"on\":true})"
+    },
+    {
+      "file": "Switch_Off_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":false})"
+    },
+    {
+      "file": "Switch_On_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true})"
+    },
+    {
+      "file": "Switch_Pressed_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"pressed\":true,\"sx\":1.18,\"sy\":0.84})"
+    },
+    {
+      "file": "Switch_Focused_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"focus\":true})"
+    },
+    {
+      "file": "Switch_Disabled_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":false,\"disabled\":true})"
+    },
+    {
+      "file": "Switch_Disabled_On_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        8,
+        14,
+        8,
+        10
+      ],
+      "scene": "E.sw(T, {\"on\":true,\"disabled\":true})"
+    },
+    {
+      "file": "Switch_Toggle_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":0,\"sx\":1,\"sy\":1,\"origin\":\"c\",\"trackOn\":false,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_40ms_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":-0.12,\"sx\":1,\"sy\":1,\"origin\":\"c\",\"trackOn\":false,\"echo\":0,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_90ms_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":0.44,\"sx\":1.5,\"sy\":0.816497,\"origin\":\"c\",\"trackOn\":false,\"echo\":1,\"on\":false})"
+    },
+    {
+      "file": "Switch_Toggle_140ms_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":0.72,\"sy\":1.2,\"origin\":\"r\",\"trackOn\":true,\"wave\":0,\"on\":true})"
+    },
+    {
+      "file": "Switch_Toggle_220ms_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":1.090413,\"sy\":0.935419,\"origin\":\"r\",\"trackOn\":true,\"wave\":0.470588,\"on\":true})"
+    },
+    {
+      "file": "Switch_Toggle_320ms_BrightCel.png",
+      "theme": "bc",
+      "w": 60,
+      "h": 48,
+      "pad": [
+        6,
+        12,
+        6,
+        10
+      ],
+      "scene": "E.sw(T, {\"pos\":1,\"sx\":0.979827,\"sy\":1.014409,\"origin\":\"r\",\"trackOn\":true,\"wave\":1,\"on\":true})"
     }
   ]
 }
