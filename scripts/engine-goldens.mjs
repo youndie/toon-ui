@@ -182,6 +182,17 @@ for (const [name, ops] of Object.entries(timelines)) {
   });
 }
 
+// ---- FX outlines (B-12) ----
+// The hole's cracked silhouette is a large fill whose crack pattern a pixel diff cannot see (a
+// different seed measured under the floor), so its two polygons are recorded here, every 0.05 of its
+// life, on the FX page's block: (90, 62), 80 × 48, radii [12, 8, 13, 9], seed 5.
+const fx = {
+  hole: Array.from({ length: 20 }, (_, i) => i * .05).map(u => {
+    const [edge, ink] = E.hole(E.THEMES.il, u, 90, 62, 80, 48, [12, 8, 13, 9], 5).L;
+    return { u: r6(u), edge: edge.d, ink: ink.d };
+  }),
+};
+
 const engineSha = createHash('sha256').update(readFileSync(enginePath)).digest('hex');
 const files = {
   'manifest.json': { engine: 'reference/design-system/toon-engine.js', sha256: engineSha, decimals: 6, pathStep: 0.1, themes, scenes: Object.keys(scenes(E.THEMES.il)), curves: Object.keys(curves) },
@@ -191,6 +202,8 @@ const files = {
   'themes.json': round(E.THEMES),
   // The kit's press machine replayed over timelines (B-10).
   'press.json': press,
+  // The hole's silhouette over its life (B-12).
+  'fx.json': fx,
 };
 
 const check = process.argv.includes('--check');

@@ -294,29 +294,32 @@ internal fun DrawScope.drawToonIris(
     }
 }
 
+/** The hole's silhouette at one frame: the cracked [ink] polygon and the paper [edge] 2.6 dp outside it. */
+internal class ToonHoleOutline(
+    val ink: FloatArray,
+    val edge: FloatArray,
+)
+
 /**
- * The engine's `hole`: the element's own outline at [x], [y], [w], [h] with corner radii [r], cracked
- * every seventh point, holding then shrinking to 45 % while four chips fly off.
+ * The silhouette of the engine's `hole` at life [u]: the element's outline at [x], [y], [w], [h] with
+ * corner radii [r], cracked every seventh point by [seed], scaled about its centre.
  */
 @OptIn(InternalToonApi::class)
-internal fun DrawScope.drawToonHole(
-    colors: ToonColors,
+internal fun toonHoleOutline(
     u: Float,
     x: Float,
     y: Float,
     w: Float,
     h: Float,
     r: ToonRadii,
-    seed: Int = 5,
-) {
-    if (u < 0 || u >= 1) return
+    seed: Int,
+): ToonHoleOutline {
     val rnd = ToonRandom(seed)
     val pts = roundRectPoints(x, y, w, h, r, 4f)
     val n = pts.size / 2
     val cx = x + w / 2
     val cy = y + h / 2
     val sc = if (u < .15f) 1f else 1 - .55f * ((u - .15f) / .85f).pow(2)
-    val op = if (u < .6f) 1f else 1 - (u - .6f) / .4f
     val p = FloatArray(2 * n)
     for (i in 0 until n) {
         val dx = pts[2 * i] - cx
@@ -341,8 +344,30 @@ internal fun DrawScope.drawToonHole(
                 q[2 * i + 1] = p[2 * i + 1] + dy / l * 2.6f
             }
         }
-    drawPath(polygonPath(p2), colors.holeEdge, alpha = op)
-    drawPath(polygonPath(p), colors.ink, alpha = op)
+    return ToonHoleOutline(p, p2)
+}
+
+/**
+ * The engine's `hole`: [toonHoleOutline] holding then shrinking to 45 % and fading, while four chips
+ * fly off.
+ */
+internal fun DrawScope.drawToonHole(
+    colors: ToonColors,
+    u: Float,
+    x: Float,
+    y: Float,
+    w: Float,
+    h: Float,
+    r: ToonRadii,
+    seed: Int = 5,
+) {
+    if (u < 0 || u >= 1) return
+    val cx = x + w / 2
+    val cy = y + h / 2
+    val op = if (u < .6f) 1f else 1 - (u - .6f) / .4f
+    val outline = toonHoleOutline(u, x, y, w, h, r, seed)
+    drawPath(polygonPath(outline.edge), colors.holeEdge, alpha = op)
+    drawPath(polygonPath(outline.ink), colors.ink, alpha = op)
     val e = 1 - (1 - c01(u * 1.4f)).pow(2)
     HOLE_CHIPS.forEachIndexed { j, (dx, dy) ->
         val px = cx + dx * (w / 2 + 6 + 34 * e)
