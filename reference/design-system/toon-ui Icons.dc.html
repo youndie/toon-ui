@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<style>
+body{margin:0;background:#E6E2D8;color:#2B211C;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B4482A}a:hover{color:#2B211C}
+</style>
+</helmet>
+<section data-screen-label="Icons" style="padding:56px 56px 96px; display:flex; flex-direction:column; gap:56px; max-width:1480px;">
+
+  <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-end; justify-content:space-between;">
+    <div style="display:flex; flex-direction:column; gap:8px; max-width:780px;">
+      <div style="font:600 13px/1 Figtree; letter-spacing:.12em; text-transform:uppercase; color:#7A6E62;">toon-ui · Stage 3 · Icons</div>
+      <div style="font:400 48px/1.05 Shrikhand; color:#2B211C;">Redrawing a Material icon</div>
+      <div style="font:400 16px/1.5 Figtree; color:#4A3F37; text-wrap:pretty;">Same metaphors as Material, our own paths. Each icon is one centerline on the 24 dp grid; the variable ink weight is computed from it, so Regular and Bold come from the same source and any new icon follows the rule automatically.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px; padding:4px; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px; background:#F4EBD6; width:420px; max-width:100%;">
+      <sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3">
+        <div onClick="{{ o.pick }}" style="cursor:pointer; padding:9px 8px; border-radius:10px 7px 11px 8px; background:{{ o.bg }}; display:flex; flex-direction:column; gap:3px; align-items:center; text-align:center;">
+          <div style="font:700 13px/1.15 Figtree; color:{{ o.color }};">{{ o.label }}</div>
+          <div style="font:500 11px/1 Figtree; color:{{ o.subColor }};">{{ o.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px;">
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <div style="font:800 14px/1 Figtree; color:#7A6E62;">01</div>
+      <div style="font:400 32px/1 Shrikhand; color:#2B211C;">The rule</div>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+      <div style="flex:1 1 420px; min-width:0; display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:14px;">
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">1</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">Keep the metaphor, redraw the line</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">Start from the Material silhouette, then draw a new centerline inside the 20 dp live area. Never trace the Material path.</div></div></div>
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:10px 14px 11px 16px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">2</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">One centerline per icon</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">Open or closed subpaths with round caps and joins. No outlined shapes, no filled glyphs. The optional cel fill is a separate closed path underneath.</div></div></div>
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:16px 11px 14px 10px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">3</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">Two weights</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">Regular 2.1 dp and Bold 2.7 dp nominal. Bold at 16–20 dp, and for the selected item in navigation.</div></div></div>
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:11px 16px 10px 14px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">4</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">Weight follows gravity</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">The renderer thickens the line low in the grid and on horizontal runs, and thins it high up and on verticals: 0.72–1.44× nominal. Don’t draw the swell by hand.</div></div></div>
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">5</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">Nothing perfectly round or square</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">Circles become slightly tilted ellipses (radii differ ~8 %), corners get 1–2 dp of rounding, straight lines may drift 0.2–0.5 dp off axis.</div></div></div>
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:10px 14px 11px 16px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">6</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">Drop what doesn’t read at 24 dp</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">Inner details under 2 dp, motion lines, extra dots, double contours, Material’s outlined / rounded / sharp variants. Four strokes at most.</div></div></div>
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:16px 11px 14px 10px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">7</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">One overshoot at most</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">A line end may run 0.5–1 dp past a corner, like the checkbox tick. Never on navigation icons.</div></div></div>
+        <div style="display:flex; gap:12px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:11px 16px 10px 14px;"><div style="font:400 22px/1 Shrikhand; color:#E2643C; flex:none; width:22px;">8</div><div style="display:flex; flex-direction:column; gap:4px;"><div style="font:800 15px/1.3 Figtree; color:#2B211C;">Colour</div><div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">The line takes the text colour (ink by day, cream at night). The fill takes one cel colour and marks the selected state.</div></div></div>
+      </div>
+      <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:10px; padding:20px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:12px 18px 14px 20px;">
+        <div style="font:700 11px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:{{ t.muted }};">Anatomy · bell, Regular, 24 dp grid at 14×</div>
+        <div style="position:relative; width:{{ anat.sw }}px; height:{{ anat.sh }}px;">
+          <svg width="{{ anat.sw }}" height="{{ anat.sh }}" viewBox="{{ anat.vb }}" style="display:block; position:absolute; left:0; top:0; overflow:visible;">
+            <sc-for list="{{ anat.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+          </svg>
+          <sc-for list="{{ anat.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px;">
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <div style="font:800 14px/1 Figtree; color:#7A6E62;">02</div>
+      <div style="font:400 32px/1 Shrikhand; color:#2B211C;">Do / Don’t</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:16px;">
+      <sc-for list="{{ dos }}" as="d" hint-placeholder-count="4">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+          <div style="font:800 15px/1.3 Figtree; color:#2B211C;">{{ d.title }}</div>
+          <div style="display:flex; gap:12px;">
+            <sc-for list="{{ d.pair }}" as="c" hint-placeholder-count="2">
+              <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:14px 8px 10px; background:{{ t.bg }}; border-radius:10px 7px 11px 8px;">
+                <svg width="{{ c.sw }}" height="{{ c.sh }}" viewBox="{{ c.vb }}" style="display:block;">
+                  <sc-for list="{{ c.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                </svg>
+                <div style="font:800 12px/1 Figtree; color:{{ c.labelColor }};">{{ c.name }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font:400 13px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">{{ d.note }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px;">
+    <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:14px;">
+      <div style="font:800 14px/1 Figtree; color:#7A6E62;">03</div>
+      <div style="font:400 32px/1 Shrikhand; color:#2B211C;">Twenty-four icons</div>
+      <div style="font:500 14px/1.4 Figtree; color:#6B5F55;">Regular, Bold and filled at 48 dp; real size at 24 dp underneath.</div>
+      <div onClick="{{ download }}" style="margin-left:auto; cursor:pointer; padding:9px 14px; font:700 13px/1 Figtree; color:#2B211C; background:#F4EBD6; border:2px solid #2B211C; border-radius:9px 6px 10px 7px; box-shadow:3px 3px 0 #2B211C;">Download SVG sprite</div>
+    </div>
+    <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="font:700 12px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:#7A6E62;">{{ g.name }}</div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(232px, 1fr)); gap:14px;">
+          <sc-for list="{{ g.icons }}" as="ic" hint-placeholder-count="6">
+            <div style="display:flex; flex-direction:column; gap:12px; padding:14px 16px 12px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+              <div style="display:flex; align-items:center; justify-content:space-between; gap:8px;">
+                <div style="font:600 12px/1 ui-monospace, Menlo, monospace; color:{{ t.text }};">{{ ic.name }}</div>
+                <div onClick="{{ ic.copy }}" style="cursor:pointer; font:700 12px/1 Figtree; color:{{ t.text }}; text-decoration:underline; padding:4px 0;">{{ ic.copyLabel }}</div>
+              </div>
+              <div style="display:flex; gap:14px; align-items:flex-end;">
+                <sc-for list="{{ ic.big }}" as="c" hint-placeholder-count="3">
+                  <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+                    <svg width="{{ c.sw }}" height="{{ c.sh }}" viewBox="{{ c.vb }}" style="display:block;">
+                      <sc-for list="{{ c.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                    </svg>
+                    <div style="font:500 10px/1 Figtree; color:{{ t.muted }};">{{ c.name }}</div>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex; gap:10px; align-items:center;">
+                <sc-for list="{{ ic.small }}" as="c" hint-placeholder-count="2">
+                  <svg width="{{ c.sw }}" height="{{ c.sh }}" viewBox="{{ c.vb }}" style="display:block;">
+                    <sc-for list="{{ c.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                  </svg>
+                </sc-for>
+                <div style="font:500 10px/1.2 Figtree; color:{{ t.muted }};">24 dp · Regular / Bold</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+
+  <div style="font:500 13px/1.5 Figtree; color:#6B5F55; max-width:780px; text-wrap:pretty;">Source of truth is the centerline path per icon in <span style="font-family:ui-monospace, Menlo, monospace;">toon-engine.js</span>. The sprite contains baked outlines for designers; in Compose the same centerline is sampled with PathMeasure every 0.3 dp and filled with the width function, cached per icon, size and weight.</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { theme: 'il', ready: false, fontsV: 0, copied: null };
+  memo = {};
+  GROUPS = [
+    ['Navigation', ['home', 'search', 'back', 'chevron', 'more', 'person']],
+    ['Actions', ['plus', 'close', 'edit', 'heart', 'star', 'calendar']],
+    ['Status', ['check', 'warning', 'info', 'bell']],
+    ['Added for v1 and settings', ['menu', 'settings', 'delete', 'share', 'filter', 'refresh', 'lock', 'eye']],
+  ];
+  get E() { if (!this._e && window.ToonEngine) this._e = new window.ToonEngine(); return this._e; }
+  componentDidMount() {
+    const go = () => { if (!window.ToonEngine) { this.wait = setTimeout(go, 50); return; } this.setState({ ready: true }); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => this.setState(s => ({ fontsV: s.fontsV + 1 })));
+  }
+  componentWillUnmount() { clearTimeout(this.wait); clearTimeout(this.ct); }
+
+  buildStatic(T) {
+    const E = this.E, ic = E.ICONS;
+    ic._search_round = { d: 'M16.4 10.4 A6 6 0 1 1 4.4 10.4 A6 6 0 1 1 16.4 10.4 Z M14.6 14.6 L20.2 20.2' };
+    ic._bell_busy = { d: ic.bell.d + ' M3.3 8.4 C3.7 6.3 4.6 4.9 5.9 3.9 M20.7 8.4 C20.3 6.3 19.4 4.9 18.1 3.9 M8.7 11.4 C8.9 9.3 10 8 11.5 7.8' };
+    const cell = (sc, scale, name) => E.cell(name || '', sc, 24, 24, [0, 0, 0, 0], scale);
+    const one = (n, o = {}) => ({ L: E.icon(T, n, 0, 0, o), X: [] });
+
+    // anatomy
+    const g = []; for (let i = 0; i <= 24; i++) g.push(`M0 ${i} H24 M${i} 0 V24`);
+    const lead = (x0, y0, x1, y1) => E.L(`M${x0} ${y0} L${x1} ${y1}`, 'none', { stroke: T.text, sw: .06 });
+    const lab = (s, x, y, anchor) => E.X(s, x, y, { ff: 'Figtree', fw: 700, fs: .92, fill: T.text, anchor });
+    const anatL = [
+      E.L(g.join(' '), 'none', { stroke: T.muted, sw: .03, op: .45 }),
+      E.L('M2 2 H22 V22 H2 Z', 'none', { stroke: T.focus, sw: .07, dash: '.3 .25' }),
+      E.L('M22 12 A10 10 0 1 1 2 12 A10 10 0 1 1 22 12 Z', 'none', { stroke: T.focus, sw: .05, dash: '.2 .3', op: .6 }),
+      E.L(ic.bell.fill, T.chipSel),
+      E.L(E.iconOutline('bell', 2.1), T.text, { op: .92 }),
+      E.L(ic.bell.d, 'none', { stroke: T.primary, sw: .09, dash: '.28 .2' }),
+      lead(18.3, 16.7, 24.6, 17.2), lead(17.05, 10.2, 24.6, 9.6), lead(14.1, 19.3, 24.6, 20.8),
+      lead(2, 2, -.4, 2.2), lead(7.05, 10.5, -.4, 7.2), lead(9.5, 13.8, -.4, 13.8),
+    ];
+    const anatX = [lab('thick: low + horizontal', 25, 17.5, 'start'), lab('thin: high + vertical', 25, 9.9, 'start'), lab('round cap, tapered end', 25, 21.1, 'start'),
+      lab('2 dp padding', -.7, 2.5, 'end'), lab('centerline (source)', -.7, 7.5, 'end'), lab('cel fill (optional)', -.7, 14.1, 'end')];
+    const anat = E.cell('', { L: anatL, X: anatX }, 24, 24, [1.5, 12.5, 1.5, 10.5], 14);
+
+    // do / don't
+    const uni = n => ({ L: [E.L(ic[n].d, 'none', { stroke: T.text, sw: 2 })], X: [] });
+    const dbl = n => ({ L: [E.L(ic[n].d, 'none', { stroke: T.text, sw: 3.6 }), E.L(ic[n].d, 'none', { stroke: T.bg, sw: 1.3 })], X: [] });
+    const pair = (doSc, dontSc) => [{ ...cell(doSc, 4), name: 'Do', labelColor: T.text }, { ...cell(dontSc, 4), name: 'Don’t', labelColor: T.dangerText }];
+    const dos = [
+      { title: 'Variable weight, computed', pair: pair(one('heart'), uni('heart')), note: 'Uniform 2 dp stroke reads as a system icon. The swell comes from the renderer, not from hand-drawn outlines.' },
+      { title: 'One line, no double contour', pair: pair(one('star'), dbl('star')), note: 'Outlined “tube” strokes look like Material Outlined. Draw a single centerline; use the cel fill for emphasis.' },
+      { title: 'No perfect circles', pair: pair(one('search'), one('_search_round')), note: 'The lens is a slightly tilted ellipse and the handle starts off the 45° diagonal.' },
+      { title: 'Drop small details', pair: pair(one('bell'), one('_bell_busy')), note: 'Ringing lines and an inner highlight turn to mush at 24 dp. Motion belongs to the animation, not the glyph.' },
+    ];
+
+    const groups = this.GROUPS.map(([name, list]) => ({ name, icons: list.map(n => ({ name: n,
+      big: [{ ...cell(one(n), 2), name: 'Regular' }, { ...cell(one(n, { bold: true }), 2), name: 'Bold' }, { ...cell(one(n, { fill: ic[n].fill ? T.chipSel : null }), 2), name: ic[n].fill ? 'Filled' : 'No fill' }],
+      small: [cell(one(n), 1), cell(one(n, { bold: true }), 1)] })) }));
+    return { anat, dos, groups };
+  }
+
+  download() {
+    const E = this.E; let syms = '';
+    this.GROUPS.forEach(([, list]) => list.forEach(n => { [['regular', 2.1], ['bold', 2.7]].forEach(([w, b]) => { syms += `<symbol id="toon-${n}-${w}" viewBox="0 0 24 24">${E.ICONS[n].fill ? `<path class="fill" d="${E.ICONS[n].fill}" fill="none"/>` : ''}<path d="${E.iconOutline(n, b)}" fill="currentColor"/></symbol>`; }); }));
+    const blob = new Blob([`<svg xmlns="http://www.w3.org/2000/svg">${syms}</svg>`], { type: 'image/svg+xml' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'toon-icons.svg'; document.body.appendChild(a); a.click(); a.remove();
+  }
+
+  renderVals() {
+    const th = this.state.theme;
+    const themeOpts = ['il', 'in', 'bc'].map(k => ({ label: k === 'bc' ? 'Bright Cel' : 'Ink & Gouache', sub: { il: 'base · light', in: 'base · night', bc: 'alt · light' }[k], bg: k === th ? '#2B211C' : 'transparent', color: k === th ? '#F4EBD6' : '#2B211C', subColor: k === th ? '#D9CFB6' : '#6B5F55', pick: () => this.setState({ theme: k }) }));
+    const empty = { L: [], X: [], vb: '0 0 1 1', sw: 1, sh: 1 };
+    if (!this.state.ready || !this.E) return { t: { bg: '#CBC3A6', muted: '#51463D', text: '#2B211C' }, themeOpts, anat: empty, dos: [], groups: [], download: () => {} };
+    const T = this.E.THEMES[th], key = th + '|' + this.state.fontsV, S = this.memo[key] || (this.memo[key] = this.buildStatic(T));
+    const groups = S.groups.map(g => ({ ...g, icons: g.icons.map(ic => ({ ...ic, copyLabel: this.state.copied === ic.name ? 'Copied' : 'Copy SVG',
+      copy: () => { const svg = this.E.iconSvg(ic.name, false); if (navigator.clipboard) navigator.clipboard.writeText(svg).catch(() => {}); this.setState({ copied: ic.name }); clearTimeout(this.ct); this.ct = setTimeout(() => this.setState({ copied: null }), 1400); } })) }));
+    return { t: T, themeOpts, anat: S.anat, dos: S.dos, groups, download: () => this.download() };
+  }
+}
+</script>
+</body>
+</html>

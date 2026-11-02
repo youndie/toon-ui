@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+</helmet>
+<div onPointerDown="{{ down }}" onPointerUp="{{ up }}" onPointerLeave="{{ leave }}" onPointerCancel="{{ leave }}" style="position:relative; display:inline-block; vertical-align:top; width:{{ w }}px; height:{{ h }}px; cursor:{{ cursor }}; touch-action:manipulation; user-select:none; -webkit-tap-highlight-color:transparent;">
+  <svg ref="{{ svgRef }}" width="{{ sw }}" height="{{ sh }}" viewBox="{{ vb }}" style="position:absolute; left:{{ sx }}px; top:{{ sy }}px; overflow:{{ ov }}; pointer-events:none;"></svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:280,&quot;height&quot;:172},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Add plan&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;variant&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;filled&quot;,&quot;outlined&quot;,&quot;text&quot;],&quot;default&quot;:&quot;filled&quot;,&quot;tsType&quot;:&quot;'filled'|'outlined'|'text'&quot;},&quot;width&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:600,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;disabled&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;loading&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;idle&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onClick&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() => void&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    const go = () => { if (!window.ToonKit || !window.ToonEngine) { this._w = setTimeout(go, 40); return; } this._k = window.ToonKit.attach(this, 'button'); this.forceUpdate(); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => { if (this._k) { this._k.last = ''; this.forceUpdate(); this._k.draw(); } });
+  }
+  componentDidUpdate(prev) { if (this._k) this._k.update(prev); }
+  componentWillUnmount() { clearTimeout(this._w); if (this._k) this._k.detach(); }
+  renderVals() { return (window.ToonKit && window.ToonKit.vals(this, 'button')) || { w: 200, h: 52, sw: 200, sh: 52, vb: '0 0 200 52', sx: 0, sy: 0, ov: 'visible', cursor: 'default', svgRef: null, down: () => {}, up: () => {}, leave: () => {} }; }
+}
+</script>
+</body>
+</html>

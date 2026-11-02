@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+</helmet>
+<div ref="{{ rootRef }}" onPointerDown="{{ down }}" onPointerUp="{{ up }}" style="position:absolute; left:0; top:0; right:0; bottom:0; pointer-events:{{ pe }}; z-index:40;">
+  <svg ref="{{ svgRef }}" width="{{ sw }}" height="{{ sh }}" viewBox="{{ vb }}" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:390,&quot;height&quot;:700},&quot;open&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Saturday&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;items&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;home:Home,calendar:Weekend,heart:Saved,settings:Settings&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;selected&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;min&quot;:0,&quot;max&quot;:9,&quot;tsType&quot;:&quot;number&quot;},&quot;onSelect&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(index: number) => void&quot;},&quot;onClose&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() => void&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  componentDidMount() {
+    const go = () => { if (!window.ToonKit || !window.ToonEngine) { this._w = setTimeout(go, 40); return; } this._k = window.ToonKit.attach(this, 'drawer'); this.forceUpdate(); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => { if (this._k) { this._k.last = ''; this.forceUpdate(); this._k.draw(); } });
+  }
+  componentDidUpdate(prev) { if (this._k) this._k.update(prev); }
+  componentWillUnmount() { clearTimeout(this._w); if (this._k) this._k.detach(); }
+  renderVals() { return (window.ToonKit && window.ToonKit.vals(this, 'drawer')) || { w: 360, h: 640, sw: 360, sh: 640, vb: '0 0 360 640', sx: 0, sy: 0, ov: 'visible', cursor: 'default', svgRef: null, down: () => {}, up: () => {}, leave: () => {}, move: () => {}, rootRef: null, pe: 'none' }; }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<style>
+body{margin:0;background:#E6E2D8;color:#2B211C;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B4482A}a:hover{color:#2B211C}
+</style>
+</helmet>
+<section data-screen-label="Kit" style="padding:56px 56px 96px; display:flex; flex-direction:column; gap:48px; max-width:1480px;">
+  <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-end; justify-content:space-between;">
+    <div style="display:flex; flex-direction:column; gap:8px; max-width:780px;">
+      <div style="font:600 13px/1 Figtree; letter-spacing:.12em; text-transform:uppercase; color:#7A6E62;">toon-ui · Component library</div>
+      <div style="font:400 48px/1.05 Shrikhand; color:#2B211C;">Twenty-seven pieces to build with</div>
+      <div style="font:400 16px/1.5 Figtree; color:#4A3F37; text-wrap:pretty;">Every component is its own Design Component file, animated and themed through one runtime. Drop one into any page in this project with <span style="font-family:ui-monospace, Menlo, monospace; background:#F4EBD6; padding:1px 5px; border-radius:4px;">&lt;dc-import name="ToonButton" label="Add plan"&gt;</span>; props show up as Tweaks. The screen on the left is assembled only from these.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px; padding:4px; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px; background:#F4EBD6; width:420px; max-width:100%;">
+      <sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3">
+        <div onClick="{{ o.pick }}" style="cursor:pointer; padding:9px 8px; border-radius:10px 7px 11px 8px; background:{{ o.bg }}; display:flex; flex-direction:column; gap:3px; align-items:center; text-align:center;">
+          <div style="font:700 13px/1.15 Figtree; color:{{ o.color }};">{{ o.label }}</div>
+          <div style="font:500 11px/1 Figtree; color:{{ o.subColor }};">{{ o.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:48px; align-items:flex-start;">
+    <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="position:relative; width:390px; height:844px; overflow:hidden; border-radius:32px; background:{{ bg }}; box-shadow:0 0 0 1px rgba(43,33,28,.18);">
+        <div style="position:absolute; left:0; top:28px;">
+          <dc-import name="ToonTopAppBar" title="Saturday" actions="search,more" nav="{{ false }}" hint-size="390px,76px"></dc-import>
+        </div>
+        <div style="position:absolute; left:24px; top:112px;">
+          <dc-import name="ToonTabs" labels="Today,Weekend,Someday" selected="{{ tab }}" onChange="{{ setTab }}" hint-size="342px,52px"></dc-import>
+        </div>
+        <div style="position:absolute; left:24px; top:190px; display:flex; flex-direction:column; gap:18px;">
+          <sc-for list="{{ cards }}" as="c" hint-placeholder-count="3">
+            <dc-import name="ToonCard" title="{{ c.title }}" meta="{{ c.meta }}" time="{{ c.time }}" index="{{ c.index }}" appear="{{ true }}" delay="{{ c.delay }}" onClick="{{ c.open }}" hint-size="342px,84px"></dc-import>
+          </sc-for>
+        </div>
+        <div style="position:absolute; left:20px; top:494px; display:flex; gap:10px;">
+          <dc-import name="ToonChip" label="Outdoors" selected="{{ true }}" tilt="{{ -1.5 }}" hint-size="110px,48px"></dc-import>
+          <dc-import name="ToonChip" label="Indoors" hint-size="100px,48px"></dc-import>
+          <dc-import name="ToonChip" label="With kids" tilt="{{ 1 }}" hint-size="110px,48px"></dc-import>
+        </div>
+        <div style="position:absolute; left:24px; top:546px;">
+          <dc-import name="ToonTextField" label="Plan name" helper="What’s the plan?" hint-size="342px,106px"></dc-import>
+        </div>
+        <div style="position:absolute; left:28px; top:652px;">
+          <dc-import name="ToonSwitch" label="Remind me at noon" checked="{{ true }}" width="{{ 334 }}" hint-size="334px,48px"></dc-import>
+        </div>
+        <div style="position:absolute; left:24px; top:712px;">
+          <dc-import name="ToonButton" label="Add plan" width="{{ 342 }}" idle="{{ true }}" onClick="{{ add }}" hint-size="342px,52px"></dc-import>
+        </div>
+        <div style="position:absolute; left:24px; top:632px;">
+          <dc-import name="ToonSnackbar" text="{{ snackText }}" action="Undo" shown="{{ snack }}" onAction="{{ hideSnack }}" hint-size="342px,56px"></dc-import>
+        </div>
+        <dc-import name="ToonDialog" open="{{ dialog }}" title="Delete plan?" body="{{ dialogBody }}" confirm="Delete" cancel="Keep it" onConfirm="{{ confirm }}" onCancel="{{ closeDialog }}" hint-size="100%,100%"></dc-import>
+      </div>
+      <div style="font:500 12px/1.4 Figtree; color:#6B5F55; max-width:390px;">Tap a card to delete it, “Add plan” for the snackbar, tabs and chips to switch.</div>
+    </div>
+
+    <div style="flex:1 1 560px; min-width:0; display:grid; grid-template-columns:repeat(auto-fill, minmax(240px, 1fr)); gap:14px; align-content:start;">
+      <sc-for list="{{ index }}" as="it" hint-placeholder-count="12">
+        <div style="display:flex; flex-direction:column; gap:10px; padding:14px 16px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+          <div style="font:700 12px/1 ui-monospace, Menlo, monospace; color:#2B211C;">{{ it.name }}</div>
+          <div style="font:400 13px/1.4 Figtree; color:#4A3F37; text-wrap:pretty;">{{ it.desc }}</div>
+          <div style="font:500 11px/1.4 ui-monospace, Menlo, monospace; color:#6B5F55; overflow-wrap:anywhere;">{{ it.props }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-wrap:wrap; gap:28px 36px; padding:28px; background:{{ bg }}; border:2.5px solid #2B211C; border-radius:18px 12px 20px 14px; align-items:center;">
+    <dc-import name="ToonButton" label="Filled" hint-size="120px,52px"></dc-import>
+    <dc-import name="ToonButton" label="Outlined" variant="outlined" hint-size="130px,52px"></dc-import>
+    <dc-import name="ToonButton" label="Text" variant="text" hint-size="120px,52px"></dc-import>
+    <dc-import name="ToonButton" label="Saving" loading="{{ true }}" hint-size="120px,52px"></dc-import>
+    <dc-import name="ToonIconButton" icon="heart" hint-size="48px,48px"></dc-import>
+    <dc-import name="ToonIconButton" icon="edit" variant="filled" hint-size="48px,48px"></dc-import>
+    <dc-import name="ToonFab" hint-size="64px,64px"></dc-import>
+    <dc-import name="ToonFab" label="New plan" hint-size="170px,64px"></dc-import>
+    <dc-import name="ToonCheckbox" label="Bring snacks" hint-size="160px,48px"></dc-import>
+    <dc-import name="ToonRadioGroup" options="Morning,Noon,Evening" hint-size="150px,156px"></dc-import>
+    <dc-import name="ToonProgress" hint-size="280px,14px"></dc-import>
+    <dc-import name="ToonProgress" kind="circular" hint-size="48px,48px"></dc-import>
+    <div style="position:relative; width:48px; height:48px;">
+      <dc-import name="ToonIconButton" icon="bell" toggle="{{ false }}" hint-size="48px,48px"></dc-import>
+      <div style="position:absolute; left:28px; top:-6px;"><dc-import name="ToonBadge" count="{{ badge }}" hint-size="28px,24px"></dc-import></div>
+    </div>
+    <div onClick="{{ bump }}" style="cursor:pointer; padding:8px 12px; font:700 13px/1 Figtree; color:#2B211C; background:#F4EBD6; border:2px solid #2B211C; border-radius:9px 6px 10px 7px; box-shadow:3px 3px 0 #2B211C;">Badge +1</div>
+    <div style="display:flex; flex-direction:column; width:342px;">
+      <dc-import name="ToonListItem" icon="calendar" title="Weekend plans" sub="3 plans" hint-size="342px,72px"></dc-import>
+      <dc-import name="ToonListItem" icon="bell" title="Reminders" sub="At noon" trailing="switch" on="{{ true }}" index="{{ 1 }}" hint-size="342px,72px"></dc-import>
+      <dc-import name="ToonListItem" icon="star" title="Favourites" sub="" last="{{ true }}" index="{{ 2 }}" hint-size="342px,72px"></dc-import>
+    </div>
+    <dc-import name="ToonDivider" width="{{ 342 }}" hint-size="342px,12px"></dc-import>
+    <dc-import name="ToonNavBar" badgeIndex="{{ 3 }}" hint-size="390px,80px"></dc-import>
+    <div style="display:flex; gap:12px; align-items:center;">
+      <dc-import name="ToonIcon" icon="home" hint-size="24px,24px"></dc-import>
+      <dc-import name="ToonIcon" icon="heart" filled="{{ true }}" hint-size="24px,24px"></dc-import>
+      <dc-import name="ToonIcon" icon="star" weight="bold" size="{{ 32 }}" hint-size="32px,32px"></dc-import>
+    </div>
+  </div>
+<div style="display:flex; flex-wrap:wrap; gap:28px 36px; padding:28px; background:{{ bg }}; border:2.5px solid #2B211C; border-radius:18px 12px 20px 14px; align-items:flex-start;">
+    <div style="font:700 11px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:#51463D; width:100%;">v1</div>
+    <dc-import name="ToonSlider" value="{{ 0.4 }}" hint-size="300px,48px"></dc-import>
+    <dc-import name="ToonSegmented" labels="Day,Week,Month" hint-size="300px,44px"></dc-import>
+    <div style="display:flex; flex-direction:column; align-items:center; gap:4px;"><dc-import name="ToonTooltip" text="Tap to add a plan" hint-size="150px,46px"></dc-import><dc-import name="ToonIconButton" icon="plus" variant="filled" toggle="{{ false }}" hint-size="48px,48px"></dc-import></div>
+    <dc-import name="ToonMenu" hint-size="200px,171px"></dc-import>
+    <dc-import name="ToonTitleCard" variant="empty" width="{{ 320 }}" height="{{ 260 }}" hint-size="320px,260px"></dc-import>
+    <div style="position:relative; width:360px; height:260px; overflow:hidden; border-radius:18px; border:2.5px solid #2B211C;">
+      <dc-import name="ToonPullToRefresh" refreshing="{{ refreshing }}" onRefresh="{{ refresh }}" hint-size="360px,140px"></dc-import>
+      <div style="position:absolute; left:0; bottom:10px; width:100%; text-align:center; font:600 12px/1 Figtree; color:#51463D; pointer-events:none;">drag down on the top half</div>
+    </div>
+    <div style="position:relative; width:360px; height:520px; overflow:hidden; border-radius:24px; border:2.5px solid #2B211C; background:{{ bg }};">
+      <div style="position:absolute; left:16px; top:16px; display:flex; gap:10px;">
+        <div onClick="{{ openDrawer }}" style="cursor:pointer; padding:8px 12px; font:700 13px/1 Figtree; color:#2B211C; background:#F4EBD6; border:2px solid #2B211C; border-radius:9px 6px 10px 7px; box-shadow:3px 3px 0 #2B211C;">Drawer</div>
+        <div onClick="{{ openSheet }}" style="cursor:pointer; padding:8px 12px; font:700 13px/1 Figtree; color:#2B211C; background:#F4EBD6; border:2px solid #2B211C; border-radius:9px 6px 10px 7px; box-shadow:3px 3px 0 #2B211C;">Sheet</div>
+      </div>
+      <dc-import name="ToonNavDrawer" open="{{ drawer }}" onClose="{{ closeAll }}" onSelect="{{ closeAll }}" hint-size="100%,100%"></dc-import>
+      <dc-import name="ToonBottomSheet" open="{{ sheet }}" onClose="{{ closeAll }}" onSelect="{{ closeAll }}" hint-size="100%,100%"></dc-import>
+    </div>
+  </div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { drawer: false, sheet: false, refreshing: false, theme: 'light', tab: 0, cards: [0, 1, 2], dialog: false, target: null, snack: false, snackText: 'Plan added', badge: 3, n: 3 };
+  ITEMS = [
+    { title: 'Pancake breakfast', meta: 'Kitchen, bring syrup', time: '9:00' },
+    { title: 'Bike to the lake', meta: 'Check the tyre pump', time: '11:30' },
+    { title: 'Paint the fence', meta: 'Green this time', time: '14:00' },
+    { title: 'Picnic by the lake', meta: 'Blanket and lemonade', time: '13:00' },
+    { title: 'Fix the shed', meta: 'Someday, honestly', time: 'Sun' },
+  ];
+  componentDidMount() { const go = () => { if (!window.ToonKit) { this._w = setTimeout(go, 40); return; } window.ToonKit.setTheme(this.state.theme); }; go(); }
+  componentWillUnmount() { clearTimeout(this._w); clearTimeout(this._s); }
+  showSnack(t) { this.setState({ snack: true, snackText: t }); clearTimeout(this._s); this._s = setTimeout(() => this.setState({ snack: false }), 2600); }
+  renderVals() {
+    const th = this.state.theme, BG = { light: '#CBC3A6', night: '#1A2140', cel: '#BCD3D6' };
+    const themeOpts = [['light', 'Ink & Gouache', 'base · light'], ['night', 'Ink & Gouache', 'base · night'], ['cel', 'Bright Cel', 'alt · light']].map(([k, label, sub]) => ({ label, sub, bg: k === th ? '#2B211C' : 'transparent', color: k === th ? '#F4EBD6' : '#2B211C', subColor: k === th ? '#D9CFB6' : '#6B5F55', pick: () => { this.setState({ theme: k }); window.ToonKit && window.ToonKit.setTheme(k); } }));
+    const cards = this.state.cards.slice(0, 3).map((i, j) => ({ ...this.ITEMS[i], index: j, delay: j * 40, open: () => this.setState({ dialog: true, target: i }) }));
+    const tgt = this.state.target != null ? this.ITEMS[this.state.target].title : '';
+    const index = [
+      ['ToonButton', 'Filled, outlined, text. Squash on press, bouncy release, optional idle breathing and loading blob.', 'label · variant · width · loading · idle · disabled · onClick'],
+      ['ToonIconButton', 'Hand-drawn circle, icon hops on release; toggles a cel fill.', 'icon · variant · selected · toggle · onChange'],
+      ['ToonFab', 'Sewn-on button that lands with dust; extended with a label.', 'icon · label · land · delay · onClick'],
+      ['ToonTextField', 'Real input inside a drawn frame; label flies out, error shakes with stars.', 'label · value · helper · error · width · onChange'],
+      ['ToonCheckbox', 'Lopsided box, tick drawn as one stroke.', 'label · checked · error · onChange'],
+      ['ToonRadioGroup', 'Dot drops in and splats; old dot deflates.', 'options (comma list) · value · onChange'],
+      ['ToonSwitch', 'Lever with wind-up, smear and slap. Optional label on the left.', 'label · checked · width · onChange'],
+      ['ToonChip', 'Sticker label in a 48 dp touch box; filter, assist, input. Inflates and paints in on select.', 'label · variant · icon · selected · tilt · onChange'],
+      ['ToonCard', 'Paper sheet with tilt and hard shadow; drops in with dust when appear is on.', 'title · meta · time · index · appear · delay · onClick'],
+      ['ToonListItem', 'Row with sticker icon and a rule that bends on press.', 'icon · title · sub · trailing · on · last · onChange'],
+      ['ToonDivider', 'Tapering ink stroke.', 'width · inset · weight'],
+      ['ToonDialog', 'Fills its positioned parent; iris spotlight in, pop and stars out.', 'open · title · body · confirm · cancel · destructive · onConfirm · onCancel'],
+      ['ToonSnackbar', 'Sign on two nails; flies up and swings.', 'text · action · type · shown · onAction'],
+      ['ToonProgress', 'Crawling worm or spinning blob; value −1 = indeterminate.', 'kind · value · width'],
+      ['ToonBadge', 'Star-burst count; pops in, flings old numbers away.', 'count · dot'],
+      ['ToonTopAppBar', 'Sign on nails; sways when tapped or when scrolled flips.', 'title · variant · actions · nav · scrolled · onAction'],
+      ['ToonNavBar', 'Paper strip, jumping icon, paint-stroke indicator.', 'items (icon:Label list) · selected · badgeIndex · onChange'],
+      ['ToonTabs', 'Bookmarks on an ink shelf; indicator smears across.', 'labels · selected · onChange'],
+      ['ToonIcon', 'Any of the 25 icons with variable ink weight.', 'icon · size · weight · filled · color'],
+      ['ToonSlider', 'Ball on a rope between pegs; squashes when grabbed.', 'value · steps · width · onChange'],
+      ['ToonMenu', 'Paper scroll that unrolls; place it under its trigger.', 'open · items (icon:Label) · selected · onSelect'],
+      ['ToonBottomSheet', 'Fills its positioned parent; sheet with a tab, overshoot in.', 'open · title · items · onSelect · onClose'],
+      ['ToonNavDrawer', 'Fills its positioned parent; door on hinges.', 'open · title · items · selected · onSelect · onClose'],
+      ['ToonTooltip', 'Speech balloon; tail tip at bottom centre.', 'text · show'],
+      ['ToonSegmented', 'Shared outline, paint-drop selection.', 'labels · selected · onChange'],
+      ['ToonPullToRefresh', 'Rubber band at the top of a list; you own refreshing.', 'refreshing · onRefresh · onPull'],
+      ['ToonTitleCard', 'Splash or empty state: rings + plaque; tap replays.', 'variant · title · sub · width · height'],
+    ].map(([name, desc, props]) => ({ name, desc, props: props + ' · theme' }));
+    return {
+      themeOpts, bg: BG[th], index, cards, tab: this.state.tab, setTab: i => this.setState({ tab: i }),
+      dialog: this.state.dialog, dialogBody: `“${tgt}” will be gone for good.`,
+      closeDialog: () => this.setState({ dialog: false }),
+      confirm: () => { const cs = this.state.cards.filter(i => i !== this.state.target); if (cs.length < 3) cs.push(this.state.n % 5 === this.state.target ? (this.state.n + 1) % 5 : this.state.n % 5); this.setState({ dialog: false, cards: [...new Set(cs)].slice(0, 3), n: this.state.n + 1 }); this.showSnack('Plan deleted'); },
+      add: () => this.showSnack('Plan added'), snack: this.state.snack, snackText: this.state.snackText, hideSnack: () => this.setState({ snack: false }),
+      drawer: this.state.drawer, sheet: this.state.sheet, openDrawer: () => this.setState({ drawer: true }), openSheet: () => this.setState({ sheet: true }), closeAll: () => this.setState({ drawer: false, sheet: false }),
+      refreshing: this.state.refreshing, refresh: () => { this.setState({ refreshing: true }); clearTimeout(this._r); this._r = setTimeout(() => this.setState({ refreshing: false }), 1800); },
+      badge: this.state.badge, bump: () => this.setState(s => ({ badge: s.badge + 1 })),
+    };
+  }
+}
+</script>
+</body>
+</html>

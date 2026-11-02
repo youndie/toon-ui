@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<style>
+body{margin:0;background:#E6E2D8;color:#2B211C;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B4482A}a:hover{color:#2B211C}
+</style>
+</helmet>
+<section data-screen-label="Principles" style="padding:56px 56px 96px; display:flex; flex-direction:column; gap:56px; max-width:1400px;">
+  <div style="display:flex; flex-direction:column; gap:8px; max-width:820px;">
+    <div style="font:600 13px/1 Figtree; letter-spacing:.12em; text-transform:uppercase; color:#7A6E62;">toon-ui · Stage 4 · Principles</div>
+    <div style="font:400 48px/1.05 Shrikhand; color:#2B211C;">How to draw a new component</div>
+    <div style="font:400 16px/1.5 Figtree; color:#4A3F37; text-wrap:pretty;">Seven rules that hold for every piece of the kit, then the recipe, worked through on a component the kit doesn’t have yet: a Stepper. Read in five minutes; nothing here needs the brief.</div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font:800 14px/1 Figtree; color:#7A6E62;">01</div><div style="font:400 32px/1 Shrikhand; color:#2B211C;">Seven rules</div></div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(380px, 1fr)); gap:16px;">
+      <sc-for list="{{ rules }}" as="r" hint-placeholder-count="7">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px 18px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+          <div style="display:flex; gap:12px; align-items:baseline;"><div style="font:400 24px/1 Shrikhand; color:#E2643C;">{{ r.n }}</div><div style="flex:1; min-width:0; font:800 16px/1.3 Figtree; color:#2B211C;">{{ r.title }}</div></div>
+          <div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">{{ r.text }}</div>
+          <sc-if value="{{ r.hasPair }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; gap:10px;">
+              <sc-for list="{{ r.pair }}" as="c" hint-placeholder-count="2">
+                <div style="flex:1; display:flex; flex-direction:column; align-items:center; gap:8px; padding:12px 6px 10px; background:#CBC3A6; border-radius:10px 7px 11px 8px;">
+                  <svg width="{{ c.sw }}" height="{{ c.sh }}" viewBox="{{ c.vb }}" style="display:block; overflow:visible;">
+                    <sc-for list="{{ c.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                  </svg>
+                  <div style="font:800 12px/1 Figtree; color:{{ c.lc }};">{{ c.name }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:flex; flex-direction:column; gap:20px;">
+    <div style="display:flex; align-items:baseline; gap:14px;"><div style="font:800 14px/1 Figtree; color:#7A6E62;">02</div><div style="font:400 32px/1 Shrikhand; color:#2B211C;">The recipe, on a Stepper</div></div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(300px, 1fr)); gap:16px;">
+      <sc-for list="{{ steps }}" as="st" hint-placeholder-count="8">
+        <div style="display:flex; flex-direction:column; gap:12px; padding:16px 18px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:10px 14px 11px 16px;">
+          <div style="display:flex; align-items:center; justify-content:center; padding:24px 10px; background:#CBC3A6; border-radius:10px 7px 11px 8px; min-height:96px;">
+            <div style="position:relative; width:{{ st.c.sw }}px; height:{{ st.c.sh }}px;">
+              <svg width="{{ st.c.sw }}" height="{{ st.c.sh }}" viewBox="{{ st.c.vb }}" style="display:block; position:absolute; left:0; top:0; overflow:visible;">
+                <sc-for list="{{ st.c.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+              </svg>
+              <sc-for list="{{ st.c.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+            </div>
+          </div>
+          <div style="display:flex; gap:10px; align-items:baseline;"><div style="font:800 13px/1 Figtree; color:#7A6E62;">{{ st.n }}</div><div style="flex:1; min-width:0; font:800 15px/1.3 Figtree; color:#2B211C;">{{ st.title }}</div></div>
+          <div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">{{ st.text }}</div>
+          <div style="font:500 11px/1.4 ui-monospace, Menlo, monospace; color:#6B5F55;">{{ st.code }}</div>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:center; padding:20px 24px; background:#CBC3A6; border:2.5px solid #2B211C; border-radius:12px 18px 14px 20px;">
+      <div style="font:700 11px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:#51463D;">Live · tap − and +</div>
+      <div onPointerDown="{{ down }}" onPointerUp="{{ up }}" onPointerLeave="{{ up }}" style="cursor:pointer; touch-action:manipulation; user-select:none; width:200px;">
+        <svg ref="{{ liveRef }}" width="200" height="110" viewBox="-25 -40 200 110" style="display:block;"></svg>
+      </div>
+      <div style="font:400 14px/1.45 Figtree; color:#2B211C; max-width:520px; text-wrap:pretty;">Press squashes the tapped half only; the number flies out and the new one drops in (Badge count curve), and at the limits the whole stepper buzzes (FX shake). Three reused curves, zero new ones.</div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { ready: false };
+  n = 2; old = null; ct = -1e7; pt = -1e7; side = 0; pressed = false; bz = -1e7; clk = 0;
+  get E() { if (!this._e && window.ToonEngine) { this._e = new window.ToonEngine(); this._e.ICONS.minus = { d: 'M5.2 12.3 H18.9' }; } return this._e; }
+  componentDidMount() {
+    const go = () => { if (!window.ToonEngine) { this._w = setTimeout(go, 40); return; } this.setState({ ready: true }); this.last = performance.now(); const loop = now => { this.clk += Math.min(50, now - this.last); this.last = now; this.draw(); this.raf = requestAnimationFrame(loop); }; this.raf = requestAnimationFrame(loop); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => this.forceUpdate());
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this._w); }
+  stepper(T, o = {}) {
+    const E = this.E, w = 150, H = 52, r = [16, 11, 18, 12], Ls = [], Xs = [], half = w / 2;
+    const p = o.p || 0, sq = E.squashOf(p);
+    const g = (x0, x1, pr, seed) => { const sy = pr > 0 ? 1 - .1 * pr : 1, bw = (x1 - x0) * (pr > 0 ? 1 + .04 * pr : 1), bh = H * sy; return { x: x0 + ((x1 - x0) - bw) / 2, y: H - bh, w: bw, h: bh }; };
+    const L = g(0, half, o.side === -1 ? p : 0), R = g(half, w, o.side === 1 ? p : 0);
+    const whole = E.shape(0, 0, w, H, r, T.ins, T.amp, T.seed + 1300);
+    Ls.push(E.L(whole.ink, T.ink, { tf: `translate(${T.sh} ${T.sh})` }));
+    Ls.push(...E.body(T, L.x, L.y, L.w + 1, L.h, [r[0], 4, 4, r[3]], { seed: T.seed + 1301, fill: T.paper, sh: 0, noRim: true }));
+    Ls.push(...E.body(T, R.x - 1, R.y, R.w + 1, R.h, [4, r[1], r[2], 4], { seed: T.seed + 1302, fill: T.chipSel, sh: 0, noRim: true }));
+    Ls.push(E.L(E.inkLine(half, half, H / 2, 0, 1), 'none'), E.L(`M${half} 6 L${half + .6} ${H - 5}`, 'none', { stroke: T.ink, sw: 3 }));
+    Ls.push(...E.icon(T, 'minus', 14, 14 + (H - L.h) / 2, { bold: true, color: T.ink }), ...E.icon(T, 'plus', w - 38, 14 + (H - R.h) / 2, { bold: true, color: T.ink }));
+    const ft = { ff: T.display, fw: 400, fs: 26, fill: T.text, anchor: 'middle' };
+    Xs.push(E.X(String(o.n ?? 2), half, -12 + (o.numDy || 0), { ...ft, op: o.numOp ?? 1 }));
+    if (o.old != null && (o.oldOp || 0) > .01) Xs.push(E.X(String(o.old), half, -12 + (o.oldDy || 0), { ...ft, op: o.oldOp }));
+    return { L: Ls, X: Xs };
+  }
+  draw() {
+    const el = this._svg; if (!el || !this.E) return; const E = this.E, T = E.THEMES.il;
+    const tc = this.clk - this.ct, c = tc < 400 ? E.badgeCount(tc) : { numDy: 0, numOp: 1 }, tb = this.clk - this.bz;
+    let p = 0; if (this.pressed) p = 1 - Math.pow(1 - E.c01((this.clk - this.pt) / 80), 3); else { const tr = this.clk - this.pt; p = tr < 400 ? E.spr(tr / 1000, .35, 45) : 0; }
+    let sc = this.stepper(T, { n: this.n, old: this.old, ...c, p, side: this.side });
+    if (tb < 320) { const v = E.vibe(T, tb / 320, 0, 0, 150, 52); sc = E.cat({ L: v.L, X: [] }, E.place(sc, v.dx, 0)); }
+    const s = E.toSvg(sc); if (s !== this._last) { el.innerHTML = s; this._last = s; }
+  }
+  renderVals() {
+    const base = { liveRef: e => { this._svg = e; this._last = ''; }, down: () => {}, up: () => {} };
+    if (!this.state.ready || !this.E) return { ...base, rules: [], steps: [] };
+    const E = this.E, T = E.THEMES.il, C = (sc, w, h, pad = [8, 12, 12, 8], s = 1) => E.cell('', sc, w, h, pad, s);
+    const P = (a, b) => [{ ...a, name: 'Do', lc: '#2B211C' }, { ...b, name: 'Don’t', lc: '#8E2A1C' }];
+    const blk = (o = {}) => ({ L: E.body(T, 0, 0, 96, 52, o.r || [16, 11, 18, 12], { seed: T.seed + 1400, fill: o.fill || T.primary, sh: o.sh ?? T.sh, amp: o.amp ?? T.amp, ins: o.ins, noRim: true }), X: [] });
+    const flatStroke = (r) => ({ L: [E.L(E.wob(0, 0, 96, 52, r, 0, 1), T.primary), E.L(E.wob(0, 0, 96, 52, r, 0, 1), 'none', { stroke: T.ink, sw: 2.5 })], X: [] });
+    const soft = { L: [E.L(E.wob(5, 7, 96, 52, [14, 14, 14, 14], 0, 1), T.ink, { op: .12 }), E.L(E.wob(3, 4, 96, 52, [14, 14, 14, 14], 0, 1), T.ink, { op: .12 }), ...blk({ sh: 0 }).L], X: [] };
+    const shaded = { L: [...blk().L, E.L(E.wob(4, 4, 88, 20, [12, 8, 4, 4], .4, 3), '#F0A585', { op: .7 }), E.L(E.wob(4, 34, 88, 14, [4, 4, 14, 10], .4, 4), '#B94A28', { op: .55 })], X: [] };
+    const chips = rots => E.cat(...['A', 'B', 'C'].map((l, i) => { const c = E.chip(T, { variant: 'assist', label: ['Park', 'Lake', 'Home'][i], icon: 'star', seed: i }); return E.place(c, i * 0 , i * 44, rots[i], c.w / 2, 18); }));
+    const rules = [
+      { n: '1', title: 'Hard shadow, no blur', text: 'A cut-out cel over painted paper: ink-coloured shadow offset 4×4 (6×6 for big pieces). Pressing drops it to 0, never fades it.', pair: P(C(blk(), 96, 52), C(soft, 96, 52)) },
+      { n: '2', title: 'Every corner is different', text: 'Four radii per shape, 20–40 % apart, plus a seeded wobble of about 1 dp. No two components share a seed.', pair: P(C(blk(), 96, 52), C(flatStroke([14, 14, 14, 14]), 96, 52)) },
+      { n: '3', title: 'Ink is heavier at the bottom', text: 'Outline insets differ per side (top 2 · sides 2.4–2.6 · bottom 4 dp). On squash the bottom grows to 1.3×; the stroke never scales with the shape.', pair: P(C(blk(), 96, 52), C(flatStroke([16, 11, 18, 12]), 96, 52)) },
+      { n: '4', title: 'Flat cel colour', text: 'One fill per region from the cel palette. No gradients, highlights or shading; at night only the 1.6 dp rim on the top edge.', pair: P(C(blk(), 96, 52), C(shaded, 96, 52)) },
+      { n: '5', title: 'Tilt a few, not all', text: '±1–2° on some cards and chips, picked from a fixed set. A screen where everything leans reads as broken, not drawn.', pair: P(C(chips([-1.5, 0, 1]), 90, 124, [8, 12, 8, 8]), C(chips([-2, 2, -2]), 90, 124, [8, 12, 8, 8])) },
+      { n: '6', title: 'Text stays straight', text: 'Labels translate with their container but never tilt, scale or smear for longer than 100 ms. Shapes take the gag; text stays readable.' },
+      { n: '7', title: 'Joke with timing, not words', text: 'Copy is plain and short. One main animation at a time, at most two idle elements per screen, every effect fired by a named event and switched off by reduce motion.' },
+    ].map(r => ({ ...r, hasPair: !!r.pair, pair: r.pair || [] }));
+    const w = 150, H = 52, pad = [30, 18, 14, 12];
+    const stp = (title, text, code, sc) => ({ title, text, code, c: E.cell('', sc, w, H, pad, 1) });
+    const r4 = [16, 11, 18, 12];
+    const steps = [
+      stp('Start from the Material box', 'Take the M3 component’s size and add one step: controls 52 dp tall, touch target ≥ 48 dp, padding one 4 dp step more generous.', 'size = M3 + 4 dp', { L: [E.L(`M0 0 H${w} V${H} H0 Z`, 'none', { stroke: T.focus, sw: 1.6, dash: '5 4' })], X: [] }),
+      stp('Give it four corners', 'Pick four radii 20–40 % apart; the bottom-right is usually the biggest, as if the paper sagged.', 'radii = [16, 11, 18, 12]', { L: [E.L(E.wob(0, 0, w, H, r4, 0, 1), 'none', { stroke: T.ink, sw: 2 })], X: [] }),
+      stp('Let the line wobble', 'Add the seeded wobble (≈ 1 dp). Each instance keeps its seed; idle “boiling” cycles three seeds at 10 fps.', 'wob(size, radii, amp = 1.1, seed)', { L: [E.L(E.wob(0, 0, w, H, r4, T.amp, T.seed + 1300), 'none', { stroke: T.ink, sw: 2 })], X: [] }),
+      stp('Ink it unevenly', 'Draw the fill inset by different amounts per side; the ink shows through as a heavier bottom and lighter top.', 'insets = [2, 2.6, 4, 2.2]', { L: E.body(T, 0, 0, w, H, r4, { seed: T.seed + 1300, fill: T.paper, sh: 0, noRim: true }), X: [] }),
+      stp('Cel fill and hard shadow', 'One cel colour per region, the shadow is the same outline offset by 4×4 in ink. The Stepper splits into a paper half and a cel half.', 'shadow = ink @ (4, 4)', this.stepper(T, { n: 2 })),
+      stp('Draw every state', 'Default, pressed, focused, disabled. Pressed squashes only the tapped half and kills the shadow under it; disabled drops ink to 35 % and loses the shadow.', 'pressed: scaleY 0.9 · shadow 0', this.stepper(T, { n: 3, p: 1, side: 1 })),
+      stp('Reuse a curve, name the event', 'Pick motion from the token set before inventing any: press uses the Button squash, the number uses the Badge count curve, the limit uses FX shake.', 'stepper.inc → badge.count · stepper.limit → fx.shake', this.stepper(T, { n: 3, old: 2, ...E.badgeCount(90) })),
+      stp('Write the reduce-motion line', 'Every animation gets a one-word fallback: instant, fade 120 or off. If the component only makes sense moving, redesign it.', 'reduce: instant', this.stepper(T, { n: 3 })),
+    ].map((s, i) => ({ ...s, n: String(i + 1).padStart(2, '0') }));
+    return {
+      ...base, rules, steps,
+      down: e => { const r = e.currentTarget.getBoundingClientRect(), x = (e.clientX - r.left) * 200 / r.width - 25; this.side = x < 75 ? -1 : 1; this.pressed = true; this.pt = this.clk; },
+      up: () => { if (!this.pressed) return; this.pressed = false; this.pt = this.clk; const nn = this.n + this.side; if (nn < 0 || nn > 9) { this.bz = this.clk; return; } this.old = this.n; this.n = nn; this.ct = this.clk; },
+    };
+  }
+}
+</script>
+</body>
+</html>

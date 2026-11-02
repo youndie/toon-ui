@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<style>
+body{margin:0;background:#E6E2D8;color:#2B211C;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B4482A}a:hover{color:#2B211C}
+</style>
+</helmet>
+<section data-screen-label="Stage 2 — Core" style="padding:56px 56px 96px; display:flex; flex-direction:column; gap:56px; max-width:1560px;">
+
+  <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-end; justify-content:space-between;">
+    <div style="display:flex; flex-direction:column; gap:8px; max-width:760px;">
+      <div style="font:600 13px/1 Figtree; letter-spacing:.12em; text-transform:uppercase; color:#7A6E62;">toon-ui · Stage 2 · Core</div>
+      <div style="font:400 48px/1.05 Shrikhand; color:#2B211C;">Tokens and six core components</div>
+      <div style="font:400 16px/1.5 Figtree; color:#4A3F37; text-wrap:pretty;">Button, TextField, Checkbox, Switch, Card and Snackbar in every state, each animation as a frame strip with timings, curve, event name and reduce-motion fallback, plus two FX. Everything is drawn from one shape engine; switching the theme swaps values only.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px; padding:4px; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px; background:#F4EBD6; width:420px; max-width:100%;">
+      <sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3">
+        <div onClick="{{ o.pick }}" style="cursor:pointer; padding:9px 8px; border-radius:10px 7px 11px 8px; background:{{ o.bg }}; display:flex; flex-direction:column; gap:3px; align-items:center; text-align:center;">
+          <div style="font:700 13px/1.15 Figtree; color:{{ o.color }};">{{ o.label }}</div>
+          <div style="font:500 11px/1 Figtree; color:{{ o.subColor }};">{{ o.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div id="tokens" style="display:flex; flex-direction:column; gap:20px;">
+    <div style="display:flex; align-items:baseline; gap:14px;">
+      <div style="font:800 14px/1 Figtree; color:#7A6E62;">01</div>
+      <div style="font:400 32px/1 Shrikhand; color:#2B211C;">Tokens</div>
+      <div style="font:500 14px/1.4 Figtree; color:#6B5F55;">current theme: {{ t.label }} · {{ t.sub }}</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); gap:24px; align-items:start;">
+      <div style="display:flex; flex-direction:column; gap:4px; padding:18px 20px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:16px 11px 18px 12px;">
+        <div style="font:700 12px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:#8A7D70; padding-bottom:8px;">Colour</div>
+        <sc-for list="{{ colorTokens }}" as="c" hint-placeholder-count="12">
+          <div style="display:flex; align-items:center; gap:12px; padding:3px 0;">
+            <div style="width:22px; height:22px; flex:none; background:{{ c.hex }}; border:2px solid #2B211C; border-radius:7px 4px 8px 5px;"></div>
+            <div style="flex:1; min-width:0; font:500 12px/1.3 ui-monospace, Menlo, monospace; color:#2B211C; overflow-wrap:anywhere;">{{ c.name }}</div>
+            <div style="font:600 12px/1 Figtree; color:#5E5248;">{{ c.hex }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:16px; padding:18px 20px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:11px 16px 12px 18px;">
+        <div style="font:700 12px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:{{ t.muted }};">Type</div>
+        <sc-for list="{{ typeScale }}" as="ty" hint-placeholder-count="5">
+          <div style="display:flex; flex-direction:column; gap:4px;">
+            <div style="font:600 11px/1 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ ty.name }} · {{ ty.spec }}</div>
+            <div style="font-family:{{ ty.ff }}; font-weight:{{ ty.fw }}; font-size:{{ ty.fs }}px; line-height:{{ ty.lh }}px; color:{{ t.text }};">{{ ty.sample }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:2px; padding:18px 20px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:18px 12px 16px 11px;">
+        <sc-for list="{{ shapeTokens }}" as="s" hint-placeholder-count="14">
+          <sc-if value="{{ s.isGroup }}" hint-placeholder-val="{{ false }}">
+            <div style="font:700 12px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:#8A7D70; padding:12px 0 6px;">{{ s.name }}</div>
+          </sc-if>
+          <sc-if value="{{ s.isRow }}" hint-placeholder-val="{{ true }}">
+            <div style="display:flex; gap:12px; padding:3px 0; align-items:baseline;">
+              <div style="flex:1; min-width:0; font:500 12px/1.3 ui-monospace, Menlo, monospace; color:#2B211C; overflow-wrap:anywhere;">{{ s.name }}</div>
+              <div style="font:600 12px/1.3 Figtree; color:#5E5248; text-align:right; max-width:55%;">{{ s.v }}</div>
+            </div>
+          </sc-if>
+        </sc-for>
+      </div>
+    </div>
+  </div>
+
+  <sc-for list="{{ comps }}" as="comp" hint-placeholder-count="2">
+    <div id="{{ comp.id }}" style="display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:14px;">
+        <div style="font:800 14px/1 Figtree; color:#7A6E62;">{{ comp.num }}</div>
+        <div style="font:400 32px/1 Shrikhand; color:#2B211C;">{{ comp.name }}</div>
+        <div style="font:500 14px/1.4 Figtree; color:#6B5F55; max-width:720px; text-wrap:pretty;">{{ comp.sub }}</div>
+      </div>
+      <sc-if value="{{ comp.hasCells }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; flex-wrap:wrap; gap:28px 36px; padding:28px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:18px 12px 20px 14px;">
+          <sc-for list="{{ comp.cells }}" as="cell" hint-placeholder-count="5">
+            <div style="display:flex; flex-direction:column; gap:10px;">
+              <div style="position:relative; width:{{ cell.sw }}px; height:{{ cell.sh }}px;">
+                <svg width="{{ cell.sw }}" height="{{ cell.sh }}" viewBox="{{ cell.vb }}" style="overflow:visible; display:block; position:absolute; left:0; top:0;">
+                  <sc-for list="{{ cell.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                </svg>
+                <sc-for list="{{ cell.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+              </div>
+              <div style="font:600 11px/1.2 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ cell.name }}</div>
+            </div>
+          </sc-for>
+        </div>
+      </sc-if>
+      <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+        <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:12px; padding:20px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:12px 18px 14px 20px;">
+          <div style="font:700 11px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:{{ t.muted }};">Live · {{ comp.hint }}</div>
+          <div onPointerDown="{{ comp.down }}" onPointerUp="{{ comp.up }}" onPointerLeave="{{ comp.up }}" onPointerCancel="{{ comp.up }}" style="cursor:pointer; touch-action:none; user-select:none; display:flex; justify-content:center;">
+            <svg ref="{{ comp.ref }}" width="{{ comp.lw }}" height="{{ comp.lh }}" viewBox="{{ comp.lvb }}" style="display:block;"></svg>
+          </div>
+          <div style="display:flex; flex-wrap:wrap; gap:8px;">
+            <sc-for list="{{ comp.controls }}" as="ctl" hint-placeholder-count="2">
+              <div onClick="{{ ctl.run }}" style="cursor:pointer; padding:8px 12px; font:700 13px/1 Figtree; color:#2B211C; background:#F4EBD6; border:2px solid #2B211C; border-radius:9px 6px 10px 7px; box-shadow:3px 3px 0 #2B211C;">{{ ctl.label }}</div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="flex:1 1 640px; min-width:0; display:flex; flex-direction:column; gap:16px;">
+          <sc-for list="{{ comp.specs }}" as="sp" hint-placeholder-count="2">
+            <div style="display:flex; flex-direction:column; gap:12px; padding:16px 18px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+              <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px;">
+                <div style="font:800 16px/1.2 Figtree; color:#2B211C;">{{ sp.title }}</div>
+                <div style="font:600 12px/1 ui-monospace, Menlo, monospace; color:#2B211C; background:#E6D9BC; padding:4px 7px; border-radius:6px 4px 7px 5px;">{{ sp.event }}</div>
+                <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ sp.dur }}</div>
+                <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ sp.curve }}</div>
+                <div style="font:600 12px/1.3 Figtree; color:#5E5248;">reduce motion: {{ sp.reduce }}</div>
+              </div>
+              <div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">{{ sp.desc }}</div>
+              <div style="display:flex; flex-wrap:wrap; gap:10px; padding:14px; background:{{ t.bg }}; border-radius:10px 7px 11px 8px;">
+                <sc-for list="{{ sp.frames }}" as="fr" hint-placeholder-count="4">
+                  <div style="display:flex; flex-direction:column; gap:6px; max-width:max(130px, {{ fr.sw }}px);">
+                    <div style="position:relative; width:{{ fr.sw }}px; height:{{ fr.sh }}px; overflow:hidden;">
+                      <svg width="{{ fr.sw }}" height="{{ fr.sh }}" viewBox="{{ fr.vb }}" style="display:block; position:absolute; left:0; top:0;">
+                        <sc-for list="{{ fr.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                      </svg>
+                      <sc-for list="{{ fr.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+                    </div>
+                    <div style="font:800 12px/1 Figtree; color:{{ t.text }};">{{ fr.t }}</div>
+                    <div style="font:500 11px/1.35 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ fr.v }}</div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+
+  <div style="font:500 13px/1.5 Figtree; color:#6B5F55; max-width:760px; text-wrap:pretty;">Text never tilts or stretches with its container: card tilt, squash and smear apply to the shape layers only, labels just translate. Touch targets stay fixed at ≥ 48 dp while the drawing animates inside them.</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;slowMo&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Slow motion ×4&quot;}, &quot;reduceMotion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Reduce motion&quot;}, &quot;idle&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Idle on primary button&quot;}}">
+class Component extends DCLogic {
+  TH = {
+    il: { key: 'il', label: 'Ink & Gouache', sub: 'base · light', amp: 1.1, ins: [2, 2.6, 4, 2.2], btnR: [16, 11, 18, 12], sh: 4, seed: 11, rs: 1, rots: [-1.2, 0, 1.5],
+      ink: '#2B211C', bg: '#CBC3A6', paper: '#F4EBD6', surface2: '#E6D9BC', cardColors: ['#F4EBD6', '#F4EBD6', '#F4EBD6'], sColors: ['#E9B53A', '#7FB2D6', '#E07F9C'],
+      text: '#2B211C', muted: '#5E5248', primary: '#E2643C', onPrimary: '#2B211C', btnHi: '#E2643C', danger: '#C23F2C', onDanger: '#F4EBD6', dangerText: '#8E2A1C',
+      success: '#3E8F5E', successLight: '#8FC79E', warn: '#E9B53A', field: '#F4EBD6', fieldRim: null, on: '#3E8F5E', off: '#DCD2B8', rim: null, thumb: '#F4EBD6',
+      focus: '#2F6FB0', disabledFill: '#E0D6BE', dust: '#EFE6CF', display: 'Shrikhand', body: 'Figtree' },
+    in: { key: 'in', label: 'Ink & Gouache', sub: 'base · night', amp: 1.1, ins: [2, 2.6, 4, 2.2], btnR: [16, 11, 18, 12], sh: 4, seed: 11, rs: 1, rots: [-1.2, 0, 1.5],
+      ink: '#120D0F', bg: '#1A2140', paper: '#2C3760', surface2: '#36426E', cardColors: ['#2C3760', '#2C3760', '#2C3760'], sColors: ['#D2A955', '#79A3C2', '#C27891'],
+      text: '#F1E6CC', muted: '#BDB6CF', primary: '#D9693F', onPrimary: '#120D0F', btnHi: '#F2A57E', danger: '#E06A57', onDanger: '#120D0F', dangerText: '#F29A88',
+      success: '#4E9A6C', successLight: '#79B98A', warn: '#D2A955', field: '#232D52', fieldRim: '#6E7BAA', on: '#4E9A6C', off: '#3A4570', rim: '#8392C4', thumb: '#F1E6CC',
+      focus: '#9FB4F0', disabledFill: '#2A3355', dust: '#56608A', display: 'Shrikhand', body: 'Figtree' },
+    bc: { key: 'bc', label: 'Bright Cel', sub: 'alt · light', amp: 0.55, ins: [2.6, 3, 4.6, 2.6], btnR: [22, 16, 24, 18], sh: 6, seed: 23, rs: 1.25, rots: [1, -1.5, 0],
+      ink: '#231B17', bg: '#BCD3D6', paper: '#FFF6E2', surface2: '#FFE9B8', cardColors: ['#FFCE3A', '#FF8FB1', '#6EC3F0'], sColors: ['#FFF6E2', '#FFF6E2', '#FFF6E2'],
+      text: '#231B17', muted: '#3A2C24', primary: '#FF5A36', onPrimary: '#231B17', btnHi: '#FF5A36', danger: '#D42A20', onDanger: '#FFF6E2', dangerText: '#A11D14',
+      success: '#2FB35A', successLight: '#7FD69A', warn: '#FFCE3A', field: '#FFF6E2', fieldRim: null, on: '#2FB35A', off: '#EDE3CC', rim: null, thumb: '#FFF6E2',
+      focus: '#2D6FD6', disabledFill: '#E4DCCB', dust: '#FFFFFF', display: 'Titan One', body: 'Fredoka' },
+  };
+  items = [
+    { title: 'Pancake breakfast', meta: 'Kitchen, bring syrup', time: '9:00' },
+    { title: 'Bike to the lake', meta: 'Check the tyre pump', time: '11:30' },
+    { title: 'Paint the fence', meta: 'Green this time', time: '14:00' },
+  ];
+  state = { theme: 'il' };
+  el = {}; r = {}; memo = {}; wc = new Map(); lastSvg = {};
+  clk = 0; wall = 0;
+  lb = { p: 0, v: 0, pl: 0, mode: 'spring', pt: 0, p0: 0, lt0: null };
+  lf = { focus: false, ft0: -1e7, et0: null };
+  lk = { on: false, t0: -1e7 };
+  ls = { on: true, from: 0, to: 1, t0: -1e7 };
+  lc = { at0: -1e7, dt0: null, press: [0, 0, 0], pt: [0, 0, 0] };
+  ln = { shown: true, t0: -1e7 };
+  ld = { t0: -1e7 }; lx = { t0: -1e7 };
+  keys = ['btn', 'fld', 'chk', 'sw', 'card', 'snk', 'dust', 'stars'];
+
+  constructor(props) {
+    super(props);
+    this.keys.forEach(k => { this.r[k] = e => { this.el[k] = e; if (e) { this.lastSvg[k] = null; this.drawLive(k); } }; });
+  }
+
+  // ---------- math ----------
+  f = v => (Math.round(v * 10) / 10).toString();
+  c01 = v => Math.max(0, Math.min(1, v));
+  osc(t, z, w) { const wd = w * Math.sqrt(1 - z * z); return Math.exp(-z * w * t) * Math.cos(wd * t); }
+  spr(t, z, w) { const wd = w * Math.sqrt(1 - z * z); return Math.exp(-z * w * t) * (Math.cos(wd * t) + z / Math.sqrt(1 - z * z) * Math.sin(wd * t)); }
+  rng(seed) { let a = seed >>> 0; return () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; }; }
+
+  // ---------- shape engine ----------
+  rr(x, y, w, h, r, step) {
+    const P = Math.PI, pts = [];
+    const seg = (x0, y0, x1, y1) => { const n = Math.max(1, Math.round(Math.hypot(x1 - x0, y1 - y0) / step)); for (let i = 0; i < n; i++) { const t = i / n; pts.push([x0 + (x1 - x0) * t, y0 + (y1 - y0) * t]); } };
+    const arc = (cx, cy, rad, a0, a1) => { const n = Math.max(2, Math.round(Math.abs(a1 - a0) * rad / step)); for (let i = 0; i < n; i++) { const a = a0 + (a1 - a0) * i / n; pts.push([cx + rad * Math.cos(a), cy + rad * Math.sin(a)]); } };
+    const m = Math.max(1, Math.min(w, h) / 2);
+    const [tl, tr, br, bl] = r.map(v => Math.max(1, Math.min(v, m)));
+    seg(x + tl, y, x + w - tr, y); arc(x + w - tr, y + tr, tr, -P / 2, 0);
+    seg(x + w, y + tr, x + w, y + h - br); arc(x + w - br, y + h - br, br, 0, P / 2);
+    seg(x + w - br, y + h, x + bl, y + h); arc(x + bl, y + h - bl, bl, P / 2, P);
+    seg(x, y + h - bl, x, y + tl); arc(x + tl, y + tl, tl, P, 1.5 * P);
+    return pts;
+  }
+  smooth(pts) {
+    const f = this.f, N = pts.length, mid = (p, q) => [(p[0] + q[0]) / 2, (p[1] + q[1]) / 2];
+    const m0 = mid(pts[N - 1], pts[0]);
+    let d = `M${f(m0[0])} ${f(m0[1])}`;
+    for (let i = 0; i < N; i++) { const n = mid(pts[i], pts[(i + 1) % N]); d += `Q${f(pts[i][0])} ${f(pts[i][1])} ${f(n[0])} ${f(n[1])}`; }
+    return d + 'Z';
+  }
+  wob(x, y, w, h, r, amp, seed, step = 6) {
+    const key = [x, y, w, h].map(v => v.toFixed(1)).join(',') + '|' + r.map(v => v.toFixed(1)).join(',') + '|' + amp + '|' + seed + '|' + step;
+    const hit = this.wc.get(key); if (hit) return hit;
+    const rnd = this.rng(seed), ph = [rnd() * 6.28, rnd() * 6.28, rnd() * 6.28];
+    const pts = this.rr(x, y, w, h, r, step), N = pts.length;
+    const out = pts.map((p, i) => {
+      const a = pts[(i - 1 + N) % N], b = pts[(i + 1) % N];
+      let nx = b[1] - a[1], ny = -(b[0] - a[0]); const L = Math.hypot(nx, ny) || 1; nx /= L; ny /= L;
+      const s = i / N * 6.2832;
+      const d = amp * (0.6 * Math.sin(3 * s + ph[0]) + 0.3 * Math.sin(7 * s + ph[1]) + 0.22 * Math.sin(13 * s + ph[2]));
+      return [p[0] + nx * d, p[1] + ny * d];
+    });
+    const d = this.smooth(out);
+    if (this.wc.size > 6000) this.wc.clear();
+    this.wc.set(key, d);
+    return d;
+  }
+  shape(x, y, w, h, r, ins, amp, seed, step) {
+    const [t, rr, b, l] = ins;
+    const ri = r.map(v => Math.max(2, v - (t + l) / 2));
+    return { ink: this.wob(x, y, w, h, r, amp, seed, step), fill: this.wob(x + l, y + t, Math.max(1, w - l - rr), Math.max(1, h - t - b), ri, amp * 0.8, seed + 7, step) };
+  }
+  L(d, fill, o = {}) { return { d, fill, stroke: o.stroke || 'none', sw: o.sw || 0, tf: o.tf || '', op: o.op ?? 1, dash: o.dash || 'none', doff: o.doff || 0 }; }
+  X(s, x, y, o) { return { s, x, y, ff: o.ff, fw: o.fw || 600, fs: o.fs || 16, fill: o.fill, anchor: o.anchor || 'start', op: o.op ?? 1 }; }
+  body(T, x, y, w, h, r, o) {
+    const ins = (o.ins || T.ins).map(v => v * (o.insMul || 1));
+    const g = this.shape(x, y, w, h, r, ins, o.amp ?? T.amp, o.seed, o.step);
+    const out = [];
+    if (o.sh) out.push(this.L(g.ink, T.ink, { tf: `translate(${this.f(o.sh)} ${this.f(o.sh)})`, op: o.inkOp ?? 1 }));
+    out.push(this.L(g.ink, o.inkColor || T.ink, { op: o.inkOp ?? 1 }));
+    const rim = T.rim && !o.noRim ? (o.rimColor || T.rim) : null;
+    if (rim) out.push(this.L(g.fill, rim));
+    out.push(this.L(g.fill, o.fill, { tf: rim ? 'translate(0 1.6)' : '' }));
+    return out;
+  }
+  place(sc, dx, dy, rot = 0, px = 0, py = 0, om = 1) {
+    const f = this.f, pre = `translate(${f(dx)} ${f(dy)})` + (rot ? ` rotate(${rot.toFixed(2)} ${f(px)} ${f(py)})` : '');
+    return { L: sc.L.map(l => ({ ...l, tf: (pre + ' ' + l.tf).trim(), op: l.op * om })), X: sc.X.map(t => ({ ...t, x: t.x + dx, y: t.y + dy, op: t.op * om })) };
+  }
+  cat(...s) { return { L: s.flatMap(x => x.L), X: s.flatMap(x => x.X) }; }
+  ring(x, y, w, h, r, T, seed) { return this.L(this.wob(x, y, w, h, r, T.amp, seed), 'none', { stroke: T.focus, sw: 2.5, dash: '7 5' }); }
+  spinner(T, cx, cy, R, ph, sx, sy, fill) {
+    const ang = ph + 0.7 * Math.sin(ph);
+    const mk = RR => { const pts = []; for (let i = 0; i < 30; i++) { const a = i / 30 * 2 * Math.PI; const rr = RR * (1 + .2 * Math.sin(3 * a + ang * 2) + .08 * Math.sin(5 * a - ph)); pts.push([cx + Math.cos(a + ang) * rr * sx, cy + R * (1 - sy) + Math.sin(a + ang) * rr * sy]); } return this.smooth(pts); };
+    return [this.L(mk(R + 3), T.ink), this.L(mk(R), fill)];
+  }
+  inkLine(x0, x1, y, th, seed) {
+    const rnd = this.rng(seed), ph = rnd() * 6, n = 24, top = [], bot = [];
+    for (let i = 0; i <= n; i++) { const u = i / n, x = x0 + (x1 - x0) * u, t = th * (0.25 + 0.75 * Math.sin(Math.PI * u)) * (1 + .2 * Math.sin(9 * u + ph)), w = 0.8 * Math.sin(5 * u + ph); top.push([x, y + w - t * .4]); bot.push([x, y + w + t * .6]); }
+    const f = this.f; return 'M' + top.map(p => `${f(p[0])} ${f(p[1])}`).join(' L') + ' L' + bot.reverse().map(p => `${f(p[0])} ${f(p[1])}`).join(' L') + 'Z';
+  }
+  star(R, r, seed) {
+    const rnd = this.rng(seed), pts = [];
+    for (let i = 0; i < 10; i++) { const a = -Math.PI / 2 + i * Math.PI / 5, rr = (i % 2 ? r : R) * (0.88 + 0.24 * rnd()); pts.push(`${this.f(Math.cos(a) * rr)} ${this.f(Math.sin(a) * rr)}`); }
+    return 'M' + pts.join(' L') + 'Z';
+  }
+
+  // ---------- components ----------
+  btn(T, o) {
+    const c01 = this.c01, f = this.f, w = o.w, H = 52, p = o.p || 0, pl = o.pl ?? p, br = o.br || 1;
+    const sy = (p > 0 ? 1 - .15 * p : 1 - .26 * p) * br, sx = (p > 0 ? 1 + .12 * p : 1 + .1 * p) * br;
+    const bw = w * sx, bh = H * sy, x = (w - bw) / 2, y = H - bh;
+    const r = T.btnR.map(v => v * T.rs), seed = T.seed + 900 + (o.seed || 0);
+    const ins = T.ins.slice(); ins[2] *= 1 + .3 * c01(p);
+    const Ls = [], Xs = [], dis = o.disabled;
+    if (o.focus) Ls.push(this.ring(-6, -6, w + 12, H + 12, r.map(v => v + 6), T, seed + 3));
+    if (o.v !== 'text') {
+      Ls.push(...this.body(T, x, y, bw, bh, r, { ins, seed, fill: dis ? T.disabledFill : o.v === 'filled' ? T.primary : T.paper,
+        sh: dis ? 0 : (o.v === 'filled' ? T.sh : T.sh * .6) * (1 - c01(p)), inkOp: dis ? .35 : 1, rimColor: o.v === 'filled' ? T.btnHi : T.rim, noRim: dis }));
+    } else if (p > .02) {
+      Ls.push(this.L(this.wob(x + 8, y + 5, bw - 16, bh - 10, [14, 10, 16, 11], T.amp, seed), T.surface2, { op: c01(p * 1.5) }));
+    }
+    const fs = 18, lc = dis ? T.muted : o.v === 'filled' ? T.onPrimary : T.text;
+    const lh = H * (pl > 0 ? 1 - .15 * pl : 1 - .26 * pl);
+    const ly = H / 2 + fs * .35 + (H - lh) / 2 + 2 * c01(pl);
+    const lt = o.lt;
+    let lOp = dis ? .6 : 1, lDy = 0;
+    if (lt != null) { const u = c01(lt / 130); lDy = -26 * u * u; lOp *= 1 - u; }
+    if (lOp > .01) Xs.push(this.X(o.label, w / 2, ly + lDy, { ff: T.body, fw: 700, fs, fill: lc, anchor: 'middle', op: lOp }));
+    if (o.v === 'text') {
+      const lw = o.label.length * fs * .5, x0 = w / 2 - lw / 2, yy = ly + 7 + lDy, n = 8;
+      let d = `M${f(x0)} ${f(yy)}`; for (let i = 1; i <= n; i++) { const xx = x0 + lw * i / n; d += ` Q${f(xx - lw / n / 2)} ${f(yy + (i % 2 ? 2.4 : -2.4))} ${f(xx)} ${f(yy)}`; }
+      Ls.push(this.L(d, 'none', { stroke: dis ? T.muted : T.primary, sw: 3, op: (dis ? .5 : 1) * Math.max(lOp, lt != null ? 0 : 1) }));
+    }
+    if (lt != null && lt > 100) {
+      const u = c01((lt - 100) / 100), cy0 = H / 2 - 34, cy1 = y + bh / 2;
+      const cy = cy0 + (cy1 - cy0) * u * u; let ssx = 1, ssy = 1;
+      if (lt > 200) { const q = this.osc((lt - 200) / 1000, .35, 40); ssx = 1 + .22 * q; ssy = 1 - .2 * q; }
+      Ls.push(...this.spinner(T, w / 2, cy, 10, (o.spin || 0) / 1000 * 2 * Math.PI, ssx, ssy, o.v === 'filled' ? T.paper : T.primary));
+    }
+    return { L: Ls, X: Xs };
+  }
+  field(T, o) {
+    const w = o.w, H = 56, thick = o.thick ?? (o.focus ? 1 : 0), bounce = o.bounce || 1;
+    const bw = w * bounce, bh = H * (1 + (bounce - 1) * .6), x = (w - bw) / 2, y = (H - bh) / 2;
+    const r = [14, 10, 16, 11].map(v => v * T.rs), red = o.error, dis = o.disabled;
+    const ins = T.ins.map(v => v * (1 + .5 * (red ? 1 : thick)));
+    const Ls = [], Xs = [];
+    if (o.focusRing) Ls.push(this.ring(-6, -6, w + 12, H + 12, r.map(v => v + 6), T, T.seed + 99));
+    Ls.push(...this.body(T, x, y, bw, bh, r, { ins, seed: T.seed + 101, fill: dis ? T.disabledFill : T.field, inkColor: red ? T.danger : T.ink, inkOp: dis ? .35 : 1, rimColor: T.fieldRim, sh: 0 }));
+    const lift = o.lift ?? ((o.focus || o.value) ? 1 : 0);
+    const lx = 20 + (4 - 20) * lift, ly = 34 + (-10 - 34) * lift, lfs = 16 - 3 * lift;
+    Xs.push(this.X(o.label, lx, ly, { ff: T.body, fw: lift > .5 ? 700 : 500, fs: lfs, fill: lift > .5 ? (red ? T.dangerText : T.text) : T.muted, op: dis ? .6 : 1 }));
+    if (o.value) Xs.push(this.X(o.value, 20, 34, { ff: T.body, fw: 500, fs: 16, fill: T.text }));
+    if (o.caret) { const cx = 20 + (o.value || '').length * 8.6 + 2; Ls.push(this.L(`M${this.f(cx)} 18 h3.2 v22 h-3.2 Z`, T.primary)); }
+    if (o.helper) Xs.push(this.X(o.helper, 4, 80, { ff: T.body, fw: 600, fs: 13, fill: red ? T.dangerText : T.muted }));
+    return { L: Ls, X: Xs };
+  }
+  check(T, o) {
+    const s = 30, bx = 9, by = 9, sx = o.sx ?? 1, sy = o.sy ?? 1, dx = o.dx || 0;
+    const bw = s * sx, bh = s * sy, x = bx + (s - bw) / 2 + dx, y = by + (s - bh);
+    const Ls = [], Xs = [], dis = o.disabled;
+    if (o.focus) Ls.push(this.ring(bx - 6, by - 6, s + 12, s + 12, [12, 9, 13, 10], T, T.seed + 55));
+    Ls.push(...this.body(T, x, y, bw, bh, [8, 5, 9, 6], { ins: T.ins.map(v => v * .85), seed: T.seed + 51, step: 3,
+      fill: dis ? T.disabledFill : o.on ? T.primary : T.paper, inkColor: o.error ? T.danger : T.ink, inkOp: dis ? .35 : 1, sh: dis ? 0 : 2 }));
+    const trim = o.trim ?? (o.on ? 1 : 0);
+    if (trim > .005) {
+      const len = 40.6, d = `M${15 + dx} 24 L${21.5 + dx} 31 L${41 + dx} 7`;
+      const doff = (len * (1 - trim)).toFixed(2), dash = `${len} 200`;
+      Ls.push(this.L(d, 'none', { stroke: T.paper, sw: 8.5, dash, doff, op: dis ? .5 : 1 }));
+      Ls.push(this.L(d, 'none', { stroke: T.ink, sw: 4.5, dash, doff, op: dis ? .45 : 1 }));
+    }
+    if (o.label) Xs.push(this.X(o.label, 58, 30, { ff: T.body, fw: 600, fs: 16, fill: o.error ? T.dangerText : T.text, op: dis ? .6 : 1 }));
+    return { L: Ls, X: Xs };
+  }
+  sw(T, o) {
+    const Ls = [], pos = o.pos ?? (o.on ? 1 : 0), sx = o.sx ?? 1, sy = o.sy ?? 1, org = o.origin || 'c', dis = o.disabled, f = this.f;
+    if (o.focus) Ls.push(this.ring(-6, 1, 72, 46, [22, 20, 22, 19], T, T.seed + 205));
+    const tOn = o.trackOn ?? o.on;
+    Ls.push(...this.body(T, 0, 7, 60, 34, [17, 15, 17, 14], { ins: T.ins.map(v => v * .75), amp: T.amp * .7, seed: T.seed + 201, step: 4,
+      fill: dis ? T.disabledFill : tOn ? T.on : T.off, sh: dis ? 0 : T.sh - 1, inkOp: dis ? .35 : 1 }));
+    const tx = 4 + pos * 26, ty = 11, ox = org === 'r' ? 26 : org === 'l' ? 0 : 13, oy = o.pressed ? 26 : 13;
+    const tf = `translate(${f(tx)} ${ty}) translate(${ox} ${oy}) scale(${sx.toFixed(3)} ${sy.toFixed(3)}) translate(${-ox} ${-oy})`;
+    const g = this.shape(0, 0, 26, 26, [13, 12, 13, 11], [1.8, 2.2, 3, 1.8], T.amp * .5, T.seed + 301, 3);
+    Ls.push(this.L(g.ink, T.ink, { tf, op: dis ? .35 : 1 }), this.L(g.fill, dis ? T.disabledFill : T.thumb, { tf }));
+    return { L: Ls, X: [] };
+  }
+  card(T, o) {
+    const w = o.w || 342, H = 84, i = o.idx || 0, press = o.press || 0;
+    const cardR = [[16, 10, 18, 12], [11, 17, 13, 19], [18, 12, 15, 10]][i % 3].map(v => v * T.rs);
+    if (o.ghost) return { L: [this.L(this.wob(0, 0, w, H, cardR, T.amp, T.seed + i * 13), T.ink, { op: .92 })], X: [] };
+    const sx = (o.sx ?? 1) * (1 - .02 * press), sy = (o.sy ?? 1) * (1 - .02 * press);
+    const bw = w * sx, bh = H * sy, x = (w - bw) / 2, y = H - bh, dy = (H - bh) / 2, dis = o.dis;
+    const Ls = this.body(T, x, y, bw, bh, cardR, { insMul: o.sel ? 1.6 : 1, seed: T.seed + i * 13, fill: T.cardColors[i % 3], sh: dis ? 0 : T.sh * (1 - .7 * press), inkOp: dis ? .4 : 1 });
+    const stw = 64, sth = 40, stx = w - stw - 18, sty = (H - sth) / 2 - 2 + dy;
+    Ls.push(...this.body(T, stx, sty, stw, sth, [14, 9, 15, 10], { ins: T.ins.map(v => v * .8), amp: T.amp * .8, seed: T.seed + i * 17 + 5, step: 4, fill: T.sColors[i % 3], noRim: true, inkOp: dis ? .4 : 1 }));
+    if (o.sel) {
+      const g = this.shape(w - 24, -12, 28, 28, [14, 13, 14, 12], [2, 2.4, 3.2, 2], T.amp * .6, T.seed + 77, 3);
+      Ls.push(this.L(g.ink, T.ink), this.L(g.fill, T.primary), this.L(`M${w - 17} 2 L${w - 12} 7 L${w - 3} -3`, 'none', { stroke: T.ink, sw: 3.2 }));
+    }
+    const op = dis ? .5 : 1;
+    const Xs = [
+      this.X(o.title, 22, 38 + dy, { ff: T.body, fw: 700, fs: 18, fill: T.text, op }),
+      this.X(o.meta, 22, 60 + dy, { ff: T.body, fw: 500, fs: 14, fill: T.muted, op }),
+      this.X(o.time, stx + stw / 2, sty + 25, { ff: T.body, fw: 700, fs: 15, fill: T.ink, anchor: 'middle', op }),
+    ];
+    return { L: Ls, X: Xs };
+  }
+  snack(T, o) {
+    const w = o.w || 342, H = 56, sy = o.sy ?? 1, bh = H * sy;
+    const pal = { info: [T.warn, T.ink], success: [T.successLight, T.ink], error: [T.danger, T.onDanger] }[o.type || 'info'];
+    const Ls = this.body(T, 0, 0, w, bh, [10, 14, 9, 13].map(v => v * T.rs), { seed: T.seed + 601, fill: pal[0], sh: T.sh, noRim: true });
+    [[14, 12], [w - 14, 12]].forEach(([cx, cy], j) => Ls.push(this.L(this.wob(cx - 3, cy - 3, 6, 6, [3, 3, 3, 3], .3, T.seed + 650 + j, 2), T.ink)));
+    const Xs = [this.X(o.text, 22, bh / 2 + 6, { ff: T.body, fw: 700, fs: 16, fill: pal[1] })];
+    if (o.action) {
+      Xs.push(this.X(o.action, w - 22, bh / 2 + 6, { ff: T.body, fw: 800, fs: 16, fill: pal[1], anchor: 'end' }));
+      const lw = o.action.length * 9, x1 = w - 22, yy = bh / 2 + 12;
+      Ls.push(this.L(`M${x1 - lw} ${yy} Q${x1 - lw * .75} ${yy + 2.4} ${x1 - lw / 2} ${yy} Q${x1 - lw * .25} ${yy - 2.4} ${x1} ${yy}`, 'none', { stroke: pal[1], sw: 2.6 }));
+    }
+    return { L: Ls, X: Xs };
+  }
+  dust(T, u, cx, cy, s = 40) {
+    if (u <= 0 || u >= 1) return { L: [], X: [] };
+    const e = 1 - Math.pow(1 - u, 2.2), fr = Math.min(3, Math.floor(u * 4)), Ls = [];
+    [[-1, -.25, 1], [-.55, -.85, .8], [.05, -1, .6], [.55, -.8, .85], [1, -.3, 1]].forEach(([dx, dy, k], j) => {
+      const R = (3 + 9 * Math.sqrt(u)) * k, op = 1 - Math.pow(u, 1.6), px = cx + dx * s * e, py = cy + dy * s * .55 * e;
+      const g = this.shape(px - R, py - R, 2 * R, 2 * R, [R, R * .9, R, R * .85], [1.2, 1.4, 1.9, 1.2], .7, 700 + j * 7 + fr * 13, 3);
+      Ls.push(this.L(g.ink, T.ink, { op }), this.L(g.fill, T.dust, { op }));
+    });
+    return { L: Ls, X: [] };
+  }
+  stars(T, u, cx, cy, s = 34) {
+    if (u <= 0 || u >= 1) return { L: [], X: [] };
+    const Ls = [], fr = Math.min(3, Math.floor(u * 4));
+    [-150, -90, -30].forEach((a, j) => {
+      const ar = a * Math.PI / 180, e = 1 - Math.pow(1 - u, 3), rr = s * (.35 + .65 * e);
+      const px = cx + Math.cos(ar) * rr * 1.3, py = cy + Math.sin(ar) * rr;
+      const sc = u < .25 ? (u / .25) * 1.15 : 1.15 - .5 * (u - .25) / .75, op = u < .6 ? 1 : 1 - (u - .6) / .4;
+      const tf = `translate(${this.f(px)} ${this.f(py)}) rotate(${(200 * u * (j % 2 ? -1 : 1)).toFixed(1)})`;
+      Ls.push(this.L(this.star(9 * sc + 2.8, 4.2 * sc + 2.4, 40 + j + fr * 5), T.ink, { tf, op }), this.L(this.star(9 * sc, 4.2 * sc, 40 + j + fr * 5), T.warn, { tf, op }));
+    });
+    return { L: Ls, X: [] };
+  }
+  speed(T, u, x, y, h) {
+    if (u < 0 || u >= 1) return { L: [], X: [] };
+    const Ls = [], f = this.f;
+    [.15, .32, .5, .68, .85].forEach((k, j) => { const len = (50 + 40 * ((j * 7) % 3)) * (1 - u), yy = y + h * k, x0 = x - 10; Ls.push(this.L(`M${f(x0)} ${f(yy - 1.8)} L${f(x0 - len)} ${f(yy)} L${f(x0)} ${f(yy + 1.8)}Z`, T.ink, { op: 1 - u })); });
+    return { L: Ls, X: [] };
+  }
+
+  // ---------- animation curves ----------
+  chkAnim(t, on) {
+    if (on) { const sq = t < 50 ? 1 - .14 * (t / 50) : 1 - .14 * this.osc((t - 50) / 1000, .35, 40); const u = this.c01((t - 50) / 120); return { on: true, trim: 1 - Math.pow(1 - u, 3), sx: sq, sy: sq, dx: 0 }; }
+    const u = Math.min(1, t / 100), dx = t > 100 && t < 160 ? 1.5 * Math.sin((t - 100) / 60 * 2 * Math.PI) : 0;
+    return { on: t < 100, trim: 1 - u * u, sx: 1, sy: 1, dx };
+  }
+  swAnim(t, from, to) {
+    const d = to - from;
+    if (t < 40) { const u = t / 40; return { pos: from - d * .12 * u, sx: 1 - .12 * u, sy: 1 + .08 * u, origin: 'c', trackOn: !!from }; }
+    if (t < 140) { const u = (t - 40) / 100, e = u * u * (3 - 2 * u), s = 1 + .5 * Math.sin(Math.PI * u); return { pos: from - d * .12 + d * 1.12 * e, sx: s, sy: 1 / Math.sqrt(s), origin: 'c', trackOn: !!from }; }
+    const a = this.osc((t - 140) / 1000, .35, 40);
+    return { pos: to, sx: 1 - .28 * a, sy: 1 + .2 * a, origin: d > 0 ? 'r' : 'l', trackOn: !!to };
+  }
+  fldFocus(t, on) {
+    if (on) return { lift: 1 - this.spr(t / 1000, .5, 32), thick: Math.min(1, t / 80), bounce: 1 + .035 * this.osc(t / 1000, .35, 45) * Math.min(1, t / 30) };
+    return { lift: this.spr(t / 1000, .5, 32), thick: Math.max(0, 1 - t / 80), bounce: 1 };
+  }
+  shake(t) { return t < 400 ? 6 * Math.sin(2 * Math.PI * t / 120) * Math.exp(-t / 180) : 0; }
+  cardAppear(t, rot) {
+    if (t < 0) return { op: 0, dy: -24, rot: rot + 2, sx: 1, sy: 1, du: -1 };
+    if (t < 120) { const u = t / 120; return { op: Math.min(1, u * 3), dy: -24 * (1 - u * u), rot: rot + 2 * (1 - u), sx: 1, sy: 1, du: -1 }; }
+    const a = this.osc((t - 120) / 1000, .35, 38);
+    return { op: 1, dy: 0, rot, sx: 1 + .06 * a, sy: 1 - .1 * a, du: (t - 120) / 300 };
+  }
+  cardDismiss(t) {
+    let dx = 0, sx = 1, sy = 1, op = 1, lu = -1, n = 0;
+    if (t < 70) { const u = t / 70; dx = -10 * (1 - Math.pow(1 - u, 2)); sx = 1 - .04 * u; }
+    else if (t < 170) { const u = (t - 70) / 100; dx = -10 + 440 * u * u; sx = 1 + .5 * Math.sin(Math.PI * Math.min(1, u * 1.2)); sy = 1 - .15 * Math.sin(Math.PI * u); lu = u * .5; }
+    else { dx = 440; op = 0; lu = .5 + (t - 170) / 200; }
+    const ghost = t >= 170 && t < 212;
+    if (t > 200) n = -(1 - this.spr((t - 200) / 1000, .55, 40));
+    return { dx, sx, sy, op, lu, ghost, n };
+  }
+  snkShow(t) { return { dy: 90 * this.spr(t / 1000, .48, 24), rot: t > 160 ? 3 * Math.sin(2 * Math.PI * (t - 160) / 150) * Math.exp(-(t - 160) / 200) : 0, sy: 1 }; }
+  snkHide(t) { if (t < 70) { const u = t / 70; return { dy: -8 * (1 - Math.pow(1 - u, 2)), rot: 0, sy: 1 }; } const u = Math.min(1, (t - 70) / 170); return { dy: -8 + 130 * u * u, rot: 0, sy: 1 + .3 * Math.sin(Math.PI * u) }; }
+
+  // ---------- scenes ----------
+  cell(name, sc, w, h, pad, scale = 1) {
+    const [t, r, b, l] = pad;
+    const tr = { start: '0', middle: '-50%', end: '-100%' };
+    const X = sc.X.map(x => ({ s: x.s, ff: x.ff, fw: x.fw, fill: x.fill, op: x.op, left: ((x.x + l) * scale).toFixed(1), top: ((x.y + t) * scale - x.fs * scale * .8).toFixed(1), fs: (x.fs * scale).toFixed(1), tx: tr[x.anchor] }));
+    return { name, L: sc.L, X, vb: `${-l} ${-t} ${w + l + r} ${h + t + b}`, sw: Math.round((w + l + r) * scale), sh: Math.round((h + t + b) * scale) };
+  }
+  cardStack(T, t, mode) { // mode: 'appear' | 'dismiss', returns scene of 3 cards in 342 x 288 + offsets
+    const parts = [], under = [], over = [];
+    const d = mode === 'dismiss' ? this.cardDismiss(t) : null;
+    for (let i = 0; i < 3; i++) {
+      const base = i * 102, rot = T.rots[i];
+      const a = mode === 'appear' ? this.cardAppear(t - 40 * i, rot) : { op: 1, dy: 0, rot, sx: 1, sy: 1, du: -1 };
+      let dx = 0, sx = a.sx, sy = a.sy, op = a.op, yy = base + a.dy;
+      if (d && i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(this.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (t - 170) / 300; if (hu >= 0 && hu < 1) under.push(this.place(this.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }
+      if (d && i === 2) yy += d.n * 102;
+      if (op > .01) parts.push(this.place(this.card(T, { idx: i, ...this.items[i], sx, sy, press: o_press(i) }), dx, yy, a.rot, 171, 42, op));
+      if (a.du > 0 && a.du < 1) { over.push(this.dust(T, a.du, 34, yy + 86, 36), this.dust(T, a.du, 308, yy + 86, 36)); }
+    }
+    function o_press() { return 0; }
+    return this.cat(...under, ...parts, ...over);
+  }
+
+  buildStatic(T) {
+    const C = (n, sc, w, h, pad, s) => this.cell(n, sc, w, h, pad, s);
+    const Fr = (t, v, sc, w, h, pad, s = 1) => ({ ...this.cell('', sc, w, h, pad, s), t, v });
+    const c01 = this.c01;
+    const pv = (p, br = 1) => { const sy = (p > 0 ? 1 - .15 * p : 1 - .26 * p) * br, sx = (p > 0 ? 1 + .12 * p : 1 + .1 * p) * br; return `sY ${sy.toFixed(2)} · sX ${sx.toFixed(2)} · shadow ${(T.sh * (1 - c01(p))).toFixed(1)}`; };
+    const bF = (t, o, v) => Fr(t, v, this.btn(T, { v: 'filled', w: 150, label: 'Add plan', ...o }), 150, 52, [40, 16, 14, 14]);
+
+    const bCells = [];
+    [['filled', 'Filled'], ['outlined', 'Outlined'], ['text', 'Text']].forEach(([v, V]) => {
+      [['Default', {}], ['Pressed', { p: 1 }], ['Focused', { focus: true }], ['Disabled', { disabled: true }], ['Loading', { lt: 400, spin: 600 }]].forEach(([S, o]) => {
+        bCells.push(C(`Button / ${V} / ${S}`, this.btn(T, { v, w: 150, label: 'Add plan', ...o }), 150, 52, [14, 16, 16, 14]));
+      });
+    });
+    const fCells = [
+      ['Default', { label: 'Plan name' }], ['Focused', { label: 'Plan name', focus: true, value: 'Pancakes', caret: true }],
+      ['Filled', { label: 'Plan name', value: 'Pancakes' }], ['Error', { label: 'Plan name', value: 'Pan', error: true, helper: 'At least 4 letters' }],
+      ['Disabled', { label: 'Plan name', disabled: true }],
+    ].map(([S, o]) => C(`TextField / ${S}`, this.field(T, { w: 280, ...o }), 280, 56, [26, 14, 32, 14]));
+    const kCells = [['Unchecked', {}], ['Checked', { on: true }], ['Pressed', { sx: .86, sy: .86 }], ['Focused', { on: true, focus: true }], ['Error', { error: true }], ['Disabled', { disabled: true }], ['Disabled / Checked', { disabled: true, on: true }]]
+      .map(([S, o]) => C(`Checkbox / ${S}`, this.check(T, { label: 'Bring snacks', ...o }), 180, 48, [8, 8, 8, 8]));
+    const sCells = [['Off', { on: false }], ['On', { on: true }], ['Pressed', { on: true, pressed: true, sx: 1.18, sy: .84 }], ['Focused', { on: true, focus: true }], ['Disabled', { on: false, disabled: true }], ['Disabled / On', { on: true, disabled: true }]]
+      .map(([S, o]) => C(`Switch / ${S}`, this.sw(T, o), 60, 48, [8, 14, 8, 10]));
+    const cCells = [['Default', {}], ['Pressed', { press: 1 }], ['Selected', { sel: true }], ['Disabled', { dis: true }]]
+      .map(([S, o], i) => C(`Card / ${S}`, this.place(this.card(T, { idx: i % 3, ...this.items[i % 3], ...o }), 0, 0, T.rots[i % 3] + (o.press ? -1 : 0), 171, 42), 342, 84, [18, 18, 18, 14]));
+    const nCells = [['Info', { type: 'info', text: 'Plan added', action: 'Undo' }], ['Success', { type: 'success', text: 'Saved for Saturday' }], ['Error', { type: 'error', text: "Couldn't save", action: 'Retry' }]]
+      .map(([S, o]) => C(`Snackbar / ${S}`, this.snack(T, o), 342, 56, [34, 18, 18, 14]));
+
+    const specs = {};
+    specs.btn = [
+      { title: 'Button · press', event: 'button.press', dur: '80 ms', curve: 'ease-out cubic · stiff', reduce: 'instant', desc: 'Squashes onto its bottom edge, shadow goes to 0, label sinks 2 dp. Stroke keeps its weight; the bottom segment thickens to 1.3×.',
+        frames: [0, 40, 80].map(t => { const p = 1 - Math.pow(1 - t / 80, 3); return bF(`${t} ms`, { p }, pv(p) + ` · label +${(2 * p).toFixed(1)}`); }) },
+      { title: 'Button · release', event: 'button.release', dur: '320 ms', curve: 'spring ζ 0.35 · ω 45 · bouncy', reduce: 'instant', desc: 'Springs past rest to scaleY 1.08, settles in two oscillations. Shadow is back by the first overshoot; label follows 40 ms late. The action fires here, not at the end.',
+        frames: [0, 74, 149, 223, 320].map(t => { const p = this.spr(t / 1000, .35, 45); return bF(`${t} ms`, { p, pl: this.spr(Math.max(0, t - 40) / 1000, .35, 45) }, pv(p)); }) },
+      { title: 'Button · loading', event: 'button.loading', dur: '260 ms, then 1000 ms loop', curve: 'ease-in → spring', reduce: 'fade 120', desc: 'Label flies up and out, an ink blob drops into its place, squashes on landing and spins with uneven speed while its 3 lobes morph.',
+        frames: [[0, 'label y 0 · α 1'], [60, 'label y −5.5 · α 0.54'], [130, 'label gone · blob falls'], [200, 'blob lands · sX 1.22 sY 0.80'], [260, 'blob settles · spin starts']].map(([t, v]) => bF(`${t} ms`, { lt: t, spin: 0 }, v)) },
+      { title: 'Button (primary) · idle', event: '—', dur: '2500 ms loop', curve: 'sine · boil at 10 fps', reduce: 'off', desc: 'Breathes 1.5 % while the outline boils through 3 path variants. Only the screen’s main action; switchable.',
+        frames: [[0, 1, 0], [1250, 1.015, 1], [2500, 1, 2]].map(([t, br, fr]) => bF(`${t} ms`, { br, seed: fr * 31 }, `scale ${br.toFixed(3)} · path v${fr + 1}`)) },
+    ];
+    const fF = (t, o, v) => Fr(t, v, this.cat(this.field(T, { w: 240, label: 'Plan name', ...o }), o.stars ?? { L: [], X: [] }), 240, 56, [30, 14, 34, 14]);
+    specs.fld = [
+      { title: 'TextField · focus', event: 'field.focus', dur: '260 ms', curve: 'spring ζ 0.5 · bouncy', reduce: 'instant', desc: 'Outline thickens from 2 to 3 dp and the box hops 3.5 %; the label flies above the field, overshoots ~16 % and settles.',
+        frames: [0, 90, 170, 260].map(t => { const a = this.fldFocus(t, true); return fF(`${t} ms`, { focus: true, ...a, caret: t > 200 }, `stroke ${(2 + a.thick).toFixed(1)} · label ${Math.round(a.lift * 100)} % · scale ${a.bounce.toFixed(3)}`); }) },
+      { title: 'TextField · error', event: 'field.error', dur: '400 ms', curve: 'quick → settle', reduce: 'instant, red only', desc: 'Three decaying shakes of ±6 dp, outline turns danger red, three stars pop over the right edge.',
+        frames: [0, 30, 90, 150, 230, 400].map(t => { const x = this.shake(t); return Fr(`${t} ms`, `x ${x >= 0 ? '+' : ''}${x.toFixed(1)} · stars ${Math.round(this.c01(t / 350) * 100)} %`, this.place(this.cat(this.field(T, { w: 240, label: 'Plan name', value: 'Pan', error: true, focus: true }), this.stars(T, t / 350, 210, -4, 26)), x, 0), 240, 56, [40, 14, 14, 14]); }) },
+      { title: 'TextField · caret', event: '—', dur: '800 ms loop', curve: 'hard cut, no fade', reduce: 'steady caret', desc: 'Thick caret in primary: on 500 ms, off 300 ms. 1.25 blinks per second, under the 3/s flash limit.',
+        frames: [[0, true], [500, false], [800, true]].map(([t, c]) => fF(`${t} ms`, { focus: true, value: 'Pan', caret: c }, c ? 'caret on' : 'caret off')) },
+    ];
+    const kF = (t, a, v) => Fr(t, v, this.check(T, a), 48, 48, [6, 10, 6, 4]);
+    specs.chk = [
+      { title: 'Checkbox · check', event: 'checkbox.check', dur: '240 ms', curve: 'snap + overshoot', reduce: 'fade 120', desc: 'Box squashes, then the tick draws as one stroke (trim 0 → 100 %) and its tip flies past the frame, flicking three ink specks; box rebounds through 1.04.',
+        frames: [0, 50, 110, 170, 240].map(t => { const a = this.chkAnim(t, true); return kF(`${t} ms`, a, `box ${a.sx.toFixed(2)} · trim ${Math.round(a.trim * 100)} %`); }) },
+      { title: 'Checkbox · uncheck', event: 'checkbox.uncheck', dur: '160 ms', curve: 'quick', reduce: 'instant', desc: 'Tick erases from its tip back to the start, then the box shivers once by 1.5 dp.',
+        frames: [0, 50, 100, 115, 160].map(t => { const a = this.chkAnim(t, false); return kF(`${t} ms`, a, `trim ${Math.round(a.trim * 100)} % · x ${a.dx.toFixed(1)}`); }) },
+    ];
+    specs.sw = [
+      { title: 'Switch · toggle', event: 'switch.toggle → switch.hit', dur: '320 ms', curve: 'anticipate + bouncy', reduce: 'instant', desc: 'Thumb pulls back 40 ms, flies with a 1.5× smear and two fading echo copies, slaps the far edge and squashes against it; the new track colour spreads from the impact edge as a wave.',
+        frames: [0, 40, 90, 140, 220, 320].map(t => { const a = this.swAnim(t, 0, 1); return Fr(`${t} ms`, `x ${(a.pos * 26).toFixed(0)} · sX ${a.sx.toFixed(2)} · sY ${a.sy.toFixed(2)}`, this.sw(T, { ...a, on: a.trackOn }), 60, 48, [6, 12, 6, 10]); }) },
+    ];
+    const cS = .5;
+    specs.card = [
+      { title: 'Card · appear', event: 'card.land', dur: '380 ms · cascade 40 ms', curve: 'ease-in fall → bouncy', reduce: 'fade 120', desc: 'Drops 24 dp with a 2° turn, lands with a squash and a dust puff at both bottom corners. In a list each card starts 40 ms after the previous one.',
+        frames: [0, 60, 120, 220, 380].map(t => { const a = this.cardAppear(t, T.rots[0]); return Fr(`${t} ms`, `y ${a.dy.toFixed(0)} · rot ${a.rot.toFixed(1)}° · sY ${a.sy.toFixed(2)}`,
+          this.cat(this.place(this.card(T, { idx: 0, ...this.items[0], sx: a.sx, sy: a.sy }), 0, a.dy, a.rot, 171, 42, a.op), this.dust(T, a.du, 34, 86, 36), this.dust(T, a.du, 308, 86, 36)), 342, 84, [40, 20, 30, 20], cS); }) },
+      { title: 'Card · press', event: 'card.press', dur: '100 ms', curve: 'stiff', reduce: 'instant', desc: 'Leans 1° toward the finger and sinks 2 %; the shadow shrinks to 30 %.',
+        frames: [0, 50, 100].map(t => { const p = 1 - Math.pow(1 - t / 100, 3); return Fr(`${t} ms`, `lean −${p.toFixed(2)}° · scale ${(1 - .02 * p).toFixed(3)} · shadow ${(T.sh * (1 - .7 * p)).toFixed(1)}`, this.place(this.card(T, { idx: 0, ...this.items[0], press: p }), 0, 0, T.rots[0] - p, 171, 42), 342, 84, [20, 20, 20, 20], cS); }) },
+      { title: 'Card · dismiss', event: 'card.whoosh → card.gone', dur: '420 ms', curve: 'anticipate + snap', reduce: 'fade 120', desc: 'Pulls back 10 dp, shoots off with a smear and speed lines, punches its cracked silhouette into the paper (FX hole, 300 ms), and the card below slides up over it with overshoot.',
+        frames: [0, 70, 140, 190, 300, 450].map(t => { const d = this.cardDismiss(t); return Fr(`${t} ms`, (t < 170 ? `x ${d.dx.toFixed(0)} · sX ${d.sx.toFixed(2)}` : d.ghost ? 'silhouette frame' : `below y ${(d.n * 102).toFixed(0)}`), this.cardStack(T, t, 'dismiss'), 342, 288, [24, 20, 24, 60], .36); }) },
+    ];
+    specs.snk = [
+      { title: 'Snackbar · show', event: 'snackbar.show', dur: '450 ms', curve: 'spring ζ 0.48 · bouncy', reduce: 'fade 120', desc: 'Hangs from a hook on two strings. Flies up from below, overshoots 16 dp, then swings ±3° twice around the hook before hanging still.',
+        frames: [0, 100, 150, 240, 330, 450].map(t => { const a = this.snkShow(t); return Fr(`${t} ms`, `y ${a.dy.toFixed(0)} · rot ${a.rot.toFixed(1)}°`, this.place(this.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26), 342, 120, [6, 16, 6, 16], .45); }) },
+      { title: 'Snackbar · hide', event: 'snackbar.hide', dur: '240 ms', curve: 'anticipate', reduce: 'fade 120', desc: 'Lifts 8 dp, then drops out of view with a vertical smear and speed lines trailing above; text just moves.',
+        frames: [0, 70, 150, 240].map(t => { const a = this.snkHide(t); return Fr(`${t} ms`, `y ${a.dy.toFixed(0)} · sY ${a.sy.toFixed(2)}`, this.place(this.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: t > 70 ? (t - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26), 342, 120, [6, 16, 6, 16], .45); }) },
+    ];
+    const ground = { L: [this.L(this.inkLine(0, 160, 62, 3.2, 5), T.ink)], X: [] };
+    specs.dust = [
+      { title: 'FX · dust', event: 'fx.dust', dur: '300 ms · 4 frames', curve: 'ease-out spread', reduce: 'off', desc: 'Five puffs on one point grid fan out sideways and up, grow and fade. Each frame is its own path set (boil), triggered by any landing event.',
+        frames: [25, 100, 200, 285].map((t, i) => Fr(`${t} ms · f${i + 1}`, `spread ${Math.round((1 - Math.pow(1 - t / 300, 2.2)) * 100)} % · α ${(1 - Math.pow(t / 300, 1.6)).toFixed(2)}`, this.cat(ground, this.dust(T, t / 300, 80, 60, 56)), 160, 70, [10, 10, 4, 10])) },
+    ];
+    specs.stars = [
+      { title: 'FX · impact stars', event: 'fx.stars', dur: '350 ms · 4 frames', curve: 'snap out → fade', reduce: 'off', desc: 'Three stars pop along an arc over the element, spin in alternating directions and fade. Used by error, dialog close and hard hits.',
+        frames: [30, 120, 240, 330].map((t, i) => Fr(`${t} ms · f${i + 1}`, `arc ${Math.round((1 - Math.pow(1 - t / 350, 3)) * 100)} % · α ${(t / 350 < .6 ? 1 : 1 - (t / 350 - .6) / .4).toFixed(2)}`, this.stars(T, t / 350, 80, 62, 40), 160, 70, [10, 10, 4, 10])) },
+    ];
+    return { bCells, fCells, kCells, sCells, cCells, nCells, specs };
+  }
+
+  // ---------- live ----------
+  T() { return this.TH[this.state.theme]; }
+  age(t0) { return this.props.reduceMotion ? 1e6 : this.clk - t0; }
+  liveScene(k) {
+    const T = this.T();
+    if (k === 'btn') {
+      const B = this.lb, idle = (this.props.idle ?? true) && !this.props.reduceMotion;
+      const br = idle ? 1 + .0075 * (1 - Math.cos(2 * Math.PI * this.wall / 2500)) : 1, fr = idle ? Math.floor(this.wall / 100) % 3 : 0;
+      return this.place(this.btn(T, { v: 'filled', w: 342, p: B.p, pl: B.pl, br, label: 'Add plan', seed: fr * 31, lt: B.lt0 != null ? this.age(B.lt0) : null, spin: this.clk }), 16, 20);
+    }
+    if (k === 'fld') {
+      const F = this.lf, tf = this.age(F.ft0), a = this.fldFocus(tf, F.focus), err = F.et0 != null, te = err ? this.age(F.et0) : 1e6;
+      const caret = F.focus && ((this.clk - F.ft0) % 800) < 500;
+      return this.place(this.cat(this.field(T, { w: 342, label: 'Plan name', value: err ? 'Pan' : '', focus: F.focus, ...a, caret, error: err, helper: err ? 'At least 4 letters' : '' }), this.stars(T, te / 350, 312, -4, 26)), 16 + this.shake(te), 36);
+    }
+    if (k === 'chk') { const K = this.lk; return this.place(this.check(T, { ...this.chkAnim(this.age(K.t0), K.on), label: 'Bring snacks' }), 14, 8); }
+    if (k === 'sw') { const S = this.ls, t = this.age(S.t0); const a = t < 480 ? this.swAnim(t, S.from, S.to) : { pos: S.on ? 1 : 0, trackOn: S.on }; return this.place(this.sw(T, { ...a, on: S.on }), 14, 8); }
+    if (k === 'card') {
+      const K = this.lc, ta = this.age(K.at0), td = K.dt0 != null ? this.age(K.dt0) : null, d = td != null ? this.cardDismiss(td) : null;
+      const under = [], parts = [], over = [];
+      for (let i = 0; i < 3; i++) {
+        const base = i * 102, rot = T.rots[i], a = this.cardAppear(ta - 40 * i, rot);
+        let dx = 0, sx = a.sx, sy = a.sy, op = a.op, yy = base + a.dy;
+        if (d && i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(this.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (td - 170) / 300; if (hu >= 0 && hu < 1) under.push(this.place(this.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }
+        if (d && i === 2) yy += d.n * 102;
+        if (op > .01) parts.push(this.place(this.card(T, { idx: i, ...this.items[i], sx, sy, press: K.press[i] }), dx, yy, a.rot - K.press[i], 171, 42, op));
+        if (a.du > 0 && a.du < 1) over.push(this.dust(T, a.du, 34, yy + 86, 36), this.dust(T, a.du, 308, yy + 86, 36));
+      }
+      return this.place(this.cat(...under, ...parts, ...over), 16, 34);
+    }
+    if (k === 'snk') { const N = this.ln, t = this.age(N.t0), a = N.shown ? this.snkShow(t) : this.snkHide(t); return this.place(this.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: !N.shown && t > 70 ? (t - 70) / 190 : -1 }), 16, 64 + a.dy, a.rot, 171, -26); }
+    if (k === 'dust' || k === 'stars') {
+      const t = this.age((k === 'dust' ? this.ld : this.lx).t0), ground = { L: [this.L(this.inkLine(10, 230, 104, 3.4, 9), T.ink)], X: [] };
+      let dy = 0, sx = 1, sy = 1, dx = 0;
+      if (k === 'dust') { if (t < 120) { const u = t / 120; dy = -50 * (1 - u * u); } else { const q = this.osc((t - 120) / 1000, .35, 38); sx = 1 + .1 * q; sy = 1 - .14 * q; } }
+      else dx = this.shake(t);
+      const bw = 80 * sx, bh = 44 * sy;
+      const blk = { L: this.body(T, 80 + (80 - bw) / 2 + dx, 60 + (44 - bh) + dy, bw, bh, [12, 8, 13, 9], { seed: T.seed + 801, fill: T.primary, sh: 0, rimColor: T.btnHi }), X: [] };
+      const fx = k === 'dust' ? this.cat(this.dust(T, (t - 120) / 300, 86, 104, 46), this.dust(T, (t - 120) / 300, 154, 104, 46)) : this.stars(T, t / 350, 120 + dx, 56, 40);
+      return this.cat(ground, blk, fx);
+    }
+    return { L: [], X: [] };
+  }
+  esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
+  toSvg(sc) {
+    let s = '';
+    sc.L.forEach(l => { s += `<path d="${l.d}" fill="${l.fill}" stroke="${l.stroke}" stroke-width="${l.sw}" transform="${l.tf}" opacity="${l.op}" stroke-dasharray="${l.dash}" stroke-dashoffset="${l.doff}" stroke-linecap="round" stroke-linejoin="round"></path>`; });
+    sc.X.forEach(t => { s += `<text x="${this.f(t.x)}" y="${this.f(t.y)}" font-family="${this.esc(t.ff)}" font-weight="${t.fw}" font-size="${t.fs}" fill="${t.fill}" text-anchor="${t.anchor}" opacity="${t.op}">${this.esc(t.s)}</text>`; });
+    return s;
+  }
+  drawLive(k) { const el = this.el[k]; if (!el) return; const s = this.toSvg(this.liveScene(k)); if (s !== this.lastSvg[k]) { el.innerHTML = s; this.lastSvg[k] = s; } }
+
+  componentDidMount() {
+    const bind = () => { if (!window.ToonEngine) { this._wb = setTimeout(bind, 40); return; } const P = window.ToonEngine.prototype, keep = new Set(['constructor', 'cell', 'T']); Object.getOwnPropertyNames(P).forEach(n => { if (!keep.has(n) && typeof P[n] === 'function') this[n] = P[n].bind(this); }); const inst = new window.ToonEngine(); this.TH = inst.THEMES; this.ICONS = inst.ICONS; this.memo = {}; this.lastSvg = {}; this.wc.clear(); this.forceUpdate(); };
+    bind();
+    this.last = performance.now();
+    this.keys.forEach(k => this.drawLive(k));
+    this.auto = setTimeout(() => { this.lc.at0 = this.clk; this.ln.t0 = this.clk; }, 700);
+    const loop = now => { this.tick(now); this.raf = requestAnimationFrame(loop); };
+    this.raf = requestAnimationFrame(loop);
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.auto); }
+  tick(now) {
+    const real = Math.min(.05, (now - this.last) / 1000); this.last = now;
+    const dt = real * (this.props.slowMo ? .25 : 1), ms = dt * 1000;
+    this.clk += ms; this.wall += real * 1000;
+    const B = this.lb;
+    if (this.props.reduceMotion) { B.p = B.mode === 'press' ? 1 : 0; B.v = 0; }
+    else if (B.mode === 'press') { B.pt += ms; const u = Math.min(1, B.pt / 80); B.p = B.p0 + (1 - B.p0) * (1 - Math.pow(1 - u, 3)); B.v = 0; }
+    else { const w = 45, z = .35, n = 4, h = dt / n; for (let i = 0; i < n; i++) { const acc = -w * w * B.p - 2 * z * w * B.v; B.v += acc * h; B.p += B.v * h; } }
+    B.pl += (B.p - B.pl) * Math.min(1, ms / 40);
+    const K = this.lc; for (let i = 0; i < 3; i++) K.press[i] += (K.pt[i] - K.press[i]) * Math.min(1, ms / 35);
+    this.keys.forEach(k => this.drawLive(k));
+  }
+
+  renderVals() {
+    const th = this.state.theme, T = this.TH[th];
+    const S = this.memo[th] || (this.memo[th] = this.buildStatic(T));
+    const noop = () => {};
+    const lv = (k, w, h) => ({ ref: this.r[k], lw: w, lh: h, lvb: `0 0 ${w} ${h}` });
+    const comps = [
+      { id: 'button', num: '02', name: 'Button', sub: 'Filled, outlined and text. Thick uneven outline, hard ink shadow; pressing squashes it into the paper. 52 dp tall.', hasCells: true, cells: S.bCells, specs: S.specs.btn, hint: 'press and hold',
+        ...lv('btn', 374, 90), down: e => { const B = this.lb; B.lt0 = null; B.mode = 'press'; B.pt = 0; B.p0 = B.p; }, up: () => { if (this.lb.mode === 'press') this.lb.mode = 'spring'; },
+        controls: [{ label: 'Play press → release', run: () => { const B = this.lb; B.lt0 = null; B.mode = 'press'; B.pt = 0; B.p0 = B.p; setTimeout(() => { B.mode = 'spring'; }, 260 / (this.props.slowMo ? .25 : 1)); } },
+          { label: 'Play loading', run: () => { this.lb.lt0 = this.clk; } }] },
+      { id: 'textfield', num: '03', name: 'TextField', sub: 'Hand-drawn frame, thick blunt caret, label that flies out of the field. Error shakes and turns red. 56 dp tall.', hasCells: true, cells: S.fCells, specs: S.specs.fld, hint: 'tap to focus',
+        ...lv('fld', 374, 130), down: () => { const F = this.lf; if (F.et0 != null) { F.et0 = null; return; } F.focus = !F.focus; F.ft0 = this.clk; }, up: noop,
+        controls: [{ label: 'Play error', run: () => { const F = this.lf; if (!F.focus) { F.focus = true; F.ft0 = this.clk; } F.et0 = this.clk; } }] },
+      { id: 'checkbox', num: '04', name: 'Checkbox', sub: 'Lopsided box, the tick is one drawn stroke whose tip overshoots the frame. 30 dp box in a 48 dp target.', hasCells: true, cells: S.kCells, specs: S.specs.chk, hint: 'tap to toggle',
+        ...lv('chk', 230, 64), down: () => { const K = this.lk; K.on = !K.on; K.t0 = this.clk; }, up: noop, controls: [] },
+      { id: 'switch', num: '05', name: 'Switch', sub: 'A lever: the thumb winds up, smears across and slaps the far end. Track colour changes on impact.', hasCells: true, cells: S.sCells, specs: S.specs.sw, hint: 'tap to toggle',
+        ...lv('sw', 92, 64), down: () => { const W = this.ls; W.on = !W.on; W.from = W.on ? 0 : 1; W.to = W.on ? 1 : 0; W.t0 = this.clk; }, up: noop, controls: [] },
+      { id: 'card', num: '06', name: 'Card', sub: 'A sheet of paper with ±1–2° tilt (not on every card) and a hard shadow. Text stays upright.', hasCells: true, cells: S.cCells, specs: S.specs.card, hint: 'press a card',
+        ...lv('card', 374, 350), down: e => { const rc = e.currentTarget.getBoundingClientRect(), y = (e.clientY - rc.top) * (350 / rc.height) - 34; const i = Math.max(0, Math.min(2, Math.floor(y / 102))); this.lc.pt = [0, 0, 0]; this.lc.pt[i] = 1; }, up: () => { this.lc.pt = [0, 0, 0]; },
+        controls: [{ label: 'Play appear', run: () => { this.lc.at0 = this.clk; this.lc.dt0 = null; } }, { label: 'Play dismiss', run: () => { if (this.lc.dt0 == null) this.lc.dt0 = this.clk; } }] },
+      { id: 'snackbar', num: '07', name: 'Snackbar', sub: 'A sign on two nails that flies in from below and swings before it settles.', hasCells: true, cells: S.nCells, specs: S.specs.snk, hint: 'use the buttons',
+        ...lv('snk', 374, 150), down: noop, up: noop,
+        controls: [{ label: 'Show', run: () => { this.ln.shown = true; this.ln.t0 = this.clk; } }, { label: 'Hide', run: () => { this.ln.shown = false; this.ln.t0 = this.clk; } }] },
+      { id: 'fx-dust', num: 'FX 1', name: 'Dust puff', sub: 'Secondary-action layer, drawn over the component on a landing event. One event, one puff, no repeat.', hasCells: false, cells: [], specs: S.specs.dust, hint: 'tap to drop',
+        ...lv('dust', 240, 120), down: () => { this.ld.t0 = this.clk; }, up: noop, controls: [] },
+      { id: 'fx-stars', num: 'FX 2', name: 'Impact stars', sub: 'Secondary-action layer for hits and errors. Shown here on a shaking block.', hasCells: false, cells: [], specs: S.specs.stars, hint: 'tap to hit',
+        ...lv('stars', 240, 120), down: () => { this.lx.t0 = this.clk; }, up: noop, controls: [] },
+    ];
+    const colorTokens = [['ink', T.ink], ['stage', T.bg], ['surface', T.paper], ['surface-pressed', T.surface2], ['text', T.text], ['text-muted', T.muted], ['primary', T.primary], ['on-primary', T.onPrimary],
+      ['danger', T.danger], ['on-danger', T.onDanger], ['danger-text', T.dangerText], ['success', T.success], ['success-light', T.successLight], ['warning', T.warn], ['focus', T.focus],
+      ['track-off', T.off], ['disabled', T.disabledFill], ['fx/dust', T.dust]].concat(T.rim ? [['rim', T.rim], ['field-rim', T.fieldRim]] : [])
+      .map(([n, h]) => ({ name: 'toon/color/' + n, hex: h }));
+    const typeScale = [
+      { name: 'Display', spec: `40/44 · ${T.display}`, ff: T.display, fw: 400, fs: 40, lh: 44, sample: 'Saturday Plans' },
+      { name: 'Headline', spec: `28/32 · ${T.display}`, ff: T.display, fw: 400, fs: 28, lh: 32, sample: 'Before sundown' },
+      { name: 'Title', spec: `18/24 · ${T.body} 700`, ff: T.body, fw: 700, fs: 18, lh: 24, sample: 'Pancake breakfast' },
+      { name: 'Body', spec: `15/22 · ${T.body} 400`, ff: T.body, fw: 400, fs: 15, lh: 22, sample: 'Check the tyre pump and pack a spare tube.' },
+      { name: 'Label', spec: `13/16 · ${T.body} 700`, ff: T.body, fw: 700, fs: 13, lh: 16, sample: 'Remind me at noon' },
+    ];
+    const g = n => ({ isGroup: true, isRow: false, name: n, v: '' }), rw = (n, v) => ({ isGroup: false, isRow: true, name: n, v });
+    const mul = m => T.ins.map(v => (v * m).toFixed(1)).join(' · ');
+    const shapeTokens = [
+      g('Line & shape'), rw('toon/stroke/s', mul(.75)), rw('toon/stroke/m', mul(1)), rw('toon/stroke/l', mul(1.35)), rw('toon/stroke/squash-bottom', '×1.3'), rw('toon/wobble/amp', T.amp + ' dp · 3 variants · 10 fps'),
+      rw('toon/radius/button', T.btnR.map(v => Math.round(v * T.rs)).join(' · ')), rw('toon/radius/card', [16, 10, 18, 12].map(v => Math.round(v * T.rs)).join(' · ')),
+      rw('toon/shadow/s · l', `${T.sh}×${T.sh} · ${T.sh + 2}×${T.sh + 2} dp, no blur`), rw('toon/tilt/set', T.rots.map(r => (r > 0 ? '+' : '') + r + '°').join(' ')),
+      g('Size'), rw('toon/size/button · field · chip', '52 · 56 · 36 dp'), rw('toon/size/target-min', '48 dp'), rw('toon/space/step', '4 dp'),
+      g('Motion'), rw('toon/motion/duration', 'snap 80 · quick 160 · normal 260 · slow 420 · scene 600'),
+      rw('toon/motion/spring/bouncy', 'ζ 0.35 · ω 45'), rw('toon/motion/spring/wobbly', 'ζ 0.25 · ω 30'), rw('toon/motion/spring/stiff', 'ζ 0.7 · ω 60'),
+      rw('toon/motion/curve/anticipate', 'back 8–12 % for 40–70 ms, then ease-in'), rw('toon/motion/curve/overshoot', 'past target 10–20 %, spring back'),
+      rw('toon/motion/curve/snap-hold', 'hold 60–100 ms, then ease-in fall'), rw('toon/motion/cascade', '40 ms step, ≤ 600 ms per screen'),
+    ];
+    const themeOpts = ['il', 'in', 'bc'].map(k => ({ label: this.TH[k].label, sub: this.TH[k].sub, bg: k === th ? '#2B211C' : 'transparent', color: k === th ? '#F4EBD6' : '#2B211C', subColor: k === th ? '#D9CFB6' : '#6B5F55', pick: () => this.setState({ theme: k }) }));
+    return { t: T, themeOpts, comps, colorTokens, typeScale, shapeTokens };
+  }
+}
+</script>
+</body>
+</html>

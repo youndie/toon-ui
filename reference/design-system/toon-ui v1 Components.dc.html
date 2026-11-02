@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<style>
+body{margin:0;background:#E6E2D8;color:#2B211C;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B4482A}a:hover{color:#2B211C}
+</style>
+</helmet>
+<section data-screen-label="v1 components" style="padding:56px 56px 96px; display:flex; flex-direction:column; gap:56px; max-width:1560px;">
+
+  <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-end; justify-content:space-between;">
+    <div style="display:flex; flex-direction:column; gap:8px; max-width:780px;">
+      <div style="font:600 13px/1 Figtree; letter-spacing:.12em; text-transform:uppercase; color:#7A6E62;">toon-ui · v1 components + transitions</div>
+      <div style="font:400 48px/1.05 Shrikhand; color:#2B211C;">Eight more, and the cuts between screens</div>
+      <div style="font:400 16px/1.5 Figtree; color:#4A3F37; text-wrap:pretty;">Slider, Menu, BottomSheet, NavigationDrawer, Tooltip, Segmented button, Pull-to-refresh and the title card (splash / empty state), then the three screen transitions. Same engine, same rules as <a href="toon-ui MVP Components.dc.html">MVP</a>; every motion reuses or extends a curve from the token set.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px; padding:4px; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px; background:#F4EBD6; width:420px; max-width:100%;">
+      <sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3">
+        <div onClick="{{ o.pick }}" style="cursor:pointer; padding:9px 8px; border-radius:10px 7px 11px 8px; background:{{ o.bg }}; display:flex; flex-direction:column; gap:3px; align-items:center; text-align:center;">
+          <div style="font:700 13px/1.15 Figtree; color:{{ o.color }};">{{ o.label }}</div>
+          <div style="font:500 11px/1 Figtree; color:{{ o.subColor }};">{{ o.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-for list="{{ comps }}" as="comp" hint-placeholder-count="2">
+    <div id="{{ comp.id }}" style="display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:14px;">
+        <div style="font:800 14px/1 Figtree; color:#7A6E62;">{{ comp.num }}</div>
+        <div style="font:400 32px/1 Shrikhand; color:#2B211C;">{{ comp.name }}</div>
+        <div style="font:500 14px/1.4 Figtree; color:#6B5F55; max-width:720px; text-wrap:pretty;">{{ comp.sub }}</div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:28px 36px; padding:28px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:18px 12px 20px 14px;">
+        <sc-for list="{{ comp.cells }}" as="cell" hint-placeholder-count="5">
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="position:relative; width:{{ cell.sw }}px; height:{{ cell.sh }}px; overflow:{{ cell.ov }};">
+              <svg width="{{ cell.sw }}" height="{{ cell.sh }}" viewBox="{{ cell.vb }}" style="overflow:{{ cell.ov }}; display:block; position:absolute; left:0; top:0;">
+                <sc-for list="{{ cell.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+              </svg>
+              <sc-for list="{{ cell.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+            </div>
+            <div style="font:600 11px/1.2 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ cell.name }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ comp.hasLive }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+          <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:12px; padding:20px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:12px 18px 14px 20px;">
+            <div style="font:700 11px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:{{ t.muted }};">Live · {{ comp.hint }}</div>
+            <div onPointerDown="{{ comp.down }}" onPointerMove="{{ comp.move }}" onPointerUp="{{ comp.up }}" onPointerLeave="{{ comp.up }}" onPointerCancel="{{ comp.up }}" style="cursor:pointer; touch-action:none; user-select:none; width:{{ comp.lw }}px; margin:0 auto;">
+              <svg ref="{{ comp.ref }}" width="{{ comp.lw }}" height="{{ comp.lh }}" viewBox="{{ comp.lvb }}" style="display:block;"></svg>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              <sc-for list="{{ comp.controls }}" as="ctl" hint-placeholder-count="0">
+                <div onClick="{{ ctl.run }}" style="cursor:pointer; padding:8px 12px; font:700 13px/1 Figtree; color:#2B211C; background:#F4EBD6; border:2px solid #2B211C; border-radius:9px 6px 10px 7px; box-shadow:3px 3px 0 #2B211C;">{{ ctl.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="flex:1 1 640px; min-width:0; display:flex; flex-direction:column; gap:16px;">
+            <sc-for list="{{ comp.specs }}" as="sp" hint-placeholder-count="1">
+              <div style="display:flex; flex-direction:column; gap:12px; padding:16px 18px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+                <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px;">
+                  <div style="font:800 16px/1.2 Figtree; color:#2B211C;">{{ sp.title }}</div>
+                  <div style="font:600 12px/1 ui-monospace, Menlo, monospace; color:#2B211C; background:#E6D9BC; padding:4px 7px; border-radius:6px 4px 7px 5px;">{{ sp.event }}</div>
+                  <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ sp.dur }}</div>
+                  <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ sp.curve }}</div>
+                  <div style="font:600 12px/1.3 Figtree; color:#5E5248;">reduce motion: {{ sp.reduce }}</div>
+                </div>
+                <div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">{{ sp.desc }}</div>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; padding:14px; background:{{ t.bg }}; border-radius:10px 7px 11px 8px;">
+                  <sc-for list="{{ sp.frames }}" as="fr" hint-placeholder-count="4">
+                    <div style="display:flex; flex-direction:column; gap:6px; max-width:max(130px, {{ fr.sw }}px);">
+                      <div style="position:relative; width:{{ fr.sw }}px; height:{{ fr.sh }}px; overflow:hidden;">
+                        <svg width="{{ fr.sw }}" height="{{ fr.sh }}" viewBox="{{ fr.vb }}" style="display:block; position:absolute; left:0; top:0;">
+                          <sc-for list="{{ fr.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                        </svg>
+                        <sc-for list="{{ fr.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+                      </div>
+                      <div style="font:800 12px/1 Figtree; color:{{ t.text }};">{{ fr.t }}</div>
+                      <div style="font:500 11px/1.35 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ fr.v }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-for>
+
+  <div style="font:500 13px/1.5 Figtree; color:#6B5F55; max-width:760px; text-wrap:pretty;">Touch targets stay fixed at ≥ 48 dp while the drawing animates inside them. Labels translate but never scale, tilt or smear. Every animation fires its action on release and never blocks the next tap.</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;slowMo&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Slow motion ×4&quot;},&quot;reduceMotion&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;label&quot;:&quot;Reduce motion&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'il', ready: false, fontsV: 0 };
+  el = {}; r = {}; memo = {}; lastSvg = {}; clk = 0;
+  keys = ['slider', 'menu', 'sheet', 'drawer', 'tip', 'seg', 'pull', 'splash', 'trans'];
+  lv = {
+    slider: { v: .4, grab: false, t0: -1e7 },
+    menu: { open: false, t0: -1e7, sel: -1 },
+    sheet: { open: false, t0: -1e7 },
+    drawer: { open: false, t0: -1e7 },
+    tip: { show: false, t0: -1e7 },
+    seg: { sel: 0, from: 0, t0: -1e7 },
+    pull: { d: 0, dragging: false, y0: 0, rel: -1e7, d0: 0 },
+    splash: { t0: -1e7 },
+    trans: { t0: -1e7 },
+  };
+  constructor(props) { super(props); this.keys.forEach(k => { this.r[k] = e => { this.el[k] = e; if (e) { this.lastSvg[k] = null; this.drawLive(k); } }; }); }
+  get E() { if (!this._e && window.ToonEngine) this._e = new window.ToonEngine(); return this._e; }
+  componentDidMount() {
+    const go = () => { if (!window.ToonEngine) { this.wait = setTimeout(go, 50); return; } this.setState({ ready: true }); this.last = performance.now(); const loop = now => { const real = Math.min(.05, (now - this.last) / 1000); this.last = now; this.clk += real * 1000 * (this.props.slowMo ? .25 : 1); this.keys.forEach(k => this.drawLive(k)); this.raf = requestAnimationFrame(loop); }; this.raf = requestAnimationFrame(loop); this.auto = setTimeout(() => { this.lv.splash.t0 = this.clk; this.lv.trans.t0 = this.clk; }, 700); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => { this.memo = {}; if (this._e) this._e.wc.clear(); this.lastSvg = {}; this.setState(s => ({ fontsV: s.fontsV + 1 })); });
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.wait); clearTimeout(this.auto); }
+  T() { return this.E.THEMES[this.state.theme]; }
+  age(t0) { return this.props.reduceMotion ? 1e6 : this.clk - t0; }
+  drawLive(k) { const el = this.el[k]; if (!el || !this.E) return; const s = this.E.toSvg(this.liveScene(k)); if (s !== this.lastSvg[k]) { el.innerHTML = s; this.lastSvg[k] = s; } }
+  loc(e, w, h) { const rc = e.currentTarget.getBoundingClientRect(); return [(e.clientX - rc.left) * w / rc.width, (e.clientY - rc.top) * h / rc.height]; }
+  bgCards(T, W) { const E = this.E, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; return E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); }
+  sheetScene(T, a, Hs = 520) { const E = this.E, sh = E.sheet(T, { W: 360, Hs, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); const bg = this.bgCards(T, 360); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); }
+  drawerScene(T, a, H = 520) { const bg = this.bgCards(T, 360), edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return this.E.cat(bg, this.E.drawer(T, { W: 280, H, SW: 360, ...a })); }
+  menuScene(T, u, o = {}) { const E = this.E, m = E.menu(T, { w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'], u, ...o }); return E.cat(E.place(E.iconBtn(T, { icon: 'more', p: 0 }), 186, 4), u > .01 ? E.place(m, 34, 58) : { L: [], X: [] }); }
+  pullScene(T, a, W = 360) { const E = this.E, off = a.off ?? (a.d || 0) * .7; return E.cat(E.place(this.bgCards(T, W), 0, 30 + off), E.pull(T, { W, ...a })); }
+  splashScene(T, a, H = 520) { return this.E.cat(this.E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), this.E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); }
+  transScene(T, t) { const E = this.E, iris = E.irisScene(T, E.irisAt(Math.max(0, t - 40)), { from: 0 }), push = E.pushScene(T, Math.max(0, t)), hole = E.holeScene(T, Math.max(0, t - 80)); return E.cat(push, E.place(iris, 210, 0), E.place(hole, 420, 0)); }
+
+  liveScene(k) {
+    const E = this.E, T = this.T(), S = this.lv[k];
+    if (k === 'slider') { const t = this.age(S.t0), q = S.grab ? E.sliderGrab(t, true) : (t < 500 ? E.sliderGrab(t, false) : 0); return E.place(E.slider(T, { w: 300, value: S.v, grab: q }), 20, 6); }
+    if (k === 'menu') { const t = this.age(S.t0); return this.menuScene(T, E.menuUnroll(t, S.open), { sel: S.sel }); }
+    if (k === 'sheet') { const t = this.age(S.t0); if (!S.open && t > 300) return this.bgCards(T, 360); return this.sheetScene(T, E.sheetMove(t, S.open, 260)); }
+    if (k === 'drawer') { const t = this.age(S.t0); if (!S.open && t > 260) return this.bgCards(T, 360); return this.drawerScene(T, S.open ? E.drawerOpen(t) : E.drawerClose(t)); }
+    if (k === 'tip') { const t = this.age(S.t0), s = E.tipInflate(t, S.show); return E.cat(E.place(E.iconBtn(T, { icon: 'plus', variant: 'filled' }), 116, 84), E.place(E.tooltip(T, { s }), 140, 82)); }
+    if (k === 'seg') { const t = this.age(S.t0), a = t < 700 ? E.segSwitch(t, S.from, S.sel, 100) : { sel: S.sel }; return E.place(E.segmented(T, { w: 300, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }), 20, 8); }
+    if (k === 'pull') {
+      if (S.dragging) return this.pullScene(T, { d: S.d, bsy: 1 + S.d / 240, bsx: 1 - S.d / 600 });
+      const t = this.age(S.rel); if (t > 2000) return this.pullScene(T, { d: 0, band: false, blobY: -30 });
+      if (t < 400) { const a = E.pullRelease(t, S.d0); return this.pullScene(T, { ...a, ph: this.clk, off: 54 + (S.d0 * .7 - 54) * Math.max(0, 1 - t / 160) }); }
+      const sh = t > 1600 ? Math.max(0, 1 - (t - 1600) / 200) : 1; return this.pullScene(T, { band: false, blobY: 40, ph: this.clk, bsx: sh, bsy: sh, off: 54 * (t > 1600 ? 1 - E.c01((t - 1600) / 300) : 1) });
+    }
+    if (k === 'splash') return this.splashScene(T, E.splashAt(this.age(S.t0)));
+    if (k === 'trans') return this.transScene(T, this.age(S.t0));
+    return { L: [], X: [] };
+  }
+
+  buildStatic(T) {
+    const E = this.E, C = (n, sc, w, h, pad, s) => ({ ...E.cell(n, sc, w, h, pad, s), ov: /Sheet|Drawer|Pull|TitleCard|Transition/.test(n) ? 'hidden' : 'visible' }), Fr = (t, v, sc, w, h, pad, s = 1) => ({ ...E.cell('', sc, w, h, pad, s), t, v }), n2 = v => v.toFixed(2), n0 = v => v.toFixed(0), out = {};
+    const sq = q => `sX ${n2(1 + .28 * q)} · sY ${n2(1 - .22 * q)} · sag ${n0(5 * Math.max(0, q))}`;
+    out.slider = { cells: [['Default', { value: .4 }], ['Dragging', { value: .6, grab: 1 }], ['Focused', { value: .4, focus: true }], ['Full', { value: 1 }], ['Disabled', { value: .4, disabled: true }]].map(([n, o]) => C('Slider / ' + n, E.slider(T, { w: 260, ...o }), 260, 48, [10, 14, 10, 14])),
+      specs: [{ title: 'Slider · grab / release', event: 'slider.grab → slider.release', dur: '80 ms + 320 ms', curve: 'stiff → bouncy ζ 0.35', reduce: 'instant', desc: 'The ball squashes under the finger and the rope sags 5 dp beneath it; on release the ball springs round and the rope twangs back once.',
+        frames: [['0 ms', 0], ['40 ms', .875], ['80 ms · held', 1], ...[60, 130, 220].map(t => ['+' + t + ' ms', E.sliderGrab(t, false)])].map(([lb, q]) => Fr(lb, sq(q), E.slider(T, { w: 200, value: .5, grab: q }), 200, 48, [10, 14, 10, 14])) }] };
+    out.menu = { cells: [['Open', {}], ['Item pressed', { pressed: 1 }], ['Item focused', { focus: 0 }], ['Item disabled', { disabled: 1 }], ['Unrolling', { u: .55 }]].map(([n, o]) => C('Menu / ' + n, E.menu(T, { w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'], ...o }), 200, 172, [6, 10, 10, 6])),
+      specs: [
+        { title: 'Menu · unroll', event: 'menu.unroll', dur: '360 ms', curve: 'spring ζ 0.42 · ω 24', reduce: 'fade 120', desc: 'A scroll: the bottom roll drops and unrolls the paper, overshoots ~20 % and rolls back; items fade in as the paper passes them.',
+          frames: [0, 60, 120, 200, 360].map(t => { const u = E.menuUnroll(t, true); return Fr(`${t} ms`, `paper ${n0(u * 100)} %`, this.menuScene(T, u), 260, 240, [0, 0, 0, 0], .5); }) },
+        { title: 'Menu · roll up', event: 'menu.close', dur: '160 ms', curve: 'ease-in', reduce: 'fade 120', desc: 'Rolls back up quickly; an item tap fires on release, before the roll finishes.',
+          frames: [0, 60, 120, 160].map(t => { const u = E.menuUnroll(t, false); return Fr(`${t} ms`, `paper ${n0(u * 100)} %`, this.menuScene(T, u), 260, 240, [0, 0, 0, 0], .5); }) }] };
+    out.sheet = { cells: [['Open', { dy: 0, scrim: 1 }], ['Dragged down', { dy: 60, scrim: .7 }]].map(([n, a]) => C('BottomSheet / ' + n, this.sheetScene(T, a), 360, 520, [0, 0, 0, 0], .55)),
+      specs: [{ title: 'BottomSheet · open', event: 'sheet.open', dur: '450 ms', curve: 'spring ζ 0.5 · ω 22', reduce: 'fade 120', desc: 'Slides up on its tongue, overshoots ~16 % and settles; the scrim darkens over 200 ms. Close falls with ease-in in 220 ms.',
+        frames: [0, 90, 180, 300, 450].map(t => { const a = E.sheetMove(t, true, 260); return Fr(`${t} ms`, `y ${n0(a.dy)} · scrim ${n2(a.scrim)}`, this.sheetScene(T, a), 360, 520, [0, 0, 0, 0], .34); }) }] };
+    out.drawer = { cells: [['Open', {}], ['Item pressed', { pressed: 2 }], ['Half open', { sx: .5, scrim: .5, textOp: 0 }]].map(([n, a]) => C('NavigationDrawer / ' + n, this.drawerScene(T, { sx: 1, scrim: 1, textOp: 1, ...a }), 360, 520, [0, 0, 0, 0], .5)),
+      specs: [{ title: 'NavigationDrawer · open', event: 'drawer.open → drawer.creak', dur: '420 ms', curve: 'spring ζ 0.35 · ω 26 + shiver', reduce: 'fade 120', desc: 'A door on three hinges: swings open with a perspective skew, overshoots, and shivers ±0.7° on its hinges before stopping. Labels fade in once it’s flat.',
+        frames: [0, 80, 160, 240, 420].map(t => { const a = E.drawerOpen(t); return Fr(`${t} ms`, `open ${n0(a.sx * 100)} % · rot ${n2(a.rot)}°`, this.drawerScene(T, a), 360, 520, [0, 0, 0, 0], .34); }) }] };
+    out.tip = { cells: [['Default', { text: 'Tap to add a plan' }], ['Long', { text: 'Long-press a card to move it' }], ['Inflating', { text: 'Tap to add a plan', s: .6 }]].map(([n, o]) => { const tp = E.tooltip(T, o); return C('Tooltip / ' + n, E.place(tp, tp.w / 2, 46), tp.w, 46, [6, 8, 6, 8]); }),
+      specs: [{ title: 'Tooltip · inflate', event: 'tooltip.pop', dur: '320 ms', curve: 'wobbly ζ 0.3 · ω 30', reduce: 'fade 120', desc: 'Blows up from the tip of its tail like a speech balloon, overshoots to ~1.35 and wobbles; text appears once it’s past 0.85.',
+        frames: [0, 60, 120, 200, 320].map(t => { const s = E.tipInflate(t, true), tp = E.tooltip(T, { s }); return Fr(`${t} ms`, `scale ${n2(s)}`, E.place(tp, 100, 52), 200, 56, [4, 4, 4, 4]); }) }] };
+    out.seg = { cells: [['Day', { sel: 0 }], ['Week', { sel: 1 }], ['Month pressed', { sel: 0, pressed: 2 }], ['Week focused', { sel: 0, focus: 1 }], ['Disabled', { sel: 0, disabled: true }]].map(([n, o]) => C('Segmented / ' + n, E.segmented(T, { w: 260, ...o }), 260, 44, [10, 14, 12, 10])),
+      specs: [{ title: 'Segmented · switch', event: 'segmented.switch', dur: '320 ms', curve: 'smear + overshoot', reduce: 'instant', desc: 'The selection is a drop of paint: it stretches toward the new segment, thins as it stretches, and its tail catches up 80 ms later.',
+        frames: [0, 80, 160, 240, 320].map(t => { const a = E.segSwitch(t, 0, 2, 86.7); return Fr(`${t} ms`, `drop ${n0(a.ia)}–${n0(a.ib)} · thin ${n2(a.sq)}`, E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }), 260, 44, [8, 12, 12, 8], .6); }) }] };
+    out.pull = { cells: [['Pulling', { d: 50, bsy: 1.2 }], ['Stretched', { d: 110, bsy: 1.45, bsx: .82 }], ['Refreshing', { band: false, blobY: 40, off: 54 }]].map(([n, a]) => C('PullToRefresh / ' + n, this.pullScene(T, a), 360, 260, [0, 0, 0, 0], .5)),
+      specs: [
+        { title: 'Pull-to-refresh · pull', event: 'pull.stretch', dur: 'follows the finger', curve: 'rubber 0.7×', reduce: 'static spinner', desc: 'A rubber band between two pegs stretches with the finger and thins as it goes; the blob at its tip stretches too. Content follows at 70 %.',
+          frames: [0, 40, 80, 120].map(d => Fr(`pull ${d} dp`, `band ${n2(3.8 - Math.min(2.2, d / 55))} dp`, this.pullScene(T, { d, bsy: 1 + d / 240, bsx: 1 - d / 600 }), 360, 260, [0, 0, 0, 0], .36)) },
+        { title: 'Pull-to-refresh · release', event: 'pull.snap → pull.spin', dur: '300 ms after release', curve: 'snap + spring ζ 0.4', reduce: 'static spinner', desc: 'The band snaps back past the pegs and vanishes; the blob is flung up to its spot and turns into the spinning progress blob.',
+          frames: [0, 60, 120, 200, 320].map(t => { const a = E.pullRelease(t, 110); return Fr(`${t} ms`, `band ${n0(a.by)} · blob ${n0(a.blobY)}`, this.pullScene(T, { ...a, off: 54 + (77 - 54) * Math.max(0, 1 - t / 160) }), 360, 260, [0, 0, 0, 0], .36); }) }] };
+    out.splash = { cells: [C('TitleCard / Splash', this.splashScene(T, { s: 1, textOp: 1 }, 520), 360, 520, [0, 0, 0, 0], .5), C('TitleCard / Empty state', E.cat(E.titleCard(T, { W: 360, H: 420, cy: 170, pw: 260, ph: 110, fs: 34, title: 'Nothing yet', sub: 'Your weekend is wide open' }), E.place(E.btn(T, { v: 'filled', w: 220, label: 'Add a plan' }), 70, 300)), 360, 420, [0, 0, 0, 0], .5)],
+      specs: [{ title: 'Title card · enter', event: 'splash.enter', dur: '700 ms', curve: 'spring ζ 0.4 · ω 20, rings flow inward', reduce: 'fade 120', desc: 'Concentric rings flow toward the centre like an old title card; the plaque pops in with overshoot and two bursts of stars; text arrives once it lands. Leaves with the iris wipe.',
+        frames: [0, 120, 240, 400, 700].map(t => { const a = E.splashAt(t); return Fr(`${t} ms`, `plaque ${n2(a.s)} · rings −${n0(a.phase % 34)} dp`, this.splashScene(T, a), 360, 520, [0, 0, 0, 0], .3); }) }] };
+    out.trans = { cells: [['Push · mid', E.pushScene(T, 200)], ['Scene · iris', E.irisScene(T, E.irisAt(180), {})], ['Crash · hole', E.holeScene(T, 260)]].map(([n, sc]) => C('Transition / ' + n, sc, 180, 320, [0, 0, 0, 0], .7)),
+      specs: [
+        { title: 'Push', event: 'screen.push', dur: '450 ms', curve: 'anticipate 60 → ease-in smear · spring ζ 0.74', reduce: 'cross-fade 120', desc: 'The old screen leans 6 dp the wrong way, then leaves left with a 1.35× smear; the new one flies in from the right, overshoots 12 dp and settles.',
+          frames: [0, 60, 150, 240, 330, 450].map(t => { const a = E.pushAt(t, 180); return Fr(`${t} ms`, `old ${n0(a.ax)} · new ${n0(a.bx)}`, E.pushScene(T, t), 180, 320, [0, 0, 0, 0], .42); }) },
+        { title: 'Scene change (modal)', event: 'screen.scene', dur: '600 ms', curve: 'snap · hold 80 · snap', reduce: 'cross-fade 120', desc: 'The iris wipe from FX 6 between scenes: closes on the tapped control, holds on ink, opens on the new scene.',
+          frames: [100, 200, 260, 420, 600].map(t => Fr(`${t} ms`, `r ${n0(E.irisAt(t).k * 100)} %`, E.irisScene(T, E.irisAt(t), {}), 180, 320, [0, 0, 0, 0], .42)) },
+        { title: 'Hole in the wall', event: 'screen.crash', dur: '460 ms', curve: 'hold 57 → ease-in 2.2', reduce: 'cross-fade 120', desc: 'The tapped card bursts through the screen: its cracked silhouette (FX 7) grows from the card until the new screen fills it; stars mark the impact.',
+          frames: [0, 80, 200, 330, 460].map(t => Fr(`${t} ms`, t < 380 ? `hole ×${n2(1 + (t / 380 < .15 ? 0 : Math.pow((t / 380 - .15) / .85, 2.2)) * 9)}` : 'new screen', E.holeScene(T, t), 180, 320, [0, 0, 0, 0], .42)) }] };
+    return out;
+  }
+
+  renderVals() {
+    const th = this.state.theme;
+    const themeOpts = ['il', 'in', 'bc'].map(k => ({ label: k === 'bc' ? 'Bright Cel' : 'Ink & Gouache', sub: { il: 'base · light', in: 'base · night', bc: 'alt · light' }[k], bg: k === th ? '#2B211C' : 'transparent', color: k === th ? '#F4EBD6' : '#2B211C', subColor: k === th ? '#D9CFB6' : '#6B5F55', pick: () => { this.lastSvg = {}; this.setState({ theme: k }); } }));
+    if (!this.state.ready || !this.E) return { t: { bg: '#CBC3A6', muted: '#51463D', text: '#2B211C' }, themeOpts, comps: [] };
+    const T = this.T(), key = th + '|' + this.state.fontsV, S = this.memo[key] || (this.memo[key] = this.buildStatic(T)), noop = () => {}, L = this.lv;
+    const lv = (k, w, h) => ({ ref: this.r[k], lw: w, lh: h, lvb: `0 0 ${w} ${h}`, hasLive: true, move: noop, controls: [] });
+    const ctl = (label, run) => ({ label, run });
+    const setV = e => { const [x] = this.loc(e, 340, 60); L.slider.v = Math.max(0, Math.min(1, (x - 34) / 272)); };
+    const comps = [
+      { id: 'slider', num: '20', name: 'Slider', sub: 'A ball on a rope strung between two pegs. The ball squashes when grabbed and the rope sags under it.', ...S.slider, hint: 'drag the ball', ...lv('slider', 340, 60),
+        down: e => { L.slider.grab = true; L.slider.t0 = this.clk; setV(e); }, move: e => { if (L.slider.grab) setV(e); }, up: () => { if (L.slider.grab) { L.slider.grab = false; L.slider.t0 = this.clk; } } },
+      { id: 'menu', num: '21', name: 'Menu', sub: 'A paper scroll that unrolls from under its button and rolls back up.', ...S.menu, hint: 'tap ⋮, then an item', ...lv('menu', 260, 240),
+        down: e => { const [, y] = this.loc(e, 260, 240), M = L.menu; if (M.open && y > 66) { M.sel = Math.max(0, Math.min(2, Math.floor((y - 72) / 44))); M.open = false; M.t0 = this.clk + 120; return; } M.open = !M.open; M.t0 = this.clk; }, up: noop },
+      { id: 'sheet', num: '22', name: 'BottomSheet', sub: 'A sheet of paper with a tab to pull it by; slides up with an overshoot.', ...S.sheet, hint: 'tap to open / close', ...lv('sheet', 360, 520), down: () => { L.sheet.open = !L.sheet.open; L.sheet.t0 = this.clk; }, up: noop },
+      { id: 'drawer', num: '23', name: 'NavigationDrawer', sub: 'A door on three hinges at the screen edge; swings open and shivers on the hinges.', ...S.drawer, hint: 'tap to open / close', ...lv('drawer', 360, 520), down: () => { L.drawer.open = !L.drawer.open; L.drawer.t0 = this.clk; }, up: noop },
+      { id: 'tooltip', num: '24', name: 'Tooltip', sub: 'A speech balloon with a tail; inflates from the tip.', ...S.tip, hint: 'press and hold', ...lv('tip', 280, 140), down: () => { L.tip.show = true; L.tip.t0 = this.clk; }, up: () => { if (L.tip.show) { L.tip.show = false; L.tip.t0 = this.clk + 600; } } },
+      { id: 'segmented', num: '25', name: 'Segmented button', sub: 'One shared outline; the selection is a drop of paint that smears across.', ...S.seg, hint: 'tap a segment', ...lv('seg', 340, 60),
+        down: e => { const [x] = this.loc(e, 340, 60), i = Math.max(0, Math.min(2, Math.floor((x - 20) / 100))); if (i !== L.seg.sel) { L.seg.from = L.seg.sel; L.seg.sel = i; L.seg.t0 = this.clk; } }, up: noop },
+      { id: 'pull', num: '26', name: 'Pull-to-refresh', sub: 'A rubber band between two pegs; let go and it flings the spinner into place.', ...S.pull, hint: 'drag down and let go', ...lv('pull', 360, 260),
+        down: e => { const P = L.pull; P.dragging = true; P.y0 = this.loc(e, 360, 260)[1]; P.d = 0; }, move: e => { const P = L.pull; if (P.dragging) P.d = Math.max(0, Math.min(120, this.loc(e, 360, 260)[1] - P.y0)); }, up: () => { const P = L.pull; if (!P.dragging) return; P.dragging = false; if (P.d > 40) { P.d0 = P.d; P.rel = this.clk; } P.d = 0; } },
+      { id: 'titlecard', num: '27', name: 'Title card', sub: 'Splash and empty state: concentric rings and a plaque, no character. Leaves through the iris.', ...S.splash, hint: 'tap to replay', ...lv('splash', 360, 520), down: () => { L.splash.t0 = this.clk; }, up: noop },
+      { id: 'transitions', num: '28', name: 'Screen transitions', sub: 'Push, scene change and hole in the wall. Each is noticeable and never longer than 600 ms.', ...S.trans, hint: 'tap to replay all three', ...lv('trans', 600, 320), down: () => { L.trans.t0 = this.clk; }, up: noop },
+    ];
+    return { t: T, themeOpts, comps };
+  }
+}
+
+</script>
+</body>
+</html>

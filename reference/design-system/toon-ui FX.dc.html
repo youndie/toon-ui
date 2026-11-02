@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<style>
+body{margin:0;background:#E6E2D8;color:#2B211C;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B4482A;text-decoration:none}a:hover{color:#2B211C}
+</style>
+</helmet>
+<section data-screen-label="FX library" style="padding:56px 56px 96px; display:flex; flex-direction:column; gap:56px; max-width:1480px;">
+
+  <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-end; justify-content:space-between;">
+    <div style="display:flex; flex-direction:column; gap:8px; max-width:780px;">
+      <div style="font:600 13px/1 Figtree; letter-spacing:.12em; text-transform:uppercase; color:#7A6E62;">toon-ui · Stage 3 · FX library</div>
+      <div style="font:400 48px/1.05 Shrikhand; color:#2B211C;">Eight effects</div>
+      <div style="font:400 16px/1.5 Figtree; color:#4A3F37; text-wrap:pretty;">Secondary-action layer. Each effect is drawn over the component, fired by one named event, plays once in 200–600 ms and never repeats. Inside an effect every frame uses the same point grid, so frames morph instead of swapping.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px; padding:4px; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px; background:#F4EBD6; width:420px; max-width:100%;">
+      <sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3">
+        <div onClick="{{ o.pick }}" style="cursor:pointer; padding:9px 8px; border-radius:10px 7px 11px 8px; background:{{ o.bg }}; display:flex; flex-direction:column; gap:3px; align-items:center; text-align:center;">
+          <div style="font:700 13px/1.15 Figtree; color:{{ o.color }};">{{ o.label }}</div>
+          <div style="font:500 11px/1 Figtree; color:{{ o.subColor }};">{{ o.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <div style="display:grid; grid-template-columns:repeat(auto-fill, minmax(168px, 1fr)); gap:14px;">
+    <sc-for list="{{ index }}" as="c" hint-placeholder-count="8">
+      <a href="{{ c.href }}" style="display:flex; flex-direction:column; gap:8px; padding:12px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+        <svg width="{{ c.sw }}" height="{{ c.sh }}" viewBox="{{ c.vb }}" style="display:block; align-self:center;">
+          <sc-for list="{{ c.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+        </svg>
+        <div style="display:flex; align-items:baseline; gap:6px;">
+          <div style="font:800 12px/1 Figtree; color:{{ t.muted }};">{{ c.num }}</div>
+          <div style="font:800 14px/1.2 Figtree; color:{{ t.text }};">{{ c.name }}</div>
+        </div>
+      </a>
+    </sc-for>
+  </div>
+
+  <sc-for list="{{ fx }}" as="comp" hint-placeholder-count="2">
+    <div id="{{ comp.id }}" style="display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:14px;">
+        <div style="font:800 14px/1 Figtree; color:#7A6E62;">{{ comp.num }}</div>
+        <div style="font:400 32px/1 Shrikhand; color:#2B211C;">{{ comp.name }}</div>
+        <div style="font:500 14px/1.4 Figtree; color:#6B5F55; max-width:720px; text-wrap:pretty;">{{ comp.sub }}</div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+        <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:12px; padding:20px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:12px 18px 14px 20px;">
+          <div style="font:700 11px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:{{ t.muted }};">Live · tap to fire</div>
+          <div onPointerDown="{{ comp.down }}" style="cursor:pointer; touch-action:none; user-select:none; width:{{ comp.lw }}px; margin:0 auto;">
+            <svg ref="{{ comp.ref }}" width="{{ comp.lw }}" height="{{ comp.lh }}" viewBox="{{ comp.lvb }}" style="display:block;"></svg>
+          </div>
+        </div>
+        <div style="flex:1 1 640px; min-width:0; display:flex; flex-direction:column; gap:12px; padding:16px 18px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+          <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px;">
+            <div style="font:600 12px/1 ui-monospace, Menlo, monospace; color:#2B211C; background:#E6D9BC; padding:4px 7px; border-radius:6px 4px 7px 5px;">{{ comp.event }}</div>
+            <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ comp.dur }}</div>
+            <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ comp.curve }}</div>
+            <div style="font:600 12px/1.3 Figtree; color:#5E5248;">grid: {{ comp.grid }}</div>
+            <div style="font:600 12px/1.3 Figtree; color:#5E5248;">reduce motion: {{ comp.reduce }}</div>
+          </div>
+          <div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">{{ comp.desc }}</div>
+          <div style="display:flex; flex-wrap:wrap; gap:10px; padding:14px; background:{{ t.bg }}; border-radius:10px 7px 11px 8px;">
+            <sc-for list="{{ comp.frames }}" as="fr" hint-placeholder-count="4">
+              <div style="display:flex; flex-direction:column; gap:6px; max-width:max(120px, {{ fr.sw }}px);">
+                <svg width="{{ fr.sw }}" height="{{ fr.sh }}" viewBox="{{ fr.vb }}" style="display:block;">
+                  <sc-for list="{{ fr.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                </svg>
+                <div style="font:800 12px/1 Figtree; color:{{ t.text }};">{{ fr.t }}</div>
+                <div style="font:500 11px/1.35 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ fr.v }}</div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="font:500 13px/1.45 Figtree; color:#4A3F37;"><span style="font-weight:800;">Used by</span> · {{ comp.used }}</div>
+        </div>
+      </div>
+    </div>
+  </sc-for>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;slowMo&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Slow motion ×4&quot;}, &quot;reduceMotion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Reduce motion (FX off)&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'il', ready: false };
+  el = {}; r = {}; memo = {}; lastSvg = {}; clk = 0;
+  keys = ['dust', 'stars', 'speed', 'flash', 'shake', 'iris', 'hole', 'sweat'];
+  lv = {};
+  constructor(props) {
+    super(props);
+    this.keys.forEach(k => { this.lv[k] = { t0: -1e7, from: k === 'iris' ? 1 : 0 }; this.r[k] = e => { this.el[k] = e; if (e) { this.lastSvg[k] = null; this.drawLive(k); } }; });
+  }
+  get E() { if (!this._e && window.ToonEngine) this._e = new window.ToonEngine(); return this._e; }
+  componentDidMount() {
+    const go = () => { if (!window.ToonEngine) { this.wait = setTimeout(go, 50); return; } this.setState({ ready: true }); this.start(); };
+    go();
+  }
+  start() {
+    this.last = performance.now();
+    const loop = now => { const real = Math.min(.05, (now - this.last) / 1000); this.last = now; this.clk += real * 1000 * (this.props.slowMo ? .25 : 1); this.keys.forEach(k => this.drawLive(k)); this.raf = requestAnimationFrame(loop); };
+    this.raf = requestAnimationFrame(loop);
+    this.auto = setTimeout(() => this.keys.forEach((k, i) => { if (k !== 'iris') this.lv[k].t0 = this.clk + i * 160; }), 600);
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.wait); clearTimeout(this.auto); }
+  T() { return this.E.THEMES[this.state.theme]; }
+  drawLive(k) { const el = this.el[k]; if (!el || !this.E) return; const s = this.E.toSvg(this.scene(k, this.clk - this.lv[k].t0, this.T(), this.lv[k].from)); if (s !== this.lastSvg[k]) { el.innerHTML = s; this.lastSvg[k] = s; } }
+
+  blk(T, dx = 0, dy = 0, sx = 1, sy = 1, op = 1, rot = 0) {
+    const E = this.E, w = 80 * sx, h = 48 * sy;
+    const L = E.body(T, 90 + (80 - w) / 2 + dx, 62 + (48 - h) + dy, w, h, [12, 8, 13, 9], { seed: T.seed + 801, fill: T.primary, sh: 4, rimColor: T.btnHi });
+    return E.place({ L, X: [] }, 0, 0, rot, 130 + dx, 86 + dy, op);
+  }
+  ground(T) { return { L: [this.E.L(this.E.inkLine(10, 250, 112, 3.4, 9), T.fxLine)], X: [] }; }
+  scene(k, t, T, from = 0) {
+    const E = this.E, G = this.ground(T);
+    if (t < 0) t = 1e6;
+    if (k === 'dust') {
+      let dy = 0, sx = 1, sy = 1;
+      if (t < 120) { const u = t / 120; dy = -50 * (1 - u * u); } else { const q = E.osc((t - 120) / 1000, .35, 38); sx = 1 + .1 * q; sy = 1 - .14 * q; }
+      return E.cat(G, this.blk(T, 0, dy, sx, sy), E.dust(T, (t - 120) / 300, 98, 112, 46), E.dust(T, (t - 120) / 300, 162, 112, 46));
+    }
+    if (k === 'stars') { const dx = E.shake(t); return E.cat(G, this.blk(T, dx), E.stars(T, t / 350, 130 + dx, 56, 40)); }
+    if (k === 'speed') {
+      let x = 0, sx = 1, sy = 1, op = 1;
+      if (t < 60) { x = -8 * t / 60; sx = .96; }
+      else if (t < 160) { const u = (t - 60) / 100; x = -8 + 240 * u * u; sx = 1 + .5 * Math.sin(Math.PI * u); sy = 1 - .12 * Math.sin(Math.PI * u); }
+      else if (t < 600) op = 0;
+      else if (t < 1100) x = -240 * E.spr((t - 600) / 1000, .5, 22);
+      const lu = (t - 60) / 200, lx = Math.min(90 + x + (80 - 80 * sx) / 2, 262);
+      return E.cat(G, E.speed(T, lu, lx, 62, 48), op ? this.blk(T, x, 0, sx, sy) : { L: [], X: [] });
+    }
+    if (k === 'flash') { const sc = t < 60 ? 1 + .12 * t / 60 : 1 + .12 * E.osc((t - 60) / 1000, .4, 40); return E.cat(G, E.flash(T, t / 220, 130, 84, 46), this.blk(T, 0, 0, sc, sc)); }
+    if (k === 'shake') { const v = E.vibe(T, t / 320, 90, 62, 80, 48); return E.cat(G, { L: v.L, X: [] }, this.blk(T, v.dx)); }
+    if (k === 'iris') { const a = E.irisAt(t); return E.irisScene(T, a, { from }); }
+    if (k === 'hole') {
+      let b = { L: [], X: [] };
+      if (t < 50) { const u = t / 50; b = this.blk(T, 0, -170 * u * u, 1 - .3 * u, 1 + .6 * u); }
+      else if (t > 800) { const a = E.fabAppear(t - 800); b = E.cat(this.blk(T, 0, a.dy * .7, a.sx, a.sy, a.op), E.dust(T, a.du, 130, 112, 40)); }
+      return E.cat(G, E.hole(T, (t - 30) / 300, 90, 62, 80, 48, [12, 8, 13, 9], 5), b);
+    }
+    if (k === 'sweat') { const rot = t < 360 ? 3 * Math.sin(t / 35) * (1 - t / 360) : 0; return E.cat(G, this.blk(T, 0, 0, 1, 1, 1, rot), E.sweat(T, t / 360, 90, 62, 80)); }
+    return { L: [], X: [] };
+  }
+
+  buildStatic(T) {
+    const E = this.E, n2 = v => v.toFixed(2), n0 = v => v.toFixed(0);
+    const F = (k, t, label, v, from = 0) => ({ ...(k === 'iris' ? E.cell('', this.scene(k, t, T, from), 180, 320, [0, 0, 0, 0], .42) : E.cell('', this.scene(k, t, T), 260, 150, [0, 0, 0, 0], .5)), t: label, v });
+    const D = [
+      { k: 'dust', num: 'FX 1', name: 'Dust puff', sub: 'Five puffs fan out sideways and up from the contact point, grow and fade.', event: 'fx.dust · on *.land', dur: '300 ms · 4 frames', curve: 'ease-out spread', grid: '5 puffs × 1 blob grid', reduce: 'off', used: 'Card appear, FAB land, NavigationBar select, any landing',
+        desc: 'Fires on the frame the element touches down. Puffs are drawn on a 3 dp point step and swap their wobble seed every frame, so the edge boils while it grows.',
+        frames: [[140, 20], [220, 100], [320, 200], [400, 280]].map(([t, f]) => F('dust', t, `${f} ms`, `spread ${n0((1 - Math.pow(1 - f / 300, 2.2)) * 100)} % · α ${n2(1 - Math.pow(f / 300, 1.6))}`)) },
+      { k: 'stars', num: 'FX 2', name: 'Impact stars', sub: 'Three stars pop on an arc over the element, spin and fade.', event: 'fx.stars · on *.hit, field.error, dialog.pop', dur: '350 ms · 4 frames', curve: 'snap out → fade', grid: '3 stars × 10 points', reduce: 'off', used: 'TextField error, Dialog close, hard hits',
+        desc: 'Stars grow to 1.15 in the first quarter, travel along the arc, spin in alternating directions and fade over the last 40 %.',
+        frames: [30, 120, 240, 330].map(t => F('stars', t, `${t} ms`, `arc ${n0((1 - Math.pow(1 - t / 350, 3)) * 100)} % · rot ${n0(200 * t / 350)}°`)) },
+      { k: 'speed', num: 'FX 3', name: 'Speed lines', sub: 'Tapering ink strokes left behind a fast exit.', event: 'fx.speed · on *.whoosh', dur: '200 ms · 3 frames', curve: 'linear shrink, fade', grid: '5 lines × 3 points', reduce: 'off', used: 'Card dismiss, Snackbar hide, screen push',
+        desc: 'Anchored to the trailing edge while the element moves, then left in place when it leaves the screen. Lines shrink toward the anchor and fade.',
+        frames: [[70, 10], [120, 60], [230, 170]].map(([t, f]) => F('speed', t, `${f} ms`, `length ${n0((1 - f / 200) * 100)} % · α ${n2(1 - f / 200)}`)) },
+      { k: 'flash', num: 'FX 4', name: 'Flash', sub: 'A jagged burst behind the element with a paper-white core.', event: 'fx.flash · on *.pop, badge.pop, success', dur: '220 ms · 5 frames', curve: 'snap 40 ms → shrink', grid: '24 points (12 spikes)', reduce: 'fade 120', used: 'Badge appear, success confirm, FAB tap on first use',
+        desc: 'Grows to 1.15 in 40 ms, then the spikes retract while the core fades. One burst per event, never more than 3 per second.',
+        frames: [10, 40, 90, 150, 200].map(t => { const [, sc, kr] = E.lerpK([[0, .25, .55], [.18, 1.15, .42], [.4, 1, .6], [.7, .72, .78], [1, .2, .92]], t / 220); return F('flash', t, `${t} ms`, `scale ${n2(sc)} · inner ${n2(kr)}`); }) },
+      { k: 'shake', num: 'FX 5', name: 'Shake', sub: 'Buzzing: the element jitters between two poses with vibration arcs on both sides.', event: 'fx.shake · on *.buzz, locked, action denied', dur: '320 ms · 2 poses × 4', curve: '40 ms steps, decaying', grid: '4 arcs × 3 points', reduce: 'off, colour change only', used: 'Locked items, denied long-press, disabled action tapped',
+        desc: 'Alternates pose A and B every 40 ms while the offset decays from ±2.2 dp. Motion only; nothing blinks.',
+        frames: [20, 60, 100, 180, 300].map(t => { const v = E.vibe(T, t / 320, 90, 62, 80, 48); return F('shake', t, `${t} ms`, `x ${v.dx >= 0 ? '+' : ''}${n2(v.dx)} · pose ${Math.floor(t / 320 * 8) % 2 ? 'B' : 'A'}`); }) },
+      { k: 'iris', num: 'FX 6', name: 'Iris wipe', sub: 'Scene change: the circle closes on the point of action and opens on the new screen.', event: 'fx.iris · on screen.scene', dur: '600 ms', curve: 'snap · hold 80 · snap', grid: 'circle + 2 rings', reduce: 'cross-fade 120', used: 'Modal scene changes, onboarding, end of a level',
+        desc: 'Closes with an ease-in toward the tapped control, holds 80 ms on ink, opens from the same point with a slight overshoot. Two faint rings follow the edge like a lens iris.',
+        frames: [100, 200, 260, 420, 600].map(t => { const a = E.irisAt(t); return F('iris', t, `${t} ms`, `r ${n0(a.k * 100)} % · scene ${a.scene ? 'B' : 'A'}`); }) },
+      { k: 'hole', num: 'FX 7', name: 'Hole', sub: 'The element leaves so fast it punches its own silhouette into the paper.', event: 'fx.hole · on *.crash, card.gone', dur: '300 ms · 4 frames', curve: 'hold → shrink, fade', grid: 'element outline, 4 dp step, 7-point crack pattern', reduce: 'off', used: 'Card dismiss, “hole in the wall” screen transition',
+        desc: 'The silhouette keeps the element’s own outline with cracks every seventh point, holds for 45 ms, then shrinks to 45 % and fades while four chips fly off.',
+        frames: [[50, 20], [110, 80], [190, 160], [280, 250]].map(([t, f]) => { const u = f / 300, sc = u < .15 ? 1 : 1 - .55 * Math.pow((u - .15) / .85, 2); return F('hole', t, `${f} ms`, `scale ${n2(sc)} · α ${n2(u < .6 ? 1 : 1 - (u - .6) / .4)}`); }) },
+      { k: 'sweat', num: 'FX 8', name: 'Sweat drops', sub: 'Three drops spring off the top corners, arc out and fall.', event: 'fx.sweat · on *.worry', dur: '360 ms · 5 frames', curve: 'arc up → gravity', grid: '3 drops × 1 teardrop path', reduce: 'off', used: 'Slow network, long waits, destructive confirm',
+        desc: 'Drops grow in during the first 20 % of their life, rise and turn outward, then stretch up to 1.45× as they fall. The third drop starts 65 ms late.',
+        frames: [40, 100, 180, 260, 330].map(t => F('sweat', t, `${t} ms`, `life ${n0(t / 360 * 100)} %`)) },
+    ];
+    const peak = { dust: 200, stars: 150, speed: 120, flash: 50, shake: 60, iris: 180, hole: 60, sweat: 160 };
+    const index = D.map(d => ({ ...(d.k === 'iris' ? E.cell('', this.scene('iris', peak.iris, T), 180, 320, [0, 0, 0, 0], .35) : E.cell('', this.scene(d.k, peak[d.k], T), 260, 150, [0, 0, 0, 0], .55)), name: d.name, num: d.num, href: '#fx-' + d.k }));
+    return { D, index };
+  }
+
+  renderVals() {
+    const th = this.state.theme;
+    const themeOpts = ['il', 'in', 'bc'].map(k => ({ label: k === 'bc' ? 'Bright Cel' : 'Ink & Gouache', sub: { il: 'base · light', in: 'base · night', bc: 'alt · light' }[k], bg: k === th ? '#2B211C' : 'transparent', color: k === th ? '#F4EBD6' : '#2B211C', subColor: k === th ? '#D9CFB6' : '#6B5F55', pick: () => { this.lastSvg = {}; this.setState({ theme: k }); } }));
+    if (!this.state.ready || !this.E) return { t: { bg: '#CBC3A6', muted: '#51463D', text: '#2B211C' }, themeOpts, index: [], fx: [] };
+    const T = this.T(), S = this.memo[th] || (this.memo[th] = this.buildStatic(T));
+    const fx = S.D.map(d => {
+      const big = d.k === 'iris', w = big ? 180 : 260, h = big ? 320 : 150;
+      return { ...d, id: 'fx-' + d.k, ref: this.r[d.k], lw: w, lh: h, lvb: `0 0 ${w} ${h}`,
+        down: () => { const S2 = this.lv[d.k]; if (d.k === 'iris' && this.clk - S2.t0 > 600) S2.from = S2.t0 < -1e6 ? 0 : 1 - S2.from; S2.t0 = this.props.reduceMotion ? -1e7 : this.clk; } };
+    });
+    return { t: T, themeOpts, index: S.index, fx };
+  }
+}
+</script>
+</body>
+</html>

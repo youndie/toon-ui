@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="design_doc_mode" content="canvas">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<script src="./toon-engine.js?v=10"></script>
+<style>
+body{margin:0;background:#E6E2D8;color:#2B211C;font-family:Figtree,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#B4482A}a:hover{color:#2B211C}
+</style>
+</helmet>
+<section data-screen-label="Stage 3 — MVP components" style="padding:56px 56px 96px; display:flex; flex-direction:column; gap:56px; max-width:1560px;">
+
+  <div style="display:flex; flex-wrap:wrap; gap:32px; align-items:flex-end; justify-content:space-between;">
+    <div style="display:flex; flex-direction:column; gap:8px; max-width:780px;">
+      <div style="font:600 13px/1 Figtree; letter-spacing:.12em; text-transform:uppercase; color:#7A6E62;">toon-ui · Stage 3 · MVP components</div>
+      <div style="font:400 48px/1.05 Shrikhand; color:#2B211C;">The other twelve</div>
+      <div style="font:400 16px/1.5 Figtree; color:#4A3F37; text-wrap:pretty;">IconButton, FAB, RadioButton, Chip, Dialog, Progress, TopAppBar, NavigationBar, Tabs, List item, Divider and Badge. Same engine as <a href="toon-ui Core.dc.html">Core</a>: every shape is generated from size + corner radii + seed, so the Kotlin port draws the same thing at any size. Icons here are the first 16 of the redrawn set.</div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:4px; padding:4px; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px; background:#F4EBD6; width:420px; max-width:100%;">
+      <sc-for list="{{ themeOpts }}" as="o" hint-placeholder-count="3">
+        <div onClick="{{ o.pick }}" style="cursor:pointer; padding:9px 8px; border-radius:10px 7px 11px 8px; background:{{ o.bg }}; display:flex; flex-direction:column; gap:3px; align-items:center; text-align:center;">
+          <div style="font:700 13px/1.15 Figtree; color:{{ o.color }};">{{ o.label }}</div>
+          <div style="font:500 11px/1 Figtree; color:{{ o.subColor }};">{{ o.sub }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+
+  <sc-for list="{{ comps }}" as="comp" hint-placeholder-count="2">
+    <div id="{{ comp.id }}" style="display:flex; flex-direction:column; gap:20px;">
+      <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:14px;">
+        <div style="font:800 14px/1 Figtree; color:#7A6E62;">{{ comp.num }}</div>
+        <div style="font:400 32px/1 Shrikhand; color:#2B211C;">{{ comp.name }}</div>
+        <div style="font:500 14px/1.4 Figtree; color:#6B5F55; max-width:720px; text-wrap:pretty;">{{ comp.sub }}</div>
+      </div>
+      <div style="display:flex; flex-wrap:wrap; gap:28px 36px; padding:28px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:18px 12px 20px 14px;">
+        <sc-for list="{{ comp.cells }}" as="cell" hint-placeholder-count="5">
+          <div style="display:flex; flex-direction:column; gap:10px;">
+            <div style="position:relative; width:{{ cell.sw }}px; height:{{ cell.sh }}px;">
+              <svg width="{{ cell.sw }}" height="{{ cell.sh }}" viewBox="{{ cell.vb }}" style="overflow:visible; display:block; position:absolute; left:0; top:0;">
+                <sc-for list="{{ cell.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+              </svg>
+              <sc-for list="{{ cell.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+            </div>
+            <div style="font:600 11px/1.2 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ cell.name }}</div>
+          </div>
+        </sc-for>
+      </div>
+      <sc-if value="{{ comp.hasLive }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex; flex-wrap:wrap; gap:24px; align-items:flex-start;">
+          <div style="flex:0 0 auto; display:flex; flex-direction:column; gap:12px; padding:20px; background:{{ t.bg }}; border:2.5px solid #2B211C; border-radius:12px 18px 14px 20px;">
+            <div style="font:700 11px/1 Figtree; letter-spacing:.1em; text-transform:uppercase; color:{{ t.muted }};">Live · {{ comp.hint }}</div>
+            <div onPointerDown="{{ comp.down }}" onPointerUp="{{ comp.up }}" onPointerLeave="{{ comp.up }}" onPointerCancel="{{ comp.up }}" style="cursor:pointer; touch-action:none; user-select:none; width:{{ comp.lw }}px; margin:0 auto;">
+              <svg ref="{{ comp.ref }}" width="{{ comp.lw }}" height="{{ comp.lh }}" viewBox="{{ comp.lvb }}" style="display:block;"></svg>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:8px;">
+              <sc-for list="{{ comp.controls }}" as="ctl" hint-placeholder-count="0">
+                <div onClick="{{ ctl.run }}" style="cursor:pointer; padding:8px 12px; font:700 13px/1 Figtree; color:#2B211C; background:#F4EBD6; border:2px solid #2B211C; border-radius:9px 6px 10px 7px; box-shadow:3px 3px 0 #2B211C;">{{ ctl.label }}</div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="flex:1 1 640px; min-width:0; display:flex; flex-direction:column; gap:16px;">
+            <sc-for list="{{ comp.specs }}" as="sp" hint-placeholder-count="1">
+              <div style="display:flex; flex-direction:column; gap:12px; padding:16px 18px; background:#F4EBD6; border:2.5px solid #2B211C; border-radius:14px 10px 16px 11px;">
+                <div style="display:flex; flex-wrap:wrap; align-items:baseline; gap:8px 18px;">
+                  <div style="font:800 16px/1.2 Figtree; color:#2B211C;">{{ sp.title }}</div>
+                  <div style="font:600 12px/1 ui-monospace, Menlo, monospace; color:#2B211C; background:#E6D9BC; padding:4px 7px; border-radius:6px 4px 7px 5px;">{{ sp.event }}</div>
+                  <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ sp.dur }}</div>
+                  <div style="font:600 12px/1.3 Figtree; color:#5E5248;">{{ sp.curve }}</div>
+                  <div style="font:600 12px/1.3 Figtree; color:#5E5248;">reduce motion: {{ sp.reduce }}</div>
+                </div>
+                <div style="font:400 14px/1.45 Figtree; color:#4A3F37; text-wrap:pretty;">{{ sp.desc }}</div>
+                <div style="display:flex; flex-wrap:wrap; gap:10px; padding:14px; background:{{ t.bg }}; border-radius:10px 7px 11px 8px;">
+                  <sc-for list="{{ sp.frames }}" as="fr" hint-placeholder-count="4">
+                    <div style="display:flex; flex-direction:column; gap:6px; max-width:max(130px, {{ fr.sw }}px);">
+                      <div style="position:relative; width:{{ fr.sw }}px; height:{{ fr.sh }}px; overflow:hidden;">
+                        <svg width="{{ fr.sw }}" height="{{ fr.sh }}" viewBox="{{ fr.vb }}" style="display:block; position:absolute; left:0; top:0;">
+                          <sc-for list="{{ fr.L }}" as="l" hint-placeholder-count="0"><path d="{{ l.d }}" fill="{{ l.fill }}" fillRule="{{ l.fr }}" stroke="{{ l.stroke }}" strokeWidth="{{ l.sw }}" transform="{{ l.tf }}" opacity="{{ l.op }}" strokeDasharray="{{ l.dash }}" strokeDashoffset="{{ l.doff }}" strokeLinecap="round" strokeLinejoin="round"></path></sc-for>
+                        </svg>
+                        <sc-for list="{{ fr.X }}" as="tx" hint-placeholder-count="0"><div style="position:absolute; left:{{ tx.left }}px; top:{{ tx.top }}px; transform:translateX({{ tx.tx }}); white-space:nowrap; font-family:{{ tx.ff }}; font-weight:{{ tx.fw }}; font-size:{{ tx.fs }}px; line-height:1; color:{{ tx.fill }}; opacity:{{ tx.op }};">{{ tx.s }}</div></sc-for>
+                      </div>
+                      <div style="font:800 12px/1 Figtree; color:{{ t.text }};">{{ fr.t }}</div>
+                      <div style="font:500 11px/1.35 ui-monospace, Menlo, monospace; color:{{ t.muted }};">{{ fr.v }}</div>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </sc-if>
+    </div>
+  </sc-for>
+
+  <div style="font:500 13px/1.5 Figtree; color:#6B5F55; max-width:760px; text-wrap:pretty;">Touch targets stay fixed at ≥ 48 dp while the drawing animates inside them. Labels translate but never scale, tilt or smear. Every animation fires its action on release and never blocks the next tap.</div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;slowMo&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Slow motion ×4&quot;}, &quot;reduceMotion&quot;: {&quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;label&quot;: &quot;Reduce motion&quot;}}">
+class Component extends DCLogic {
+  state = { theme: 'il', ready: false, fontsV: 0 };
+  el = {}; r = {}; memo = {}; lastSvg = {}; clk = 0; wall = 0; chipX = [];
+  keys = ['ib', 'fab', 'radio', 'chip', 'dialog', 'prog', 'top', 'nav', 'tabs', 'list', 'badge'];
+  NAV = [{ icon: 'home', label: 'Home' }, { icon: 'search', label: 'Explore' }, { icon: 'heart', label: 'Saved' }, { icon: 'person', label: 'Profile' }];
+  TABS = ['Today', 'Weekend', 'Someday'];
+  lv = {
+    ib: { p: 0, v: 0, mode: 'spring', pt: 0, p0: 0, sel: false, rt0: -1e7 },
+    fab: { p: 0, v: 0, mode: 'spring', pt: 0, p0: 0, at0: -1e7 },
+    radio: { sel: 1, prev: -1, t0: -1e7 },
+    chip: { sel: [true, false, false], t0: [-1e7, -1e7, -1e7], press: -1 },
+    dialog: { open: false, t0: -1e7 },
+    prog: {},
+    top: { v0: 0, t0: -1e7, scrolled: false },
+    nav: { sel: 0, from: 0, t0: -1e7 },
+    tabs: { sel: 0, from: 0, t0: -1e7 },
+    list: { press: -1, pt0: -1e7, rel: -1, rt0: -1e7, on: true, swT0: -1e7 },
+    badge: { n: 3, old: null, at0: -1e7, ct0: -1e7, hidden: false, ht0: -1e7 },
+  };
+
+  constructor(props) {
+    super(props);
+    this.keys.forEach(k => { this.r[k] = e => { this.el[k] = e; if (e) { this.lastSvg[k] = null; this.drawLive(k); } }; });
+  }
+  get E() { if (!this._e && window.ToonEngine) this._e = new window.ToonEngine(); return this._e; }
+  componentDidMount() {
+    const go = () => { if (!window.ToonEngine) { this.wait = setTimeout(go, 50); return; } this.setState({ ready: true }); this.start(); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => { this.memo = {}; if (this._e) this._e.wc.clear(); this.lastSvg = {}; this.setState(s => ({ fontsV: s.fontsV + 1 })); });
+  }
+  start() {
+    this.last = performance.now();
+    const loop = now => { this.tick(now); this.raf = requestAnimationFrame(loop); };
+    this.raf = requestAnimationFrame(loop);
+    this.keys.forEach(k => this.drawLive(k));
+    this.auto = setTimeout(() => { this.lv.fab.at0 = this.clk; this.lv.badge.at0 = this.clk; }, 700);
+  }
+  componentWillUnmount() { cancelAnimationFrame(this.raf); clearTimeout(this.wait); clearTimeout(this.auto); }
+  T() { return this.E.THEMES[this.state.theme]; }
+  age(t0) { return this.props.reduceMotion ? 1e6 : this.clk - t0; }
+  stepSq(B, ms, dt) {
+    if (this.props.reduceMotion) { B.p = B.mode === 'press' ? 1 : 0; B.v = 0; return; }
+    if (B.mode === 'press') { B.pt += ms; const u = Math.min(1, B.pt / 80); B.p = B.p0 + (1 - B.p0) * (1 - Math.pow(1 - u, 3)); B.v = 0; }
+    else { const w = 45, z = .35, n = 4, h = dt / n; for (let i = 0; i < n; i++) { const acc = -w * w * B.p - 2 * z * w * B.v; B.v += acc * h; B.p += B.v * h; } }
+  }
+  press(B) { B.mode = 'press'; B.pt = 0; B.p0 = B.p; }
+  tick(now) {
+    const real = Math.min(.05, (now - this.last) / 1000); this.last = now;
+    const dt = real * (this.props.slowMo ? .25 : 1), ms = dt * 1000;
+    this.clk += ms; this.wall += real * 1000;
+    this.stepSq(this.lv.ib, ms, dt); this.stepSq(this.lv.fab, ms, dt);
+    this.keys.forEach(k => this.drawLive(k));
+  }
+  drawLive(k) { const el = this.el[k]; if (!el || !this.E) return; const s = this.E.toSvg(this.liveScene(k)); if (s !== this.lastSvg[k]) { el.innerHTML = s; this.lastSvg[k] = s; } }
+  loc(e, w, h) { const rc = e.currentTarget.getBoundingClientRect(); return [(e.clientX - rc.left) * w / rc.width, (e.clientY - rc.top) * h / rc.height]; }
+
+  liveScene(k) {
+    const E = this.E, T = this.T(), S = this.lv[k];
+    if (k === 'ib') { const tp = this.age(S.rt0); return E.cat(S.sel && tp < 220 ? E.place(E.flash(T, tp / 220, 24, 24, 30), 36, 16) : { L: [], X: [] }, E.place(E.iconBtn(T, { icon: 'heart', p: S.p, iy: E.iconBounce(tp), sel: S.sel }), 36, 16)); }
+    if (k === 'fab') { const a = E.fabAppear(this.age(S.at0)), f = E.fab(T, { p: S.p, sx: a.sx, sy: a.sy }); return E.cat(E.place(f, 118, 80 + a.dy, 0, 0, 0, a.op), E.dust(T, a.du, 150, 146, 40)); }
+    if (k === 'radio') {
+      const t = this.age(S.t0);
+      return E.cat(...['Morning', 'Noon', 'Evening'].map((lb, i) => { let o = { label: lb }; if (i === S.sel) o = { ...o, sel: true, ...(t < 400 ? E.radioSelect(t) : {}) }; else if (i === S.prev && t < 120) o = { ...o, ds: 1 - t / 120 }; return E.place(E.radio(T, o), 8, 8 + i * 52); }));
+    }
+    if (k === 'chip') {
+      let x = 8; const parts = []; this.chipX = [];
+      ['Outdoors', 'Indoors', 'With kids'].forEach((lb, i) => {
+        const t = this.age(S.t0[i]), a = S.sel[i] ? (t < 700 ? E.chipSelect(t) : { scale: 1, swipe: 1 }) : { scale: 1, swipe: 0 };
+        const c = E.chip(T, { variant: 'filter', label: lb, sel: S.sel[i], ...a, p: S.press === i ? 1 : 0, seed: i });
+        this.chipX.push([x, x + c.w]); parts.push(E.place(c, x, 22, [-1.5, 0, 1.2][i], c.w / 2, 18)); x += c.w + 12;
+      });
+      return E.cat(...parts);
+    }
+    if (k === 'dialog') { const t = this.age(S.t0), a = S.open ? E.dialogOpen(t) : (S.t0 < -1e6 ? { R: 340, s: 0, op: 0, textOp: 0, stars: 0 } : E.dialogClose(t)); return E.dialogScene(T, a); }
+    if (k === 'prog') { const w = E.worm(this.clk); return E.cat(E.place(E.linear(T, { w: 280, a: w.a, b: w.b }), 14, 38), E.place(E.circular(T, { ph: this.clk }), 318, 21)); }
+    if (k === 'top') { const t = this.age(S.t0), rot = S.t0 < -1e6 || this.props.reduceMotion ? 0 : E.sway(t, S.v0); return E.place(E.topBar(T, { title: 'Saturday', scrolled: S.scrolled }), 0, 14, rot, 195, -40); }
+    if (k === 'nav') { const t = this.age(S.t0), a = t < 700 ? E.navSelect(t, S.from, S.sel, 390 / 4) : {}; return E.navBar(T, { items: this.NAV, sel: S.sel, ...a, badge: { i: 3, dot: true } }); }
+    if (k === 'tabs') {
+      const t = this.age(S.t0), a = t < 700 ? E.tabsSwitch(t, S.from, S.sel, 342 / 3) : { sel: S.sel, cx: 0 };
+      const lines = ['3 plans before sundown', 'Lake trip and a picnic', 'Fix the shed, someday'];
+      return E.cat(E.place(E.tabs(T, { labels: this.TABS, sel: a.sel, ia: a.ia, ib: a.ib }), 16, 8), { L: [], X: [E.X(lines[S.sel], 18 + a.cx, 94, { ff: T.body, fw: 500, fs: 16, fill: T.text })] });
+    }
+    if (k === 'list') {
+      const items = [{ icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron' }, { icon: 'bell', title: 'Reminders', sub: 'At noon', trailing: 'switch' }, { icon: 'star', title: 'Favourites', trailing: 'chevron', last: true }];
+      return E.cat(...items.map((it, i) => {
+        let sag = 0;
+        if (S.press === i) sag = E.listPress(this.age(S.pt0), true); else if (S.rel === i) { const tr = this.age(S.rt0); sag = tr < 500 ? E.listPress(tr, false) : 0; }
+        const swT = this.age(S.swT0), swA = i === 1 && swT < 480 ? E.swAnim(swT, S.on ? 0 : 1, S.on ? 1 : 0) : null;
+        return E.place(E.listItem(T, { ...it, seed: i, sag, on: S.on, swA }), 16, 8 + i * 72);
+      }));
+    }
+    if (k === 'badge') {
+      const ta = this.age(S.at0), tc = this.age(S.ct0), th = this.age(S.ht0); let b;
+      if (S.hidden) { const s = Math.max(0, 1 - th / 120); b = { n: S.n, s, numOp: s > .3 ? 1 : 0 }; }
+      else { const ap = E.badgeAppear(ta); b = { n: S.n, s: ap.s, numOp: ap.numOp }; if (tc < 400) { const c = E.badgeCount(tc); b = { ...b, old: S.old, oldDy: c.oldDy, oldOp: c.oldOp, numDy: c.numDy, numOp: Math.min(b.numOp, c.numOp), dx: c.dx }; } }
+      return E.cat(E.place(E.iconBtn(T, { icon: 'bell' }), 30, 18), !S.hidden && ta < 220 ? E.flash(T, ta / 220, 70, 24, 15) : { L: [], X: [] }, E.place(E.badge(T, b), 70, 24));
+    }
+    return { L: [], X: [] };
+  }
+
+  buildStatic(T) {
+    const E = this.E, C = (n, sc, w, h, pad, s) => E.cell(n, sc, w, h, pad, s), Fr = (t, v, sc, w, h, pad, s = 1) => ({ ...E.cell('', sc, w, h, pad, s), t, v });
+    const n2 = v => v.toFixed(2), n0 = v => v.toFixed(0), out = {};
+
+    out.ib = { cells: [['Standard / Default', { icon: 'heart' }], ['Standard / Pressed', { icon: 'heart', p: 1 }], ['Standard / Focused', { icon: 'heart', focus: true }], ['Standard / Selected', { icon: 'heart', sel: true }], ['Standard / Disabled', { icon: 'heart', disabled: true }], ['Filled / Default', { icon: 'edit', variant: 'filled' }], ['Filled / Selected', { icon: 'star', variant: 'filled', sel: true }]]
+      .map(([n, o]) => C('IconButton / ' + n, E.iconBtn(T, o), 48, 48, [10, 12, 10, 10])),
+      specs: [{ title: 'IconButton · tap', event: 'iconbutton.press → iconbutton.bounce', dur: '80 ms press · 300 ms after release', curve: 'stiff → bouncy, icon on its own spring', reduce: 'instant', desc: 'The circle squashes like a button. On release the icon hops 7 dp and lands with a small wobble, trailing the circle; turning on adds a small flash behind it.',
+        frames: [['0 ms', { p: 0 }], ['80 ms · held', { p: 1 }], ...[70, 140, 200, 300].map(t => ['+' + t + ' ms', { p: E.spr(t / 1000, .35, 45), iy: E.iconBounce(t) }])].map(([t, o]) => Fr(t, `sY ${n2(E.squashOf(o.p).sy)} · icon y ${n2(o.iy || 0)}`, E.iconBtn(T, { icon: 'heart', sel: t !== '0 ms' && t !== '80 ms · held', ...o }), 48, 48, [18, 10, 8, 10])) }] };
+
+    out.fab = { cells: [['Default', {}], ['Pressed', { p: 1 }], ['Focused', { focus: true }], ['Disabled', { disabled: true }], ['Extended', { label: 'New plan' }]].map(([n, o]) => { const f = E.fab(T, o); return C('FAB / ' + n, f, f.w, 64, [14, 18, 14, 14]); }),
+      specs: [{ title: 'FAB · land', event: 'fab.land', dur: '520 ms', curve: 'snap-hold → ease-in → bouncy', reduce: 'fade 120', desc: 'Appears in the air, hangs for 90 ms, falls with a stretch, lands with a squash and a dust puff. Press and release behave like Button.',
+        frames: [0, 60, 160, 230, 300, 520].map(t => { const a = E.fabAppear(t); return Fr(`${t} ms`, `y ${n0(a.dy)} · sX ${n2(a.sx)} · sY ${n2(a.sy)}`, E.cat(E.place(E.fab(T, { sx: a.sx, sy: a.sy }), 0, a.dy, 0, 0, 0, a.op), E.dust(T, a.du, 32, 66, 40)), 64, 64, [80, 34, 14, 34], .75); }) }] };
+
+    out.radio = { cells: [['Unselected', {}], ['Selected', { sel: true }], ['Pressed', { sel: true, sq: .86 }], ['Focused', { sel: true, focus: true }], ['Disabled', { disabled: true }], ['Disabled / Selected', { disabled: true, sel: true }]].map(([n, o]) => C('RadioButton / ' + n, E.radio(T, { label: 'Noon', ...o }), 110, 48, [8, 8, 8, 8])),
+      specs: [{ title: 'RadioButton · select', event: 'radio.drop', dur: '340 ms', curve: 'snap-hold + bouncy ζ 0.32', reduce: 'instant', desc: 'The dot appears above the ring as a stretched drop, hangs 60 ms, falls and splats on the bottom to 1.45× wide, flicking two droplets sideways, then wobbles round. The previous dot deflates in 120 ms.',
+        frames: [0, 100, 150, 190, 240, 340].map(t => { const a = E.radioSelect(t); return Fr(`${t} ms`, `dot y ${n0(a.dotY)} · sX ${n2(a.dsx)} · sY ${n2(a.dsy)}`, E.radio(T, { sel: true, ...a }), 48, 48, [32, 8, 6, 8]); }) }] };
+
+    out.chip = { cells: [['Filter / Default', { variant: 'filter', label: 'Outdoors' }], ['Filter / Selected', { variant: 'filter', label: 'Outdoors', sel: true }], ['Filter / Pressed', { variant: 'filter', label: 'Outdoors', p: 1 }], ['Assist', { variant: 'assist', label: 'Saturday', icon: 'calendar' }], ['Input', { variant: 'input', label: 'Pancakes' }], ['Focused', { variant: 'filter', label: 'Outdoors', focus: true }], ['Disabled', { variant: 'filter', label: 'Outdoors', disabled: true }]]
+      .map(([n, o]) => { const c = E.chip(T, o); return C('Chip / ' + n, c, c.w, 36, [10, 12, 12, 10]); }),
+      specs: [{ title: 'Chip · select', event: 'chip.select', dur: '260 ms', curve: 'wobbly ζ 0.25', reduce: 'instant', desc: 'Inflates to 1.15 and deflates with a wobble while the fill arrives as a paint stroke from left to right.',
+        frames: [0, 60, 90, 150, 260].map(t => { const a = E.chipSelect(t), c = E.chip(T, { variant: 'filter', label: 'Outdoors', sel: true, ...a }); return Fr(`${t} ms`, `scale ${n2(a.scale)} · paint ${n0(a.swipe * 100)} %`, c, c.w, 36, [12, 16, 12, 12]); }) }] };
+
+    out.dialog = { cells: [['Destructive', {}], ['Confirm focused', { focus: 'confirm' }], ['Cancel focused', { focus: 'cancel' }], ['Basic', { title: 'Leave the plan?', body: ['Changes you made will be', 'kept as a draft.'], confirm: 'Leave', destructive: false }]].map(([n, o]) => C('Dialog / ' + n, E.dialogScene(T, { R: 190, s: 1, op: 1, textOp: 1, stars: 0 }, o), 360, 460, [0, 0, 0, 0], .62)),
+      specs: [
+        { title: 'Dialog · open', event: 'dialog.open', dur: '400 ms', curve: 'iris ease-in-out · scale bouncy', reduce: 'fade 120', desc: 'Darkness closes in from the edges as an iris and stops as a spotlight around the dialog. The dialog pops 0.6 → 1.1 → 1.0; text fades in once it has landed.',
+          frames: [0, 60, 120, 200, 400].map(t => { const a = E.dialogOpen(t); return Fr(`${t} ms`, `iris r ${n0(a.R)} · scale ${n2(a.s)}`, E.dialogScene(T, a), 360, 460, [0, 0, 0, 0], .36); }) },
+        { title: 'Dialog · close', event: 'dialog.close → dialog.pop', dur: '300 ms', curve: 'anticipate + snap', reduce: 'fade 120', desc: 'Swells to 1.05, collapses to a point with a burst of stars, then the iris opens back up.',
+          frames: [0, 80, 140, 180, 300].map(t => { const a = E.dialogClose(t); return Fr(`${t} ms`, `scale ${n2(a.s)} · iris r ${n0(a.R)}`, E.dialogScene(T, a), 360, 460, [0, 0, 0, 0], .36); }) },
+      ] };
+
+    out.prog = { cells: [['Linear / Indeterminate', E.linear(T, { w: 240, ...E.worm(420) }), 240, 14], ['Linear / 40 %', E.linear(T, { w: 240, a: 0, b: .4 }), 240, 14], ['Linear / Complete', E.linear(T, { w: 240, a: 0, b: 1 }), 240, 14], ['Circular / Indeterminate', E.circular(T, { ph: 300 }), 48, 48], ['Circular / 65 %', E.circular(T, { value: .65 }), 48, 48]]
+      .map(([n, sc, w, h]) => C('Progress / ' + n, sc, w, h, [10, 10, 10, 10])),
+      specs: [
+        { title: 'Progress · linear', event: '—', dur: '1200 ms loop', curve: 'two bursts per cycle', reduce: 'static bar at 33 %', desc: 'An inchworm: the head lunges forward in bursts, the tail catches up, and whenever the body bunches up it arches out of the tube (up to 11 dp), then flattens as it stretches.',
+          frames: [0, 300, 600, 900].map(t => { const w = E.worm(t); return Fr(`${t} ms`, `tail ${n0(E.c01(w.a) * 100)} % · head ${n0(E.c01(w.b) * 100)} %`, E.linear(T, { w: 200, ...w }), 200, 14, [16, 8, 8, 8]); }) },
+        { title: 'Progress · circular', event: '—', dur: '1000 ms loop', curve: 'uneven rotation', reduce: 'static blob', desc: 'An ink blob with three lobes spins with accelerations while the lobes morph.',
+          frames: [0, 250, 500, 750].map(t => Fr(`${t} ms`, `angle ${n0(((t / 1000 * 2 * Math.PI) + .7 * Math.sin(t / 1000 * 2 * Math.PI)) * 180 / Math.PI)}°`, E.circular(T, { ph: t }), 48, 48, [8, 8, 8, 8])) },
+      ] };
+
+    out.top = { cells: [['Small', {}, 0], ['Center', { variant: 'center', title: 'Plans' }, 0], ['Scrolled', { scrolled: true }, -1.2], ['Nav / Pressed', { pressed: 'nav' }, 0], ['Nav / Focused', { focus: 'nav' }, 0], ['Action / Pressed', { pressed: 0 }, 0], ['Action / Focused', { focus: 1 }, 0]].map(([n, o, rot]) => C('TopAppBar / ' + n, E.place(E.topBar(T, o), 0, 0, rot, 195, -40), 390, 76, [8, 8, 12, 8], .8)),
+      specs: [{ title: 'TopAppBar · scroll sway', event: 'topbar.sway', dur: '≈ 700 ms', curve: 'pendulum ζ 0.25 · ω 14', reduce: 'off', desc: 'A sign on two nails. A scroll fling kicks it; it swings up to about 2° around a point above the bar and settles. The shadow grows once content is underneath.',
+        frames: [0, 90, 180, 280, 450, 700].map(t => { const r = E.sway(t, 28); return Fr(`${t} ms`, `rot ${r >= 0 ? '+' : ''}${n2(r)}°`, E.place(E.topBar(T, { scrolled: true }), 0, 0, r, 195, -40), 390, 76, [8, 8, 12, 8], .4); }) }] };
+
+    out.nav = { cells: [['Home selected', { sel: 0 }], ['Saved + badge', { sel: 2, badge: { i: 3, n: 3 } }], ['Explore pressed', { sel: 0, pressed: 1 }], ['Profile focused', { sel: 0, focus: 3 }], ['Saved disabled', { sel: 0, disabled: 2 }]].map(([n, o]) => C('NavigationBar / ' + n, E.navBar(T, { items: this.NAV, ...o }), 390, 80, [8, 8, 16, 8], .8)),
+      specs: [{ title: 'NavigationBar · select', event: 'nav.select → nav.land', dur: '360 ms', curve: 'bouncy · indicator smear', reduce: 'instant', desc: 'The new icon jumps 8 dp and lands with a squash and dust. The paint-stroke indicator stretches toward it, then its tail catches up.',
+        frames: [0, 90, 180, 240, 360].map(t => { const a = E.navSelect(t, 0, 2, 97.5); return Fr(`${t} ms`, `icon y ${n0(a.iy)} · paint ${n0(a.ia)}–${n0(a.ib)}`, E.navBar(T, { items: this.NAV, sel: 2, ...a }), 390, 80, [24, 0, 0, 0], .42); }) }] };
+
+    out.tabs = { cells: [['Today', { sel: 0 }], ['Weekend', { sel: 1 }], ['Someday pressed', { sel: 0, pressed: 2 }], ['Weekend focused', { sel: 0, focus: 1 }], ['Someday disabled', { sel: 0, disabled: 2 }]].map(([n, o]) => C('Tabs / ' + n, E.tabs(T, { labels: this.TABS, ...o }), 342, 52, [6, 8, 8, 8])),
+      specs: [{ title: 'Tabs · switch', event: 'tabs.switch', dur: '320 ms', curve: 'smear + overshoot', reduce: 'instant', desc: 'The bookmark stretches from the old tab to the new one; its tail follows 80 ms later. Content slides 40 dp with an overshoot.',
+        frames: [0, 80, 160, 240, 320].map(t => { const a = E.tabsSwitch(t, 0, 1, 114); return Fr(`${t} ms`, `bookmark ${n0(a.ia)}–${n0(a.ib)} · content ${n0(a.cx)}`, E.tabs(T, { labels: this.TABS, sel: a.sel, ia: a.ia, ib: a.ib }), 342, 52, [6, 8, 8, 8], .5); }) }] };
+
+    const li = [['One-line / Chevron', { icon: 'star', title: 'Favourites', trailing: 'chevron' }], ['Two-line / Switch', { icon: 'bell', title: 'Reminders', sub: 'At noon', trailing: 'switch', on: true }], ['Pressed', { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag: 1 }], ['Selected', { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'check', on: true, sel: true }], ['Focused', { icon: 'bell', title: 'Reminders', sub: 'At noon', trailing: 'switch', on: true, focus: true }], ['Disabled', { icon: 'person', title: 'Shared with', sub: 'Nobody yet', trailing: 'chevron', disabled: true }]];
+    const liF = [['0 ms', 0, true], ['50 ms', 50, true], ['100 ms · held', 100, true], ['+60 ms', 60, false], ['+130 ms', 130, false], ['+220 ms', 220, false]];
+    out.list = { cells: li.map(([n, o], i) => C('ListItem / ' + n, E.listItem(T, { seed: i, ...o }), 342, 72, [8, 10, 10, 10])),
+      specs: [{ title: 'List item · press / release', event: 'list.press', dur: '100 ms + 400 ms', curve: 'stiff → bouncy ζ 0.3', reduce: 'instant', desc: 'The row sinks 2 dp and its bottom rule bows 6 dp like a plank. On release it springs back past flat once.',
+        frames: liF.map(([lb, t, d]) => { const s = E.listPress(t, d); return Fr(lb, `sag ${n2(s)} · rule ${n2(6 * s)} dp`, E.listItem(T, { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag: s }), 342, 72, [6, 10, 14, 10], .45); }) }] };
+
+    out.div = { cells: [['Full', { x1: 342, th: 3 }], ['Inset', { x0: 56, x1: 342, th: 3 }], ['Thick', { x1: 342, th: 4.6 }], ['Short', { x1: 120, th: 2.4 }]].map(([n, o], i) => C('Divider / ' + n, E.divider(T, { seed: i, ...o }), 342, 12, [4, 4, 4, 4])), specs: [] };
+
+    out.badge = { cells: [['Dot', { dot: true }], ['1 digit', { n: 3 }], ['2 digits', { n: 12 }], ['Overflow', { n: '99+' }]].map(([n, o]) => C('Badge / ' + n, E.badge(T, o), 0, 0, [20, 30, 20, 30]))
+        .concat([C('Badge / On IconButton', E.cat(E.iconBtn(T, { icon: 'bell' }), E.place(E.badge(T, { n: 3 }), 40, 6)), 48, 48, [12, 22, 10, 10])]),
+      specs: [
+        { title: 'Badge · appear', event: 'badge.pop', dur: '280 ms', curve: 'snap', reduce: 'instant', desc: 'The star-burst pops from a point to 1.3 and back over a small flash; the number arrives one 24 fps frame later.',
+          frames: [0, 42, 90, 180, 280].map(t => { const a = E.badgeAppear(t); return Fr(`${t} ms`, `scale ${n2(a.s)} · number ${a.numOp ? 'on' : 'off'}`, E.badge(T, { n: 3, ...a }), 0, 0, [22, 30, 22, 30]); }) },
+        { title: 'Badge · count change', event: 'badge.count', dur: '240 ms', curve: 'quick', reduce: 'instant', desc: 'The old number flies up and out, the new one drops in from above, and the burst shivers.',
+          frames: [0, 60, 120, 180, 240].map(t => { const a = E.badgeCount(t); return Fr(`${t} ms`, `old y ${n0(a.oldDy)} · new y ${n0(a.numDy)} · x ${n2(a.dx)}`, E.badge(T, { n: 4, old: 3, ...a }), 0, 0, [22, 30, 22, 30]); }) },
+      ] };
+    return out;
+  }
+
+  renderVals() {
+    const th = this.state.theme;
+    const themeOpts = ['il', 'in', 'bc'].map(k => ({ label: ['Ink & Gouache', 'Ink & Gouache', 'Bright Cel'][['il', 'in', 'bc'].indexOf(k)], sub: { il: 'base · light', in: 'base · night', bc: 'alt · light' }[k], bg: k === th ? '#2B211C' : 'transparent', color: k === th ? '#F4EBD6' : '#2B211C', subColor: k === th ? '#D9CFB6' : '#6B5F55', pick: () => { this.lastSvg = {}; this.setState({ theme: k }); } }));
+    if (!this.state.ready || !this.E) return { t: { bg: '#CBC3A6', muted: '#51463D', text: '#2B211C' }, themeOpts, comps: [] };
+    const T = this.T(), S = this.memo[th] || (this.memo[th] = this.buildStatic(T)), noop = () => {};
+    const lv = (k, w, h) => ({ ref: this.r[k], lw: w, lh: h, lvb: `0 0 ${w} ${h}`, hasLive: true });
+    const ctl = (label, run) => ({ label, run });
+    const L = this.lv;
+    const comps = [
+      { id: 'iconbutton', num: '08', name: 'IconButton', sub: 'A hand-drawn circle around a 24 dp icon; the icon hops on release. Standard and filled.', ...S.ib, hint: 'tap to toggle', ...lv('ib', 120, 80),
+        down: () => this.press(L.ib), up: () => { const B = L.ib; if (B.mode === 'press') { B.mode = 'spring'; B.sel = !B.sel; B.rt0 = this.clk; } }, controls: [] },
+      { id: 'fab', num: '09', name: 'FAB', sub: 'A big sewn-on button. Lands on the screen with a dust puff; regular and extended.', ...S.fab, hint: 'press, or replay the landing', ...lv('fab', 220, 166),
+        down: () => this.press(L.fab), up: () => { if (L.fab.mode === 'press') L.fab.mode = 'spring'; }, controls: [ctl('Play landing', () => { L.fab.at0 = this.clk; })] },
+      { id: 'radio', num: '10', name: 'RadioButton', sub: 'Lopsided ring; the dot drops in from above and splats on the bottom.', ...S.radio, hint: 'tap an option', ...lv('radio', 200, 168),
+        down: e => { const [, y] = this.loc(e, 200, 168), i = Math.max(0, Math.min(2, Math.floor((y - 8) / 52))); if (i !== L.radio.sel) { L.radio.prev = L.radio.sel; L.radio.sel = i; L.radio.t0 = this.clk; } }, up: noop, controls: [] },
+      { id: 'chip', num: '11', name: 'Chip', sub: 'A sticker label, some tilted 1–2°. Selecting inflates it and paints the fill in with one stroke. Filter, assist and input. Drawn 36 dp tall inside a 48 dp touch box.', ...S.chip, hint: 'tap chips', ...lv('chip', 400, 80),
+        down: e => { const [x] = this.loc(e, 400, 80), i = this.chipX.findIndex(([a, b]) => x >= a && x <= b); L.chip.press = i; },
+        up: () => { const i = L.chip.press; if (i >= 0) { L.chip.sel[i] = !L.chip.sel[i]; L.chip.t0[i] = this.clk; } L.chip.press = -1; }, controls: [] },
+      { id: 'dialog', num: '12', name: 'Dialog', sub: 'Opens through an iris; the dimmed background becomes a spotlight on the dialog.', ...S.dialog, hint: 'tap to open / close', ...lv('dialog', 360, 460),
+        down: () => { L.dialog.open = !L.dialog.open; L.dialog.t0 = this.clk; }, up: noop, controls: [ctl('Open', () => { L.dialog.open = true; L.dialog.t0 = this.clk; }), ctl('Close', () => { L.dialog.open = false; L.dialog.t0 = this.clk; })] },
+      { id: 'progress', num: '13', name: 'Progress', sub: 'Linear is a crawling worm inside an ink tube; circular is a spinning three-lobed blob.', ...S.prog, hint: 'running', ...lv('prog', 380, 90), down: noop, up: noop, controls: [] },
+      { id: 'topappbar', num: '14', name: 'TopAppBar', sub: 'A sign hung on two nails. Sways when the content is flung.', ...S.top, hint: 'fling to sway', ...lv('top', 390, 100),
+        down: () => { L.top.v0 = (L.top.v0 > 0 ? -1 : 1) * 28; L.top.t0 = this.clk; L.top.scrolled = true; }, up: noop,
+        controls: [ctl('Fling', () => { L.top.v0 = (L.top.v0 > 0 ? -1 : 1) * 28; L.top.t0 = this.clk; L.top.scrolled = true; }), ctl('Back to top', () => { L.top.v0 = 14; L.top.t0 = this.clk; L.top.scrolled = false; })] },
+      { id: 'navbar', num: '15', name: 'NavigationBar', sub: 'Bottom bar on a paper strip. The active icon jumps, lands in dust, and a paint stroke marks it.', ...S.nav, hint: 'tap items', ...lv('nav', 390, 80),
+        down: e => { const [x] = this.loc(e, 390, 80), i = Math.max(0, Math.min(3, Math.floor(x / 97.5))); if (i !== L.nav.sel) { L.nav.from = L.nav.sel; L.nav.sel = i; L.nav.t0 = this.clk; } }, up: noop, controls: [] },
+      { id: 'tabs', num: '16', name: 'Tabs', sub: 'Bookmarks standing on an ink shelf; the selected one stretches over to the next.', ...S.tabs, hint: 'tap tabs', ...lv('tabs', 374, 110),
+        down: e => { const [x, y] = this.loc(e, 374, 110); if (y > 70) return; const i = Math.max(0, Math.min(2, Math.floor((x - 16) / 114))); if (i !== L.tabs.sel) { L.tabs.from = L.tabs.sel; L.tabs.sel = i; L.tabs.t0 = this.clk; } }, up: noop, controls: [] },
+      { id: 'listitem', num: '17', name: 'List item', sub: 'A row with a sticker icon and a tapering ink rule that bends when pressed.', ...S.list, hint: 'press rows', ...lv('list', 374, 232),
+        down: e => { const [, y] = this.loc(e, 374, 232), i = Math.max(0, Math.min(2, Math.floor((y - 8) / 72))); L.list.press = i; L.list.pt0 = this.clk; },
+        up: () => { const i = L.list.press; if (i < 0) return; L.list.rel = i; L.list.rt0 = this.clk; L.list.press = -1; if (i === 1) { L.list.on = !L.list.on; L.list.swT0 = this.clk; } }, controls: [] },
+      { id: 'divider', num: '18', name: 'Divider', sub: 'A tapering ink stroke, thickest in the middle. No motion of its own.', ...S.div, hasLive: false, controls: [] },
+      { id: 'badge', num: '19', name: 'Badge', sub: 'A star-burst with the count; pops in, swaps numbers by flinging the old one away.', ...S.badge, hint: 'use the buttons', ...lv('badge', 130, 80), down: noop, up: noop,
+        controls: [ctl('+1', () => { const B = L.badge; if (B.hidden) { B.hidden = false; B.n = 1; B.at0 = this.clk; B.ct0 = -1e7; return; } B.old = B.n; B.n = B.n + 1; B.ct0 = this.clk; }), ctl('Clear', () => { L.badge.hidden = true; L.badge.ht0 = this.clk; }), ctl('Pop', () => { L.badge.hidden = false; L.badge.at0 = this.clk; })] },
+    ];
+    return { t: T, themeOpts, comps };
+  }
+}
+</script>
+</body>
+</html>
