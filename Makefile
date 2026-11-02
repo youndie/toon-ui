@@ -72,7 +72,7 @@ DOCS_BOOTSTRAP_SHIM := 2
 DOCS_BOOTSTRAP_GOALS := check gate report fix
 
 .DEFAULT_GOAL := help
-.PHONY: help check gate report fix goldens references tokens
+.PHONY: help check gate report fix goldens references tokens icons
 
 help:
 	@echo "make check   - the gate and the reports: exactly what CI runs"
@@ -80,6 +80,7 @@ help:
 	@echo "make report  - non-blocking: BDD coverage, code anchors"
 	@echo "make fix     - regenerate the backlog index, fill in missing coverage-map lines"
 	@echo "make tokens  - rewrite ToonTokens.kt from the design"
+	@echo "make icons   - rewrite ToonIcons.kt and the icon fixtures from the engine's ICONS"
 	@echo "make goldens - rewrite the engine goldens from reference/design-system/toon-engine.js"
 	@echo "make references - re-render the Chrome design references (needs Google Chrome)"
 
@@ -91,6 +92,7 @@ check: gate report
 gate: docs-gate
 	node scripts/engine-goldens.mjs --check
 	node scripts/generate-tokens.mjs --check
+	node scripts/generate-icons.mjs --check
 
 # B-06: re-render the Chrome references from the engine (needs Google Chrome; not part of the gate,
 # which also runs on CI's Linux, where the references were not drawn).
@@ -100,6 +102,11 @@ references:
 # B-07: rewrite the token layer from the engine's THEMES and the Core page's table.
 tokens:
 	node scripts/generate-tokens.mjs
+
+# B-11: rewrite the icon glyphs and their parity fixtures from the engine's ICONS. Not a docs-bootstrap
+# goal either.
+icons:
+	node scripts/generate-icons.mjs
 
 # B-03: rewrite the golden JSON from the vendored engine. Not a docs-bootstrap goal, so it reads no
 # pin and fetches nothing.
