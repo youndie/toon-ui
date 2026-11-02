@@ -53,7 +53,7 @@ const MAP = {
   Tabs: { composable: 'ToonTabs', engine: ['tabs'], item: 'B-28', group: 'Tabs' },
   TextField: { composable: 'ToonTextField', engine: ['field'], item: 'B-19', group: 'TextField' },
   TitleCard: { engine: ['titleCard'], item: 'B-43' },
-  Tooltip: { engine: ['tooltip'], item: 'B-40' },
+  Tooltip: { composable: 'ToonTooltip', engine: ['tooltip', 'tipInflate'], item: 'B-40', group: 'Tooltip' },
   TopAppBar: { composable: 'ToonTopAppBar', engine: ['topBar'], item: 'B-26', group: 'TopAppBar' },
 };
 // Public composables beyond a design file's own, under it.
