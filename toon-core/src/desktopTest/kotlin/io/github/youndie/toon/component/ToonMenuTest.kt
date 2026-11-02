@@ -114,13 +114,16 @@ class ToonMenuTest {
     }
 
     @Test
-    fun `an item is the 44 dp row under the point, 14 dp down`() {
-        assertEquals(0, toonMenuItemAt(3, 14f))
+    fun `an item is the 44 dp row under the point, the first and last reaching the scroll's edges`() {
+        assertEquals(0, toonMenuItemAt(3, 0f))
         assertEquals(0, toonMenuItemAt(3, 57.9f))
         assertEquals(1, toonMenuItemAt(3, 58f))
-        assertEquals(2, toonMenuItemAt(3, 145f))
-        assertNull(toonMenuItemAt(3, 13f))
-        assertNull(toonMenuItemAt(3, 146f))
+        assertEquals(1, toonMenuItemAt(3, 101.9f))
+        assertEquals(2, toonMenuItemAt(3, 102f))
+        assertEquals(2, toonMenuItemAt(3, 171f))
+        assertNull(toonMenuItemAt(3, -1f))
+        assertNull(toonMenuItemAt(3, 172f))
+        assertNull(toonMenuItemAt(0, 20f))
         assertEquals(171f, toonMenuHeight(3))
     }
 
@@ -145,11 +148,11 @@ class ToonMenuTest {
             menu.performTouchInput { click(Offset(100f, 130f)) }
             assertEquals(listOf(1, 2), heard)
             menu.performTouchInput { click(Offset(100f, 6f)) }
-            assertEquals(listOf(1, 2), heard, "above the items is nothing")
+            assertEquals(listOf(1, 2, 0), heard, "above the first item is still the first")
             open = false
             waitForIdle()
             menu.performTouchInput { click(Offset(100f, 30f)) }
-            assertEquals(listOf(1, 2), heard, "rolled up, it does not fire")
+            assertEquals(listOf(1, 2, 0), heard, "rolled up, it does not fire")
         }
     }
 

@@ -156,11 +156,15 @@ private const val ITEM_H = 44f
 /** The kit's box: the items, the rolls and their shadow. */
 internal fun toonMenuHeight(n: Int): Float = 14 + n * ITEM_H + 25
 
-/** The kit's `down`: the item under [y], or null above and below them. */
+/**
+ * The kit's `down`: the item under [y]. The first item's target reaches up to the scroll's top and
+ * the last one's down to its bottom, which makes both 48 dp and more (the brief's target) without
+ * moving what the design draws; an item between them stays 44 dp (B-50).
+ */
 internal fun toonMenuItemAt(
     n: Int,
     y: Float,
-): Int? = floor((y - 14) / ITEM_H).toInt().takeIf { it in 0 until n }
+): Int? = if (n == 0 || y < 0 || y > toonMenuHeight(n)) null else floor((y - 14) / ITEM_H).toInt().coerceIn(0, n - 1)
 
 /** The open plays 600 ms in the kit, the close 400; reduce motion — the v1 page's `fade 120` — fades. */
 private const val OPEN_MS = 600f
