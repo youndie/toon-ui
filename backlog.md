@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-06](docs/backlog/B-06-pixel-references-and-floor.md) `[ ]` | Pixel references: render every state in headless Chrome, measure parity's floor | P0 | L | B-01, B-02 |
+| [B-06](docs/backlog/B-06-pixel-references-and-floor.md) `[~]` | Pixel references: render every state in headless Chrome, measure parity's floor | P0 | L | B-01, B-02 |
 | [B-07](docs/backlog/B-07-token-generator.md) `[ ]` | Tokens generated from THEMES: colours, shape, type, motion, three themes | P1 | M | B-03 |
 | [B-08](docs/backlog/B-08-theme-reduce-motion-idle-budget.md) `[ ]` | ToonTheme provider, system reduce motion, and a counted idle budget | P1 | M | B-07 |
 | [B-09](docs/backlog/B-09-ink-drawing-primitives.md) `[ ]` | Ink drawing primitives: body with hard shadow and night rim, focus ring, placement | P1 | M | B-04, B-05, B-06 |

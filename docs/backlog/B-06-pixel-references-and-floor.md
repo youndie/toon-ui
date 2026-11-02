@@ -1,7 +1,7 @@
 ---
 id: B-06
 title: "Pixel references: render every state in headless Chrome, measure parity's floor"
-status: open
+status: wip
 priority: P0
 size: L
 stage: stage-0-risks
