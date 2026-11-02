@@ -18,6 +18,7 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.component.ToonBadge
+import io.github.youndie.toon.component.ToonBottomSheet
 import io.github.youndie.toon.component.ToonButton
 import io.github.youndie.toon.component.ToonCard
 import io.github.youndie.toon.component.ToonCheckbox
@@ -35,6 +36,8 @@ import io.github.youndie.toon.component.ToonNavItem
 import io.github.youndie.toon.component.ToonNavigationBar
 import io.github.youndie.toon.component.ToonProgress
 import io.github.youndie.toon.component.ToonRadioGroup
+import io.github.youndie.toon.component.ToonSheetHit
+import io.github.youndie.toon.component.ToonSheetItem
 import io.github.youndie.toon.component.ToonSnackbar
 import io.github.youndie.toon.component.ToonSwitch
 import io.github.youndie.toon.component.ToonTabs
@@ -43,6 +46,7 @@ import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.component.toonDialogHit
 import io.github.youndie.toon.component.toonMenuItemAt
 import io.github.youndie.toon.component.toonNavSlot
+import io.github.youndie.toon.component.toonSheetHit
 import io.github.youndie.toon.component.toonTopBarTarget
 import io.github.youndie.toon.icon.ToonIcon
 import io.github.youndie.toon.icon.ToonIcons
@@ -56,7 +60,7 @@ import kotlin.test.assertTrue
 /**
  * B-30: each of the 19 components tells a screen reader what it is (role), what state it is in, and
  * what it says, and each one a finger can press is at least 48 dp each way (the brief's target), even
- * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50).
+ * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50), and B-38 the bottom sheet.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonAccessibilityTest {
@@ -266,6 +270,20 @@ class ToonAccessibilityTest {
             }
         }
         assertTrue(confirm >= target, "confirm $confirm dp wide")
+    }
+
+    @Test
+    fun `bottom sheet is a pane named by its title that can be dismissed, its rows 72 dp targets`() {
+        val items = listOf(ToonSheetItem("Family"), ToonSheetItem("Copy link"))
+        with(node { ToonBottomSheet(items, it.size(390.dp, 700.dp)) }) {
+            assertEquals(listOf("Family", "Copy link"), actions)
+            assertEquals("Share plan", node.config.getOrNull(SemanticsProperties.PaneTitle))
+            assertTrue(node.config.contains(SemanticsActions.Dismiss))
+        }
+        for (i in items.indices) {
+            val tall = (0..700).count { toonSheetHit(700f, 2, it.toFloat()) == ToonSheetHit.Item(i) }
+            assertTrue(tall >= target, "row $i is $tall dp tall")
+        }
     }
 
     @Test
