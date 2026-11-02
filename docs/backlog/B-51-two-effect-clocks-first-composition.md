@@ -44,7 +44,7 @@ the same way in a real first composition, or only under a hand-driven test clock
   first frame, tabs, the segmented button and the navigation bar on the old selection. Components
   shown in their state from the start drew right, which is why no test had seen it: every frame and
   golden test builds the frame from a time it is given.
-- **Fixed in all 24 clocks** of 21 components: `age()` reads `nowMs` before anything else.
+- **Fixed in all 24 clocks** of 22 files (21 components and the transition host): `age()` reads `nowMs` before anything else.
   `ToonClockSubscriptionTest` shows each of twelve components switched after it is shown and holds it
   to the pixels of the same component shown so from the start, 1.5 s on. It failed on the old clocks
   (the menu by 25 266 px, the tabs by 14 087) and passes on the new; reverting one clock (menu, tabs,
