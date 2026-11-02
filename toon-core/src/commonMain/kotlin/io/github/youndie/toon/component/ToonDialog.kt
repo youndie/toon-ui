@@ -353,7 +353,10 @@ internal fun toonDialogCardScene(
             sh.shadow + 2,
         )
     val labels = mutableListOf(ToonLabel(title, 24f, 48f, c.text, 1f, DIALOG_TITLE, ToonAnchor.Start))
-    lines.forEachIndexed { i, ln -> labels += ToonLabel(ln, 24f, 80f + i * 22, c.textMuted, 1f, DIALOG_BODY, ToonAnchor.Start) }
+    lines.forEachIndexed { i, ln ->
+        labels +=
+            ToonLabel(ln, 24f, 80f + i * 22, c.textMuted, 1f, DIALOG_BODY, ToonAnchor.Start)
+    }
     val by = h - 72
     val no =
         toonButtonScene(

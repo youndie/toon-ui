@@ -6,11 +6,17 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performKeyInput
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.performTouchInput
+import androidx.compose.ui.test.pressKey
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
@@ -18,13 +24,17 @@ import io.github.youndie.toon.draw.EngineFrames.f
 import io.github.youndie.toon.fx.ToonFxHost
 import io.github.youndie.toon.parity.DialogFrames
 import io.github.youndie.toon.theme.ToonTheme
+import io.github.youndie.toon.tokens.ToonTokens
+import io.github.youndie.toon.tokens.brightCel
 import io.github.youndie.toon.tokens.inkGouacheLight
+import io.github.youndie.toon.tokens.inkGouacheNight
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
+import kotlin.math.pow
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -210,6 +220,53 @@ class ToonDialogTest {
             assertEquals(emptyList(), heard.filter { it == "dialog.pop" })
             mainClock.advanceTimeBy(200)
             assertEquals(listOf("dialog.pop"), heard.filter { it == "dialog.pop" })
+        }
+    }
+
+    @Test
+    fun `the destructive button is the owner's one contrast exception, in Ink and Gouache light only`() {
+        // WCAG 2 contrast of the destructive button's label on its fill (research §1.6, B-30).
+        fun lum(c: Color): Double {
+            fun ch(v: Float) = if (v <= .03928f) v / 12.92 else ((v + .055) / 1.055).pow(2.4)
+            return .2126 * ch(c.red) + .7152 * ch(c.green) + .0722 * ch(c.blue)
+        }
+
+        fun ratio(tokens: ToonTokens): Double {
+            val a = lum(tokens.colors.onDanger)
+            val b = lum(tokens.colors.danger)
+            return (maxOf(a, b) + .05) / (minOf(a, b) + .05)
+        }
+        assertEquals(4.38, ratio(inkGouacheLight), .005, "the accepted exception")
+        assertTrue(ratio(inkGouacheNight) >= 4.5, "night: ${ratio(inkGouacheNight)}")
+        assertTrue(ratio(brightCel) >= 4.5, "bright cel: ${ratio(brightCel)}")
+    }
+
+    @Test
+    fun `the keyboard moves the focus between the buttons, presses it, and escapes`() {
+        runComposeUiTest {
+            var confirms = 0
+            var cancels = 0
+            setContent {
+                ToonTheme {
+                    ToonDialog(
+                        "Delete plan?",
+                        Modifier.size(390.dp, 700.dp).testTag("dialog"),
+                        onConfirm = { confirms++ },
+                        onCancel = { cancels++ },
+                    )
+                }
+            }
+            val dialog = onNodeWithTag("dialog")
+            dialog.performSemanticsAction(SemanticsActions.RequestFocus)
+            dialog.performKeyInput { pressKey(Key.Enter) }
+            assertEquals(1 to 0, confirms to cancels, "confirm has the focus first")
+            dialog.performKeyInput {
+                pressKey(Key.Tab)
+                pressKey(Key.Enter)
+            }
+            assertEquals(1 to 1, confirms to cancels, "tab moves it to cancel")
+            dialog.performKeyInput { pressKey(Key.Escape) }
+            assertEquals(1 to 2, confirms to cancels, "escape cancels")
         }
     }
 }
