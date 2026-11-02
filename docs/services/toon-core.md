@@ -234,7 +234,7 @@ None at runtime.
 - A dismissible card offers `Dismiss` as a screen reader's action, since a swipe has none (B-30); it
   throws the card as a swipe to the right does.
 - The top bar's outermost action target reaches the sign's edge and the innermost 8 dp past its
-  40 dp: one or two actions are 48 dp targets. A middle one of three or more stays 40 dp (B-49).
+  40 dp: one or two actions are 48 dp targets. A middle one of three or more stays 40 dp, the owner's named exception (B-49).
 - The navigation bar and the tabs are one node each for a screen reader: the selected item as its
   state, every item as an action, not a node per item (B-30).
 - The slider's keyboard and a screen reader move it one stop, or a twentieth of the rope when it

@@ -230,7 +230,7 @@ internal sealed class ToonTopBarKey {
  * The kit's `target`: an action's 40 dp around its icon, else the first 76 dp for the back arrow. The
  * actions stand 40 dp apart, under the brief's 48 dp target (B-30): the outermost reaches the sign's
  * edge and the innermost 8 dp further in, so with one or two actions each target is 48 dp wide; a
- * middle one of three or more stays 40 (B-49).
+ * middle one of three or more stays 40, the owner's named exception (B-49).
  */
 internal fun toonTopBarTarget(
     w: Float,

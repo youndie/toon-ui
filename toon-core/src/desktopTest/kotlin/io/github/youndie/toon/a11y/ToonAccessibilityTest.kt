@@ -75,6 +75,9 @@ import kotlin.test.assertTrue
 class ToonAccessibilityTest {
     private val target = 48f
 
+    /** The top bar's middle actions, 40 dp wide: the owner's named exception to the target (B-49, 2026-11-02). */
+    private val topBarMiddleAction = 40
+
     /** The menu's middle items, 44 dp: the owner's named exception to the target (B-50, 2026-11-02). */
     private val menuMiddleItem = 44
 
@@ -333,7 +336,7 @@ class ToonAccessibilityTest {
     }
 
     @Test
-    fun `top app bar is a heading, its back arrow and up to two actions are 48 dp targets`() {
+    fun `top app bar is a heading, its back arrow and its outer actions are 48 dp targets, a middle one 40`() {
         with(node { ToonTopAppBar("Saturday", it) }) {
             assertTrue(node.config.contains(SemanticsProperties.Heading))
             assertEquals("Saturday", text)
@@ -349,6 +352,23 @@ class ToonAccessibilityTest {
                                 .Action(i)
                     }
                 assertTrue(width >= target, "$n actions: action $i is $width dp wide")
+            }
+        }
+        for (n in 3..4) {
+            for (i in 0 until n) {
+                val width =
+                    (0..390).count {
+                        toonTopBarTarget(390f, n, true, it.toFloat()) ==
+                            io.github.youndie.toon.component.ToonTopBarKey
+                                .Action(i)
+                    }
+                // The owner's named exception (B-49): an action between the outermost and the innermost
+                // keeps the design's 40 dp spacing, 76 tall; the outer two still reach 48.
+                if (i == 0 || i == n - 1) {
+                    assertTrue(width >= target, "$n actions: action $i is $width dp wide")
+                } else {
+                    assertEquals(topBarMiddleAction, width, "$n actions: action $i is $width dp wide")
+                }
             }
         }
         assertTrue(
