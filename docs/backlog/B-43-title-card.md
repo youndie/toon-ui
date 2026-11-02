@@ -1,7 +1,7 @@
 ---
 id: B-43
 title: "Title card: splash and empty state, rings and a plaque"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-2-components
