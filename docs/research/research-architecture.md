@@ -246,6 +246,9 @@ from its ends and flags; and a number written from its point (`h.01`), which the
 half up, so a pivot off the 0.1 grid (the navigation bar's 146.25) rounds to 146.3 and −146.2; the
 port carries that exact difference, and a translation rounded inside a scale is allowed its scaled
 rounding. Both are zero for a pivot on the grid.
+*Extended in B-28:* the tabs are three 16 sp labels in a 358 × 66 cell, and in Bright Cel their ink
+alone takes the group past the Divider's floor (18.15 %); the group is read against the text floor,
+and a twin without labels (`TabsShape`, as `ButtonShape`) holds the rest to the Divider's.
 *Extended in B-15:* a frame carries icons as ready paths, held to the engine's own `d` for them —
 without a DOM the engine strokes the centerline at the weight's base width, which is what the frame
 golden holds, and the outline itself is B-11's — several texts with their own weights, and the
@@ -326,6 +329,8 @@ cross-fades too (§1.6), so it is no longer one.
 *Applied to the top app bar in B-26:* `off`; the sign hangs still.
 
 *Applied to the navigation bar in B-27:* `instant`; the selection lands at once, no jump, no dust.
+
+*Applied to the tabs in B-28:* `instant`; the bookmark moves at once and the content does not slide.
 
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
