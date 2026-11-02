@@ -16,6 +16,8 @@ than 3 per second) and the semantics a screen reader needs.
 - **The decision and its reason.** One test per component asserts role, state description and
   target size. One test over the generated tokens computes every text/background pair a component
   uses and fails below 4.5, except the one exception the owner accepted: `onDanger` on `danger` in Ink & Gouache light, 4.38:1 (B-24).
+  *The owner kept it on 2026-11-02 for every use of the pair, not only the dialog's button: the badge's
+  number and the error snackbar too.*
 - Not covered: localisation of state descriptions beyond English, which waits on B-02.
 
 - AC: the semantics and contrast tests pass for all 19 components.

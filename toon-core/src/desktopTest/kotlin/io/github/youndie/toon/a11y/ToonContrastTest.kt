@@ -14,7 +14,9 @@ import kotlin.test.assertTrue
  * B-30: every text a component draws, on what it draws it on, holds the brief's 4.5:1 (WCAG 2) in
  * every theme. The pairs are read off the engine's renderers, the colour each `X` is filled with on
  * the layer under it; a disabled control's text is out of scope, as WCAG has it. One pair is the
- * owner's accepted exception (2026-11-02, B-24): `onDanger` on `danger` in Ink & Gouache light, 4.38.
+ * owner's accepted exception (2026-11-02, B-24): `onDanger` on `danger` in Ink & Gouache light, 4.38,
+ * kept by the owner for every use of the pair — the destructive button, the badge's number and the
+ * error snackbar.
  */
 class ToonContrastTest {
     private class Pair(
