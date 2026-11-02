@@ -224,7 +224,8 @@ internal object EngineFrames {
             val rounded =
                 Regex("translate\\(").findAll(tfText).count() - (if (mine.pivotX != 0f || mine.pivotY != 0f) 2 else 0) -
                     2 * mine.outerPairs
-            val offset = ROUNDING * max(1, rounded) + 2e-4f
+            // A translation rounded inside a scale is scaled with it.
+            val offset = ROUNDING * max(1, rounded) * maxOf(1f, abs(tf.a), abs(tf.d)) + 2e-4f
             val own = mine.affine()
             // The engine writes a scale to three decimals and an offset to one; a pivot carries the
             // scale's rounding into the offset, so only a layer with one gets that much more.

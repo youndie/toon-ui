@@ -82,6 +82,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonDialog.kt` | `ToonDialog` (B-24): `toonDialogCardScene` is the engine's `dialog`, `toonDialogOpen` and `toonDialogClose` its curves, `toonDialogLayerScene` the kit's `C.dialog` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonProgress.kt` | `ToonProgress` (B-25): `toonLinearScene` and `toonCircularScene` are the engine's `linear` and `circular`, `toonWorm` its `worm` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt` | `ToonTopAppBar` (B-26): `toonTopBarScene` is the engine's `topBar`, `toonSway` its `sway`, `ToonTopAppBarState` the fling kick |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonNavigationBar.kt` | `ToonNavigationBar` (B-27): `toonNavBarScene` is the engine's `navBar`, `toonNavSelect` its `navSelect` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -186,6 +187,12 @@ None at runtime.
   velocity counts (B-26). The kit draws the sway for 900 ms and the bar is still after it.
 - The top app bar's actions are glyphs and `onAction` gets the glyph, where the kit passes the icon's
   name; a screen reader gets each action under its glyph's name.
+- The navigation bar's badge is the kit's: a dot on `badgeIndex`. The MVP page also draws a numbered
+  badge and a disabled item in its cells, which the frame holds (`ToonNavLook`); neither is a prop of
+  `ToonNavBar.dc.html`, so the composable has neither (B-27).
+- The navigation bar's paper runs 8 dp past each side and 16 below its 80 dp box, as the kit draws it.
+- The navigation bar's keyboard: it takes the focus as one control, the arrows move the ring, Enter
+  or Space selects; a screen reader gets each destination as an action.
 - The worm arches out of its tube by up to 11 dp and the linear indicator is laid out 14 dp tall: the
   kit pads its box 18 dp above. A parent that clips cuts the arch.
 - A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the

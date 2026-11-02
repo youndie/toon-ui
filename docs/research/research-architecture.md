@@ -242,6 +242,10 @@ rule and the face only where they differ from the default, so no earlier frame c
 *Extended in B-25:* one circular SVG arc (the determinate ring, `A r r 0 1 1`), its centre found
 from its ends and flags; and a number written from its point (`h.01`), which the comparison read as
 `01` until then.
+*Extended in B-27:* `scaleAbout` writes its pivot pair as `f(p)` and `f(-p)`, and `Math.round` takes a
+half up, so a pivot off the 0.1 grid (the navigation bar's 146.25) rounds to 146.3 and −146.2; the
+port carries that exact difference, and a translation rounded inside a scale is allowed its scaled
+rounding. Both are zero for a pivot on the grid.
 *Extended in B-15:* a frame carries icons as ready paths, held to the engine's own `d` for them —
 without a DOM the engine strokes the centerline at the weight's base width, which is what the frame
 golden holds, and the outline itself is B-11's — several texts with their own weights, and the
@@ -320,6 +324,8 @@ cross-fades too (§1.6), so it is no longer one.
 *Applied to the progress indicators in B-25:* the linear one is a static bar at 33 %, the circular one a static blob.
 
 *Applied to the top app bar in B-26:* `off`; the sign hangs still.
+
+*Applied to the navigation bar in B-27:* `instant`; the selection lands at once, no jump, no dust.
 
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 

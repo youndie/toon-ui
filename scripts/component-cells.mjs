@@ -408,6 +408,32 @@ export const SNACK_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     snackMoment(false, t))),
 ]);
 
+// ---- NavigationBar (B-27): `toon-ui MVP Components.dc.html` ----
+const NAV_PAGE = [
+  "NAV = [{ icon: 'home', label: 'Home' }, { icon: 'search', label: 'Explore' }, { icon: 'heart', label: 'Saved' }, { icon: 'person', label: 'Profile' }];",
+  "out.nav = { cells: [['Home selected', { sel: 0 }], ['Saved + badge', { sel: 2, badge: { i: 3, n: 3 } }], ['Explore pressed', { sel: 0, pressed: 1 }], ['Profile focused', { sel: 0, focus: 3 }], ['Saved disabled', { sel: 0, disabled: 2 }]].map(([n, o]) => C('NavigationBar / ' + n, E.navBar(T, { items: this.NAV, ...o }), 390, 80, [8, 8, 16, 8], .8)),",
+  "frames: [0, 90, 180, 240, 360].map(t => { const a = E.navSelect(t, 0, 2, 97.5); return Fr(`${t} ms`, `icon y ${n0(a.iy)} · paint ${n0(a.ia)}–${n0(a.ib)}`, E.navBar(T, { items: this.NAV, sel: 2, ...a }), 390, 80, [24, 0, 0, 0], .42); }) }] };",
+];
+const NAV_ITEMS = [{ icon: 'home', label: 'Home' }, { icon: 'search', label: 'Explore' }, { icon: 'heart', label: 'Saved' }, { icon: 'person', label: 'Profile' }];
+const NAV_STATES = [['HomeSelected', { sel: 0 }], ['SavedBadge', { sel: 2, badge: { i: 3, n: 3 } }], ['ExplorePressed', { sel: 0, pressed: 1 }], ['ProfileFocused', { sel: 0, focus: 3 }], ['SavedDisabled', { sel: 0, disabled: 2 }]];
+const navLook = (o, motion) => {
+  const a = [`sel = ${o.sel}`];
+  if (motion) a.push(`motion = ${motion}`);
+  if (o.pressed != null) a.push(`pressed = ${o.pressed}`);
+  if (o.focus != null) a.push(`focus = ${o.focus}`);
+  if (o.disabled != null) a.push(`disabled = ${o.disabled}`);
+  if (o.badge) a.push(`badge = ${o.badge.i} to ToonBadgeLook("${o.badge.n}")`);
+  return call('ToonNavLook', ...a);
+};
+const navScene = (o, motion) => call('toonNavBarScene', 'tokens', '390f', 'NavFrames.ITEMS', navLook(o, motion));
+export const NAV_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...NAV_STATES.map(([n, o]) => sceneCell('NavigationBar', theme, themeName, n, 390, 80, [8, 8, 16, 8], { kind: 'state', ...o, badge: o.badge ? o.badge.i : null, n: o.badge ? o.badge.n : null },
+    `E.navBar(T, Object.assign({ items: ${JSON.stringify(NAV_ITEMS)} }, ${JSON.stringify(o)}))`, navScene(o))),
+  // A select frame is the engine's `navSelect` at its age, so the cell holds the curve as well as the drawing.
+  ...[0, 90, 180, 240, 360].map(t => sceneCell('NavigationBar', theme, themeName, `Select_${t}ms`, 390, 80, [24, 0, 0, 0], { kind: 'select', t },
+    `E.navBar(T, Object.assign({ items: ${JSON.stringify(NAV_ITEMS)}, sel: 2 }, E.navSelect(${t}, 0, 2, 97.5)))`, navScene({ sel: 2 }, `toonNavSelect(${t}f, 0, 2, 97.5f)`))),
+]);
+
 // ---- TopAppBar (B-26): `toon-ui MVP Components.dc.html` ----
 const TOP_PAGE = [
   "out.top = { cells: [['Small', {}, 0], ['Center', { variant: 'center', title: 'Plans' }, 0], ['Scrolled', { scrolled: true }, -1.2], ['Nav / Pressed', { pressed: 'nav' }, 0], ['Nav / Focused', { focus: 'nav' }, 0], ['Action / Pressed', { pressed: 0 }, 0], ['Action / Focused', { focus: 1 }, 0]].map(([n, o, rot]) => C('TopAppBar / ' + n, E.place(E.topBar(T, o), 0, 0, rot, 195, -40), 390, 76, [8, 8, 12, 8], .8)),",
@@ -519,6 +545,7 @@ export const FRAME_PROBES = {
 };
 
 export const missingPageText = [
+  ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...PROGRESS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...DIALOG_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -536,4 +563,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS };

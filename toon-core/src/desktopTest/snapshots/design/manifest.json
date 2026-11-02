@@ -16109,6 +16109,396 @@
         8
       ],
       "scene": "E.place(E.topBar(T, { scrolled: true }), 0, 0, E.sway(700, 28), 195, -40)"
+    },
+    {
+      "file": "NavigationBar_HomeSelected_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0}))"
+    },
+    {
+      "file": "NavigationBar_SavedBadge_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":2,\"badge\":{\"i\":3,\"n\":3}}))"
+    },
+    {
+      "file": "NavigationBar_ExplorePressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"pressed\":1}))"
+    },
+    {
+      "file": "NavigationBar_ProfileFocused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"focus\":3}))"
+    },
+    {
+      "file": "NavigationBar_SavedDisabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "NavigationBar_Select_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(0, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_90ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(90, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_180ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(180, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(240, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_360ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(360, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_HomeSelected_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0}))"
+    },
+    {
+      "file": "NavigationBar_SavedBadge_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":2,\"badge\":{\"i\":3,\"n\":3}}))"
+    },
+    {
+      "file": "NavigationBar_ExplorePressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"pressed\":1}))"
+    },
+    {
+      "file": "NavigationBar_ProfileFocused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"focus\":3}))"
+    },
+    {
+      "file": "NavigationBar_SavedDisabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "NavigationBar_Select_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(0, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_90ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(90, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_180ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(180, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(240, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_360ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(360, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_HomeSelected_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0}))"
+    },
+    {
+      "file": "NavigationBar_SavedBadge_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":2,\"badge\":{\"i\":3,\"n\":3}}))"
+    },
+    {
+      "file": "NavigationBar_ExplorePressed_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"pressed\":1}))"
+    },
+    {
+      "file": "NavigationBar_ProfileFocused_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"focus\":3}))"
+    },
+    {
+      "file": "NavigationBar_SavedDisabled_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        8,
+        8,
+        16,
+        8
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "NavigationBar_Select_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(0, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_90ms_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(90, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_180ms_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(180, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(240, 0, 2, 97.5)))"
+    },
+    {
+      "file": "NavigationBar_Select_360ms_BrightCel.png",
+      "theme": "bc",
+      "w": 390,
+      "h": 80,
+      "pad": [
+        24,
+        0,
+        0,
+        0
+      ],
+      "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(360, 0, 2, 97.5)))"
     }
   ]
 }

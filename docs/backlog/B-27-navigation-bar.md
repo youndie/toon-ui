@@ -1,7 +1,7 @@
 ---
 id: B-27
 title: "NavigationBar: jumping icon, dust, paint-stroke indicator"
-status: open
+status: done
 priority: P1
 size: S
 stage: stage-2-components
@@ -22,3 +22,18 @@ engine.
 
 - AC: cells and the select strip within the floor; reduce motion as specified; a mutant in the ported curve is caught.
 - Anchors: `reference/design-system/ToonNavBar.dc.html`, `reference/design-system/toon-engine.js`.
+
+## Findings (2026-11-02)
+
+- **Done as decided**, the engine's `navBar` and `navSelect` with the kit's `C.navbar`. Props:
+  `items` (glyph and label each; the page's four destinations are not a default), `selected`,
+  `badgeIndex` (−1: none), `width` (390), `onChange`. A release on another item selects it; the
+  keyboard and a screen reader's actions are added (service quirks).
+- **A rounding the comparison did not know:** the pressed icon is scaled about x 146.25, which the
+  engine writes as `translate(146.3 …) … translate(-146.2 …)`. The port now carries that exact
+  difference (`ToonScene.scaledAbout`), zero on the 0.1 grid; a mutant that drops it is caught.
+- **Frames:** the five MVP page cells and the five select frames, in three themes, are the engine's
+  (30 cells, worst coordinate 0.050 dp); `navSelect` within 3·10⁻⁵ (two Float steps at 276). Eleven
+  mutants caught.
+- **Pixels:** within 2.15 % of the cell; 2.52 % in ink at worst, under the Divider's floor (14.81 %).
+- **Reduce motion** is the MVP page's `instant`.
