@@ -46,7 +46,7 @@ const MAP = {
   Progress: { composable: 'ToonProgress', engine: ['linear', 'circular'], item: 'B-25', group: 'Progress' },
   PullToRefresh: { engine: ['pull'], item: 'B-42' },
   RadioGroup: { composable: 'ToonRadioGroup', engine: ['radio'], item: 'B-17', group: 'Radio' },
-  Segmented: { engine: ['segmented'], item: 'B-41' },
+  Segmented: { composable: 'ToonSegmented', engine: ['segmented', 'segSwitch'], item: 'B-41', group: 'Segmented' },
   Slider: { composable: 'ToonSlider', engine: ['slider', 'sliderGrab'], item: 'B-36', group: 'Slider' },
   Snackbar: { composable: 'ToonSnackbar', engine: ['snack'], item: 'B-23', group: 'Snackbar' },
   Switch: { composable: 'ToonSwitch', engine: ['sw'], item: 'B-18', group: 'Switch' },

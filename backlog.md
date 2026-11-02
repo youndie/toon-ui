@@ -52,14 +52,13 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (11)
+## Open (10)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
-| [B-41](docs/backlog/B-41-segmented.md) `[~]` | Segmented button: a shared outline and a paint-drop selection | P2 | S | B-10 |
 | [B-42](docs/backlog/B-42-pull-to-refresh.md) `[ ]` | Pull-to-refresh: a rubber band that flings the spinner into place | P2 | M | B-25 |
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
@@ -68,7 +67,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[?]` | TopAppBar: with three or more actions the middle ones are 40 dp targets | P2 | S | - |
 | [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[?]` | Menu: with three or more items the middle ones are 44 dp targets | P2 | S | - |
 
-## Closed (39)
+## Closed (40)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -112,6 +111,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-38](docs/backlog/B-38-bottom-sheet.md) `[x]` - BottomSheet: a sheet with a tab that slides up with overshoot
 - [B-39](docs/backlog/B-39-navigation-drawer.md) `[x]` - NavigationDrawer: a door on three hinges that swings and shivers
 - [B-40](docs/backlog/B-40-tooltip.md) `[x]` - Tooltip: a speech balloon that inflates from its tail
+- [B-41](docs/backlog/B-41-segmented.md) `[x]` - Segmented button: a shared outline and a paint-drop selection
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
