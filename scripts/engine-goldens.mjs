@@ -156,6 +156,32 @@ for (const [name, { at, f }] of Object.entries(curves)) {
   sampled[name] = cols;
 }
 
+// ---- the kit's press machine (B-10) ----
+// Stubs: toon-kit.js is the runtime around the engine and wants a window, a document and
+// requestAnimationFrame. With them inert, a controller's `press`, `release` and `stepSq` run as they
+// do in a page, and a timeline of those calls is the golden the port replays.
+const noop = () => {};
+Object.assign(globalThis.window, { addEventListener: noop, removeEventListener: noop, dispatchEvent: noop });
+globalThis.document = { documentElement: { dataset: {} } };
+globalThis.requestAnimationFrame = () => 1;
+createRequire(import.meta.url)(join(root, 'reference/design-system/toon-kit.js'));
+const steps = (n, ms = 1000 / 60) => Array.from({ length: n }, () => ['step', ms]);
+const timelines = {
+  'held 300 ms, then released': [['press'], ...steps(18), ['release'], ...steps(42)],
+  'released 40 ms into the press': [['press'], ...steps(4, 10), ['release'], ...steps(60, 10)],
+  'pressed again mid-spring': [['press'], ...steps(6), ['release'], ...steps(6), ['press'], ...steps(3), ['release'], ...steps(40)],
+  'uneven frames': [['press'], ['step', 16.7], ['step', 33.3], ['step', 50], ['release'], ['step', 16.7], ['step', 50], ['step', 8], ['step', 33.3], ...steps(30)],
+  'a release with no press': [['release'], ...steps(5)],
+};
+const press = {};
+for (const [name, ops] of Object.entries(timelines)) {
+  const c = new globalThis.window.ToonKit.controllers.button({ props: { label: 'x' }, forceUpdate: noop });
+  press[name] = ops.map(([op, ms]) => {
+    const released = op === 'press' ? (c.press(), null) : op === 'release' ? c.release() : (c.stepSq(ms), null);
+    return { op, ms: ms === undefined ? null : r6(ms), released, p: r6(c.sq.p), mode: c.sq.mode };
+  });
+}
+
 const engineSha = createHash('sha256').update(readFileSync(enginePath)).digest('hex');
 const files = {
   'manifest.json': { engine: 'reference/design-system/toon-engine.js', sha256: engineSha, decimals: 6, pathStep: 0.1, themes, scenes: Object.keys(scenes(E.THEMES.il)), curves: Object.keys(curves) },
@@ -163,6 +189,8 @@ const files = {
   'curves.json': sampled,
   // THEMES as the engine has it, for the token layer's test (B-07).
   'themes.json': round(E.THEMES),
+  // The kit's press machine replayed over timelines (B-10).
+  'press.json': press,
 };
 
 const check = process.argv.includes('--check');
