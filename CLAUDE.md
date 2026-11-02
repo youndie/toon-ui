@@ -45,7 +45,8 @@ changing it, so a newer version is taken on a branch of its own, never by overwr
 
 1. **Fetch** with the DesignSync tool (`list_files`, then `get_file` per path), which needs the
    signed-in session; a script cannot do it. Skip `screenshots/` and `.thumbnail`. `get_file` caps a
-   file at 256 KiB, so the texture PNGs come back truncated and need another route (B-13).
+   file at 256 KiB, so the texture PNGs come back truncated. The vendored tiles are the owner's copies
+   (research §1.1); a re-import keeps them unless the owner supplies new ones.
 2. **Diff** `toon-engine.js` by function — `THEMES`, `ICONS`, each renderer, each curve — and put
    the diff in the commit body.
 3. **Regenerate** the tokens, the goldens and the references in the same branch, and update research
