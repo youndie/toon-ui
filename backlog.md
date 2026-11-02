@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-16](docs/backlog/B-16-fab.md) `[ ]` | FAB: regular and extended, lands with dust | P1 | S | B-10, B-12 |
+| [B-16](docs/backlog/B-16-fab.md) `[~]` | FAB: regular and extended, lands with dust | P1 | S | B-10, B-12 |
 | [B-17](docs/backlog/B-17-checkbox-and-radio.md) `[ ]` | Checkbox and RadioGroup | P1 | M | B-10, B-12 |
 | [B-18](docs/backlog/B-18-switch.md) `[ ]` | Switch: wind-up, smear, slap, colour wave | P1 | M | B-10, B-12 |
 | [B-19](docs/backlog/B-19-text-field.md) `[ ]` | TextField: drawn frame over a real input, label lift, error shake with stars | P1 | M | B-10, B-12 |

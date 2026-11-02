@@ -1,7 +1,7 @@
 ---
 id: B-16
 title: "FAB: regular and extended, lands with dust"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
