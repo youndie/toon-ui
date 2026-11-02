@@ -108,6 +108,62 @@ private fun StripCell(
 ) = ButtonCell(tokens, 40, 14, ToonButtonVariant.Filled, look)
 `,
   },
+  ButtonShape: {
+    imports: [
+      'androidx.compose.foundation.background',
+      'androidx.compose.foundation.layout.Box',
+      'androidx.compose.foundation.layout.padding',
+      'androidx.compose.foundation.layout.size',
+      'androidx.compose.runtime.Composable',
+      'androidx.compose.ui.Modifier',
+      'androidx.compose.ui.unit.dp',
+      'io.github.youndie.toon.component.ToonButtonFrame',
+      'io.github.youndie.toon.component.ToonButtonLook',
+      'io.github.youndie.toon.component.ToonButtonVariant',
+      'io.github.youndie.toon.theme.ToonTheme',
+      'io.github.youndie.toon.tokens.ToonTokens',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+    ],
+    cell: `// The Core page's button cells without their label, against the engine's \`btn\` drawn in Chrome: 150 × 52 on the stage, 14 dp
+// left and 16 right, with the state cells' 14 above and 16 below and the strips' 40 above and 14 below.
+
+@Composable
+private fun ButtonCell(
+    tokens: ToonTokens,
+    top: Int,
+    bottom: Int,
+    variant: ToonButtonVariant,
+    look: ToonButtonLook,
+) {
+    ToonTheme(tokens) {
+        Box(
+            Modifier
+                .size(180.dp, (52 + top + bottom).dp)
+                .background(tokens.colors.stage)
+                .padding(start = 14.dp, top = top.dp),
+        ) {
+            ToonButtonFrame("", variant, 150f, look)
+        }
+    }
+}
+
+@Composable
+private fun ShapeStateCell(
+    tokens: ToonTokens,
+    variant: ToonButtonVariant,
+    look: ToonButtonLook,
+) = ButtonCell(tokens, 14, 16, variant, look)
+
+@Composable
+private fun ShapeStripCell(
+    tokens: ToonTokens,
+    look: ToonButtonLook,
+) = ButtonCell(tokens, 40, 14, ToonButtonVariant.Filled, look)
+`,
+  },
 };
 
 const files = Object.entries(COMPONENT_CELLS).map(([group, cells]) => {

@@ -56,17 +56,21 @@ const look = o => {
   return `ToonButtonLook(${args.join(', ')})`;
 };
 const js = o => JSON.stringify(Object.fromEntries(Object.entries(o).map(([k, v]) => [k, typeof v === 'number' ? num(v) : v])));
-const buttonCell = (theme, themeName, name, v, o, pad, strip) => ({
-  group: 'Button', name: `${name}_${themeName}`, theme, themeName, w: 150, h: 52, pad,
-  scene: `E.btn(T, Object.assign({ v: ${JSON.stringify(v)}, w: 150, label: 'Add plan' }, ${js(o)}))`,
-  kotlin: strip ? `StripCell(${TOKENS[theme]}, ${look(o)})` : `StateCell(${TOKENS[theme]}, ToonButtonVariant.${v[0].toUpperCase() + v.slice(1)}, ${look(o)})`,
+const buttonCell = (theme, themeName, name, v, o, pad, strip, label = 'Add plan') => ({
+  group: label ? 'Button' : 'ButtonShape', name: `${name}_${themeName}`, theme, themeName, w: 150, h: 52, pad,
+  scene: `E.btn(T, Object.assign({ v: ${JSON.stringify(v)}, w: 150, label: ${JSON.stringify(label)} }, ${js(o)}))`,
+  kotlin: `${label ? '' : 'Shape'}${strip ? `StripCell(${TOKENS[theme]}, ${look(o)})` : `StateCell(${TOKENS[theme]}, ToonButtonVariant.${v[0].toUpperCase() + v.slice(1)}, ${look(o)})`}`,
 });
 const TOKENS = { il: 'inkGouacheLight', in: 'inkGouacheNight', bc: 'brightCel' };
 
-export const BUTTON_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
-  ...VARIANTS.flatMap(([v, V]) => STATES.map(([S, o]) => buttonCell(theme, themeName, `${V}_${S}`, v, o, [14, 16, 16, 14]))),
-  ...STRIPS.flatMap(([strip, frames]) => frames.map(([t, o]) => buttonCell(theme, themeName, `${strip}_${t}ms`, 'filled', o, [40, 16, 14, 14], true))),
+const buttonCells = label => Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...VARIANTS.flatMap(([v, V]) => STATES.map(([S, o]) => buttonCell(theme, themeName, `${V}_${S}`, v, o, [14, 16, 16, 14], false, label))),
+  ...STRIPS.flatMap(([strip, frames]) => frames.map(([t, o]) => buttonCell(theme, themeName, `${strip}_${t}ms`, 'filled', o, [40, 16, 14, 14], true, label))),
 ]);
+export const BUTTON_CELLS = buttonCells('Add plan');
+// The same cells without the label: the shape alone, read against the Divider's floor, since the
+// text floor (below) is several times coarser and would hide a wrong shadow or squash.
+export const BUTTON_SHAPE_CELLS = buttonCells('');
 
 // ---- The text floor (B-14) ----
 // The Divider's floor has no text in it. A label is drawn by Chrome through CoreText and by Compose
@@ -82,4 +86,4 @@ export const TEXT_FLOOR_CELLS = Object.entries(THEMES).map(([theme, themeName]) 
 export const missingPageText = BUTTON_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`);
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS };
