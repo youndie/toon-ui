@@ -179,7 +179,12 @@ None at runtime.
 - The dialog's keyboard: the layer takes the focus, Tab and the arrows move it between the buttons
   (confirm first), Enter or Space presses it, Escape cancels. The kit has none of it; the focused
   cells on the MVP page are what it draws.
-- Every component draws the engine's numbers in the canvas's pixels, right only at density 1 (B-47).
+- A component's canvas is drawn in dp inside `inDp` (B-47), and a label is laid out at density 1
+  with the user's font scale. A new component that draws a frame, or reads a pointer's position,
+  does the same: `inDp { … }` around its drawing, `position / density` in its gesture.
+- The FX host draws an event's effect from its `bounds` alone; the `at`, `spread`, `size` and
+  `puffs` an event carries are not read yet (B-48), so a dialog's pop is drawn above the layer's
+  top edge, not on the dialog.
 - An indeterminate progress indicator asks for a frame every frame for as long as it is shown, as the
   kit's global clock does; it does not take a slot of the idle budget, which is for decoration. A UI
   test with one on screen sets `mainClock.autoAdvance = false` (`ToonProgressTest`).

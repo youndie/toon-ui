@@ -1,7 +1,7 @@
 ---
 id: B-47
 title: "Draw every component in dp: scale the canvas by the screen density"
-status: wip
+status: done
 priority: P1
 size: S
 stage: stage-2-components
@@ -29,3 +29,18 @@ and the snackbar's action target are read in the same pixels.
   text included; the hit tests (the dialog's buttons, the snackbar's action, a swipe on the card)
   pass at density 2; the existing goldens do not move.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt`, `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonInk.kt`.
+
+## Findings (2026-11-02)
+
+- **Done as decided**, in one place: `inDp` scales a draw scope by its density, and every
+  component's canvas, the FX host's layer and the test's `SceneCell` draw inside it. The text
+  renderer lays labels out at density 1 with the user's font scale, so a label is drawn at its sp
+  size once. Gestures read `position / density`; the text field's caret, from its own pixel layout,
+  is divided too, and the field's error point is sent in root pixels as the host expects.
+- **At density 1 nothing moved:** 131 desktop tests and 1318 goldens as before.
+- **Tests:** `ToonDensityTest` draws a button and a card at density 1 and 2 (the ink's box doubles
+  to the pixel, the dark pixels grow 4.35 and 4.48 times), lays a label out at densities 1, 2 and
+  2.625 with a font scale of 1.3 (its height is the dp height), and taps the snackbar's action, the
+  dialog's buttons, a card swipe, a tab, a destination and the back arrow at density 2, each at a
+  point where pixels read as dp would land elsewhere. Every mutant that drops a conversion fails it.
+- **Found on the way:** the FX host ignores the points its events carry (B-48).
