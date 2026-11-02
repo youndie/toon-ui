@@ -174,14 +174,17 @@ class ToonSnackbarTest {
                 }
             }
             val snack = onNodeWithTag("snack")
-            snack.performTouchInput { click(Offset(100f * density, 28f * density)) }
-            assertEquals(0, actions, "a tap on the text")
+            // The target starts at 342 - 110 = 232 dp.
+            snack.performTouchInput { click(Offset(228f * density, 28f * density)) }
+            assertEquals(0, actions, "a tap just before the target")
+            snack.performTouchInput { click(Offset(236f * density, 28f * density)) }
+            assertEquals(1, actions, "a tap just inside the target")
             snack.performTouchInput { click(Offset(300f * density, 28f * density)) }
-            assertEquals(1, actions, "a tap on the action")
+            assertEquals(2, actions, "a tap on the action")
             shown = false
             waitForIdle()
             snack.performTouchInput { click(Offset(300f * density, 28f * density)) }
-            assertEquals(1, actions, "a tap after the hide")
+            assertEquals(2, actions, "a tap after the hide")
         }
     }
 

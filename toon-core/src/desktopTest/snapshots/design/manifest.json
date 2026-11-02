@@ -14042,6 +14042,513 @@
         10
       ],
       "scene": "E.listItem(T, {\"icon\":\"calendar\",\"title\":\"Weekend plans\",\"sub\":\"3 plans\",\"trailing\":\"chevron\",\"sag\":-0.01749})"
+    },
+    {
+      "file": "Snackbar_Info_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"info\",\"text\":\"Plan added\",\"action\":\"Undo\"})"
+    },
+    {
+      "file": "Snackbar_Success_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"success\",\"text\":\"Saved for Saturday\"})"
+    },
+    {
+      "file": "Snackbar_Error_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"error\",\"text\":\"Couldn't save\",\"action\":\"Retry\"})"
+    },
+    {
+      "file": "Snackbar_Show_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(0); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_100ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(100); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_150ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(150); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(240); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_330ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(330); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_450ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(450); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(0); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 0 > 70 ? (0 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_70ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(70); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 70 > 70 ? (70 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_150ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(150); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 150 > 70 ? (150 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(240); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 240 > 70 ? (240 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Info_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"info\",\"text\":\"Plan added\",\"action\":\"Undo\"})"
+    },
+    {
+      "file": "Snackbar_Success_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"success\",\"text\":\"Saved for Saturday\"})"
+    },
+    {
+      "file": "Snackbar_Error_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"error\",\"text\":\"Couldn't save\",\"action\":\"Retry\"})"
+    },
+    {
+      "file": "Snackbar_Show_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(0); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_100ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(100); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_150ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(150); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(240); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_330ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(330); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_450ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(450); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(0); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 0 > 70 ? (0 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_70ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(70); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 70 > 70 ? (70 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_150ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(150); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 150 > 70 ? (150 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(240); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 240 > 70 ? (240 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Info_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"info\",\"text\":\"Plan added\",\"action\":\"Undo\"})"
+    },
+    {
+      "file": "Snackbar_Success_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"success\",\"text\":\"Saved for Saturday\"})"
+    },
+    {
+      "file": "Snackbar_Error_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 56,
+      "pad": [
+        34,
+        18,
+        18,
+        14
+      ],
+      "scene": "E.snack(T, {\"type\":\"error\",\"text\":\"Couldn't save\",\"action\":\"Retry\"})"
+    },
+    {
+      "file": "Snackbar_Show_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(0); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_100ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(100); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_150ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(150); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(240); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_330ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(330); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Show_450ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkShow(450); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(0); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 0 > 70 ? (0 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_70ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(70); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 70 > 70 ? (70 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_150ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(150); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 150 > 70 ? (150 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
+    },
+    {
+      "file": "Snackbar_Hide_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 120,
+      "pad": [
+        6,
+        16,
+        6,
+        16
+      ],
+      "scene": "(() => { const a = E.snkHide(240); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: 240 > 70 ? (240 - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()"
     }
   ]
 }

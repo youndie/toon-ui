@@ -95,6 +95,6 @@ class InkParityTest {
          * Each such group has a twin without its text (`ButtonShape`), held to the Divider's floor.
          */
         val WITH_TEXT =
-            setOf("Button", "Badge", "Checkbox", "Radio", "TextField", "Chip", "Card", "ListItem", "Snackbar")
+            setOf("Button", "Badge", "Checkbox", "Radio", "TextField", "Chip", "Card", "ListItem")
     }
 }
