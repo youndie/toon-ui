@@ -434,6 +434,24 @@ export const SLIDER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) 
     `E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(${t}, ${down}) })`, call('toonSliderScene', 'tokens', '200f', '0.5f', sliderLook({}, `toonSliderGrab(${t}f, ${down})`)))),
 ]);
 
+// ---- BottomSheet (B-38): `toon-ui v1 Components.dc.html` ----
+const SHEET_PAGE = [
+  "out.sheet = { cells: [['Open', { dy: 0, scrim: 1 }], ['Dragged down', { dy: 60, scrim: .7 }]].map(([n, a]) => C('BottomSheet / ' + n, this.sheetScene(T, a), 360, 520, [0, 0, 0, 0], .55)),",
+  "frames: [0, 90, 180, 300, 450].map(t => { const a = E.sheetMove(t, true, 260); return Fr(`${t} ms`, `y ${n0(a.dy)} · scrim ${n2(a.scrim)}`, this.sheetScene(T, a), 360, 520, [0, 0, 0, 0], .34); }) }] };",
+  "bgCards(T, W) { const E = this.E, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; return E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); }",
+  "sheetScene(T, a, Hs = 520) { const E = this.E, sh = E.sheet(T, { W: 360, Hs, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); const bg = this.bgCards(T, 360); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); }",
+];
+// The page's `bgCards` and `sheetScene`, verbatim but for `this`.
+const SHEET_SCENE = a => `(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = ${a}, sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()`;
+const SHEET_STATES = [['Open', { dy: 0, scrim: 1 }], ['DraggedDown', { dy: 60, scrim: .7 }]];
+// A strip frame is the engine's `sheetMove` at its age, so the cell holds the curve as well as the drawing.
+export const SHEET_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...SHEET_STATES.map(([n, a]) => sceneCell('BottomSheet', theme, themeName, n, 360, 520, [0, 0, 0, 0], { kind: 'state', ...a },
+    SHEET_SCENE(js(a)), call('SheetFrames.scene', 'tokens', call('ToonSheetMotion', kf(a.dy), kf(a.scrim))))),
+  ...[0, 90, 180, 300, 450].map(t => sceneCell('BottomSheet', theme, themeName, `Open_${t}ms`, 360, 520, [0, 0, 0, 0], { kind: 'open', t },
+    SHEET_SCENE(`E.sheetMove(${t}, true, 260)`), call('SheetFrames.open', 'tokens', `${t}f`))),
+]);
+
 // ---- Menu (B-37): `toon-ui v1 Components.dc.html` ----
 const MENU_PAGE = [
   "out.menu = { cells: [['Open', {}], ['Item pressed', { pressed: 1 }], ['Item focused', { focus: 0 }], ['Item disabled', { disabled: 1 }], ['Unrolling', { u: .55 }]].map(([n, o]) => C('Menu / ' + n, E.menu(T, { w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'], ...o }), 200, 172, [6, 10, 10, 6])),",
@@ -626,6 +644,14 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-38: the kit's `C.sheet` scene, which the page does not draw (its rows are its own): the
+  // default two items and four, at rest and 90 ms into an open, on a 360 × 520 screen.
+  BottomSheetKit: Object.entries(THEMES).flatMap(([theme, themeName]) => [2, 4].flatMap(n => [null, 90].map(t => {
+    const items = [['person', 'Family'], ['share', 'Copy link'], ['star', 'Saved'], ['calendar', 'Plans']].slice(0, n);
+    const h = Math.min(520 - 80, 110 + n * 72);
+    return sceneCell('BottomSheetKit', theme, themeName, `Rows${n}_${t == null ? 'Rest' : `${t}ms`}`, 360, 520, [0, 0, 0, 0], t == null ? { n } : { n, t },
+      `(() => { const it = ${JSON.stringify(items)}, h = ${h}, a = ${t == null ? '{ dy: 0, scrim: 1 }' : `E.sheetMove(${t}, true, h)`}, s = E.sheet(T, { W: 360, Hs: 520, h, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); return E.cat(s, ...it.map(([ic, lb], i) => E.place(E.listItem(T, { w: 360 - 48, icon: ic || 'star', title: lb, trailing: 'chevron', last: i === it.length - 1, seed: i }), 24, s.y + 70 + i * 72))); })()`, '');
+  }))),
   // B-37: the paper's first 20 dp, which no page frame lands in — the strips jump from none to most —
   // where the body is drawn from 2 dp and only the rolls show below it.
   MenuProbe: Object.entries(THEMES).flatMap(([theme, themeName]) => [.01, .05, .1].map(u =>
@@ -636,6 +662,7 @@ export const FRAME_PROBES = {
 export const missingPageText = [
   ...SLIDER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...MENU_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
+  ...SHEET_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -655,4 +682,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS };

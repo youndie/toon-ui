@@ -29,7 +29,7 @@ const END = '<!-- END CATALOGUE -->';
 // fixture group its cells, references and goldens are named by. No composable: not built yet.
 const MAP = {
   Badge: { composable: 'ToonBadge', engine: ['badge'], item: 'B-15', group: 'Badge' },
-  BottomSheet: { engine: ['sheet'], item: 'B-38' },
+  BottomSheet: { composable: 'ToonBottomSheet', engine: ['sheet', 'sheetMove'], item: 'B-38', group: 'BottomSheet' },
   Button: { composable: 'ToonButton', engine: ['btn'], item: 'B-14', group: 'Button' },
   Card: { composable: 'ToonCard', engine: ['card'], item: 'B-21', group: 'Card' },
   Checkbox: { composable: 'ToonCheckbox', engine: ['check'], item: 'B-17', group: 'Checkbox' },

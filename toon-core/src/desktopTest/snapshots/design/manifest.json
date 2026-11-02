@@ -18059,6 +18059,279 @@
         0
       ],
       "scene": "(() => { const u = E.menuUnroll(160, false), m = E.menu(T, Object.assign({ w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'] }, { u })); return E.cat(E.place(E.iconBtn(T, { icon: 'more', p: 0 }), 186, 4), u > .01 ? E.place(m, 34, 58) : { L: [], X: [] }); })()"
+    },
+    {
+      "file": "BottomSheet_Open_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"dy\":0,\"scrim\":1}, sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_DraggedDown_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"dy\":60,\"scrim\":0.7}, sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(0, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_90ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(90, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_180ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(180, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_300ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(300, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_450ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(450, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"dy\":0,\"scrim\":1}, sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_DraggedDown_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"dy\":60,\"scrim\":0.7}, sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(0, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_90ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(90, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_180ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(180, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_300ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(300, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_450ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(450, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"dy\":0,\"scrim\":1}, sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_DraggedDown_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = {\"dy\":60,\"scrim\":0.7}, sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(0, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_90ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(90, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_180ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(180, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_300ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(300, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
+    },
+    {
+      "file": "BottomSheet_Open_450ms_BrightCel.png",
+      "theme": "bc",
+      "w": 360,
+      "h": 520,
+      "pad": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.sheetMove(450, true, 260), sh = E.sheet(T, { W: 360, Hs: 520, h: 260, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); const li = E.cat(E.place(E.listItem(T, { w: 312, icon: 'person', title: 'Family', sub: '4 people', trailing: 'check', on: true }), 24, sh.y + 70), E.place(E.listItem(T, { w: 312, icon: 'share', title: 'Copy link', trailing: 'chevron', last: true, seed: 1 }), 24, sh.y + 142)); bg.X = bg.X.filter(x => x.y < sh.y - 20); return E.cat(bg, sh, li); })()"
     }
   ],
   "screens": [
