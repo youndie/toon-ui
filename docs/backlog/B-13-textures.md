@@ -1,7 +1,7 @@
 ---
 id: B-13
 title: "Textures: get the four tiles, tile them as an ImageShader"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-1-materials
