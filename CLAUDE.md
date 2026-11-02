@@ -46,7 +46,8 @@ make check          # the documentation gate (docs-bootstrap checkers)
 The documentation checkers are docs-bootstrap's, at the version the `uses: youndie/docs-bootstrap@…`
 line in `.github/workflows/check.yaml` pins. The first `make check` fetches that version into
 `.docs-bootstrap/`, and there are no copies under `scripts/`. `make fix` regenerates the backlog
-index. A file in a sibling repository is cited as `youndie/<repo>@<commit>!/<path>`.
+index. `make goldens` rewrites the engine goldens (`scripts/engine-goldens.mjs`, B-03), and `make
+check` fails while they are stale against the vendored engine. A file in a sibling repository is cited as `youndie/<repo>@<commit>!/<path>`.
 
 **Builds run on this mac, not on the Linux box.** The project is not in `mutagen sync list`. The
 screenshot references and goldens are a claim about the rasteriser that recorded them, as in oldge-ui.
@@ -63,7 +64,7 @@ changing it, so a newer version is taken on a branch of its own, never by overwr
    (research §1.1); a re-import keeps them unless the owner supplies new ones.
 2. **Diff** `toon-engine.js` by function — `THEMES`, `ICONS`, each renderer, each curve — and put
    the diff in the commit body.
-3. **Regenerate** the tokens, the goldens and the references in the same branch, and update research
+3. **Regenerate** the tokens, the goldens (`make goldens`) and the references in the same branch, and update research
    §1.1 with the new snapshot.
 
 ## Rules that are easy to get wrong here
