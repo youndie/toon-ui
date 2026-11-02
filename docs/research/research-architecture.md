@@ -131,7 +131,7 @@ bit-for-bit". Read line by line against the engine:
 | Divergence | Engine | Sketch |
 |---|---|---|
 | **The RNG returns `Float`**, so the phases differ from the engine's in the 8th digit. Visually nothing, but "bit-for-bit" is false, and a numeric parity test has to compare within a tolerance. | `rng` returns a double | `Mulberry32.next(): Float` in `compose/toon/ui/draw/ToonGeometry.kt` |
-| **The icon width rule is missing a term.** The engine multiplies by `(1 + .06 · sin(s · 1.3 + ph))`, a 6 % swell along the stroke seeded per icon. | `iconWidth` | `iconOutline` in `ToonGeometry.kt` has no such factor |
+| **The icon width rule is missing a term.** The engine multiplies by `(1 + .06 · sin(s · 1.3 + ph))`, a 6 % swell along the stroke seeded per icon. | `iconWidth` | `iconOutline` in `ToonGeometry.kt` has no such factor. *B-11 ports it in full* (`toon-core/src/commonMain/kotlin/io/github/youndie/toon/icon/ToonIcon.kt`); dropping the term moves the outline 0.12 dp and the Settings cell to 5.39 % |
 | **The filled button's night rim is the wrong colour.** The engine draws a filled button's rim in `btnHi` (`#F2A57E` at night) and an outlined one's in `rim`; the sketch's `ink()` always uses `rim` (`#8392C4`). | `btn` → `rimColor: o.v === 'filled' ? T.btnHi : T.rim` | `ink()` in `compose/toon/ui/components/ToonButton.kt` |
 | **The text button is blank.** The engine draws a wavy primary underline and a `surface2` blob while pressed; the sketch draws nothing for `ToonButtonVariant.Text`. | `btn`, `o.v === 'text'` branch | `ToonButton.kt` |
 | **A disabled label keeps its colour.** The engine paints a disabled label `muted` at 60 %. | `btn` (`lc`, `lOp`) | `ToonButton.kt` `BasicText` style |
@@ -207,7 +207,10 @@ Over its four states and three themes, 0.00–1.54 % of pixels differ by more th
 Ink & Gouache light 0.63–1.54 %, Bright Cel 0.21–1.39 %, night 0.00 %, where ink on navy keeps every
 difference under the channel slack. That is the two rasterisers and nothing else. Two mutants showed
 the scale. A line 20 % thicker measured 7.80 % against its 1.54 %. A wrong seed on the short divider
-measured 4.24 % against its 0.21 %, which still passes viddik's default 5 %. So a component's parity
+measured 4.24 % against its 0.21 %, which still passes viddik's default 5 %. *Extended in B-11:* icons have a
+numeric half too, but only a DOM can compute it (`sampleSub` measures an SVG path element), so the
+same Chrome run writes the engine's `iconOutline` for every glyph and weight to
+`toon-core/src/desktopTest/resources/design-goldens/icon-outlines.json`. So a component's parity
 is read against its own Divider-like floor in the commit body, not against the 5 % default, and the
 default stays the report's threshold only. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
 implementation and the HTML can only be photographed. Here the design is a function that can be
@@ -280,6 +283,14 @@ the engine, and the tolerance is fixed at 2·10⁻⁴ px. `inkLine`, `star` and 
 engine's path strings, rounded to 0.1 px, so theirs is 0.05 px plus the same 2·10⁻⁴; the worst was
 0.04987. The random generator keeps 32-bit integer arithmetic and divides only in `Double`, so its
 sequence equals the engine's exactly.
+
+*Measured in B-11:* the icon outlines are compared with Chrome's within 0.02 dp, the goldens' two
+decimals plus the two arc conversions (Compose's parser writes an SVG arc as cubics, Chrome as
+conics); the worst point was 0.0149 dp. That needed one change of method: Skia's `PathMeasure`
+flattens a curve to about half a unit, which on the 24 dp grid is a percent of an icon's length (the
+search lens measured 43.1 dp against the 43.54 its arcs integrate to), so a centerline is measured
+enlarged 1024 times. The outline is computed in `Double` there, because it is sampled once per glyph
+and weight, not per frame.
 
 *Rejected:* `Double` geometry to chase the sketch's "bit-for-bit" claim. It costs a conversion at every path operation
 and buys a precision nobody can see.
