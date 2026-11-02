@@ -45,9 +45,13 @@ and Figtree are latin/latin-ext, Titan One latin/latin-ext, Fredoka adds only He
 - **Screenshots:** `Cyrillic_Sheet_*`, one per theme — the top app bar, tabs, buttons, chips,
   checkbox and radio, switch, text field, card, list item, FAB and badge, snackbar, dialog and
   navigation bar, every label Russian.
-- **A check that could not see it:** viddik's default verification let a Titan One backing at the
-  wrong scale through the sheets. `ToonCyrillicMetricsTest` measures the faces instead (x-height
-  within a row, stems within 12 %); every scale and weight mutant fails it. The display backings
-  are one instance each, so the weight asked of them cannot change them.
+- **Corrected in B-29:** this entry used to say viddik's default verification let a wrong backing
+  scale through the sheets. It did not: the count of failed goldens was read with `grep -o`, which
+  cannot match the failure on the line after its test case, and so read 0. Re-run on 2026-11-02,
+  a Titan One backing at 1.1 fails `Cyrillic_Sheet_BrightCel` (0.62 %) and Nunito at Fredoka's own
+  weight fails it too (4.02 %). `ToonCyrillicMetricsTest` stays: it names the cause (x-height
+  within a row, stems within 12 %) where a golden only says that pixels moved, and every scale and
+  weight mutant fails it. The display backings are one instance each, so the weight asked of them
+  cannot change them.
 - **Licences** are in `toon-core/src/commonMain/composeResources/files/licences` (Rubik, Onest,
   Nunito, beside the four). The font folder grows by 0.8 MB.

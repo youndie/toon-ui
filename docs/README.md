@@ -58,7 +58,8 @@ no file behind it, fails the coverage check.
 
 - [x] [research-architecture](research/research-architecture.md) — what was imported and verified, the decisions, the open hypotheses
 
-### Services (2/2)
+### Services (3/3)
 
 - [x] [toon-core](services/toon-core.md) — the library module: targets, build, the test toolchain
 - [x] [bench](services/bench.md) — the frame-cost bench: a scene, its arms, the desktop and the device halves
+- [x] [sample](services/sample.md) — the demo screens running live on the desktop

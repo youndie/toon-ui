@@ -52,12 +52,11 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (17)
+## Open (16)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
-| [B-29](docs/backlog/B-29-demo-screens-and-sample.md) `[ ]` | Demo screens: sign in, the list, settings, day and night, and a sample app | P2 | M | B-13, B-14, B-19, B-21, B-27 |
 | [B-30](docs/backlog/B-30-accessibility.md) `[ ]` | Accessibility: semantics, state descriptions, contrast, targets | P2 | M | B-14, B-15, B-16, B-17, B-18, B-19, B-20, B-21, B-22, B-23, B-24, B-25, B-26, B-27, B-28 |
 | [B-31](docs/backlog/B-31-component-catalogue.md) `[ ]` | Component catalogue: which composable is which design file, generated | P2 | S | B-14 |
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
@@ -74,7 +73,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 | [B-48](docs/backlog/B-48-fx-host-event-points.md) `[ ]` | FX host: draw each effect where its event puts it | P2 | S | - |
 
-## Closed (31)
+## Closed (32)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -114,6 +113,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-27](docs/backlog/B-27-navigation-bar.md) `[x]` - NavigationBar: jumping icon, dust, paint-stroke indicator
 - [B-28](docs/backlog/B-28-tabs.md) `[x]` - Tabs: bookmarks on an ink shelf, the indicator smears across
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
+
+**Nine phone fixtures and the desktop one within the floor; a sample app runs**
+
+- [B-29](docs/backlog/B-29-demo-screens-and-sample.md) `[x]` - Demo screens: sign in, the list, settings, day and night, and a sample app
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
