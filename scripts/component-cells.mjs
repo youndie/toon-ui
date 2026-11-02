@@ -383,6 +383,30 @@ export const CARD_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     CARD_STACK(t), call('CardFrames.dismiss', 'tokens', `${t}f`))),
 ]);
 
+// ---- Snackbar (B-23): `toon-ui Core.dc.html` ----
+const SNACK_PAGE = [
+  "const nCells = [['Info', { type: 'info', text: 'Plan added', action: 'Undo' }], ['Success', { type: 'success', text: 'Saved for Saturday' }], ['Error', { type: 'error', text: \"Couldn't save\", action: 'Retry' }]]",
+  ".map(([S, o]) => C(`Snackbar / ${S}`, this.snack(T, o), 342, 56, [34, 18, 18, 14]));",
+  "{ title: 'Snackbar · show', event: 'snackbar.show', dur: '450 ms', curve: 'spring ζ 0.48 · bouncy', reduce: 'fade 120',",
+  "frames: [0, 100, 150, 240, 330, 450].map(t => { const a = this.snkShow(t); return Fr(`${t} ms`, `y ${a.dy.toFixed(0)} · rot ${a.rot.toFixed(1)}°`, this.place(this.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26), 342, 120, [6, 16, 6, 16], .45); }) },",
+  "{ title: 'Snackbar · hide', event: 'snackbar.hide', dur: '240 ms', curve: 'anticipate', reduce: 'fade 120',",
+  "frames: [0, 70, 150, 240].map(t => { const a = this.snkHide(t); return Fr(`${t} ms`, `y ${a.dy.toFixed(0)} · sY ${a.sy.toFixed(2)}`, this.place(this.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: t > 70 ? (t - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26), 342, 120, [6, 16, 6, 16], .45); }) },",
+];
+const SNACK_STATES = [['Info', { type: 'info', text: 'Plan added', action: 'Undo' }], ['Success', { type: 'success', text: 'Saved for Saturday' }], ['Error', { type: 'error', text: "Couldn't save", action: 'Retry' }]];
+const SNACK_TYPE = { info: 'Info', success: 'Success', error: 'Error' };
+const snackScene = o => call('toonSnackScene', 'tokens', '342f', JSON.stringify(o.text), JSON.stringify(o.action || ''), `ToonSnackbarType.${SNACK_TYPE[o.type]}`, call('ToonSnackLook'));
+// A strip frame is the kit's own moment at that age, so the cell holds the curve as well as the drawing.
+const snackMoment = (shown, t) => call('SnackFrames.strip', 'tokens', String(shown), `${t}f`);
+export const SNACK_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...SNACK_STATES.map(([n, o]) => sceneCell('Snackbar', theme, themeName, n, 342, 56, [34, 18, 18, 14], o, `E.snack(T, ${js(o)})`, snackScene(o))),
+  ...[0, 100, 150, 240, 330, 450].map(t => sceneCell('Snackbar', theme, themeName, `Show_${t}ms`, 342, 120, [6, 16, 6, 16], { kind: 'show', t },
+    `(() => { const a = E.snkShow(${t}); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo' }), 0, 40 + a.dy, a.rot, 171, -26); })()`,
+    snackMoment(true, t))),
+  ...[0, 70, 150, 240].map(t => sceneCell('Snackbar', theme, themeName, `Hide_${t}ms`, 342, 120, [6, 16, 6, 16], { kind: 'hide', t },
+    `(() => { const a = E.snkHide(${t}); return E.place(E.snack(T, { type: 'info', text: 'Plan added', action: 'Undo', sy: a.sy, speedU: ${t} > 70 ? (${t} - 70) / 190 : -1 }), 0, 40 + a.dy, 0, 171, -26); })()`,
+    snackMoment(false, t))),
+]);
+
 // ---- Divider and ListItem (B-22): `toon-ui MVP Components.dc.html` ----
 const LIST_PAGE = [
   "out.div = { cells: [['Full', { x1: 342, th: 3 }], ['Inset', { x0: 56, x1: 342, th: 3 }], ['Thick', { x1: 342, th: 4.6 }], ['Short', { x1: 120, th: 2.4 }]].map(([n, o], i) => C('Divider / ' + n, E.divider(T, { seed: i, ...o }), 342, 12, [4, 4, 4, 4])), specs: [] };",
@@ -431,6 +455,7 @@ export const FRAME_PROBES = {
 };
 
 export const missingPageText = [
+  ...SNACK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...LIST_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...CARD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...CHIP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -444,4 +469,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS };

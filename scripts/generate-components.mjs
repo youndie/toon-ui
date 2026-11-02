@@ -69,6 +69,21 @@ const PRELUDE = {
     cell: `// The MVP page's list item cells and press strip against the engine's \`listItem\` drawn in Chrome.
 `,
   },
+  Snackbar: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonSnackLook',
+      'io.github.youndie.toon.component.ToonSnackbarType',
+      'io.github.youndie.toon.component.toonSnackScene',
+    ],
+    cell: `// The Core page's snackbar cells and its show and hide strips against the engine's \`snack\` drawn
+// in Chrome; a strip frame is the kit's moment at its age (SnackFrames).
+`,
+  },
   Card: {
     imports: [
       'androidx.compose.runtime.Composable',

@@ -201,8 +201,8 @@ internal class ToonTextStyle(
     val size: Float,
 )
 
-/** Where a text sits on its x, as the engine's `X` anchors: from its start, or centred. */
-internal enum class ToonAnchor { Start, Middle }
+/** Where a text sits on its x, as the engine's `X` anchors: from its start, centred, or to its end. */
+internal enum class ToonAnchor { Start, Middle, End }
 
 /** One text of a frame, as the engine's `X`: [text] on [baseline], [anchor]ed at [x]. */
 internal class ToonLabel(
@@ -430,7 +430,12 @@ internal fun DrawScope.drawScene(
     for (x in scene.labels) {
         if (x.alpha <= .01f) continue
         val layout = text.measure(x.text, x.style)
-        val left = if (x.anchor == ToonAnchor.Middle) x.x - layout.multiParagraph.width / 2 else x.x
+        val left =
+            when (x.anchor) {
+                ToonAnchor.Start -> x.x
+                ToonAnchor.Middle -> x.x - layout.multiParagraph.width / 2
+                ToonAnchor.End -> x.x - layout.multiParagraph.width
+            }
         drawText(layout, x.color, Offset(left, x.baseline - layout.firstBaseline), alpha = x.alpha)
     }
 }
