@@ -69,6 +69,19 @@ const PRELUDE = {
     cell: `// The MVP page's list item cells and press strip against the engine's \`listItem\` drawn in Chrome.
 `,
   },
+  Dialog: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.BUTTON_LABEL',
+    ],
+    cell: `// The MVP page's dialog cells and its open and close strips against the engine's \`dialogScene\`
+// drawn in Chrome, over the page's demo screen (DialogFrames).
+`,
+  },
   Snackbar: {
     imports: [
       'androidx.compose.runtime.Composable',
