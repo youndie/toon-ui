@@ -57,7 +57,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
-| [B-31](docs/backlog/B-31-component-catalogue.md) `[ ]` | Component catalogue: which composable is which design file, generated | P2 | S | B-14 |
+| [B-31](docs/backlog/B-31-component-catalogue.md) `[~]` | Component catalogue: which composable is which design file, generated | P2 | S | B-14 |
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
 | [B-36](docs/backlog/B-36-slider.md) `[ ]` | Slider: a ball on a rope that squashes when grabbed | P2 | S | B-10 |
