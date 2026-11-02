@@ -34,8 +34,7 @@ public class ToonRandom(
     }
 }
 
-/** Four corner radii, clockwise from the top left, as the engine's `r` arrays are. */
-@InternalToonApi
+/** Four corner radii, clockwise from the top left, as the engine's `r` arrays are. A token type (B-07). */
 public data class ToonRadii(
     public val topLeft: Float,
     public val topRight: Float,
@@ -43,8 +42,7 @@ public data class ToonRadii(
     public val bottomLeft: Float,
 )
 
-/** Fill insets per side, as the engine's `ins` arrays are: `[top, right, bottom, left]`. */
-@InternalToonApi
+/** Fill insets per side, as the engine's `ins` arrays are: `[top, right, bottom, left]`. A token type (B-07). */
 public data class ToonInsets(
     public val top: Float,
     public val right: Float,

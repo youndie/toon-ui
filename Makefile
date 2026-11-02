@@ -72,13 +72,14 @@ DOCS_BOOTSTRAP_SHIM := 2
 DOCS_BOOTSTRAP_GOALS := check gate report fix
 
 .DEFAULT_GOAL := help
-.PHONY: help check gate report fix goldens references
+.PHONY: help check gate report fix goldens references tokens
 
 help:
 	@echo "make check   - the gate and the reports: exactly what CI runs"
 	@echo "make gate    - the blocking half alone"
 	@echo "make report  - non-blocking: BDD coverage, code anchors"
 	@echo "make fix     - regenerate the backlog index, fill in missing coverage-map lines"
+	@echo "make tokens  - rewrite ToonTokens.kt from the design"
 	@echo "make goldens - rewrite the engine goldens from reference/design-system/toon-engine.js"
 	@echo "make references - re-render the Chrome design references (needs Google Chrome)"
 
@@ -89,11 +90,16 @@ check: gate report
 #	$(PY) scripts/no_todo_in_main.py
 gate: docs-gate
 	node scripts/engine-goldens.mjs --check
+	node scripts/generate-tokens.mjs --check
 
 # B-06: re-render the Chrome references from the engine (needs Google Chrome; not part of the gate,
 # which also runs on CI's Linux, where the references were not drawn).
 references:
 	node scripts/design-references.mjs
+
+# B-07: rewrite the token layer from the engine's THEMES and the Core page's table.
+tokens:
+	node scripts/generate-tokens.mjs
 
 # B-03: rewrite the golden JSON from the vendored engine. Not a docs-bootstrap goal, so it reads no
 # pin and fetches nothing.
