@@ -452,6 +452,30 @@ export const SHEET_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     SHEET_SCENE(`E.sheetMove(${t}, true, 260)`), call('SheetFrames.open', 'tokens', `${t}f`))),
 ]);
 
+// ---- Segmented (B-41): `toon-ui v1 Components.dc.html` ----
+const SEG_PAGE = [
+  "out.seg = { cells: [['Day', { sel: 0 }], ['Week', { sel: 1 }], ['Month pressed', { sel: 0, pressed: 2 }], ['Week focused', { sel: 0, focus: 1 }], ['Disabled', { sel: 0, disabled: true }]].map(([n, o]) => C('Segmented / ' + n, E.segmented(T, { w: 260, ...o }), 260, 44, [10, 14, 12, 10])),",
+  "frames: [0, 80, 160, 240, 320].map(t => { const a = E.segSwitch(t, 0, 2, 86.7); return Fr(`${t} ms`, `drop ${n0(a.ia)}–${n0(a.ib)} · thin ${n2(a.sq)}`, E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }), 260, 44, [8, 12, 12, 8], .6); }) }] };",
+];
+const SEG_STATES = [['Day', { sel: 0 }], ['Week', { sel: 1 }], ['MonthPressed', { sel: 0, pressed: 2 }], ['WeekFocused', { sel: 0, focus: 1 }], ['Disabled', { sel: 0, disabled: true }]];
+const segLook = o => {
+  const a = [`sel = ${o.sel}`];
+  if (o.pressed != null) a.push(`pressed = ${o.pressed}`);
+  if (o.focus != null) a.push(`focus = ${o.focus}`);
+  if (o.disabled) a.push('disabled = true');
+  return call('ToonSegmentedLook', ...a);
+};
+const SEG_KT = 'listOf("Day", "Week", "Month")';
+// A switch frame is the engine's `segSwitch` at its age (the page's slot, 86.7), so the cell holds the
+// curve as well as the drawing.
+export const SEG_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...SEG_STATES.map(([n, o]) => sceneCell('Segmented', theme, themeName, n, 260, 44, [10, 14, 12, 10], { kind: 'state', ...o },
+    `E.segmented(T, Object.assign({ w: 260 }, ${JSON.stringify(o)}))`, call('toonSegmentedScene', 'tokens', '260f', SEG_KT, segLook(o)))),
+  ...[0, 80, 160, 240, 320].map(t => sceneCell('Segmented', theme, themeName, `Switch_${t}ms`, 260, 44, [8, 12, 12, 8], { kind: 'switch', t },
+    `(() => { const a = E.segSwitch(${t}, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()`,
+    call('SegFrames.switch', 'tokens', `${t}f`))),
+]);
+
 // ---- Tooltip (B-40): `toon-ui v1 Components.dc.html` ----
 const TIP_PAGE = [
   "out.tip = { cells: [['Default', { text: 'Tap to add a plan' }], ['Long', { text: 'Long-press a card to move it' }], ['Inflating', { text: 'Tap to add a plan', s: .6 }]].map(([n, o]) => { const tp = E.tooltip(T, o); return C('Tooltip / ' + n, E.place(tp, tp.w / 2, 46), tp.w, 46, [6, 8, 6, 8]); }),",
@@ -684,6 +708,12 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-41: a press on the selected segment, which no page cell shows: the engine shades no press under
+  // the drop, though the label still sinks.
+  SegmentedProbe: Object.entries(THEMES).map(([theme, themeName]) => {
+    const o = { sel: 0, pressed: 0 };
+    return sceneCell('SegmentedProbe', theme, themeName, 'PressedSelected', 260, 44, [0, 0, 0, 0], { kind: 'state', ...o }, `E.segmented(T, Object.assign({ w: 260 }, ${JSON.stringify(o)}))`, '');
+  }),
   // B-39: a press on the selected row, which no page cell shows: the engine draws the selection, not
   // the press, under it.
   NavigationDrawerProbe: Object.entries(THEMES).map(([theme, themeName]) => {
@@ -711,6 +741,7 @@ export const missingPageText = [
   ...SHEET_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...DRAWER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TIP_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
+  ...SEG_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -730,4 +761,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS, Tooltip: TIP_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS, Tooltip: TIP_CELLS, Segmented: SEG_CELLS };

@@ -365,6 +365,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the tooltip in B-40:* `fade 120` both ways; the balloon fades at its size, without inflating.
 
+*Applied to the segmented button in B-41:* `instant`; the drop moves to the new segment at once.
+
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret

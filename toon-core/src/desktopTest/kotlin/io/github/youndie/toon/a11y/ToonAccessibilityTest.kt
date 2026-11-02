@@ -38,6 +38,7 @@ import io.github.youndie.toon.component.ToonNavigationBar
 import io.github.youndie.toon.component.ToonNavigationDrawer
 import io.github.youndie.toon.component.ToonProgress
 import io.github.youndie.toon.component.ToonRadioGroup
+import io.github.youndie.toon.component.ToonSegmented
 import io.github.youndie.toon.component.ToonSheetHit
 import io.github.youndie.toon.component.ToonSheetItem
 import io.github.youndie.toon.component.ToonSnackbar
@@ -65,7 +66,7 @@ import kotlin.test.assertTrue
  * B-30: each of the 19 components tells a screen reader what it is (role), what state it is in, and
  * what it says, and each one a finger can press is at least 48 dp each way (the brief's target), even
  * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50), B-38 the bottom sheet and B-39
- * the navigation drawer, B-40 the tooltip.
+ * the navigation drawer, B-40 the tooltip, B-41 the segmented button.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonAccessibilityTest {
@@ -388,6 +389,14 @@ class ToonAccessibilityTest {
             }
         }
     }
+
+    @Test
+    fun `segmented button names the selected segment and offers each, every segment a target`() =
+        with(node { ToonSegmented(listOf("Day", "Week", "Month"), it, selected = 1) }) {
+            assertEquals("Week", state)
+            assertEquals(listOf("Day", "Week", "Month"), actions)
+            assertTrue(hDp >= target && wDp / 3 >= target, "segment ${wDp / 3}x$hDp dp")
+        }
 
     @Test
     fun `icon is an image with its description, or nothing when decorative`() {

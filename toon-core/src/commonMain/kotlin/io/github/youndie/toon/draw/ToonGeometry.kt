@@ -4,10 +4,10 @@ import io.github.youndie.toon.InternalToonApi
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
+import kotlin.math.floor
 import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.min
-import kotlin.math.roundToInt
 import kotlin.math.sin
 
 // A port of the shape half of toon-engine.js: rng, rr, wob, shape, inkLine, star, burst (B-04).
@@ -50,6 +50,15 @@ public data class ToonInsets(
     public val left: Float,
 )
 
+/**
+ * `Math.round` of a count the engine works out in doubles. A length that is a half step in decimals
+ * (46 dp at a step of 4, B-41) comes out of a double a hair over and out of a Float a hair under, so
+ * the engine rounds it up and Float would round it down: a few Float ulps under the half count as it.
+ */
+internal fun halfUp(v: Float): Int = floor(v + .5f + HALF_SLACK).toInt()
+
+private const val HALF_SLACK = 1e-5f
+
 /** An ink outline and the fill inside it; the ink between them is the variable-weight line. */
 @InternalToonApi
 public class ToonShapePoints(
@@ -77,7 +86,7 @@ public fun roundRectPoints(
         x1: Float,
         y1: Float,
     ) {
-        val n = max(1, (hypot(x1 - x0, y1 - y0) / step).roundToInt())
+        val n = max(1, halfUp(hypot(x1 - x0, y1 - y0) / step))
         for (i in 0 until n) {
             val t = i.toFloat() / n
             out += x0 + (x1 - x0) * t
@@ -92,7 +101,7 @@ public fun roundRectPoints(
         a0: Float,
         a1: Float,
     ) {
-        val n = max(2, (abs(a1 - a0) * rad / step).roundToInt())
+        val n = max(2, halfUp(abs(a1 - a0) * rad / step))
         for (i in 0 until n) {
             val a = a0 + (a1 - a0) * i / n
             out += cx + rad * cos(a)

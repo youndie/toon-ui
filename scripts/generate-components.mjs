@@ -136,6 +136,20 @@ const PRELUDE = {
 // the balloon as wide as Compose measures its text (TipFrames).
 `,
   },
+  Segmented: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonSegmentedLook',
+      'io.github.youndie.toon.component.toonSegmentedScene',
+    ],
+    cell: `// The v1 page's segmented cells and its switch strip against the engine's \`segmented\` drawn in
+// Chrome (SegFrames).
+`,
+  },
   Menu: {
     imports: [
       'androidx.compose.runtime.Composable',
