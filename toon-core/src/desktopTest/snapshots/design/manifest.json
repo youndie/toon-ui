@@ -158,6 +158,84 @@
         4
       ],
       "scene": "E.divider(T, {\"seed\":3,\"x1\":120,\"th\":2.4})"
+    },
+    {
+      "file": "Body_Plain_InkGouacheLight.png",
+      "theme": "il",
+      "w": 96,
+      "h": 52,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "{ L: E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh }), X: [] }"
+    },
+    {
+      "file": "Body_Focused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 96,
+      "h": 52,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "{ L: [E.ring(-6, -6, 108, 64, [22, 17, 24, 18], T, T.seed + 1403), ...E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh })], X: [] }"
+    },
+    {
+      "file": "Body_Plain_InkGouacheNight.png",
+      "theme": "in",
+      "w": 96,
+      "h": 52,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "{ L: E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh }), X: [] }"
+    },
+    {
+      "file": "Body_Focused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 96,
+      "h": 52,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "{ L: [E.ring(-6, -6, 108, 64, [22, 17, 24, 18], T, T.seed + 1403), ...E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh })], X: [] }"
+    },
+    {
+      "file": "Body_Plain_BrightCel.png",
+      "theme": "bc",
+      "w": 96,
+      "h": 52,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "{ L: E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh }), X: [] }"
+    },
+    {
+      "file": "Body_Focused_BrightCel.png",
+      "theme": "bc",
+      "w": 96,
+      "h": 52,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "{ L: [E.ring(-6, -6, 108, 64, [22, 17, 24, 18], T, T.seed + 1403), ...E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh })], X: [] }"
     }
   ]
 }

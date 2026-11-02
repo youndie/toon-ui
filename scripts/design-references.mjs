@@ -40,6 +40,15 @@ export const REFERENCES = Object.entries(THEMES).flatMap(([key, theme]) =>
     scene: `E.divider(T, ${JSON.stringify({ seed: i, ...o })})`,
   })));
 
+// B-09: a plain body, the Principles page's `blk()` with the night rim left on, and the same body
+// focused (`ring` at 6 px outset, as `btn` draws it).
+const BODY = "E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh })";
+const RING = "E.ring(-6, -6, 108, 64, [22, 17, 24, 18], T, T.seed + 1403)";
+REFERENCES.push(...Object.entries(THEMES).flatMap(([key, theme]) => [
+  { group: 'Body', name: `Plain_${theme}`, theme: key, w: 96, h: 52, pad: [10, 12, 12, 10], scene: `{ L: ${BODY}, X: [] }` },
+  { group: 'Body', name: `Focused_${theme}`, theme: key, w: 96, h: 52, pad: [10, 12, 12, 10], scene: `{ L: [${RING}, ...${BODY}], X: [] }` },
+]));
+
 const FACES = [
   ['Shrikhand', 'shrikhand_regular.ttf', '400'],
   ['Figtree', 'figtree_wght.ttf', '300 900'],
