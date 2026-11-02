@@ -166,9 +166,9 @@ internal fun toonMenuItemAt(
     y: Float,
 ): Int? = if (n == 0 || y < 0 || y > toonMenuHeight(n)) null else floor((y - 14) / ITEM_H).toInt().coerceIn(0, n - 1)
 
-/** The open plays 600 ms in the kit, the close 400; reduce motion — the v1 page's `fade 120` — fades. */
-private const val OPEN_MS = 600f
-private const val CLOSE_MS = 400f
+/** The kit plays the open it mounts with for 600 ms, and every change after it, either way, for 400. */
+private const val MOUNT_MS = 600f
+private const val CHANGE_MS = 400f
 private const val REDUCED_FADE_MS = 120f
 
 /** The engine's `menuUnroll` at [t] ms: unrolled with an overshoot when [open], rolled up in 160 ms after. */
@@ -201,7 +201,7 @@ internal fun toonMenuFrameAt(
     return if (u < .01f) null else ToonMenuMoment(u)
 }
 
-/** The kit's clock: an open or a close plays from its first frame, and once played the menu is at rest. */
+/** The kit's clock: the open it mounts with or a change plays from its first frame, and once played the menu is at rest. */
 @Stable
 internal class ToonMenuClock(
     initial: Boolean,
@@ -210,11 +210,13 @@ internal class ToonMenuClock(
     var starts by mutableStateOf(0)
     var open by mutableStateOf(initial)
     private var at: Long? = if (initial) PENDING_START else null
+    private var playMs = MOUNT_MS
 
     fun changed(now: Boolean) {
         if (now == open) return
         open = now
         at = PENDING_START
+        playMs = CHANGE_MS
         starts++
     }
 
@@ -227,7 +229,7 @@ internal class ToonMenuClock(
     fun age(): Float? =
         at
             ?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
-            ?.takeIf { it < (if (open) OPEN_MS else CLOSE_MS) }
+            ?.takeIf { it < playMs }
 
     fun running(): Boolean = age() != null
 }
