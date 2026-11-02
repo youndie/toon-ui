@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (40)
+## Open (39)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-04](docs/backlog/B-04-geometry-port-and-numeric-parity.md) `[~]` | Geometry port: Mulberry32, rr, wob, shape, squash, inkLine, with numeric parity | P0 | M | B-03 |
 | [B-05](docs/backlog/B-05-frame-cost-measurement.md) `[ ]` | Measure the frame cost of per-frame geometry before components depend on it | P0 | M | B-04 |
 | [B-06](docs/backlog/B-06-pixel-references-and-floor.md) `[ ]` | Pixel references: render every state in headless Chrome, measure parity's floor | P0 | L | B-01, B-02 |
 | [B-07](docs/backlog/B-07-token-generator.md) `[ ]` | Tokens generated from THEMES: colours, shape, type, motion, three themes | P1 | M | B-03 |
@@ -97,13 +96,14 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (4)
+## Closed (5)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
 - [B-01](docs/backlog/B-01-repository-skeleton.md) `[x]` - Repository skeleton: sborka conventions, toon-core on four targets, both gates
 - [B-02](docs/backlog/B-02-fonts-and-cyrillic.md) `[x]` - Fonts: bundle the four OFL families the design names
 - [B-03](docs/backlog/B-03-engine-golden-harness.md) `[x]` - Engine harness: run toon-engine.js in Node and emit golden JSON
+- [B-04](docs/backlog/B-04-geometry-port-and-numeric-parity.md) `[x]` - Geometry port: Mulberry32, rr, wob, shape, squash, inkLine, with numeric parity
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
