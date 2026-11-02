@@ -201,8 +201,9 @@ internal fun toonMenuFrameAt(
     return if (u < .01f) null else ToonMenuMoment(u)
 }
 
+/** The kit's clock: an open or a close plays from its first frame, and once played the menu is at rest. */
 @Stable
-private class ToonMenuClock(
+internal class ToonMenuClock(
     initial: Boolean,
 ) {
     var nowMs by mutableLongStateOf(0L)
@@ -222,9 +223,13 @@ private class ToonMenuClock(
         if (at == PENDING_START) at = now
     }
 
-    fun age(): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+    /** Milliseconds since the change, or null at rest — as the kit's `t` is, so an open ends unrolled exactly. */
+    fun age(): Float? =
+        at
+            ?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
+            ?.takeIf { it < (if (open) OPEN_MS else CLOSE_MS) }
 
-    fun running(): Boolean = age()?.let { it < (if (open) OPEN_MS else CLOSE_MS) } ?: false
+    fun running(): Boolean = age() != null
 }
 
 private const val PENDING_START = -1L

@@ -114,6 +114,27 @@ class ToonMenuTest {
     }
 
     @Test
+    fun `an open plays 600 ms and a close 400, then the menu is at rest`() {
+        val clock = ToonMenuClock(false)
+        assertNull(clock.age())
+        clock.changed(true)
+        assertEquals(0f, clock.age())
+        clock.tick(1000)
+        clock.tick(1599)
+        assertEquals(599f, clock.age())
+        clock.tick(1600)
+        // At rest the paper is the whole of it, not the curve's 99.7 % at 600 ms.
+        assertNull(clock.age())
+        assertEquals(ToonMenuMoment(1f), toonMenuFrameAt(clock.open, clock.age(), false))
+        clock.changed(false)
+        clock.tick(2000)
+        clock.tick(2399)
+        assertEquals(399f, clock.age())
+        clock.tick(2400)
+        assertNull(clock.age())
+    }
+
+    @Test
     fun `an item is the 44 dp row under the point, the first and last reaching the scroll's edges`() {
         assertEquals(0, toonMenuItemAt(3, 0f))
         assertEquals(0, toonMenuItemAt(3, 57.9f))
