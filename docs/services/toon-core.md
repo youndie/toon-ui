@@ -71,6 +71,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCheckbox.kt` | `ToonCheckbox` (B-17): `toonCheckboxScene` is the engine's `check`, `toonChkAnim` its `chkAnim` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonRadioGroup.kt` | `ToonRadioGroup` (B-17): `toonRadioScene` is the engine's `radio`, `toonRadioSelect` its `radioSelect` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSwitch.kt` | `ToonSwitch` (B-18): `toonSwitchScene` is the engine's `sw`, `toonSwAnim` its `swAnim` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTextField.kt` | `ToonTextField` (B-19): `toonFieldScene` is the engine's `field`, `toonFldFocus` its `fldFocus`, over a `BasicTextField` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -154,6 +155,10 @@ None at runtime.
 - An icon's outline and fill are built once per glyph and weight and kept in the glyph, as the engine
   caches per name and base (B-15). Two threads drawing a new glyph at once may each build it; the
   result is the same.
+- The text field draws its error stars itself only outside a `ToonFxHost`; inside one it sends
+  `field.error` and the host draws them, so they are not drawn twice (B-19).
+- The text field's caret sits at the real cursor, where the kit always puts it after the last
+  character; its shape and blink are the engine's.
 - The button draws its disabled buzz itself, as the kit does, and emits no `button.buzz` event: the
   host would draw the arcs a second time.
 - A held press stops asking for frames once it is fully down and wakes on the release (B-10).
