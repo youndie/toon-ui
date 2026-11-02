@@ -1,7 +1,7 @@
 ---
 id: B-27
 title: "NavigationBar: jumping icon, dust, paint-stroke indicator"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
