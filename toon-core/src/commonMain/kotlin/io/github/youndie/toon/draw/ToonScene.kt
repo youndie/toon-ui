@@ -55,8 +55,10 @@ import kotlin.math.sqrt
  * it: `M0 0`, `H` w, `V` h, `H0`, then `M` the circle's right point and two arcs `A r r 0 1 0 x y`.
  * An [Arc] is `M x y` and one circular arc `A r r 0 large sweep x y`, as the circular progress draws.
  * [Pairs] is a run of separate strokes, `M x y L x y` each, as the slider's rope hatching is drawn.
+ * An [Ellipse] is a whole one as two arcs, `M x0 y A rx ry 0 1 0 x1 y A rx ry 0 1 0 x0 y Z`, the title
+ * card's rings: its right and left points on one line, its centre between them.
  */
-internal enum class ToonSegments { Quad, Line, Iris, Arc, Pairs }
+internal enum class ToonSegments { Quad, Line, Iris, Arc, Pairs, Ellipse }
 
 /** A 2D affine transform as SVG writes it, `[a c e; b d f]`: what `place` and `scaleAbout` prefix. */
 internal class ToonAffine(
@@ -150,6 +152,7 @@ internal class ToonLayer(
     val path: Path by lazy {
         if (segments == ToonSegments.Iris) return@lazy irisPath(numbers)
         if (segments == ToonSegments.Arc) return@lazy arcPath(numbers)
+        if (segments == ToonSegments.Ellipse) return@lazy ellipsePath(numbers)
         if (segments == ToonSegments.Pairs) {
             return@lazy Path().apply {
                 var i = 0
@@ -578,6 +581,37 @@ private fun irisPath(n: FloatArray): Path =
         val r = n[10]
         val cx = n[8] - r
         if (r > 0f) addOval(Rect(cx - r, n[9] - r, cx + r, n[9] + r))
+    }
+
+/**
+ * An ellipse about ([cx], [cy]) with radii [rx] and [ry], as the engine's title card writes it in two
+ * arcs from its right point: the layer's numbers in the order the path writes them, each to a tenth.
+ */
+internal fun ellipseLayer(
+    cx: Float,
+    cy: Float,
+    rx: Float,
+    ry: Float,
+    color: Color,
+): ToonLayer {
+    fun f(v: Float) = floor(v * 10 + .5f) / 10
+    val right = f(cx + rx)
+    val left = f(cx - rx)
+    val y = f(cy)
+    val a = f(rx)
+    val b = f(ry)
+    return ToonLayer(
+        floatArrayOf(right, y, a, b, 0f, 1f, 0f, left, y, a, b, 0f, 1f, 0f, right, y),
+        ToonSegments.Ellipse,
+        true,
+        color,
+    )
+}
+
+private fun ellipsePath(n: FloatArray): Path =
+    Path().apply {
+        val cx = (n[0] + n[7]) / 2
+        addOval(Rect(cx - n[2], n[1] - n[3], cx + n[2], n[1] + n[3]))
     }
 
 /**

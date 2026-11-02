@@ -452,6 +452,25 @@ export const SHEET_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     SHEET_SCENE(`E.sheetMove(${t}, true, 260)`), call('SheetFrames.open', 'tokens', `${t}f`))),
 ]);
 
+// ---- TitleCard (B-43): `toon-ui v1 Components.dc.html` ----
+const TITLE_PAGE = [
+  "out.splash = { cells: [C('TitleCard / Splash', this.splashScene(T, { s: 1, textOp: 1 }, 520), 360, 520, [0, 0, 0, 0], .5), C('TitleCard / Empty state', E.cat(E.titleCard(T, { W: 360, H: 420, cy: 170, pw: 260, ph: 110, fs: 34, title: 'Nothing yet', sub: 'Your weekend is wide open' }), E.place(E.btn(T, { v: 'filled', w: 220, label: 'Add a plan' }), 70, 300)), 360, 420, [0, 0, 0, 0], .5)],",
+  "frames: [0, 120, 240, 400, 700].map(t => { const a = E.splashAt(t); return Fr(`${t} ms`, `plaque ${n2(a.s)} · rings −${n0(a.phase % 34)} dp`, this.splashScene(T, a), 360, 520, [0, 0, 0, 0], .3); }) }] };",
+  "splashScene(T, a, H = 520) { return this.E.cat(this.E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), this.E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); }",
+];
+// The page's `splashScene`, verbatim but for `this`.
+const SPLASH_SCENE = a => `(() => { const a = ${a}, H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()`;
+const BUTTON_WIDTH = 'text.measure(it, BUTTON_LABEL).multiParagraph.width';
+// An enter frame is the engine's `splashAt` at its age, so the cell holds the curve as well as the drawing.
+export const TITLE_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  sceneCell('TitleCard', theme, themeName, 'Splash', 360, 520, [0, 0, 0, 0], { kind: 'splash' }, SPLASH_SCENE('{ s: 1, textOp: 1 }'), call('TitleFrames.splash', 'tokens')),
+  sceneCell('TitleCard', theme, themeName, 'EmptyState', 360, 420, [0, 0, 0, 0], { kind: 'empty' },
+    "E.cat(E.titleCard(T, { W: 360, H: 420, cy: 170, pw: 260, ph: 110, fs: 34, title: 'Nothing yet', sub: 'Your weekend is wide open' }), E.place(E.btn(T, { v: 'filled', w: 220, label: 'Add a plan' }), 70, 300))",
+    `TitleFrames.empty(tokens) { ${BUTTON_WIDTH} }`),
+  ...[0, 120, 240, 400, 700].map(t => sceneCell('TitleCard', theme, themeName, `Enter_${t}ms`, 360, 520, [0, 0, 0, 0], { kind: 'enter', t },
+    SPLASH_SCENE(`E.splashAt(${t})`), call('TitleFrames.enter', 'tokens', `${t}f`))),
+]);
+
 // ---- PullToRefresh (B-42): `toon-ui v1 Components.dc.html` ----
 const PULL_PAGE = [
   "out.pull = { cells: [['Pulling', { d: 50, bsy: 1.2 }], ['Stretched', { d: 110, bsy: 1.45, bsx: .82 }], ['Refreshing', { band: false, blobY: 40, off: 54 }]].map(([n, a]) => C('PullToRefresh / ' + n, this.pullScene(T, a), 360, 260, [0, 0, 0, 0], .5)),",
@@ -772,6 +791,7 @@ export const missingPageText = [
   ...TIP_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...SEG_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...PULL_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
+  ...TITLE_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -791,4 +811,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS, Tooltip: TIP_CELLS, Segmented: SEG_CELLS, PullToRefresh: PULL_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS, Tooltip: TIP_CELLS, Segmented: SEG_CELLS, PullToRefresh: PULL_CELLS, TitleCard: TITLE_CELLS };
