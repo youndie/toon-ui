@@ -306,7 +306,38 @@ export const FIELD_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
   }),
 ]);
 
+// ---- Chip (B-20): `toon-ui MVP Components.dc.html` ----
+const CHIP_PAGE = [
+  "out.chip = { cells: [['Filter / Default', { variant: 'filter', label: 'Outdoors' }], ['Filter / Selected', { variant: 'filter', label: 'Outdoors', sel: true }], ['Filter / Pressed', { variant: 'filter', label: 'Outdoors', p: 1 }], ['Assist', { variant: 'assist', label: 'Saturday', icon: 'calendar' }], ['Input', { variant: 'input', label: 'Pancakes' }], ['Focused', { variant: 'filter', label: 'Outdoors', focus: true }], ['Disabled', { variant: 'filter', label: 'Outdoors', disabled: true }]]",
+  ".map(([n, o]) => { const c = E.chip(T, o); return C('Chip / ' + n, c, c.w, 36, [10, 12, 12, 10]); }),",
+  "reduce: 'instant', desc: 'Inflates to 1.15",
+  "frames: [0, 60, 90, 150, 260].map(t => { const a = E.chipSelect(t), c = E.chip(T, { variant: 'filter', label: 'Outdoors', sel: true, ...a }); return Fr(`${t} ms`, `scale ${n2(a.scale)} · paint ${n0(a.swipe * 100)} %`, c, c.w, 36, [12, 16, 12, 12]); }) }] };",
+];
+const chipLook = o => {
+  const a = [];
+  if (o.sel) a.push('selected = true');
+  if (o.scale != null && o.scale !== 1) a.push(`scale = ${kf(o.scale)}`);
+  if (o.swipe != null) a.push(`swipe = ${kf(o.swipe)}`);
+  if (o.p) a.push(`p = ${kf(o.p)}`);
+  if (o.focus) a.push('focus = true');
+  if (o.disabled) a.push('disabled = true');
+  return call('ToonChipLook', ...a);
+};
+const chipScene = o => call('toonChipScene', 'tokens', `ToonChipVariant.${o.variant[0].toUpperCase() + o.variant.slice(1)}`, JSON.stringify(o.label),
+  `text.measure(${JSON.stringify(o.label)}, CHIP_LABEL).multiParagraph.width`, `ToonIcons.${pascal(o.icon || 'calendar')}`, chipLook(o));
+const CHIP_STATES = [['Filter / Default', { variant: 'filter', label: 'Outdoors' }], ['Filter / Selected', { variant: 'filter', label: 'Outdoors', sel: true }], ['Filter / Pressed', { variant: 'filter', label: 'Outdoors', p: 1 }], ['Assist', { variant: 'assist', label: 'Saturday', icon: 'calendar' }], ['Input', { variant: 'input', label: 'Pancakes' }], ['Focused', { variant: 'filter', label: 'Outdoors', focus: true }], ['Disabled', { variant: 'filter', label: 'Outdoors', disabled: true }]];
+// A cell is the engine's chip width as Node measures the label (length × 15 × 0.55), wider than
+// Chrome's and Compose's own, so the chip sits a little inside it.
+export const CHIP_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...CHIP_STATES.map(([n, o]) => sceneCell('Chip', theme, themeName, n.replace(' / ', '_'), Math.ceil(E.chip(E.THEMES[theme], o).w), 36, [10, 12, 12, 10], o, `E.chip(T, ${js(o)})`, chipScene(o))),
+  ...[0, 60, 90, 150, 260].map(t => {
+    const o = { variant: 'filter', label: 'Outdoors', sel: true, ...E.chipSelect(t) };
+    return sceneCell('Chip', theme, themeName, `Select_${t}ms`, Math.ceil(E.chip(E.THEMES[theme], o).w), 36, [12, 16, 12, 12], o, `E.chip(T, ${js(o)})`, chipScene(o));
+  }),
+]);
+
 export const missingPageText = [
+  ...CHIP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...FIELD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...SWITCH_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...CHECK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
@@ -317,4 +348,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS };

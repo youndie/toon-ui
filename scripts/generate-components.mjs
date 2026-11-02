@@ -40,6 +40,22 @@ const BADGE_IMPORTS = [
 
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  Chip: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.CHIP_LABEL',
+      'io.github.youndie.toon.component.ToonChipLook',
+      'io.github.youndie.toon.component.ToonChipVariant',
+      'io.github.youndie.toon.component.toonChipScene',
+      'io.github.youndie.toon.icon.ToonIcons',
+    ],
+    cell: `// The MVP page's chip cells and select strip against the engine's \`chip\` drawn in Chrome.
+`,
+  },
   TextField: {
     imports: [
       'androidx.compose.runtime.Composable',
