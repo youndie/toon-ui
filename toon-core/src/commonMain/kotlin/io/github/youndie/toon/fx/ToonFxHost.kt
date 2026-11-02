@@ -207,7 +207,10 @@ public fun interface ToonFxEmitter {
     public fun emit(event: ToonFxEvent)
 }
 
-internal val LocalToonFxEmitter = staticCompositionLocalOf { ToonFxEmitter { } }
+/** The emitter outside any [ToonFxHost]: drops every event. A component that draws an effect itself when there is no host tells by it. */
+internal val NoToonFxHost: ToonFxEmitter = ToonFxEmitter { }
+
+internal val LocalToonFxEmitter = staticCompositionLocalOf { NoToonFxHost }
 
 /** The nearest [ToonFxHost]'s emitter; outside any host, events go nowhere. */
 public val Toon.fx: ToonFxEmitter

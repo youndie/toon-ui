@@ -17,6 +17,7 @@ import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonRandom
 import io.github.youndie.toon.draw.ToonScene
+import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.draw.drawScene
 import io.github.youndie.toon.draw.polygonPath
 import io.github.youndie.toon.draw.roundRectPoints
@@ -137,17 +138,18 @@ internal fun DrawScope.drawToonDust(
     dirs: List<FloatArray> = DUST_DIRS,
 ) = drawScene(toonDustScene(colors, u, cx, cy, s, k, gap, dirs))
 
-/** The engine's `stars`: three stars popping on an arc of radius [s] over ([cx], [cy]), spinning out. */
+/** The engine's `stars` as frame layers: three stars popping on an arc of radius [s] over ([cx], [cy]), spinning out. */
 @OptIn(InternalToonApi::class)
-internal fun DrawScope.drawToonStars(
+internal fun toonStarsScene(
     colors: ToonColors,
     u: Float,
     cx: Float,
     cy: Float,
     s: Float = 34f,
-) {
-    if (u <= 0 || u >= 1) return
+): ToonScene {
+    if (u <= 0 || u >= 1) return ToonScene.Empty
     val fr = min(3, floor(u * 4).toInt())
+    val layers = mutableListOf<ToonLayer>()
     floatArrayOf(-150f, -90f, -30f).forEachIndexed { j, a ->
         val ar = a * PI.toFloat() / 180
         val e = 1 - (1 - u).pow(3)
@@ -156,18 +158,41 @@ internal fun DrawScope.drawToonStars(
         val py = cy + sin(ar) * rr
         val sc = if (u < .25f) (u / .25f) * 1.15f else 1.15f - .5f * (u - .25f) / .75f
         val op = if (u < .6f) 1f else 1 - (u - .6f) / .4f
-        translate(px, py) {
-            rotate(200 * u * (if (j % 2 == 1) -1 else 1), Offset.Zero) {
-                drawPath(
-                    polygonPath(starPoints(9 * sc + 2.8f, 4.2f * sc + 2.4f, 40 + j + fr * 5)),
-                    colors.ink,
-                    alpha = op,
-                )
-                drawPath(polygonPath(starPoints(9 * sc, 4.2f * sc, 40 + j + fr * 5)), colors.warning, alpha = op)
-            }
-        }
+        val rot = 200 * u * (if (j % 2 == 1) -1 else 1)
+        layers +=
+            ToonLayer(
+                starPoints(9 * sc + 2.8f, 4.2f * sc + 2.4f, 40 + j + fr * 5),
+                ToonSegments.Line,
+                true,
+                colors.ink,
+                op,
+                px,
+                py,
+                rotation = rot,
+            )
+        layers +=
+            ToonLayer(
+                starPoints(9 * sc, 4.2f * sc, 40 + j + fr * 5),
+                ToonSegments.Line,
+                true,
+                colors.warning,
+                op,
+                px,
+                py,
+                rotation = rot,
+            )
     }
+    return ToonScene(layers, emptyList())
 }
+
+/** The engine's `stars`, drawn: [toonStarsScene]. */
+internal fun DrawScope.drawToonStars(
+    colors: ToonColors,
+    u: Float,
+    cx: Float,
+    cy: Float,
+    s: Float = 34f,
+) = drawScene(toonStarsScene(colors, u, cx, cy, s))
 
 /** The engine's `speed`: five tapering strokes trailing left from [x], over [y]…[y] + [h]. */
 internal fun DrawScope.drawToonSpeed(

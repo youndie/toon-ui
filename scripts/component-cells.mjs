@@ -265,7 +265,49 @@ export const SWITCH_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) 
   }),
 ]);
 
+// ---- TextField (B-19): `toon-ui Core.dc.html` ----
+const FIELD_PAGE = [
+  "['Default', { label: 'Plan name' }], ['Focused', { label: 'Plan name', focus: true, value: 'Pancakes', caret: true }],",
+  "['Filled', { label: 'Plan name', value: 'Pancakes' }], ['Error', { label: 'Plan name', value: 'Pan', error: true, helper: 'At least 4 letters' }],",
+  "['Disabled', { label: 'Plan name', disabled: true }],",
+  "].map(([S, o]) => C(`TextField / ${S}`, this.field(T, { w: 280, ...o }), 280, 56, [26, 14, 32, 14]));",
+  "const fF = (t, o, v) => Fr(t, v, this.cat(this.field(T, { w: 240, label: 'Plan name', ...o }), o.stars ?? { L: [], X: [] }), 240, 56, [30, 14, 34, 14]);",
+  "frames: [0, 90, 170, 260].map(t => { const a = this.fldFocus(t, true); return fF(`${t} ms`, { focus: true, ...a, caret: t > 200 }",
+  "frames: [0, 30, 90, 150, 230, 400].map(t => { const x = this.shake(t); return Fr(`${t} ms`, `x ${x >= 0 ? '+' : ''}${x.toFixed(1)} · stars ${Math.round(this.c01(t / 350) * 100)} %`, this.place(this.cat(this.field(T, { w: 240, label: 'Plan name', value: 'Pan', error: true, focus: true }), this.stars(T, t / 350, 210, -4, 26)), x, 0), 240, 56, [40, 14, 14, 14]); }) },",
+  "frames: [[0, true], [500, false], [800, true]].map(([t, c]) => fF(`${t} ms`, { focus: true, value: 'Pan', caret: c }, c ? 'caret on' : 'caret off')) },",
+];
+const fieldLook = o => {
+  const a = [`label = ${JSON.stringify(o.label)}`];
+  if (o.value) a.push(`value = ${JSON.stringify(o.value)}`);
+  if (o.helper) a.push(`helper = ${JSON.stringify(o.helper)}`);
+  if (o.focus) a.push('focus = true');
+  for (const k of ['lift', 'thick', 'bounce']) if (o[k] != null) a.push(`${k} = ${kf(o[k])}`);
+  if (o.error) a.push('error = true');
+  if (o.disabled) a.push('disabled = true');
+  if (o.caret) a.push(`caretX = engineCaretX(${JSON.stringify(o.value || '')})`);
+  return call('ToonFieldLook', ...a);
+};
+const FIELD_STATES = [['Default', { label: 'Plan name' }], ['Focused', { label: 'Plan name', focus: true, value: 'Pancakes', caret: true }], ['Filled', { label: 'Plan name', value: 'Pancakes' }], ['Error', { label: 'Plan name', value: 'Pan', error: true, helper: 'At least 4 letters' }], ['Disabled', { label: 'Plan name', disabled: true }]];
+export const FIELD_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...FIELD_STATES.map(([n, o]) => sceneCell('TextField', theme, themeName, n, 280, 56, [26, 14, 32, 14], o, `E.field(T, ${js({ w: 280, ...o })})`, call('toonFieldScene', 'tokens', '280f', fieldLook(o)))),
+  ...[0, 90, 170, 260].map(t => {
+    const o = { label: 'Plan name', focus: true, ...E.fldFocus(t, true), caret: t > 200 };
+    return sceneCell('TextField', theme, themeName, `Focus_${t}ms`, 240, 56, [30, 14, 34, 14], o, `E.field(T, ${js({ w: 240, ...o })})`, call('toonFieldScene', 'tokens', '240f', fieldLook(o)));
+  }),
+  ...[0, 30, 90, 150, 230, 400].map(t => {
+    const x = E.shake(t), o = { label: 'Plan name', value: 'Pan', error: true, focus: true };
+    return sceneCell('TextField', theme, themeName, `Error_${t}ms`, 240, 56, [40, 14, 14, 14], { ...o, shake: x, stars: t / 350 },
+      `E.place(E.cat(E.field(T, ${js({ w: 240, ...o })}), E.stars(T, ${num(t / 350)}, 210, -4, 26)), ${num(x)}, 0)`,
+      call('placedAt', call('plus', call('toonFieldScene', 'tokens', '240f', fieldLook(o)), call('toonStarsScene', 'tokens.colors', kf(t / 350), '210f', '-4f', '26f')), kf(x)));
+  }),
+  ...[[0, true], [500, false], [800, true]].map(([t, c]) => {
+    const o = { label: 'Plan name', focus: true, value: 'Pan', caret: c };
+    return sceneCell('TextField', theme, themeName, `Caret_${t}ms`, 240, 56, [30, 14, 34, 14], o, `E.field(T, ${js({ w: 240, ...o })})`, call('toonFieldScene', 'tokens', '240f', fieldLook(o)));
+  }),
+]);
+
 export const missingPageText = [
+  ...FIELD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...SWITCH_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...CHECK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...RADIO_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -275,4 +317,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS };

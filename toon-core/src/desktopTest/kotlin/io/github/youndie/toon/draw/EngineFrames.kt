@@ -61,11 +61,73 @@ internal object EngineFrames {
 
     private fun hex(c: Color) = "#%06X".format(c.toArgb() and 0xFFFFFF)
 
-    private fun numbers(d: String) =
-        Regex("-?\\d+(?:\\.\\d+)?")
-            .findAll(d)
-            .map { it.value.toFloat() }
-            .toList()
+    /**
+     * A path's coordinates as absolute numbers in the order the port keeps them: the start, then each
+     * segment's control point (for `Q`) and end. The engine writes `M`, `L`, `Q` and `Z` absolute, and
+     * the text field's caret in relative `h` and `v`, which this resolves.
+     */
+    private fun numbers(d: String): List<Float> {
+        val out = mutableListOf<Float>()
+        var x = 0f
+        var y = 0f
+        Regex("([MLQHVhvlZz])([^MLQHVhvlZz]*)").findAll(d).forEach { m ->
+            val v = Regex("-?\\d+(?:\\.\\d+)?").findAll(m.groupValues[2]).map { it.value.toFloat() }.toList()
+            when (m.groupValues[1]) {
+                "M", "L" -> {
+                    v.chunked(2).forEach { (a, b) ->
+                        x = a
+                        y = b
+                        out += listOf(a, b)
+                    }
+                }
+
+                "Q" -> {
+                    v.chunked(4).forEach { q ->
+                        out += q
+                        x = q[2]
+                        y = q[3]
+                    }
+                }
+
+                "H" -> {
+                    v.forEach {
+                        x = it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "V" -> {
+                    v.forEach {
+                        y = it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "h" -> {
+                    v.forEach {
+                        x += it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "v" -> {
+                    v.forEach {
+                        y += it
+                        out += listOf(x, y)
+                    }
+                }
+
+                "l" -> {
+                    v.chunked(2).forEach { (a, b) ->
+                        x += a
+                        y += b
+                        out += listOf(x, y)
+                    }
+                }
+            }
+        }
+        return out
+    }
 
     /** An affine transform as SVG writes it, `[a c e; b d f]`. */
     private class Affine(
@@ -115,10 +177,17 @@ internal object EngineFrames {
                 }
         }
 
-    /** A layer's own transform: its translation, then its scale about its pivot. */
+    /** A layer's own transform: its translation, its rotation, then its scale about its pivot. */
     private fun ToonLayer.affine(): Affine =
-        Affine(e = dx, f = dy) * Affine(e = pivotX, f = pivotY) * Affine(a = scale, d = scaleY) *
+        Affine(e = dx, f = dy) * rotationOf(rotation) * Affine(e = pivotX, f = pivotY) * Affine(a = scale, d = scaleY) *
             Affine(e = -pivotX, f = -pivotY)
+
+    private fun rotationOf(degrees: Float): Affine {
+        val r = Math.toRadians(degrees.toDouble())
+        val cos = kotlin.math.cos(r).toFloat()
+        val sin = kotlin.math.sin(r).toFloat()
+        return Affine(cos, sin, -sin, cos)
+    }
 
     /** Asserts [scene] is [cell]'s frame and returns its worst path coordinate off the engine's. */
     fun compare(
@@ -133,18 +202,26 @@ internal object EngineFrames {
             val l = e.jsonObject
             val mine = scene.layers[i]
             val stroked = l.getValue("stroke").jsonPrimitive.content != "none"
-            val tf = transform(l.getValue("tf").jsonPrimitive.content)
+            val tfText = l.getValue("tf").jsonPrimitive.content
+            val tf = transform(tfText)
+            // Each translation the engine writes is rounded to 0.1 (`place` adds one to a layer's own);
+            // the pair about a pivot is whole numbers.
+            val rounded =
+                Regex("translate\\(").findAll(tfText).count() - (if (mine.pivotX != 0f || mine.pivotY != 0f) 2 else 0)
+            val offset = ROUNDING * max(1, rounded) + 2e-4f
             val own = mine.affine()
             // The engine writes a scale to three decimals and an offset to one; a pivot carries the
             // scale's rounding into the offset, so only a layer with one gets that much more.
             val carried = 5e-4f * maxOf(kotlin.math.abs(mine.pivotX), kotlin.math.abs(mine.pivotY))
+            // It writes an angle to 0.1°: sin(0.05°) more in the matrix, for a layer that turns.
+            val turned = if (mine.rotation != 0f) 8.73e-4f else 0f
             for ((what, g, m, tol) in listOf(
-                Quad("scale x", tf.a, own.a, 5e-4f),
-                Quad("skew y", tf.b, own.b, 5e-4f),
-                Quad("skew x", tf.c, own.c, 5e-4f),
-                Quad("scale y", tf.d, own.d, 5e-4f),
-                Quad("x offset", tf.e, own.e, TOLERANCE + carried),
-                Quad("y offset", tf.f, own.f, TOLERANCE + carried),
+                Quad("scale x", tf.a, own.a, 5e-4f + turned),
+                Quad("skew y", tf.b, own.b, 5e-4f + turned),
+                Quad("skew x", tf.c, own.c, 5e-4f + turned),
+                Quad("scale y", tf.d, own.d, 5e-4f + turned),
+                Quad("x offset", tf.e, own.e, offset + carried),
+                Quad("y offset", tf.f, own.f, offset + carried),
             )) {
                 assertEquals(g, m, tol, "$name layer $i: $what")
             }

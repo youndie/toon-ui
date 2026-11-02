@@ -294,6 +294,9 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the switch in B-18:* `instant`.
 
+*Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret
+`steady caret`.
+
 *Applied to the checkbox and radio in B-17:* a check is `fade 120`, the kit's cross-fade from the
 unchecked frame to the checked one; an uncheck and the radio's drop are `instant`.
 
