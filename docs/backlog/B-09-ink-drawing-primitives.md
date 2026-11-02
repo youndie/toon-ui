@@ -16,7 +16,8 @@ Every renderer in the engine draws through `body`, `ring`, `place`, `scaleAbout`
 - **The decision and its reason.** `drawInkBody(shape, fill, shadow, rim)` paints the outline
   offset by the shadow, the outline in ink, the rim fill (night only), and the fill shifted 1.6 dp
   down. A focus ring is drawn as the dashed wobble at 6 dp outset. Placement and rotation work
-  about a pivot. Caching follows B-05's verdict.
+  about a pivot. No geometry cache: B-05 measured geometry at 2.4 ms of a 15 ms frame, and a size-keyed cache missed
+  on every animated frame (research H1).
 - Rejected: `graphicsLayer.scale` on a shape with a stroke. It scales the ink, which the brief
   forbids (research §1.2, squash).
 

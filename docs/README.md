@@ -18,7 +18,7 @@ documentation is layered, and links run top to bottom.
 There is no `features/`, `screens/` or `api/` layer. A component library has no end-user feature
 flow or HTTP contract. Its "screens" are the design project's spec pages, vendored in
 `reference/design-system/` and measured against rather than re-described here. `services/` holds
-the one library module, `toon-core`.
+the library module, `toon-core`, and the bench that measures it.
 
 **Backlog** — [backlog.md](../backlog.md): the order of work and the stages. The items themselves
 are one file each in [`backlog/`](backlog/), cited as `[B-12](backlog/B-12-icon-button-and-badge.md)`.
@@ -58,6 +58,7 @@ no file behind it, fails the coverage check.
 
 - [x] [research-architecture](research/research-architecture.md) — what was imported and verified, the decisions, the open hypotheses
 
-### Services (1/1)
+### Services (2/2)
 
 - [x] [toon-core](services/toon-core.md) — the library module: targets, build, the test toolchain
+- [x] [bench](services/bench.md) — the frame-cost bench: a scene, its arms, the desktop and the device halves
