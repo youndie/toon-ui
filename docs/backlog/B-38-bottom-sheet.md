@@ -1,7 +1,7 @@
 ---
 id: B-38
 title: "BottomSheet: a sheet with a tab that slides up with overshoot"
-status: open
+status: wip
 priority: P2
 size: M
 stage: stage-2-components
