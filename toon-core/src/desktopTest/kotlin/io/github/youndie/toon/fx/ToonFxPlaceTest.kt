@@ -152,4 +152,64 @@ class ToonFxPlaceTest {
             assertEquals(300f, cx, 12f, "stars centred over the dialog")
             assertEquals(want, cy, 12f, "stars at y $cy px, where an arc of 70 dp over the dialog has them")
         }
+
+    /** The ink a host draws for [event] [ms] in, at density 2, as its box in px: left, top, right, bottom. */
+    private fun inked(
+        event: ToonFxEvent,
+        ms: Long,
+    ): IntArray {
+        lateinit var box: IntArray
+        runComposeUiTest {
+            var emitter: ToonFxEmitter? = null
+            mainClock.autoAdvance = false
+            setContent {
+                CompositionLocalProvider(LocalDensity provides Density(2f)) {
+                    ToonTheme {
+                        ToonFxHost(Modifier.size(300.dp, 400.dp).testTag("host")) {
+                            emitter = Toon.fx
+                            Box(Modifier.fillMaxSize().background(Toon.colors.stage))
+                        }
+                    }
+                }
+            }
+            waitForIdle()
+            runOnIdle { checkNotNull(emitter).emit(event) }
+            mainClock.advanceTimeBy(ms)
+            val image = onNodeWithTag("host").captureToImage().toPixelMap()
+            val stage = image[0, 0]
+            box = intArrayOf(Int.MAX_VALUE, Int.MAX_VALUE, -1, -1)
+            for (y in 0 until image.height) {
+                for (x in 0 until image.width) {
+                    if (image[x, y] == stage) continue
+                    box[0] = minOf(box[0], x)
+                    box[1] = minOf(box[1], y)
+                    box[2] = maxOf(box[2], x)
+                    box[3] = maxOf(box[3], y)
+                }
+            }
+        }
+        return box
+    }
+
+    @Test
+    fun `a flash is as big as its event says and where, at density 2`() {
+        val small = inked(ToonFxEvent.Pop("badge", Rect(0f, 0f, 600f, 800f), at = Offset(300f, 400f), size = 15f), 90)
+        val big = inked(ToonFxEvent.Pop("badge", Rect(0f, 0f, 600f, 800f), at = Offset(300f, 400f), size = 46f), 90)
+        assertTrue(small[2] > 0, "no flash drawn")
+        assertEquals(300f, (small[0] + small[2]) / 2f, 6f, "flash centred on its point")
+        assertEquals(400f, (small[1] + small[3]) / 2f, 6f, "flash centred on its point")
+        val ratio = (small[2] - small[0]).toFloat() / (big[2] - big[0])
+        assertEquals(15f / 46, ratio, .08f, "a 15 dp flash against a 46 dp one")
+    }
+
+    @Test
+    fun `dust rises from the event's puffs over its spread, at density 2`() {
+        val puffs = listOf(Offset(200f, 600f), Offset(400f, 600f))
+        val narrow = inked(ToonFxEvent.Land("card", Rect(0f, 0f, 600f, 800f), puffs = puffs, spread = 20f), 100)
+        val wide = inked(ToonFxEvent.Land("card", Rect(0f, 0f, 600f, 800f), puffs = puffs, spread = 60f), 100)
+        assertTrue(narrow[2] > 0, "no dust drawn")
+        assertEquals(300f, (narrow[0] + narrow[2]) / 2f, 8f, "dust about its two puffs")
+        assertTrue(narrow[3] in 560..680, "dust at the puffs' height, its bottom at ${narrow[3]}")
+        assertTrue(wide[2] - wide[0] > narrow[2] - narrow[0] + 40, "a 60 dp spread wider than a 20 dp one")
+    }
 }
