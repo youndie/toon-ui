@@ -1,7 +1,7 @@
 ---
 id: B-14
 title: "Button: filled, outlined, text; loading blob, idle breath, disabled buzz"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-2-components
