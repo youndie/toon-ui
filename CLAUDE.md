@@ -22,6 +22,20 @@ and its engine `toon-engine.js` is the ruler everything is measured against.
 4. The layer document for the area you are touching, once it exists ([docs/README.md](docs/README.md)
    lists what does).
 
+## Local workflow
+
+There is no remote repository (B-32 decides when there is one), so no pull requests. The `/loop`
+over the backlog works one item per branch and merges it itself (owner, 2026-11-02):
+
+1. `feat/b-NN-<slug>` from `main`.
+2. Implement, with the item's status and documents in the same branch.
+3. On the branch's head commit, `make check` and `./gradlew check` (once B-01 has made the build)
+   are both green.
+4. `git merge --no-ff` into `main`, with `Refs: B-NN` in the merge message. The branch is kept.
+
+Red is never merged, and a check is never loosened to get green. An item whose status is `question`,
+or that needs the owner (a device, a decision), stops the loop with the question instead.
+
 ## Gates
 
 ```bash
