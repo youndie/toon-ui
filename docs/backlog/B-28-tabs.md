@@ -1,7 +1,7 @@
 ---
 id: B-28
 title: "Tabs: bookmarks on an ink shelf, the indicator smears across"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
