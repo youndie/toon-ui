@@ -1,7 +1,7 @@
 ---
 id: B-01
 title: "Repository skeleton: sborka conventions, toon-core on four targets, both gates"
-status: open
+status: wip
 priority: P0
 size: M
 stage: stage-0-risks
