@@ -1,7 +1,7 @@
 ---
 id: B-42
 title: "Pull-to-refresh: a rubber band that flings the spinner into place"
-status: open
+status: wip
 priority: P2
 size: M
 stage: stage-2-components
