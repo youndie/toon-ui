@@ -1,6 +1,7 @@
 package io.github.youndie.toon.draw
 
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -27,8 +28,12 @@ import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.component.ToonButton
 import io.github.youndie.toon.component.ToonCard
 import io.github.youndie.toon.component.ToonDialog
+import io.github.youndie.toon.component.ToonNavigationBar
 import io.github.youndie.toon.component.ToonSnackbar
+import io.github.youndie.toon.component.ToonTabs
+import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.component.toonDialogHeight
+import io.github.youndie.toon.parity.NavFrames
 import io.github.youndie.toon.theme.ToonTheme
 import io.github.youndie.toon.tokens.inkGouacheLight
 import kotlin.math.abs
@@ -219,6 +224,38 @@ class ToonDensityTest {
                 )
             val mine = text.measure("Add plan", style)
             assertEquals(dp.size.height, mine.size.height, "line height in dp at density $d")
+        }
+    }
+
+    @Test
+    fun `at density 2 tabs, navigation and the top bar's back arrow take the slot under the finger`() {
+        runComposeUiTest {
+            val tabs = mutableListOf<Int>()
+            val navs = mutableListOf<Int>()
+            var backs = 0
+            setContent {
+                CompositionLocalProvider(LocalDensity provides Density(2f)) {
+                    ToonTheme {
+                        Column {
+                            ToonTabs(listOf("Today", "Weekend", "Someday"), Modifier.testTag("tabs"), onChange = {
+                                tabs +=
+                                    it
+                            })
+                            ToonNavigationBar(NavFrames.ITEMS, Modifier.testTag("nav"), onChange = { navs += it })
+                            ToonTopAppBar("Saturday", Modifier.testTag("bar"), onNav = { backs++ })
+                        }
+                    }
+                }
+            }
+            // Pixel 300 is dp 150: the second of three 114 dp tabs, and of four 97.5 dp destinations;
+            // read as dp it would be the third, and the fourth.
+            onNodeWithTag("tabs").performTouchInput { click(Offset(300f, 50f)) }
+            onNodeWithTag("nav").performTouchInput { click(Offset(300f, 80f)) }
+            // Pixel 120 is dp 60, on the back arrow's first 76 dp; read as dp it is past it.
+            onNodeWithTag("bar").performTouchInput { click(Offset(120f, 76f)) }
+            assertEquals(listOf(1), tabs)
+            assertEquals(listOf(1), navs)
+            assertEquals(1, backs)
         }
     }
 }
