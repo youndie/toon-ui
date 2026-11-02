@@ -129,10 +129,14 @@ class ToonListItemTest {
             var clicks = 0
             setContent {
                 ToonTheme {
-                    ToonListItem("Reminders", sub = "At noon", trailing = ToonListTrailing.Switch, on = true, onCheckedChange = {
-                        changes +=
-                            it
-                    }, onClick = { clicks++ })
+                    ToonListItem(
+                        "Reminders",
+                        sub = "At noon",
+                        trailing = ToonListTrailing.Switch,
+                        on = true,
+                        onCheckedChange = { changes += it },
+                        onClick = { clicks++ },
+                    )
                 }
             }
             val row = onNodeWithText("Reminders, At noon").assertHeightIsEqualTo(72.dp)
