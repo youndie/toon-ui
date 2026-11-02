@@ -117,6 +117,10 @@ class ToonPullToRefreshTest {
         )
         // The fling is drawn for 400 ms, then the spinner turns at its spot.
         assertEquals(
+            toonPullRelease(399f, 90f).copy(ph = 900f),
+            toonPullFrameAt(false, 0f, true, 399f, 90f, null, 900f, false),
+        )
+        assertEquals(
             ToonPullLook(band = false, blobY = 40f, ph = 900f),
             toonPullFrameAt(false, 0f, true, 400f, 90f, null, 900f, false),
         )

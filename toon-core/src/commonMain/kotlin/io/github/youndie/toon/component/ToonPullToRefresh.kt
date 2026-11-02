@@ -74,7 +74,7 @@ public fun ToonPullToRefresh(
     val pull by rememberUpdatedState(onPull)
     val w = width.value
     LaunchedEffect(refreshing) { state.refreshingChanged(refreshing) }
-    LaunchedEffect(state.starts, state.ref) { while (state.running()) withFrameMillis { state.tick(it) } }
+    LaunchedEffect(state.starts, state.ref, reduce) { while (state.running(reduce)) withFrameMillis { state.tick(it) } }
 
     Canvas(
         modifier
@@ -198,8 +198,11 @@ internal class ToonPullState(
 
     private fun age(at: Long?): Float? = at?.let { if (it == PENDING_START) 0f else (nowMs - it).toFloat() }
 
-    /** The spinner turns for as long as the refresh lasts; the end plays out. */
-    fun running(): Boolean = ref || (age(doneAt)?.let { it < DONE_MS } ?: false)
+    /**
+     * The spinner turns for as long as the refresh lasts, and the end plays out; under reduce motion
+     * nothing moves, so no frame is asked for.
+     */
+    fun running(reduceMotion: Boolean): Boolean = !reduceMotion && (ref || (age(doneAt)?.let { it < DONE_MS } ?: false))
 
     fun look(reduceMotion: Boolean): ToonPullLook =
         toonPullFrameAt(dragging, d, ref, age(releasedAt), d0, age(doneAt), nowMs.toFloat(), reduceMotion)

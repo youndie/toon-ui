@@ -37,6 +37,7 @@ import io.github.youndie.toon.component.ToonNavItem
 import io.github.youndie.toon.component.ToonNavigationBar
 import io.github.youndie.toon.component.ToonNavigationDrawer
 import io.github.youndie.toon.component.ToonProgress
+import io.github.youndie.toon.component.ToonPullToRefresh
 import io.github.youndie.toon.component.ToonRadioGroup
 import io.github.youndie.toon.component.ToonSegmented
 import io.github.youndie.toon.component.ToonSheetHit
@@ -66,7 +67,8 @@ import kotlin.test.assertTrue
  * B-30: each of the 19 components tells a screen reader what it is (role), what state it is in, and
  * what it says, and each one a finger can press is at least 48 dp each way (the brief's target), even
  * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50), B-38 the bottom sheet and B-39
- * the navigation drawer, B-40 the tooltip, B-41 the segmented button.
+ * the navigation drawer, B-40 the tooltip, B-41 the segmented button,
+ * B-42 pull-to-refresh.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonAccessibilityTest {
@@ -397,6 +399,20 @@ class ToonAccessibilityTest {
             assertEquals(listOf("Day", "Week", "Month"), actions)
             assertTrue(hDp >= target && wDp / 3 >= target, "segment ${wDp / 3}x$hDp dp")
         }
+
+    @Test
+    fun `pull-to-refresh offers a refresh without the drag, and tells a refresh under way`() {
+        with(node { ToonPullToRefresh(false, {}, it) }) {
+            assertEquals(listOf("Refresh"), actions)
+        }
+        with(node { ToonPullToRefresh(true, {}, it) }) {
+            assertEquals(
+                ProgressBarRangeInfo.Indeterminate,
+                node.config.getOrNull(SemanticsProperties.ProgressBarRangeInfo),
+            )
+            assertTrue(actions.isEmpty())
+        }
+    }
 
     @Test
     fun `icon is an image with its description, or nothing when decorative`() {
