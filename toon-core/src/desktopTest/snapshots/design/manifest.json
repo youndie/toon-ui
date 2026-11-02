@@ -12404,6 +12404,474 @@
         14
       ],
       "scene": "E.field(T, {\"w\":240,\"label\":\"Plan name\",\"focus\":true,\"value\":\"Pan\",\"caret\":true})"
+    },
+    {
+      "file": "Chip_Filter_Default_InkGouacheLight.png",
+      "theme": "il",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\"})"
+    },
+    {
+      "file": "Chip_Filter_Selected_InkGouacheLight.png",
+      "theme": "il",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true})"
+    },
+    {
+      "file": "Chip_Filter_Pressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"p\":1})"
+    },
+    {
+      "file": "Chip_Assist_InkGouacheLight.png",
+      "theme": "il",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"assist\",\"label\":\"Saturday\",\"icon\":\"calendar\"})"
+    },
+    {
+      "file": "Chip_Input_InkGouacheLight.png",
+      "theme": "il",
+      "w": 120,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"input\",\"label\":\"Pancakes\"})"
+    },
+    {
+      "file": "Chip_Focused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"focus\":true})"
+    },
+    {
+      "file": "Chip_Disabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"disabled\":true})"
+    },
+    {
+      "file": "Chip_Select_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1,\"swipe\":0})"
+    },
+    {
+      "file": "Chip_Select_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1.129904,\"swipe\":0.555556})"
+    },
+    {
+      "file": "Chip_Select_90ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1.15,\"swipe\":0.75})"
+    },
+    {
+      "file": "Chip_Select_150ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":0.934359,\"swipe\":0.972222})"
+    },
+    {
+      "file": "Chip_Select_260ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":0.986504,\"swipe\":1})"
+    },
+    {
+      "file": "Chip_Filter_Default_InkGouacheNight.png",
+      "theme": "in",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\"})"
+    },
+    {
+      "file": "Chip_Filter_Selected_InkGouacheNight.png",
+      "theme": "in",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true})"
+    },
+    {
+      "file": "Chip_Filter_Pressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"p\":1})"
+    },
+    {
+      "file": "Chip_Assist_InkGouacheNight.png",
+      "theme": "in",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"assist\",\"label\":\"Saturday\",\"icon\":\"calendar\"})"
+    },
+    {
+      "file": "Chip_Input_InkGouacheNight.png",
+      "theme": "in",
+      "w": 120,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"input\",\"label\":\"Pancakes\"})"
+    },
+    {
+      "file": "Chip_Focused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"focus\":true})"
+    },
+    {
+      "file": "Chip_Disabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"disabled\":true})"
+    },
+    {
+      "file": "Chip_Select_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1,\"swipe\":0})"
+    },
+    {
+      "file": "Chip_Select_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1.129904,\"swipe\":0.555556})"
+    },
+    {
+      "file": "Chip_Select_90ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1.15,\"swipe\":0.75})"
+    },
+    {
+      "file": "Chip_Select_150ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":0.934359,\"swipe\":0.972222})"
+    },
+    {
+      "file": "Chip_Select_260ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":0.986504,\"swipe\":1})"
+    },
+    {
+      "file": "Chip_Filter_Default_BrightCel.png",
+      "theme": "bc",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\"})"
+    },
+    {
+      "file": "Chip_Filter_Selected_BrightCel.png",
+      "theme": "bc",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true})"
+    },
+    {
+      "file": "Chip_Filter_Pressed_BrightCel.png",
+      "theme": "bc",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"p\":1})"
+    },
+    {
+      "file": "Chip_Assist_BrightCel.png",
+      "theme": "bc",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"assist\",\"label\":\"Saturday\",\"icon\":\"calendar\"})"
+    },
+    {
+      "file": "Chip_Input_BrightCel.png",
+      "theme": "bc",
+      "w": 120,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"input\",\"label\":\"Pancakes\"})"
+    },
+    {
+      "file": "Chip_Focused_BrightCel.png",
+      "theme": "bc",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"focus\":true})"
+    },
+    {
+      "file": "Chip_Disabled_BrightCel.png",
+      "theme": "bc",
+      "w": 98,
+      "h": 36,
+      "pad": [
+        10,
+        12,
+        12,
+        10
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"disabled\":true})"
+    },
+    {
+      "file": "Chip_Select_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1,\"swipe\":0})"
+    },
+    {
+      "file": "Chip_Select_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1.129904,\"swipe\":0.555556})"
+    },
+    {
+      "file": "Chip_Select_90ms_BrightCel.png",
+      "theme": "bc",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":1.15,\"swipe\":0.75})"
+    },
+    {
+      "file": "Chip_Select_150ms_BrightCel.png",
+      "theme": "bc",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":0.934359,\"swipe\":0.972222})"
+    },
+    {
+      "file": "Chip_Select_260ms_BrightCel.png",
+      "theme": "bc",
+      "w": 122,
+      "h": 36,
+      "pad": [
+        12,
+        16,
+        12,
+        12
+      ],
+      "scene": "E.chip(T, {\"variant\":\"filter\",\"label\":\"Outdoors\",\"sel\":true,\"scale\":0.986504,\"swipe\":1})"
     }
   ]
 }

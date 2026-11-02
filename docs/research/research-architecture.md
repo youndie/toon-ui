@@ -294,6 +294,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the switch in B-18:* `instant`.
 
+*Applied to the chip in B-20:* `instant`.
+
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret
 `steady caret`.
 

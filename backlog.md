@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (26)
+## Open (25)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-20](docs/backlog/B-20-chip.md) `[ ]` | Chip: filter, assist, input; inflate and paint-in; a 48 dp target | P1 | S | B-10, B-12 |
 | [B-21](docs/backlog/B-21-card.md) `[ ]` | Card: tilt, drop-in with dust and cascade, press lean, swipe dismiss with a hole | P1 | L | B-10, B-12 |
 | [B-22](docs/backlog/B-22-list-item-and-divider.md) `[ ]` | ListItem and Divider | P1 | S | B-10, B-09 |
 | [B-23](docs/backlog/B-23-snackbar.md) `[ ]` | Snackbar: flies up on its rope, swings, anticipates down | P1 | S | B-12 |
@@ -83,7 +82,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (19)
+## Closed (20)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -111,6 +110,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-17](docs/backlog/B-17-checkbox-and-radio.md) `[x]` - Checkbox and RadioGroup
 - [B-18](docs/backlog/B-18-switch.md) `[x]` - Switch: wind-up, smear, slap, colour wave
 - [B-19](docs/backlog/B-19-text-field.md) `[x]` - TextField: drawn frame over a real input, label lift, error shake with stars
+- [B-20](docs/backlog/B-20-chip.md) `[x]` - Chip: filter, assist, input; inflate and paint-in; a 48 dp target
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
