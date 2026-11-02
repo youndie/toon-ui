@@ -13,6 +13,7 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
+import { COMPONENT_CELLS } from './component-cells.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const enginePath = join(root, 'reference/design-system/toon-engine.js');
@@ -21,7 +22,7 @@ const outDir = join(root, 'toon-core/src/desktopTest/resources/engine-goldens');
 // Stub: the engine registers itself on `window`. Without a `document`, `tw` measures text as
 // length × size × 0.55 and `icon` draws nothing (research §1.2): boxes sized from text are the
 // fallback's, which is fine for geometry, since a golden records the arguments it was drawn with.
-globalThis.window = {};
+globalThis.window = globalThis.window || {}; // kept: an imported cell list may have loaded the engine into it first
 createRequire(import.meta.url)(enginePath);
 const E = new globalThis.window.ToonEngine();
 
@@ -193,6 +194,23 @@ const fx = {
   }),
 };
 
+// ---- component frames (B-14) ----
+// Every cell a component is measured in on the spec pages (scripts/component-cells.mjs), as the frame
+// the engine's renderer returns: each layer's path, fill, stroke, opacity and transform, and each
+// text's place. The port builds the same frame as data and is held to it layer by layer, which no
+// pixel diff can do through a large fill. Without a DOM, `tw` measures text as length × size × 0.55
+// (research §1.2); the test gives the port the same width.
+const FRAME_GROUPS = ['Button'];
+const frames = Object.fromEntries(FRAME_GROUPS.map(group => [group, Object.fromEntries(COMPONENT_CELLS[group].map(c => {
+  const sc = new Function('E', 'T', `return ${c.scene};`)(E, E.THEMES[c.theme]);
+  return [c.name, {
+    theme: c.theme,
+    opts: c.opts,
+    L: sc.L.map(l => ({ d: l.d, fill: l.fill, stroke: l.stroke, sw: r6(l.sw), tf: l.tf, op: r6(l.op), dash: l.dash })),
+    X: sc.X.map(x => ({ s: x.s, x: r6(x.x), y: r6(x.y), fill: x.fill, op: r6(x.op), anchor: x.anchor })),
+  }];
+}))]));
+
 const engineSha = createHash('sha256').update(readFileSync(enginePath)).digest('hex');
 const files = {
   'manifest.json': { engine: 'reference/design-system/toon-engine.js', sha256: engineSha, decimals: 6, pathStep: 0.1, themes, scenes: Object.keys(scenes(E.THEMES.il)), curves: Object.keys(curves) },
@@ -204,6 +222,8 @@ const files = {
   'press.json': press,
   // The hole's silhouette over its life (B-12).
   'fx.json': fx,
+  // The components' frames on the spec pages' cells (B-14).
+  'components.json': frames,
 };
 
 const check = process.argv.includes('--check');

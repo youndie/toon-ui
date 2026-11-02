@@ -132,9 +132,9 @@ bit-for-bit". Read line by line against the engine:
 |---|---|---|
 | **The RNG returns `Float`**, so the phases differ from the engine's in the 8th digit. Visually nothing, but "bit-for-bit" is false, and a numeric parity test has to compare within a tolerance. | `rng` returns a double | `Mulberry32.next(): Float` in `compose/toon/ui/draw/ToonGeometry.kt` |
 | **The icon width rule is missing a term.** The engine multiplies by `(1 + .06 · sin(s · 1.3 + ph))`, a 6 % swell along the stroke seeded per icon. | `iconWidth` | `iconOutline` in `ToonGeometry.kt` has no such factor. *B-11 ports it in full* (`toon-core/src/commonMain/kotlin/io/github/youndie/toon/icon/ToonIcon.kt`); dropping the term moves the outline 0.12 dp and the Settings cell to 5.39 % |
-| **The filled button's night rim is the wrong colour.** The engine draws a filled button's rim in `btnHi` (`#F2A57E` at night) and an outlined one's in `rim`; the sketch's `ink()` always uses `rim` (`#8392C4`). | `btn` → `rimColor: o.v === 'filled' ? T.btnHi : T.rim` | `ink()` in `compose/toon/ui/components/ToonButton.kt` |
-| **The text button is blank.** The engine draws a wavy primary underline and a `surface2` blob while pressed; the sketch draws nothing for `ToonButtonVariant.Text`. | `btn`, `o.v === 'text'` branch | `ToonButton.kt` |
-| **A disabled label keeps its colour.** The engine paints a disabled label `muted` at 60 %. | `btn` (`lc`, `lOp`) | `ToonButton.kt` `BasicText` style |
+| **The filled button's night rim is the wrong colour.** The engine draws a filled button's rim in `btnHi` (`#F2A57E` at night) and an outlined one's in `rim`; the sketch's `ink()` always uses `rim` (`#8392C4`). | `btn` → `rimColor: o.v === 'filled' ? T.btnHi : T.rim` | `ink()` in `compose/toon/ui/components/ToonButton.kt` *Fixed in B-14*, held by `ToonButtonSceneTest`. |
+| **The text button is blank.** The engine draws a wavy primary underline and a `surface2` blob while pressed; the sketch draws nothing for `ToonButtonVariant.Text`. | `btn`, `o.v === 'text'` branch | `ToonButton.kt` *Fixed in B-14*, held by `ToonButtonSceneTest`. |
+| **A disabled label keeps its colour.** The engine paints a disabled label `muted` at 60 %. | `btn` (`lc`, `lOp`) | `ToonButton.kt` `BasicText` style *Fixed in B-14*, held by `ToonButtonSceneTest`. |
 | **Release always springs from fully pressed.** The kit integrates the spring from wherever the press got to. The sketch's `releaseCurve(t)` starts from 1, so a tap released inside the 80 ms press jumps to full squash before springing back. | `toon-kit.js` `Base.stepSq` | `ToonButton.kt` (`releasedAt` branch) |
 | **Missing in the sketch:** focus ring, loading, idle on other components, the switch's colour wave and echo, and 16 of the 18 components. The README says so under "Still to port". | — | `compose/README.md` |
 | **Package `toon.ui`**, which no Maven group of the owner's matches. | — | every `compose/**/*.kt` `package` line |
@@ -219,7 +219,18 @@ the stage colour), takes the floor the same way over the Divider cells — 14.81
 other reference over it, in `check`. Clean, the worst of 459 cells is 13.27 % (Sweat at 40 ms, two
 drops just appearing, all edge); those mutants measure 39–99 %. What no pixel measure sees is a
 pattern inside a large fill: the hole with another crack seed measured 8.70 %. Its polygons come from
-the engine in Node (`engine-goldens/fx.json`) and are compared point by point. So a component's parity
+the engine in Node (`engine-goldens/fx.json`) and are compared point by point. *Amended in B-14:* a
+component has a large fill, and in a button neither floor saw a shadow 0.4 dp short, a bottom that
+does not thicken or the night rim in the outlined colour. So a component is built as a frame — the
+engine's layers (`L`) and texts (`X`) as data (`toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt`) — and drawn from it, and
+`engine-goldens/components.json` holds the frame the engine's renderer returns for every cell on the
+spec page. The port is compared layer by layer: colour, opacity, stroke, offset exact, paths within
+the engine's 0.1 dp rounding. That is the numeric level for components; pixels then check the
+drawing, and every button mutant tried is caught by the frame (nine of nine) where the pixel floors
+caught one. Text needs a floor of its own: Chrome inks a glyph through CoreText with sub-pixel
+advances, Compose through Skia with whole-pixel ones, so the label alone (`TextFloor` cells) differs
+by 1.96–2.30 % of its cell, 48–54 % of its ink. Cells with text are held to that ink floor in
+`InkParityTest`, and each such group has a twin without text (`ButtonShape`) held to the Divider's. So a component's parity
 is read against its own Divider-like floor in the commit body, not against the 5 % default, and the
 default stays the report's threshold only. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
 implementation and the HTML can only be photographed. Here the design is a function that can be

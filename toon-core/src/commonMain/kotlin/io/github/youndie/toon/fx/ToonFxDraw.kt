@@ -20,6 +20,7 @@ import io.github.youndie.toon.draw.roundRectPoints
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothPath
 import io.github.youndie.toon.draw.starPoints
+import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.tokens.ToonColors
 import kotlin.math.PI
 import kotlin.math.cos
@@ -34,21 +35,12 @@ import kotlin.math.sin
 import kotlin.math.sqrt
 
 // A port of the engine's FX library (B-12): `dust`, `stars`, `speed`, `flash`, `vibe`, `irisAt` with
-// `irisScene`'s wipe, `hole` and `sweat`, plus the `shake` and `spr` curves they lean on. Each
+// `irisScene`'s wipe, `hole` and `sweat`, plus the `shake` curve. Each
 // function draws one frame from its life `u` in [0, 1) and draws nothing outside it, as the engine
 // returns an empty scene there. Arguments are the engine's, in dp; the arithmetic keeps its order.
+// `spr` lives with the other shared curves in motion/ToonCurves.kt.
 
 private fun c01(v: Float): Float = max(0f, min(1f, v))
-
-/** The engine's `spr`: a damped spring's displacement at [t] seconds, damping [z], frequency [w]. */
-internal fun toonSpring(
-    t: Float,
-    z: Float,
-    w: Float,
-): Float {
-    val wd = w * sqrt(1 - z * z)
-    return exp(-z * w * t) * (cos(wd * t) + z / sqrt(1 - z * z) * sin(wd * t))
-}
 
 /** The engine's `shake`: the struck element's sideways offset in dp at [t] ms; zero from 400 ms. */
 internal fun toonShake(t: Float): Float = if (t < 400) 6 * sin(2 * PI.toFloat() * t / 120) * exp(-t / 180) else 0f
