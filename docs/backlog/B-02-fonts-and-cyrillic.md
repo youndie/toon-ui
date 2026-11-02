@@ -1,7 +1,7 @@
 ---
 id: B-02
 title: "Fonts: bundle the four OFL families the design names"
-status: open
+status: wip
 priority: P0
 size: S
 stage: stage-0-risks
