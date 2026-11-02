@@ -145,6 +145,12 @@ const curves = {
   'pullRelease(t, 110)': { at: ms(500), f: t => E.pullRelease(t, 110) },
   'splashAt(t)': { at: ms(900), f: t => E.splashAt(t) },
   'pushAt(t, 180)': { at: ms(600), f: t => E.pushAt(t, 180) },
+  // B-44: `holeScene` has no curve of its own; its motion is read off its frame — the silhouette's
+  // `scale(…)` (three decimals) while it is drawn, and the new screen's opacity once it fades in.
+  'holeScene(t)': { at: ms(460), f: t => {
+    const T = E.THEMES.il, sc = E.holeScene(T, t), n = E.miniScreen(T, 180, 320, 0).length, hole = t > 0 && t < 420 ? sc.L[n] : null;
+    return { scale: hole ? Number(/scale\(([^)]+)\)/.exec(hole.tf)[1]) : undefined, newOp: t >= 380 ? sc.L[sc.L.length - 1].op : 0 };
+  } },
 };
 // Columnar: one array per field, so a reader takes `pos` at index t without parsing objects.
 const sampled = {};
