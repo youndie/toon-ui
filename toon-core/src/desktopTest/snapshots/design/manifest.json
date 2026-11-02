@@ -18956,6 +18956,396 @@
         4
       ],
       "scene": "(() => { const s = E.tipInflate(320, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Segmented_Day_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0}))"
+    },
+    {
+      "file": "Segmented_Week_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":1}))"
+    },
+    {
+      "file": "Segmented_MonthPressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "Segmented_WeekFocused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "Segmented_Disabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"disabled\":true}))"
+    },
+    {
+      "file": "Segmented_Switch_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(0, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_80ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(80, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_160ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(160, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(240, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_320ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(320, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Day_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0}))"
+    },
+    {
+      "file": "Segmented_Week_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":1}))"
+    },
+    {
+      "file": "Segmented_MonthPressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "Segmented_WeekFocused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "Segmented_Disabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"disabled\":true}))"
+    },
+    {
+      "file": "Segmented_Switch_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(0, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_80ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(80, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_160ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(160, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(240, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_320ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(320, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Day_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0}))"
+    },
+    {
+      "file": "Segmented_Week_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":1}))"
+    },
+    {
+      "file": "Segmented_MonthPressed_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "Segmented_WeekFocused_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "Segmented_Disabled_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        10,
+        14,
+        12,
+        10
+      ],
+      "scene": "E.segmented(T, Object.assign({ w: 260 }, {\"sel\":0,\"disabled\":true}))"
+    },
+    {
+      "file": "Segmented_Switch_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(0, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_80ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(80, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_160ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(160, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(240, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
+    },
+    {
+      "file": "Segmented_Switch_320ms_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 44,
+      "pad": [
+        8,
+        12,
+        12,
+        8
+      ],
+      "scene": "(() => { const a = E.segSwitch(320, 0, 2, 86.7); return E.segmented(T, { w: 260, sel: a.sel, ia: a.ia, ib: a.ib, sq: a.sq }); })()"
     }
   ],
   "screens": [
