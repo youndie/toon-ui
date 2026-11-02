@@ -46,6 +46,29 @@ jobs:
 
       - uses: youndie/docs-bootstrap@v0.3.11
 
+  # The code gate (B-01): the one target a contributor runs, unsplit, on macOS. The screenshot and
+  # parity suite to come photographs components, and its goldens are a claim about the rasteriser
+  # that recorded them; oldge-ui and kvadrant-ui keep this job on a Mac for that reason. A green
+  # `check` says nothing about Android or wasm (research D9).
+  gradle:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Java and Gradle in one step and at one version for the portfolio.
+      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.130
+
+      - run: ./gradlew check --no-daemon
+
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports
+          path: "**/build/reports/**"
+          retention-days: 7
+          if-no-files-found: ignore
+
   # Separate from the gate, and on a schedule rather than on a pull request, because an anchor rots
   # when somebody refactors a **different** repository. A pull request here is the least likely
   # moment for one to break, and running it there trains people to ignore a red build they did not

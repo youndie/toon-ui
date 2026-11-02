@@ -7,7 +7,7 @@ documentation is layered, and links run top to bottom.
 ```
 [ Research (why the architecture is what it is) ]
                      │
-[ Service (the toon-core module, once it exists) ]
+[ Service (the toon-core module) ]
 ```
 
 | Layer | Directory | Answers | Source of truth |
@@ -17,8 +17,8 @@ documentation is layered, and links run top to bottom.
 
 There is no `features/`, `screens/` or `api/` layer. A component library has no end-user feature
 flow or HTTP contract. Its "screens" are the design project's spec pages, vendored in
-`reference/design-system/` and measured against rather than re-described here. `services/` is
-empty until B-01 creates `toon-core`: `main` describes what exists.
+`reference/design-system/` and measured against rather than re-described here. `services/` holds
+the one library module, `toon-core`.
 
 **Backlog** — [backlog.md](../backlog.md): the order of work and the stages. The items themselves
 are one file each in [`backlog/`](backlog/), cited as `[B-12](backlog/B-12-icon-button-and-badge.md)`.
@@ -57,3 +57,7 @@ no file behind it, fails the coverage check.
 ### Research (1)
 
 - [x] [research-architecture](research/research-architecture.md) — what was imported and verified, the decisions, the open hypotheses
+
+### Services (1/1)
+
+- [x] [toon-core](services/toon-core.md) — the library module: targets, build, the test toolchain

@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (43)
+## Open (42)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-01](docs/backlog/B-01-repository-skeleton.md) `[~]` | Repository skeleton: sborka conventions, toon-core on four targets, both gates | P0 | M | - |
 | [B-02](docs/backlog/B-02-fonts-and-cyrillic.md) `[ ]` | Fonts: bundle the four OFL families the design names | P0 | S | B-01 |
 | [B-03](docs/backlog/B-03-engine-golden-harness.md) `[ ]` | Engine harness: run toon-engine.js in Node and emit golden JSON | P0 | M | B-01 |
 | [B-04](docs/backlog/B-04-geometry-port-and-numeric-parity.md) `[ ]` | Geometry port: Mulberry32, rr, wob, shape, squash, inkLine, with numeric parity | P0 | M | B-03 |
@@ -100,7 +99,11 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (1)
+## Closed (2)
+
+**Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
+
+- [B-01](docs/backlog/B-01-repository-skeleton.md) `[x]` - Repository skeleton: sborka conventions, toon-core on four targets, both gates
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
