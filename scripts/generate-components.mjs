@@ -40,6 +40,32 @@ const BADGE_IMPORTS = [
 
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  Checkbox: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonCheckboxLook',
+      'io.github.youndie.toon.component.toonCheckboxScene',
+    ],
+    cell: `// The Core page's checkbox cells and strips against the engine's \`check\` drawn in Chrome.
+`,
+  },
+  Radio: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonRadioLook',
+      'io.github.youndie.toon.component.toonRadioScene',
+    ],
+    cell: `// The MVP page's radio cells and drop strip against the engine's \`radio\` drawn in Chrome.
+`,
+  },
   Fab: {
     imports: [
       'androidx.compose.runtime.Composable',

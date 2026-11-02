@@ -131,6 +131,7 @@ internal object EngineFrames {
                 },
                 "$name layer $i: dash",
             )
+            // The engine writes the offset to two decimals: half a step, plus Float error.
             assertEquals(l.f("doff") ?: 0f, mine.dashOffset, 5e-3f + 1e-4f, "$name layer $i: dash offset")
             val expected = numbers(d)
             assertEquals(expected.size, mine.numbers.size, "$name layer $i: coordinates")
