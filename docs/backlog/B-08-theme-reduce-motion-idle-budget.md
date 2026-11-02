@@ -1,7 +1,7 @@
 ---
 id: B-08
 title: "ToonTheme provider, system reduce motion, and a counted idle budget"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-materials
