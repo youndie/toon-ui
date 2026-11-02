@@ -3,6 +3,8 @@ plugins {
     alias(wip.plugins.composeMultiplatform)
     alias(wip.plugins.composeCompiler)
     alias(wip.plugins.androidKotlinMultiplatformLibrary)
+    alias(wip.plugins.ksp)
+    alias(libs.plugins.viddik)
     id("io.github.youndie.sborka.kmp")
     id("io.github.youndie.sborka.lint")
 }
@@ -64,6 +66,27 @@ kotlin {
             implementation(wip.kotlinx.serialization.json)
         }
     }
+}
+
+// B-06. Goldens are verified by `check`; design parity is a report (`viddikDesignParity`) against
+// the PNGs scripts/design-references.mjs renders from the engine in Chrome. The tolerances are
+// viddik's defaults, written here to say they were looked at; the floor they are read against is
+// measured in B-06 (research D3) and is the number a component's parity is compared with.
+viddik {
+    verifyOnCheck.set(true)
+    shards.set(1)
+    designTolerancePercent.set(5.0)
+    designChannelTolerance.set(16)
+    designStrict.set(false)
+}
+
+// A test that reads the golden directory must declare it, or Gradle leaves the test UP-TO-DATE over
+// a changed set and reports the last run's verdict (oldge-ui and kvadrant-ui both learnt this).
+tasks.withType<Test>().configureEach {
+    inputs
+        .dir(layout.projectDirectory.dir("src/desktopTest/snapshots"))
+        .withPropertyName("viddikSnapshots")
+        .withPathSensitivity(org.gradle.api.tasks.PathSensitivity.RELATIVE)
 }
 
 compose.resources {

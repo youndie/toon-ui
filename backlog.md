@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (39)
+## Open (38)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-06](docs/backlog/B-06-pixel-references-and-floor.md) `[ ]` | Pixel references: render every state in headless Chrome, measure parity's floor | P0 | L | B-01, B-02 |
 | [B-07](docs/backlog/B-07-token-generator.md) `[ ]` | Tokens generated from THEMES: colours, shape, type, motion, three themes | P1 | M | B-03 |
 | [B-08](docs/backlog/B-08-theme-reduce-motion-idle-budget.md) `[ ]` | ToonTheme provider, system reduce motion, and a counted idle budget | P1 | M | B-07 |
 | [B-09](docs/backlog/B-09-ink-drawing-primitives.md) `[ ]` | Ink drawing primitives: body with hard shadow and night rim, focus ring, placement | P1 | M | B-04, B-05, B-06 |
@@ -96,7 +95,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (6)
+## Closed (7)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -105,6 +104,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-03](docs/backlog/B-03-engine-golden-harness.md) `[x]` - Engine harness: run toon-engine.js in Node and emit golden JSON
 - [B-04](docs/backlog/B-04-geometry-port-and-numeric-parity.md) `[x]` - Geometry port: Mulberry32, rr, wob, shape, squash, inkLine, with numeric parity
 - [B-05](docs/backlog/B-05-frame-cost-measurement.md) `[x]` - Measure the frame cost of per-frame geometry before components depend on it
+- [B-06](docs/backlog/B-06-pixel-references-and-floor.md) `[x]` - Pixel references: render every state in headless Chrome, measure parity's floor
 
 **The owner's questions answered; the semantics and contrast tests pass**
 

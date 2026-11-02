@@ -199,7 +199,17 @@ the spec's frame timestamps) and **visually** (per-state PNGs rendered by the en
 Chrome, measured with viddik). *Built in B-03:* `scripts/engine-goldens.mjs` runs the engine in Node and writes
 `toon-core/src/desktopTest/resources/engine-goldens`. It records every outline a component's renderer
 asks `wob` for (its arguments and its unrounded points), the `inkLine`, `star` and `burst` paths, and
-43 curves sampled every millisecond. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
+43 curves sampled every millisecond. *Built in B-06:* `scripts/design-references.mjs` draws each reference with the engine in headless
+Chrome and the bundled fonts, at device scale 1, because viddik captures at 1 dp = 1 px. The PNGs go
+to `toon-core/src/desktopTest/snapshots/design`; `viddikDesignParity` measures the Compose fixtures
+against them. **The floor** is measured on the Divider, whose geometry matches within 0.05 px (B-04).
+Over its four states and three themes, 0.00–1.54 % of pixels differ by more than ±16 per channel:
+Ink & Gouache light 0.63–1.54 %, Bright Cel 0.21–1.39 %, night 0.00 %, where ink on navy keeps every
+difference under the channel slack. That is the two rasterisers and nothing else. Two mutants showed
+the scale. A line 20 % thicker measured 7.80 % against its 1.54 %. A wrong seed on the short divider
+measured 4.24 % against its 0.21 %, which still passes viddik's default 5 %. So a component's parity
+is read against its own Divider-like floor in the commit body, not against the 5 % default, and the
+default stays the report's threshold only. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
 implementation and the HTML can only be photographed. Here the design is a function that can be
 called, and a pixel diff of a wobbly outline cannot say whether a seed, a radius or a font moved it.
 
