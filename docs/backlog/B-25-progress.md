@@ -1,7 +1,7 @@
 ---
 id: B-25
 title: "Progress: the inchworm and the spinning blob"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
