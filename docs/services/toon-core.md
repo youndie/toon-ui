@@ -195,9 +195,10 @@ None at runtime.
 - A component's canvas is drawn in dp inside `inDp` (B-47), and a label is laid out at density 1
   with the user's font scale. A new component that draws a frame, or reads a pointer's position,
   does the same: `inDp { … }` around its drawing, `position / density` in its gesture.
-- The FX host draws an event's effect from its `bounds` alone; the `at`, `spread`, `size` and
-  `puffs` an event carries are not read yet (B-48), so a dialog's pop is drawn above the layer's
-  top edge, not on the dialog.
+- An FX event's points (`at`, `puffs`) are root pixels and its `spread` or `size` dp; the host moves
+  the points into its own dp as it does the bounds (B-48). A null point is the FX page's place on
+  the element, its offsets in dp at any density: dust 8 dp in from each bottom corner and 2 below,
+  stars 6 dp over the top middle, the flash 2 dp over the centre.
 - An indeterminate progress indicator asks for a frame every frame for as long as it is shown, as the
   kit's global clock does; it does not take a slot of the idle budget, which is for decoration. A UI
   test with one on screen sets `mainClock.autoAdvance = false` (`ToonProgressTest`).
