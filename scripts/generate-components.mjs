@@ -97,6 +97,20 @@ const PRELUDE = {
     cell: `// The v1 page's slider cells and its grab strip against the engine's \`slider\` drawn in Chrome.
 `,
   },
+  Menu: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonMenuLook',
+      'io.github.youndie.toon.component.toonMenuScene',
+    ],
+    cell: `// The v1 page's menu cells and its unroll and roll-up strips against the engine's \`menu\` drawn in
+// Chrome (MenuFrames).
+`,
+  },
   TabsShape: {
     imports: [
       'androidx.compose.runtime.Composable',
