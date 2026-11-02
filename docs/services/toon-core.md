@@ -75,6 +75,8 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonChip.kt` | `ToonChip` (B-20): `toonChipScene` is the engine's `chip`, `toonChipSelect` its `chipSelect` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCard.kt` | `ToonCard` (B-21): `toonCardScene` is the engine's `card`, `toonCardAppear` and `toonCardDismiss` its curves |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/CardFrames.kt` | the Core page's card cells and strips composed as the page does, `cardStack` included |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonListItem.kt` | `ToonListItem` (B-22): `toonListItemScene` is the engine's `listItem`, `toonListPress` its `listPress` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonDivider.kt` | `ToonDivider` (B-22): `toonDividerScene` is the engine's `divider` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -82,7 +84,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/ButtonParityFixtures.kt` | the Core page's button cells and strips, with `ButtonShapeParityFixtures.kt` (no label) and `TextFloorParityFixtures.kt` (label alone), generated from `scripts/component-cells.mjs` (`make components`) |
 | `toon-core/src/desktopTest/snapshots` | viddik goldens (B-06), checked by `check` |
 | `toon-core/src/desktopTest/snapshots/design` | the Chrome references, written by `scripts/design-references.mjs`, with a `manifest.json` naming the Chrome and the engine |
-| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/DividerParityFixtures.kt` | the Divider fixtures the floor is measured on |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/DividerParityFixtures.kt` | the Divider fixtures the floor is measured on, generated since B-22 from `scripts/component-cells.mjs` |
 | `toon-core/src/commonMain/composeResources` | the font files (`font`) and their OFL texts (`files/licences`) |
 
 ## 3. How it is built

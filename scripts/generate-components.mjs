@@ -40,6 +40,35 @@ const BADGE_IMPORTS = [
 
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  Divider: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.toonDividerScene',
+    ],
+    cell: `// B-06: the parity floor. The MVP page's Divider cells against the engine's \`divider\` drawn in Chrome:
+// one filled inkLine whose numbers match the engine's within 0.05 dp, so what they differ by is the
+// two rasterisers (research D3).
+`,
+  },
+  ListItem: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonListItemLook',
+      'io.github.youndie.toon.component.ToonListTrailing',
+      'io.github.youndie.toon.component.toonListItemScene',
+      'io.github.youndie.toon.icon.ToonIcons',
+    ],
+    cell: `// The MVP page's list item cells and press strip against the engine's \`listItem\` drawn in Chrome.
+`,
+  },
   Card: {
     imports: [
       'androidx.compose.runtime.Composable',

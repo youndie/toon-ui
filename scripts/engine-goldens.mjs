@@ -13,7 +13,7 @@ import { mkdirSync, readFileSync, writeFileSync, existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
-import { COMPONENT_CELLS } from './component-cells.mjs';
+import { COMPONENT_CELLS, FRAME_PROBES } from './component-cells.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const enginePath = join(root, 'reference/design-system/toon-engine.js');
@@ -202,12 +202,13 @@ const fx = {
 // text's place. The port builds the same frame as data and is held to it layer by layer, which no
 // pixel diff can do through a large fill. Without a DOM, `tw` measures text as length × size × 0.55
 // (research §1.2); the test gives the port the same width.
-const FRAME_GROUPS = ['Button', 'IconButton', 'Badge', 'Fab', 'Checkbox', 'Radio', 'Switch', 'TextField', 'Chip', 'Card'];
+const FRAME_GROUPS = ['Button', 'IconButton', 'Badge', 'Fab', 'Checkbox', 'Radio', 'Switch', 'TextField', 'Chip', 'Card', 'Divider', 'ListItem'];
 // The press section's `document` stub would make `iconOutline` reach for a DOM it does not have; the
 // frames are taken without it, as every other golden here is.
 const documentStub = globalThis.document;
 delete globalThis.document;
-const frames = Object.fromEntries(FRAME_GROUPS.map(group => [group, Object.fromEntries(COMPONENT_CELLS[group].map(c => {
+const FRAME_CELLS = { ...COMPONENT_CELLS, ...FRAME_PROBES };
+const frames = Object.fromEntries([...FRAME_GROUPS, ...Object.keys(FRAME_PROBES)].map(group => [group, Object.fromEntries(FRAME_CELLS[group].map(c => {
   const sc = new Function('E', 'T', `return ${c.scene};`)(E, E.THEMES[c.theme]);
   return [c.name, {
     theme: c.theme,

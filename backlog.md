@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (25)
+## Open (24)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-22](docs/backlog/B-22-list-item-and-divider.md) `[ ]` | ListItem and Divider | P1 | S | B-10, B-09 |
 | [B-23](docs/backlog/B-23-snackbar.md) `[ ]` | Snackbar: flies up on its rope, swings, anticipates down | P1 | S | B-12 |
 | [B-24](docs/backlog/B-24-dialog.md) `[ ]` | Dialog: iris spotlight in, pop and stars out | P1 | M | B-10, B-12 |
 | [B-25](docs/backlog/B-25-progress.md) `[ ]` | Progress: the inchworm and the spinning blob | P1 | S | B-09 |
@@ -82,7 +81,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 
-## Closed (21)
+## Closed (22)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -112,6 +111,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-19](docs/backlog/B-19-text-field.md) `[x]` - TextField: drawn frame over a real input, label lift, error shake with stars
 - [B-20](docs/backlog/B-20-chip.md) `[x]` - Chip: filter, assist, input; inflate and paint-in; a 48 dp target
 - [B-21](docs/backlog/B-21-card.md) `[x]` - Card: tilt, drop-in with dust and cascade, press lean, swipe dismiss with a hole
+- [B-22](docs/backlog/B-22-list-item-and-divider.md) `[x]` - ListItem and Divider
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
