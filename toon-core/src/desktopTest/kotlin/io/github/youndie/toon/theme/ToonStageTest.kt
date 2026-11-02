@@ -53,11 +53,16 @@ class ToonStageTest {
                 for (y in 0 until period step 3) {
                     for (x in 0 until period step 3) colours += px[x, y].toArgb()
                 }
+                var halfway = 0
                 for (y in 0 until (40 * d).toInt()) {
                     for (x in 0 until (40 * d).toInt()) {
                         if (px[x, y].toArgb() != px[x + period, y].toArgb()) mismatched++
+                        if (px[x, y].toArgb() != px[x, y + period].toArgb()) mismatched++
+                        if (px[x, y].toArgb() != px[x + period / 2, y].toArgb()) halfway++
                     }
                 }
+                // Not at half the period: a tile drawn at 256 px would repeat at 512 px too.
+                assertTrue(halfway > 0, "density $d: the tile repeats at ${period / 2} px")
                 // The tile's palette is small (8 colours on a 6 px grid of the PNG); the flat stage has one.
                 assertTrue(colours.size >= 4, "density $d: a texture, not a flat colour (${colours.size} colours)")
                 assertEquals(0, mismatched, "density $d: the tile repeats at $period px")
