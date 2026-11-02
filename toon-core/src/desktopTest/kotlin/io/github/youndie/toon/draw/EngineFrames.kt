@@ -140,18 +140,26 @@ internal object EngineFrames {
             val l = e.jsonObject
             val mine = scene.layers[i]
             val stroked = l.getValue("stroke").jsonPrimitive.content != "none"
-            val tf = transform(l.getValue("tf").jsonPrimitive.content)
+            val tfText = l.getValue("tf").jsonPrimitive.content
+            val tf = transform(tfText)
+            // Each translation the engine writes is rounded to 0.1 (`place` adds one to a layer's own);
+            // the pair about a pivot is whole numbers.
+            val rounded =
+                Regex("translate\\(").findAll(tfText).count() - (if (mine.pivotX != 0f || mine.pivotY != 0f) 2 else 0)
+            val offset = ROUNDING * max(1, rounded) + 2e-4f
             val own = mine.affine()
             // The engine writes a scale to three decimals and an offset to one; a pivot carries the
             // scale's rounding into the offset, so only a layer with one gets that much more.
             val carried = 5e-4f * maxOf(kotlin.math.abs(mine.pivotX), kotlin.math.abs(mine.pivotY))
+            // It writes an angle to 0.1°: sin(0.05°) more in the matrix, for a layer that turns.
+            val turned = if (mine.rotation != 0f) 8.73e-4f else 0f
             for ((what, g, m, tol) in listOf(
-                Quad("scale x", tf.a, own.a, 5e-4f),
-                Quad("skew y", tf.b, own.b, 5e-4f),
-                Quad("skew x", tf.c, own.c, 5e-4f),
-                Quad("scale y", tf.d, own.d, 5e-4f),
-                Quad("x offset", tf.e, own.e, TOLERANCE + carried),
-                Quad("y offset", tf.f, own.f, TOLERANCE + carried),
+                Quad("scale x", tf.a, own.a, 5e-4f + turned),
+                Quad("skew y", tf.b, own.b, 5e-4f + turned),
+                Quad("skew x", tf.c, own.c, 5e-4f + turned),
+                Quad("scale y", tf.d, own.d, 5e-4f + turned),
+                Quad("x offset", tf.e, own.e, offset + carried),
+                Quad("y offset", tf.f, own.f, offset + carried),
             )) {
                 assertEquals(g, m, tol, "$name layer $i: $what")
             }

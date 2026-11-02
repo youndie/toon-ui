@@ -40,6 +40,33 @@ const BADGE_IMPORTS = [
 
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  TextField: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonFieldLook',
+      'io.github.youndie.toon.component.engineCaretX',
+      'io.github.youndie.toon.component.toonFieldScene',
+      'io.github.youndie.toon.draw.ToonScene',
+      'io.github.youndie.toon.fx.toonStarsScene',
+    ],
+    cell: `// The Core page's text field cells and its focus, error and caret strips against the engine's \`field\`
+// (and \`stars\`) drawn in Chrome.
+
+private fun plus(
+    a: ToonScene,
+    b: ToonScene,
+) = a + b
+
+private fun placedAt(
+    scene: ToonScene,
+    x: Float,
+) = scene.placed(x, 0f)
+`,
+  },
   Switch: {
     imports: [
       'androidx.compose.runtime.Composable',
