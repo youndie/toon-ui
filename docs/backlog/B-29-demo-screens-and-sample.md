@@ -20,3 +20,5 @@ The Screens page assembles three phone screens from library components only, in 
 
 - AC: nine phone fixtures and the desktop fixture within the floor; the sample app runs on desktop.
 - Anchors: `reference/design-system/toon-ui Screens.dc.html`, `reference/design-system/toon-ui Kit.dc.html`.
+- The screens stand on `ToonStage` (B-13), which draws the gouache tile in both Ink & Gouache themes
+  and Bright Cel's flat backdrop; B-13's acceptance on the Screens fixtures is checked here.
