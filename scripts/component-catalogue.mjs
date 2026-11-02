@@ -52,7 +52,7 @@ const MAP = {
   Switch: { composable: 'ToonSwitch', engine: ['sw'], item: 'B-18', group: 'Switch' },
   Tabs: { composable: 'ToonTabs', engine: ['tabs'], item: 'B-28', group: 'Tabs' },
   TextField: { composable: 'ToonTextField', engine: ['field'], item: 'B-19', group: 'TextField' },
-  TitleCard: { engine: ['titleCard'], item: 'B-43' },
+  TitleCard: { composable: 'ToonTitleCard', engine: ['titleCard', 'splashAt'], item: 'B-43', group: 'TitleCard' },
   Tooltip: { composable: 'ToonTooltip', engine: ['tooltip', 'tipInflate'], item: 'B-40', group: 'Tooltip' },
   TopAppBar: { composable: 'ToonTopAppBar', engine: ['topBar'], item: 'B-26', group: 'TopAppBar' },
 };
