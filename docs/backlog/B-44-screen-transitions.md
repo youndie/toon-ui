@@ -1,7 +1,7 @@
 ---
 id: B-44
 title: "Screen transitions: push with smear, iris scene change, hole in the wall"
-status: open
+status: wip
 priority: P2
 size: M
 stage: stage-2-components
