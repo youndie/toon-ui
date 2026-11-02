@@ -156,6 +156,60 @@ async function render(cdp, ref, dir, capture) {
   }
 }
 
+// B-29: the Screens page's phone screens and desktop layout, rendered by the design's own runtime (the
+// page's `support.js` and the kit over the engine) rather than rebuilt here, so the reference is the
+// page as the designer sees it. With reduced motion the kit puts every animation at its last frame
+// and stops the idle loops, which makes the capture deterministic; each `[data-screen-label]` is cut
+// out at its own box.
+const SCREENS_PAGE = join(ROOT, 'reference/design-system/toon-ui Screens.dc.html');
+const SCREEN_ROWS = ['InkGouacheLight', 'InkGouacheNight', 'BrightCel'];
+const SCREEN_NAMES = { 'Sign in': 'SignIn', List: 'List', Settings: 'Settings' };
+export const SCREENS = [
+  ...SCREEN_ROWS.flatMap((theme) => Object.values(SCREEN_NAMES).map((n) => ({ group: 'Screens', name: `${n}_${theme}`, w: 390, h: 844 }))),
+  { group: 'Screens', name: 'Desktop_InkGouacheLight', w: 1280, h: 800 },
+];
+
+async function renderScreens(cdp) {
+  const { targetId } = await cdp.send('Target.createTarget', { url: 'about:blank' });
+  const { sessionId } = await cdp.send('Target.attachToTarget', { targetId, flatten: true });
+  try {
+    await cdp.send('Page.enable', {}, sessionId);
+    await cdp.send('Runtime.enable', {}, sessionId);
+    await cdp.send('Emulation.setDeviceMetricsOverride', { width: 1500, height: 4200, deviceScaleFactor: 1, mobile: false }, sessionId);
+    await cdp.send('Emulation.setEmulatedMedia', { features: [{ name: 'prefers-reduced-motion', value: 'reduce' }] }, sessionId);
+    const loaded = cdp.once('Page.loadEventFired', sessionId);
+    await cdp.send('Page.navigate', { url: pathToFileURL(SCREENS_PAGE).href }, sessionId);
+    await loaded;
+    // The runtime mounts the components after load; wait for every one of them and the faces.
+    await cdp.send('Runtime.evaluate', { awaitPromise: true, expression: `(async () => {
+      for (let i = 0; i < 100 && document.querySelectorAll('[data-screen-label="Settings"]').length < 3; i++) await new Promise((r) => setTimeout(r, 100));
+      await document.fonts.ready;
+      await new Promise((r) => setTimeout(r, 1500));
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)));
+    })()` }, sessionId);
+    const boxes = (await cdp.send('Runtime.evaluate', { returnByValue: true, expression: `[...document.querySelectorAll('[data-screen-label]')]
+      .filter((e) => e.dataset.screenLabel !== 'Demo screens')
+      .map((e) => { const r = e.getBoundingClientRect(); return { label: e.dataset.screenLabel, x: r.x + scrollX, y: r.y + scrollY, w: r.width, h: r.height }; })` }, sessionId)).result.value;
+    const named = [];
+    let row = 0;
+    for (const b of boxes) {
+      if (b.label === 'Desktop') named.push({ name: 'Desktop_InkGouacheLight', ...b });
+      else {
+        named.push({ name: `${SCREEN_NAMES[b.label]}_${SCREEN_ROWS[Math.floor(row / 3)]}`, ...b });
+        row++;
+      }
+    }
+    const shots = {};
+    for (const b of named) {
+      const shot = await cdp.send('Page.captureScreenshot', { format: 'png', captureBeyondViewport: true, clip: { x: b.x, y: b.y, width: b.w, height: b.h, scale: 1 } }, sessionId);
+      shots[`Screens_${b.name}`] = Buffer.from(shot.data, 'base64');
+    }
+    return shots;
+  } finally {
+    await cdp.send('Target.closeTarget', { targetId });
+  }
+}
+
 const argv = process.argv.slice(2);
 const check = argv.includes('--check');
 const chrome = argv.includes('--chrome') ? argv[argv.indexOf('--chrome') + 1] : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
@@ -174,12 +228,21 @@ try {
     if (check) { if (!existsSync(target) || !readFileSync(target).equals(png)) stale.push(`${ref.group}_${ref.name}`); }
     else writeFileSync(target, png);
   }
+  const screens = await renderScreens(cdp);
+  for (const ref of SCREENS) {
+    const key = `${ref.group}_${ref.name}`;
+    if (!screens[key]) throw new Error(`the Screens page has no ${key}`);
+    const target = join(OUT, `${key}.png`);
+    if (check) { if (!existsSync(target) || !readFileSync(target).equals(screens[key])) stale.push(key); }
+    else writeFileSync(target, screens[key]);
+  }
 } finally {
   await close();
   rmSync(work, { recursive: true, force: true });
 }
 const engineSha = createHash('sha256').update(readFileSync(ENGINE)).digest('hex');
-const manifest = { browser: version, engine: engineSha, scale: 1, references: REFERENCES.map(({ group, name, theme, w, h, pad, scene }) => ({ file: `${group}_${name}.png`, theme, w, h, pad, scene })) };
+const manifest = { browser: version, engine: engineSha, scale: 1, references: REFERENCES.map(({ group, name, theme, w, h, pad, scene }) => ({ file: `${group}_${name}.png`, theme, w, h, pad, scene })),
+  screens: SCREENS.map(({ group, name, w, h }) => ({ file: `${group}_${name}.png`, page: 'toon-ui Screens.dc.html', w, h, reducedMotion: true })) };
 if (check) {
   if (stale.length) { console.error(`design references differ from a fresh render in ${version}: ${stale.join(', ')}`); process.exit(1); }
   console.log(`${REFERENCES.length} design references match a fresh render in ${version}`);
@@ -187,5 +250,5 @@ if (check) {
   writeFileSync(join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
   mkdirSync(dirname(OUTLINES), { recursive: true });
   writeFileSync(OUTLINES, outlines);
-  console.log(`${REFERENCES.length} design references written with ${version}`);
+  console.log(`${REFERENCES.length} design references and ${SCREENS.length} screens written with ${version}`);
 }
