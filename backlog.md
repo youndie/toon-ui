@@ -52,12 +52,11 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (18)
+## Open (17)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
-| [B-13](docs/backlog/B-13-textures.md) `[ ]` | Textures: get the four tiles, tile them as an ImageShader | P2 | S | - |
 | [B-29](docs/backlog/B-29-demo-screens-and-sample.md) `[ ]` | Demo screens: sign in, the list, settings, day and night, and a sample app | P2 | M | B-13, B-14, B-19, B-21, B-27 |
 | [B-30](docs/backlog/B-30-accessibility.md) `[ ]` | Accessibility: semantics, state descriptions, contrast, targets | P2 | M | B-14, B-15, B-16, B-17, B-18, B-19, B-20, B-21, B-22, B-23, B-24, B-25, B-26, B-27, B-28 |
 | [B-31](docs/backlog/B-31-component-catalogue.md) `[ ]` | Component catalogue: which composable is which design file, generated | P2 | S | B-14 |
@@ -75,7 +74,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 | [B-48](docs/backlog/B-48-fx-host-event-points.md) `[ ]` | FX host: draw each effect where its event puts it | P2 | S | - |
 
-## Closed (30)
+## Closed (31)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -94,6 +93,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-10](docs/backlog/B-10-press-feedback.md) `[x]` - Press feedback: squash on press, spring from where it got to, action on release
 - [B-11](docs/backlog/B-11-icon-set.md) `[x]` - Icons: 25 centerlines, variable-width outline, Regular and Bold, ToonIcon
 - [B-12](docs/backlog/B-12-fx-layer-and-events.md) `[x]` - FX layer: eight effects and the named events that fire them
+- [B-13](docs/backlog/B-13-textures.md) `[x]` - Textures: get the four tiles, tile them as an ImageShader
 - [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[x]` - Cyrillic: find OFL faces that carry Russian in each of the four roles
 
 **Each MVP component matches its strips and cells in three themes**
