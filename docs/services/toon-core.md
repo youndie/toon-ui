@@ -50,6 +50,8 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonTheme.kt` | `ToonTheme`, `ToonThemes`, `Toon` (B-08): tokens, fonts, reduce motion and the idle budget for everything inside |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonIdleBudget.kt` | the counted idle budget and `rememberToonIdleSlot` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/PlatformReducedMotion.kt` | the platform's reduce-motion setting, with an actual per target |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/interaction/ToonPress.kt` | the kit's press machine, `rememberToonPressState` and `Modifier.toonPressable` (B-10) |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/interaction/ToonPressTest.kt` | the machine against toon-kit.js over five timelines (`engine-goldens/press.json`) |
 | `toon-core/src/desktopTest/snapshots` | viddik goldens (B-06), checked by `check` |
 | `toon-core/src/desktopTest/snapshots/design` | the Chrome references, written by `scripts/design-references.mjs`, with a `manifest.json` naming the Chrome and the engine |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/DividerParityFixtures.kt` | the Divider fixtures the floor is measured on |
@@ -108,6 +110,8 @@ None at runtime.
 - `compose.components.resources` is a deprecated accessor in the build script (two `w:` lines on
   every configuration). The plugin's own accessor keeps its version tied to the Compose plugin's,
   and oldge-ui made the same trade.
+- A held press stops asking for frames once it is fully down and wakes on the release (B-10).
+  Holding a button costs nothing after the first 80 ms.
 - A refused idle slot is not handed over when one frees up: an element that starts breathing later
   reads as a glitch (B-08).
 - The body faces are variable files with a default instance of Light 300. Below Android 8 a
