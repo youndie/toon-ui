@@ -644,6 +644,14 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-38: the kit's `C.sheet` scene, which the page does not draw (its rows are its own): the
+  // default two items and four, at rest and 90 ms into an open, on a 360 × 520 screen.
+  BottomSheetKit: Object.entries(THEMES).flatMap(([theme, themeName]) => [2, 4].flatMap(n => [null, 90].map(t => {
+    const items = [['person', 'Family'], ['share', 'Copy link'], ['star', 'Saved'], ['calendar', 'Plans']].slice(0, n);
+    const h = Math.min(520 - 80, 110 + n * 72);
+    return sceneCell('BottomSheetKit', theme, themeName, `Rows${n}_${t == null ? 'Rest' : `${t}ms`}`, 360, 520, [0, 0, 0, 0], t == null ? { n } : { n, t },
+      `(() => { const it = ${JSON.stringify(items)}, h = ${h}, a = ${t == null ? '{ dy: 0, scrim: 1 }' : `E.sheetMove(${t}, true, h)`}, s = E.sheet(T, { W: 360, Hs: 520, h, dy: a.dy, scrim: a.scrim, title: 'Share plan' }); return E.cat(s, ...it.map(([ic, lb], i) => E.place(E.listItem(T, { w: 360 - 48, icon: ic || 'star', title: lb, trailing: 'chevron', last: i === it.length - 1, seed: i }), 24, s.y + 70 + i * 72))); })()`, '');
+  }))),
   // B-37: the paper's first 20 dp, which no page frame lands in — the strips jump from none to most —
   // where the body is drawn from 2 dp and only the rolls show below it.
   MenuProbe: Object.entries(THEMES).flatMap(([theme, themeName]) => [.01, .05, .1].map(u =>

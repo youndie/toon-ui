@@ -65,6 +65,41 @@ class ToonBottomSheetTest {
     }
 
     @Test
+    fun `the kit's own scene, its rows on the sheet, is the engine's at rest and opening`() {
+        val all =
+            listOf(
+                ToonSheetItem("Family", ToonIcons.Person),
+                ToonSheetItem("Copy link", ToonIcons.Share),
+                ToonSheetItem("Saved", ToonIcons.Star),
+                ToonSheetItem("Plans", ToonIcons.Calendar),
+            )
+        val cells = EngineFrames.cells("BottomSheetKit")
+        val worst =
+            cells.maxOf { cell ->
+                val n =
+                    cell.opts
+                        .getValue("n")
+                        .jsonPrimitive.content
+                        .toInt()
+                val t = cell.opts.f("t")
+                val m =
+                    ToonSheetMoment(
+                        if (t ==
+                            null
+                        ) {
+                            ToonSheetMotion()
+                        } else {
+                            toonSheetMove(t, true, toonSheetHeight(520f, n))
+                        },
+                    )
+                EngineFrames.compare(cell, toonSheetLayerScene(cell.tokens, 360f, 520f, "Share plan", all.take(n), m))
+            }
+        println("kit sheet frames: ${cells.size} cells, worst coordinate $worst dp")
+        assertEquals(12, cells.size)
+        assertTrue(worst <= EngineFrames.TOLERANCE, "worst coordinate $worst dp")
+    }
+
+    @Test
     fun `the sheet follows the engine's curve at every millisecond, up and down`() {
         val curves =
             Json
