@@ -1,7 +1,7 @@
 ---
 id: B-29
 title: "Demo screens: sign in, the list, settings, day and night, and a sample app"
-status: open
+status: wip
 priority: P2
 size: M
 stage: stage-3-screens
