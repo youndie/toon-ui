@@ -221,6 +221,12 @@ None at runtime.
   in the fixtures, not in the components: a line box shorter than the face's own line (Shrikhand
   at `line-height: 1`), centred as CSS's negative half-leading puts it, and an inline component's
   line box as tall as the page body's strut (the desktop's progress bar, 19.2 dp for 14).
+- A dismissible card offers `Dismiss` as a screen reader's action, since a swipe has none (B-30); it
+  throws the card as a swipe to the right does.
+- The top bar's outermost action target reaches the sign's edge and the innermost 8 dp past its
+  40 dp: one or two actions are 48 dp targets. A middle one of three or more stays 40 dp (B-49).
+- The navigation bar and the tabs are one node each for a screen reader: the selected item as its
+  state, every item as an action, not a node per item (B-30).
 - The worm arches out of its tube by up to 11 dp and the linear indicator is laid out 14 dp tall: the
   kit pads its box 18 dp above. A parent that clips cuts the arch.
 - A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the

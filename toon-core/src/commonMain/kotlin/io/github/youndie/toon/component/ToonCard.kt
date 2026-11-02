@@ -20,7 +20,9 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
@@ -134,6 +136,20 @@ public fun ToonCard(
                 onClick {
                     if (enabled) click()
                     enabled
+                }
+                // A swipe has no equivalent a screen reader can perform; the action throws the card the
+                // way a swipe to the right does (B-30).
+                if (dismissible && enabled) {
+                    customActions =
+                        listOf(
+                            CustomAccessibilityAction("Dismiss") {
+                                if (!state.gone && !state.dismissing) {
+                                    state.drag(DISMISS_PAST + 1)
+                                    state.release(true)
+                                }
+                                true
+                            },
+                        )
                 }
             }.pointerInput(enabled, dismissible, w) {
                 if (!enabled) return@pointerInput

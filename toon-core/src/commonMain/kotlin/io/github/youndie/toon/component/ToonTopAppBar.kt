@@ -226,7 +226,12 @@ internal sealed class ToonTopBarKey {
     ) : ToonTopBarKey()
 }
 
-/** The kit's `target`: an action's 40 dp around its icon, else the first 76 dp for the back arrow. */
+/**
+ * The kit's `target`: an action's 40 dp around its icon, else the first 76 dp for the back arrow. The
+ * actions stand 40 dp apart, under the brief's 48 dp target (B-30): the outermost reaches the sign's
+ * edge and the innermost 8 dp further in, so with one or two actions each target is 48 dp wide; a
+ * middle one of three or more stays 40 (B-49).
+ */
 internal fun toonTopBarTarget(
     w: Float,
     actions: Int,
@@ -235,7 +240,9 @@ internal fun toonTopBarTarget(
 ): ToonTopBarKey? {
     for (i in 0 until actions) {
         val ax = w - 12 - 16 - 24 - i * 40
-        if (x >= ax - 8 && x <= ax + 32) return ToonTopBarKey.Action(i)
+        val right = if (i == 0) w - 12 else ax + 32
+        val left = if (i == actions - 1) ax - 16 else ax - 8
+        if (x >= left && x <= right) return ToonTopBarKey.Action(i)
     }
     return if (x < 76 && nav) ToonTopBarKey.Nav else null
 }
