@@ -57,7 +57,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
-| [B-30](docs/backlog/B-30-accessibility.md) `[~]` | Accessibility: semantics, state descriptions, contrast, targets | P2 | M | B-14, B-15, B-16, B-17, B-18, B-19, B-20, B-21, B-22, B-23, B-24, B-25, B-26, B-27, B-28 |
 | [B-31](docs/backlog/B-31-component-catalogue.md) `[ ]` | Component catalogue: which composable is which design file, generated | P2 | S | B-14 |
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
@@ -72,8 +71,9 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 | [B-48](docs/backlog/B-48-fx-host-event-points.md) `[ ]` | FX host: draw each effect where its event puts it | P2 | S | - |
+| [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[?]` | TopAppBar: with three or more actions the middle ones are 40 dp targets | P2 | S | - |
 
-## Closed (32)
+## Closed (33)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -120,6 +120,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
+- [B-30](docs/backlog/B-30-accessibility.md) `[x]` - Accessibility: semantics, state descriptions, contrast, targets
 - [B-33](docs/backlog/B-33-v1-components-need-design.md) `[x]` - The brief's v1 components have no design yet
 
 <!-- END INDEX -->
