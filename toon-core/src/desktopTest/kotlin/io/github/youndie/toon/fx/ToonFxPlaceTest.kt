@@ -135,8 +135,21 @@ class ToonFxPlaceTest {
             assertTrue(n > 50, "no stars drawn ($n px)")
             val cx = sx.toFloat() / n
             val cy = sy.toFloat() / n
-            // Stars on an arc of 70 dp (140 px) over the dialog's centre: above it, never at the layer's top.
-            assertEquals(300f, cx, 20f, "stars centred over the dialog")
-            assertTrue(cy in 300f..500f, "stars at y $cy px, not over the dialog at 500")
+            // Stars on an arc of 70 dp over the dialog's centre, 150 ms in: their centres, in px.
+            val stars =
+                toonStarsScene(
+                    io.github.youndie.toon.tokens.inkGouacheLight.colors,
+                    150f / ToonFx.Stars.durationMs,
+                    150f,
+                    250f,
+                    70f,
+                )
+            val want =
+                stars.layers
+                    .map { it.dy }
+                    .average()
+                    .toFloat() * 2
+            assertEquals(300f, cx, 12f, "stars centred over the dialog")
+            assertEquals(want, cy, 12f, "stars at y $cy px, where an arc of 70 dp over the dialog has them")
         }
 }
