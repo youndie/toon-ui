@@ -184,11 +184,62 @@ export const FAB_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => 
   }),
 ]);
 
+// ---- Checkbox (B-17): `toon-ui Core.dc.html`; RadioButton: `toon-ui MVP Components.dc.html` ----
+const CHECK_PAGE = [
+  "const kCells = [['Unchecked', {}], ['Checked', { on: true }], ['Pressed', { sx: .86, sy: .86 }], ['Focused', { on: true, focus: true }], ['Error', { error: true }], ['Disabled', { disabled: true }], ['Disabled / Checked', { disabled: true, on: true }]]",
+  ".map(([S, o]) => C(`Checkbox / ${S}`, this.check(T, { label: 'Bring snacks', ...o }), 180, 48, [8, 8, 8, 8]));",
+  "const kF = (t, a, v) => Fr(t, v, this.check(T, a), 48, 48, [6, 10, 6, 4]);",
+  "frames: [0, 50, 110, 170, 240].map(t => { const a = this.chkAnim(t, true);",
+  "frames: [0, 50, 100, 115, 160].map(t => { const a = this.chkAnim(t, false);",
+];
+const RADIO_PAGE = [
+  "out.radio = { cells: [['Unselected', {}], ['Selected', { sel: true }], ['Pressed', { sel: true, sq: .86 }], ['Focused', { sel: true, focus: true }], ['Disabled', { disabled: true }], ['Disabled / Selected', { disabled: true, sel: true }]].map(([n, o]) => C('RadioButton / ' + n, E.radio(T, { label: 'Noon', ...o }), 110, 48, [8, 8, 8, 8])),",
+  "frames: [0, 100, 150, 190, 240, 340].map(t => { const a = E.radioSelect(t); return Fr(`${t} ms`, `dot y ${n0(a.dotY)} · sX ${n2(a.dsx)} · sY ${n2(a.dsy)}`, E.radio(T, { sel: true, ...a }), 48, 48, [32, 8, 6, 8]); }) }] };",
+];
+const checkLook = o => {
+  const a = [];
+  if (o.on) a.push('on = true');
+  if (o.trim != null) a.push(`trim = ${kf(o.trim)}`);
+  for (const k of ['sx', 'sy', 'dx', 'sp']) if (o[k] != null && o[k] !== (k.startsWith('s') && k !== 'sp' ? 1 : 0)) a.push(`${k} = ${kf(o[k])}`);
+  if (o.disabled) a.push('disabled = true');
+  if (o.focus) a.push('focus = true');
+  if (o.error) a.push('error = true');
+  return call('ToonCheckboxLook', ...a);
+};
+const CHECK_CELLS = [['Unchecked', {}], ['Checked', { on: true }], ['Pressed', { sx: .86, sy: .86 }], ['Focused', { on: true, focus: true }], ['Error', { error: true }], ['Disabled', { disabled: true }], ['Disabled / Checked', { disabled: true, on: true }]];
+export const CHECKBOX_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...CHECK_CELLS.map(([n, o]) => sceneCell('Checkbox', theme, themeName, n.replace(' / ', '_'), 180, 48, [8, 8, 8, 8], { label: 'Bring snacks', ...o },
+    `E.check(T, ${js({ label: 'Bring snacks', ...o })})`, call('toonCheckboxScene', 'tokens', '"Bring snacks"', checkLook(o)))),
+  ...[['Check', true, [0, 50, 110, 170, 240]], ['Uncheck', false, [0, 50, 100, 115, 160]]].flatMap(([name, on, ts]) => ts.map(t => {
+    const a = E.chkAnim(t, on);
+    return sceneCell('Checkbox', theme, themeName, `${name}_${t}ms`, 48, 48, [6, 10, 6, 4], a, `E.check(T, ${js(a)})`, call('toonCheckboxScene', 'tokens', '""', checkLook(a)));
+  })),
+]);
+const radioLook = o => {
+  const a = [];
+  if (o.sel) a.push('selected = true');
+  for (const [k, d] of [['ds', null], ['dotY', 0], ['dsx', 1], ['dsy', 1], ['sp', -1], ['sq', 1]]) if (o[k] != null && o[k] !== d) a.push(`${k} = ${kf(o[k])}`);
+  if (o.disabled) a.push('disabled = true');
+  if (o.focus) a.push('focus = true');
+  return call('ToonRadioLook', ...a);
+};
+const RADIO_CELLS_SPEC = [['Unselected', {}], ['Selected', { sel: true }], ['Pressed', { sel: true, sq: .86 }], ['Focused', { sel: true, focus: true }], ['Disabled', { disabled: true }], ['Disabled / Selected', { disabled: true, sel: true }]];
+export const RADIO_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...RADIO_CELLS_SPEC.map(([n, o]) => sceneCell('Radio', theme, themeName, n.replace(' / ', '_'), 110, 48, [8, 8, 8, 8], { label: 'Noon', ...o },
+    `E.radio(T, ${js({ label: 'Noon', ...o })})`, call('toonRadioScene', 'tokens', '"Noon"', radioLook(o)))),
+  ...[0, 100, 150, 190, 240, 340].map(t => {
+    const a = { sel: true, ...E.radioSelect(t) };
+    return sceneCell('Radio', theme, themeName, `Drop_${t}ms`, 48, 48, [32, 8, 6, 8], a, `E.radio(T, ${js(a)})`, call('toonRadioScene', 'tokens', '""', radioLook(a)));
+  }),
+]);
+
 export const missingPageText = [
+  ...CHECK_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
+  ...RADIO_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...FAB_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...BUTTON_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...MVP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS };
