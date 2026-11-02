@@ -80,6 +80,11 @@ class ToonTooltipTest {
         // Under 0.02 nothing is drawn: the first frame of a show, and a hide from 118 ms.
         assertNull(toonTooltipFrameAt(true, 0f, false))
         assertNull(toonTooltipFrameAt(false, 118f, false))
+        assertEquals(
+            ToonTooltipMoment(toonTipInflate(115f, false)),
+            toonTooltipFrameAt(false, 115f, false),
+            "0.04 is drawn",
+        )
         assertEquals(ToonTooltipMoment(1f, .5f), toonTooltipFrameAt(true, 60f, true))
         assertEquals(ToonTooltipMoment(1f, .5f), toonTooltipFrameAt(false, 60f, true))
         assertNull(toonTooltipFrameAt(false, 120f, true))
