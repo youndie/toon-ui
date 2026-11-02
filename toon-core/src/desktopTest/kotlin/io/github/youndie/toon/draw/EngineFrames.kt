@@ -117,6 +117,8 @@ internal object EngineFrames {
             assertEquals(colour, hex(mine.color), "$name layer $i: colour")
             assertEquals(stroked, mine.stroke > 0, "$name layer $i: stroked")
             if (stroked) assertEquals(l.f("sw")!!, mine.stroke, 1e-6f, "$name layer $i: stroke width")
+            val dash = l["dash"]?.jsonPrimitive?.content?.takeIf { it != "none" }
+            assertEquals(dash, mine.dash?.joinToString(" ") { it.toInt().toString() }, "$name layer $i: dash")
             val expected = numbers(d)
             assertEquals(expected.size, mine.numbers.size, "$name layer $i: coordinates")
             for (k in expected.indices) worst = max(worst, abs(expected[k] - mine.numbers[k]))
