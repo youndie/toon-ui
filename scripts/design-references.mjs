@@ -21,14 +21,16 @@ import { spawn } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
-import { join, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
+import { ICONS, ICON_CELLS } from './icon-cells.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const ENGINE = join(ROOT, 'reference/design-system/toon-engine.js');
 const FONTS = join(ROOT, 'toon-core/src/commonMain/composeResources/font');
 const OUT = join(ROOT, 'toon-core/src/desktopTest/snapshots/design');
+const OUTLINES = join(ROOT, 'toon-core/src/desktopTest/resources/design-goldens/icon-outlines.json');
 
 const THEMES = { il: 'InkGouacheLight', in: 'InkGouacheNight', bc: 'BrightCel' };
 
@@ -48,6 +50,17 @@ REFERENCES.push(...Object.entries(THEMES).flatMap(([key, theme]) => [
   { group: 'Body', name: `Plain_${theme}`, theme: key, w: 96, h: 52, pad: [10, 12, 12, 10], scene: `{ L: ${BODY}, X: [] }` },
   { group: 'Body', name: `Focused_${theme}`, theme: key, w: 96, h: 52, pad: [10, 12, 12, 10], scene: `{ L: [${RING}, ...${BODY}], X: [] }` },
 ]));
+
+// B-11: every icon cell of scripts/icon-cells.mjs, drawn by the engine's `icon` as the kit's
+// `C.icon.scene` calls it: the theme's text colour, the `chipSel` fill when filled.
+REFERENCES.push(...ICON_CELLS.map(c => ({
+  group: c.group, name: c.name, theme: c.theme, w: c.w, h: c.h, pad: c.pad,
+  scene: `{ L: E.icon(T, ${JSON.stringify(c.icon)}, 0, 0, { size: ${c.size}, bold: ${c.bold}, fill: ${c.filled ? 'T.chipSel' : 'null'} }), X: [] }`,
+})));
+
+// B-11: the outlines themselves, which only a DOM can compute (`sampleSub` measures an SVG path), so
+// the numeric half of the icon parity is read here rather than in scripts/engine-goldens.mjs.
+const OUTLINE_EXPR = `JSON.stringify(Object.fromEntries(${JSON.stringify(Object.keys(ICONS))}.map(n => [n, { regular: E.iconOutline(n, 2.1), bold: E.iconOutline(n, 2.7) }])))`;
 
 const FACES = [
   ['Shrikhand', 'shrikhand_regular.ttf', '400'],
@@ -108,7 +121,7 @@ async function launch(chrome) {
   return { cdp: new Cdp(ws), version, close: async () => { ws.close(); proc.kill(); await exited; rmSync(profile, { recursive: true, force: true, maxRetries: 5 }); } };
 }
 
-async function render(cdp, ref, dir) {
+async function render(cdp, ref, dir, capture) {
   const [t, r, b, l] = ref.pad;
   const W = ref.w + l + r, H = ref.h + t + b;
   const file = join(dir, `${ref.group}_${ref.name}.html`);
@@ -127,6 +140,7 @@ async function render(cdp, ref, dir) {
     await loaded;
     await cdp.send('Runtime.evaluate', { awaitPromise: true, expression: 'document.fonts.ready.then(() => new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r))))' }, sessionId);
     if (errors.length) throw new Error(`${ref.group}_${ref.name}: ${errors.join('; ')}`);
+    if (capture) return (await cdp.send('Runtime.evaluate', { expression: capture, returnByValue: true }, sessionId)).result.value;
     const shot = await cdp.send('Page.captureScreenshot', { format: 'png', clip: { x: 0, y: 0, width: W, height: H, scale: 1 } }, sessionId);
     return Buffer.from(shot.data, 'base64');
   } finally {
@@ -141,8 +155,12 @@ const chrome = argv.includes('--chrome') ? argv[argv.indexOf('--chrome') + 1] : 
 const work = mkdtempSync(join(tmpdir(), 'toon-refs-pages-'));
 const { cdp, version, close } = await launch(chrome);
 const stale = [];
+let outlines;
 try {
   if (!check) mkdirSync(OUT, { recursive: true });
+  const blank = { group: 'Outlines', name: 'all', theme: 'il', w: 1, h: 1, pad: [0, 0, 0, 0], scene: '{ L: [], X: [] }' };
+  outlines = JSON.stringify({ browser: version, outlines: JSON.parse(await render(cdp, blank, work, OUTLINE_EXPR)) }, null, 2) + '\n';
+  if (check) { if (!existsSync(OUTLINES) || readFileSync(OUTLINES, 'utf8') !== outlines) stale.push('icon-outlines.json'); }
   for (const ref of REFERENCES) {
     const png = await render(cdp, ref, work);
     const target = join(OUT, `${ref.group}_${ref.name}.png`);
@@ -160,5 +178,7 @@ if (check) {
   console.log(`${REFERENCES.length} design references match a fresh render in ${version}`);
 } else {
   writeFileSync(join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+  mkdirSync(dirname(OUTLINES), { recursive: true });
+  writeFileSync(OUTLINES, outlines);
   console.log(`${REFERENCES.length} design references written with ${version}`);
 }

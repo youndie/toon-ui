@@ -236,6 +236,4530 @@
         10
       ],
       "scene": "{ L: [E.ring(-6, -6, 108, 64, [22, 17, 24, 18], T, T.seed + 1403), ...E.body(T, 0, 0, 96, 52, [16, 11, 18, 12], { seed: T.seed + 1400, fill: T.primary, sh: T.sh })], X: [] }"
+    },
+    {
+      "file": "Icon_Home_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Regular48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Bold48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Filled48_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Regular24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Bold24_InkGouacheLight.png",
+      "theme": "il",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Regular48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Bold48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Filled48_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Regular24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Bold24_InkGouacheNight.png",
+      "theme": "in",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Home_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"home\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Search_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"search\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Info_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"info\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Heart_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"heart\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Bell_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"bell\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Person_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"person\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Plus_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"plus\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Close_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"close\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Back_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"back\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Chevron_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"chevron\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_More_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"more\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Tune_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"tune\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Star_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"star\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Calendar_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"calendar\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Check_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"check\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Warning_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"warning\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Menu_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"menu\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Settings_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"settings\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Delete_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"delete\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Share_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"share\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Filter_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"filter\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Refresh_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"refresh\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Lock_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"lock\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Eye_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"eye\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Regular48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Bold48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: true, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Filled48_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 48, bold: false, fill: T.chipSel }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Regular24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 24, bold: false, fill: null }), X: [] }"
+    },
+    {
+      "file": "Icon_Edit_Bold24_BrightCel.png",
+      "theme": "bc",
+      "w": 24,
+      "h": 24,
+      "pad": [
+        2,
+        2,
+        2,
+        2
+      ],
+      "scene": "{ L: E.icon(T, \"edit\", 0, 0, { size: 24, bold: true, fill: null }), X: [] }"
     }
   ]
 }
