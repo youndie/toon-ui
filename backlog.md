@@ -52,7 +52,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (6)
+## Open (5)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
@@ -61,9 +61,8 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 | [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[?]` | TopAppBar: with three or more actions the middle ones are 40 dp targets | P2 | S | - |
-| [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[?]` | Menu: with three or more items the middle ones are 44 dp targets | P2 | S | - |
 
-## Closed (45)
+## Closed (46)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -123,6 +122,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-30](docs/backlog/B-30-accessibility.md) `[x]` - Accessibility: semantics, state descriptions, contrast, targets
 - [B-31](docs/backlog/B-31-component-catalogue.md) `[x]` - Component catalogue: which composable is which design file, generated
 - [B-33](docs/backlog/B-33-v1-components-need-design.md) `[x]` - The brief's v1 components have no design yet
+- [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[x]` - Menu: with three or more items the middle ones are 44 dp targets
 - [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[x]` - Check the two-effect clocks under a first composition
 
 <!-- END INDEX -->
