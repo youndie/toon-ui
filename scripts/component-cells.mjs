@@ -122,7 +122,7 @@ const ibLook = o => {
   if (o.focus) a.push('focus = true');
   return call('ToonIconButtonLook', ...a);
 };
-const ibScene = o => call('toonIconButtonScene', 'it', `ToonIcons.${pascal(o.icon)}`, `ToonIconButtonVariant.${o.variant === 'filled' ? 'Filled' : 'Standard'}`, ibLook(o));
+const ibScene = o => call('toonIconButtonScene', 'tokens', `ToonIcons.${pascal(o.icon)}`, `ToonIconButtonVariant.${o.variant === 'filled' ? 'Filled' : 'Standard'}`, ibLook(o));
 const IB_CELLS = [['Standard / Default', { icon: 'heart' }], ['Standard / Pressed', { icon: 'heart', p: 1 }], ['Standard / Focused', { icon: 'heart', focus: true }], ['Standard / Selected', { icon: 'heart', sel: true }], ['Standard / Disabled', { icon: 'heart', disabled: true }], ['Filled / Default', { icon: 'edit', variant: 'filled' }], ['Filled / Selected', { icon: 'star', variant: 'filled', sel: true }]];
 const IB_TAP = [['0ms', { p: 0 }], ['80msHeld', { p: 1 }], ...[70, 140, 200, 300].map(t => [`Plus${t}ms`, { p: E.spr(t / 1000, .35, 45), iy: E.iconBounce(t) }])]
   .map(([t, o]) => [t, { icon: 'heart', sel: t !== '0ms' && t !== '80msHeld', ...o }]);
@@ -144,17 +144,51 @@ const BADGE_STRIPS = [
   ...[0, 60, 120, 180, 240].map(t => [`Count_${t}ms`, { n: 4, old: 3, ...E.badgeCount(t) }]),
 ];
 export const BADGE_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
-  ...BADGE.map(([n, o]) => sceneCell('Badge', theme, themeName, n.replace(' ', ''), 0, 0, [20, 30, 20, 30], o, `E.badge(T, ${js(o)})`, call('toonBadgeScene', 'it', badgeLook(o)))),
+  ...BADGE.map(([n, o]) => sceneCell('Badge', theme, themeName, n.replace(' ', ''), 0, 0, [20, 30, 20, 30], o, `E.badge(T, ${js(o)})`, call('toonBadgeScene', 'tokens', badgeLook(o)))),
   sceneCell('Badge', theme, themeName, 'OnIconButton', 48, 48, [12, 22, 10, 10], { onIconButton: true },
     "E.cat(E.iconBtn(T, { icon: 'bell' }), E.place(E.badge(T, { n: 3 }), 40, 6))",
-    'toonIconButtonScene(it, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +\n            toonBadgeScene(it, ToonBadgeLook("3")).placed(40f, 6f)'),
-  ...BADGE_STRIPS.map(([n, o]) => sceneCell('Badge', theme, themeName, n, 0, 0, [22, 30, 22, 30], o, `E.badge(T, ${js(o)})`, call('toonBadgeScene', 'it', badgeLook(o)))),
+    'toonIconButtonScene(tokens, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +\n            toonBadgeScene(tokens, ToonBadgeLook("3")).placed(40f, 6f)'),
+  ...BADGE_STRIPS.map(([n, o]) => sceneCell('Badge', theme, themeName, n, 0, 0, [22, 30, 22, 30], o, `E.badge(T, ${js(o)})`, call('toonBadgeScene', 'tokens', badgeLook(o)))),
+]);
+
+// ---- FAB (B-16): `toon-ui MVP Components.dc.html`, `buildStatic` ----
+const FAB_PAGE = [
+  "out.fab = { cells: [['Default', {}], ['Pressed', { p: 1 }], ['Focused', { focus: true }], ['Disabled', { disabled: true }], ['Extended', { label: 'New plan' }]].map(([n, o]) => { const f = E.fab(T, o); return C('FAB / ' + n, f, f.w, 64, [14, 18, 14, 14]); }),",
+  "reduce: 'fade 120', desc: 'Appears in the air, hangs for 90 ms",
+  "frames: [0, 60, 160, 230, 300, 520].map(t => { const a = E.fabAppear(t); return Fr(`${t} ms`, `y ${n0(a.dy)} · sX ${n2(a.sx)} · sY ${n2(a.sy)}`, E.cat(E.place(E.fab(T, { sx: a.sx, sy: a.sy }), 0, a.dy, 0, 0, 0, a.op), E.dust(T, a.du, 32, 66, 40)), 64, 64, [80, 34, 14, 34], .75); }) }] };",
+];
+const fabLook = o => {
+  const a = [];
+  if (o.p) a.push(`p = ${kf(o.p)}`);
+  if (o.sx != null && o.sx !== 1) a.push(`sx = ${kf(o.sx)}`);
+  if (o.sy != null && o.sy !== 1) a.push(`sy = ${kf(o.sy)}`);
+  if (o.disabled) a.push('disabled = true');
+  if (o.focus) a.push('focus = true');
+  return call('ToonFabLook', ...a);
+};
+const FAB_STATES = [['Default', {}], ['Pressed', { p: 1 }], ['Focused', { focus: true }], ['Disabled', { disabled: true }], ['Extended', { label: 'New plan' }]];
+export const FAB_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...FAB_STATES.map(([n, o]) => {
+    // The cell is the engine's FAB width as Node measures the label (length × 17 × 0.55); Chrome and
+    // Compose measure it narrower, so the extended FAB sits a little inside its cell.
+    const w = Math.ceil(E.fab(E.THEMES[theme], o).w);
+    const width = o.label ? `text.measure(${JSON.stringify(o.label)}, FAB_LABEL).multiParagraph.width` : '0f';
+    return sceneCell('Fab', theme, themeName, n, w, 64, [14, 18, 14, 14], o, `E.fab(T, ${js(o)})`,
+      call('toonFabScene', 'tokens', 'ToonIcons.Plus', JSON.stringify(o.label ?? ''), width, fabLook(o)));
+  }),
+  ...[0, 60, 160, 230, 300, 520].map(t => {
+    const a = E.fabAppear(t);
+    return sceneCell('Fab', theme, themeName, `Land_${t}ms`, 64, 64, [80, 34, 14, 34], { land: true, ...a },
+      `E.cat(E.place(E.fab(T, ${js({ sx: a.sx, sy: a.sy })}), 0, ${num(a.dy)}, 0, 0, 0, ${num(a.op)}), E.dust(T, ${num(a.du)}, 32, 66, 40))`,
+      call('toonFabLandScene', 'tokens', 'ToonIcons.Plus', '""', '0f', fabLook({ sx: a.sx, sy: a.sy }), call('ToonFabAppear', kf(a.op), kf(a.dy), kf(a.sx), kf(a.sy), kf(a.du))));
+  }),
 ]);
 
 export const missingPageText = [
+  ...FAB_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...BUTTON_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...MVP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS };
