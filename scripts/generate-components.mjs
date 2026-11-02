@@ -69,6 +69,34 @@ const PRELUDE = {
     cell: `// The MVP page's list item cells and press strip against the engine's \`listItem\` drawn in Chrome.
 `,
   },
+  Tabs: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonTabsLook',
+      'io.github.youndie.toon.component.toonTabsScene',
+    ],
+    cell: `// The MVP page's tabs cells and its switch strip against the engine's \`tabs\` drawn in Chrome
+// (TabsFrames).
+`,
+  },
+  TabsShape: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonTabsLook',
+      'io.github.youndie.toon.component.toonTabsScene',
+    ],
+    cell: `// The MVP page's tabs cells without their labels: the bookmark, the shelf and the press, held to the
+// Divider's ink floor.
+`,
+  },
   NavigationBar: {
     imports: [
       'androidx.compose.runtime.Composable',

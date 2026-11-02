@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (20)
+## Open (19)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-28](docs/backlog/B-28-tabs.md) `[ ]` | Tabs: bookmarks on an ink shelf, the indicator smears across | P1 | S | B-10 |
 | [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[ ]` | Cyrillic: find OFL faces that carry Russian in each of the four roles | P1 | M | B-02 |
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-47](docs/backlog/B-47-density-scaling.md) `[ ]` | Draw every component in dp: scale the canvas by the screen density | P1 | S | - |
@@ -77,7 +76,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 
-## Closed (27)
+## Closed (28)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -113,6 +112,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-25](docs/backlog/B-25-progress.md) `[x]` - Progress: the inchworm and the spinning blob
 - [B-26](docs/backlog/B-26-top-app-bar.md) `[x]` - TopAppBar: a sign on two nails that sways
 - [B-27](docs/backlog/B-27-navigation-bar.md) `[x]` - NavigationBar: jumping icon, dust, paint-stroke indicator
+- [B-28](docs/backlog/B-28-tabs.md) `[x]` - Tabs: bookmarks on an ink shelf, the indicator smears across
 
 **The owner's questions answered; the semantics and contrast tests pass**
 

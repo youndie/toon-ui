@@ -1,7 +1,7 @@
 ---
 id: B-28
 title: "Tabs: bookmarks on an ink shelf, the indicator smears across"
-status: open
+status: done
 priority: P1
 size: S
 stage: stage-2-components
@@ -22,3 +22,19 @@ engine.
 
 - AC: cells and the switch strip within the floor; reduce motion as specified; a mutant in the ported curve is caught.
 - Anchors: `reference/design-system/ToonTabs.dc.html`, `reference/design-system/toon-engine.js`.
+
+## Findings (2026-11-02)
+
+- **Done as decided**, the engine's `tabs` and `tabsSwitch` with the kit's `C.tabs`. Props: `labels`
+  (the page's three are not a default), `selected`, `width` (342), `onChange`; a release on another
+  tab switches to it, and the keyboard and a screen reader's actions are added, as in the navigation
+  bar.
+- **The content offset the strip names** is `ToonTabsState.contentOffset`, the engine's `cx`: the
+  caller slides its content by it (service quirks).
+- **Frames:** the five MVP page cells and the five switch frames, in three themes, are the engine's
+  (30 cells, worst coordinate 0.050 dp); `tabsSwitch` within 1.5·10⁻⁵. Nine mutants caught.
+- **Pixels:** within 4.66 % of the cell, all of it text: three 16 sp labels in a 358 × 66 cell. In
+  ink the labels take Bright Cel to 18.15 %, past the Divider's floor, so the tabs are read against
+  the text floor (53.56 %) and a label-less twin, `TabsShape`, holds the bookmark, the shelf and the
+  press to the Divider's: within 0.79 % of its reference.
+- **Reduce motion** is the MVP page's `instant`.

@@ -16499,6 +16499,591 @@
         0
       ],
       "scene": "E.navBar(T, Object.assign({ items: [{\"icon\":\"home\",\"label\":\"Home\"},{\"icon\":\"search\",\"label\":\"Explore\"},{\"icon\":\"heart\",\"label\":\"Saved\"},{\"icon\":\"person\",\"label\":\"Profile\"}], sel: 2 }, E.navSelect(360, 0, 2, 97.5)))"
+    },
+    {
+      "file": "Tabs_Today_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0}))"
+    },
+    {
+      "file": "Tabs_Weekend_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":1}))"
+    },
+    {
+      "file": "Tabs_SomedayPressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "Tabs_WeekendFocused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "Tabs_SomedayDisabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "Tabs_Switch_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(0, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_80ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(80, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_160ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(160, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(240, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_320ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(320, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Today_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0}))"
+    },
+    {
+      "file": "Tabs_Weekend_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":1}))"
+    },
+    {
+      "file": "Tabs_SomedayPressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "Tabs_WeekendFocused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "Tabs_SomedayDisabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "Tabs_Switch_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(0, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_80ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(80, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_160ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(160, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(240, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_320ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(320, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Today_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0}))"
+    },
+    {
+      "file": "Tabs_Weekend_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":1}))"
+    },
+    {
+      "file": "Tabs_SomedayPressed_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "Tabs_WeekendFocused_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "Tabs_SomedayDisabled_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: [\"Today\",\"Weekend\",\"Someday\"] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "Tabs_Switch_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(0, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_80ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(80, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_160ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(160, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(240, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "Tabs_Switch_320ms_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "(() => { const a = E.tabsSwitch(320, 0, 1, 114); return E.tabs(T, { labels: [\"Today\",\"Weekend\",\"Someday\"], sel: a.sel, ia: a.ia, ib: a.ib }); })()"
+    },
+    {
+      "file": "TabsShape_Today_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0}))"
+    },
+    {
+      "file": "TabsShape_Weekend_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":1}))"
+    },
+    {
+      "file": "TabsShape_SomedayPressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "TabsShape_WeekendFocused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "TabsShape_SomedayDisabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "TabsShape_Today_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0}))"
+    },
+    {
+      "file": "TabsShape_Weekend_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":1}))"
+    },
+    {
+      "file": "TabsShape_SomedayPressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "TabsShape_WeekendFocused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "TabsShape_SomedayDisabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "TabsShape_Today_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0}))"
+    },
+    {
+      "file": "TabsShape_Weekend_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":1}))"
+    },
+    {
+      "file": "TabsShape_SomedayPressed_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"pressed\":2}))"
+    },
+    {
+      "file": "TabsShape_WeekendFocused_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"focus\":1}))"
+    },
+    {
+      "file": "TabsShape_SomedayDisabled_BrightCel.png",
+      "theme": "bc",
+      "w": 342,
+      "h": 52,
+      "pad": [
+        6,
+        8,
+        8,
+        8
+      ],
+      "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"disabled\":2}))"
     }
   ]
 }

@@ -408,6 +408,36 @@ export const SNACK_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     snackMoment(false, t))),
 ]);
 
+// ---- Tabs (B-28): `toon-ui MVP Components.dc.html` ----
+const TABS_PAGE = [
+  "TABS = ['Today', 'Weekend', 'Someday'];",
+  "out.tabs = { cells: [['Today', { sel: 0 }], ['Weekend', { sel: 1 }], ['Someday pressed', { sel: 0, pressed: 2 }], ['Weekend focused', { sel: 0, focus: 1 }], ['Someday disabled', { sel: 0, disabled: 2 }]].map(([n, o]) => C('Tabs / ' + n, E.tabs(T, { labels: this.TABS, ...o }), 342, 52, [6, 8, 8, 8])),",
+  "frames: [0, 80, 160, 240, 320].map(t => { const a = E.tabsSwitch(t, 0, 1, 114); return Fr(`${t} ms`, `bookmark ${n0(a.ia)}–${n0(a.ib)} · content ${n0(a.cx)}`, E.tabs(T, { labels: this.TABS, sel: a.sel, ia: a.ia, ib: a.ib }), 342, 52, [6, 8, 8, 8], .5); }) }] };",
+];
+const TABS = ['Today', 'Weekend', 'Someday'];
+const TABS_STATES = [['Today', { sel: 0 }], ['Weekend', { sel: 1 }], ['SomedayPressed', { sel: 0, pressed: 2 }], ['WeekendFocused', { sel: 0, focus: 1 }], ['SomedayDisabled', { sel: 0, disabled: 2 }]];
+const tabsLook = o => {
+  const a = [`sel = ${o.sel}`];
+  if (o.pressed != null) a.push(`pressed = ${o.pressed}`);
+  if (o.focus != null) a.push(`focus = ${o.focus}`);
+  if (o.disabled != null) a.push(`disabled = ${o.disabled}`);
+  return call('ToonTabsLook', ...a);
+};
+const TABS_KT = 'listOf("Today", "Weekend", "Someday")';
+export const TABS_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...TABS_STATES.map(([n, o]) => sceneCell('Tabs', theme, themeName, n, 342, 52, [6, 8, 8, 8], { kind: 'state', ...o },
+    `E.tabs(T, Object.assign({ labels: ${JSON.stringify(TABS)} }, ${JSON.stringify(o)}))`, call('toonTabsScene', 'tokens', '342f', TABS_KT, tabsLook(o)))),
+  // A switch frame is the engine's `tabsSwitch` at its age, so the cell holds the curve as well as the drawing.
+  ...[0, 80, 160, 240, 320].map(t => sceneCell('Tabs', theme, themeName, `Switch_${t}ms`, 342, 52, [6, 8, 8, 8], { kind: 'switch', t },
+    `(() => { const a = E.tabsSwitch(${t}, 0, 1, 114); return E.tabs(T, { labels: ${JSON.stringify(TABS)}, sel: a.sel, ia: a.ia, ib: a.ib }); })()`,
+    call('toonTabsSwitchScene', 'tokens', `${t}f`))),
+]);
+// The same cells without their labels: the shape alone, held to the Divider's floor, since the labels'
+// ink takes the group past it (18 % in Bright Cel) and the text floor would hide a wrong bookmark.
+export const TABS_SHAPE_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => TABS_STATES.map(([n, o]) =>
+  sceneCell('TabsShape', theme, themeName, n, 342, 52, [6, 8, 8, 8], { kind: 'state', ...o },
+    `E.tabs(T, Object.assign({ labels: ['', '', ''] }, ${JSON.stringify(o)}))`, call('toonTabsScene', 'tokens', '342f', 'listOf("", "", "")', tabsLook(o)))));
+
 // ---- NavigationBar (B-27): `toon-ui MVP Components.dc.html` ----
 const NAV_PAGE = [
   "NAV = [{ icon: 'home', label: 'Home' }, { icon: 'search', label: 'Explore' }, { icon: 'heart', label: 'Saved' }, { icon: 'person', label: 'Profile' }];",
@@ -545,6 +575,7 @@ export const FRAME_PROBES = {
 };
 
 export const missingPageText = [
+  ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...PROGRESS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -563,4 +594,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS };

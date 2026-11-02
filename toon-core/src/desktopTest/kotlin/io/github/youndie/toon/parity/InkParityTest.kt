@@ -92,9 +92,10 @@ class InkParityTest {
         /**
          * Groups whose cells carry text, read against the text floor: the `TextFloor` cells, a label
          * alone, which Chrome inks through CoreText and Compose through Skia with whole-pixel advances.
-         * Each such group has a twin without its text (`ButtonShape`), held to the Divider's floor.
+         * The button and the tabs, whose labels carry most of their ink, have a twin without them
+         * (`ButtonShape`, `TabsShape`), held to the Divider's floor.
          */
         val WITH_TEXT =
-            setOf("Button", "Badge", "Checkbox", "Radio", "TextField", "Chip", "Card", "ListItem")
+            setOf("Button", "Badge", "Checkbox", "Radio", "TextField", "Chip", "Card", "ListItem", "Tabs")
     }
 }
