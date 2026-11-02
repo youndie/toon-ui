@@ -1,7 +1,7 @@
 ---
 id: B-47
 title: "Draw every component in dp: scale the canvas by the screen density"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
