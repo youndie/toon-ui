@@ -256,8 +256,15 @@ The vendored brief stays as it is. The demo strings come from the design (Englis
 ### D11. Geometry is `Float`, and numeric parity has a tolerance
 
 Compose paths are `Float`. The golden JSON is compared within a tolerance, measured once in B-04
-from the RNG's float error and fixed there, never raised to make a test pass. *Rejected:* `Double`
-geometry to chase the sketch's "bit-for-bit" claim. It costs a conversion at every path operation
+from the RNG's float error and fixed there, never raised to make a test pass.
+
+*Measured in B-04:* over the 270 outlines in the goldens, the worst `wob` point is 6.1·10⁻⁵ px off
+the engine, and the tolerance is fixed at 2·10⁻⁴ px. `inkLine`, `star` and `burst` only exist as the
+engine's path strings, rounded to 0.1 px, so theirs is 0.05 px plus the same 2·10⁻⁴; the worst was
+0.04987. The random generator keeps 32-bit integer arithmetic and divides only in `Double`, so its
+sequence equals the engine's exactly.
+
+*Rejected:* `Double` geometry to chase the sketch's "bit-for-bit" claim. It costs a conversion at every path operation
 and buys a precision nobody can see.
 
 ### D12. MIT licence — *a deviation from the siblings*

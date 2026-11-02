@@ -40,6 +40,8 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `gradle.properties` | the coordinates and licence sborka reads (`sborka.*`) |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/ComposeSmokeTest.kt` | the smoke test the visual suite stands on |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the two families per theme, and the weights asked of the variable body faces |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonGeometry.kt` | the engine's shape functions ported (B-04): `ToonRandom`, `roundRectPoints`, `wobblePoints`, `shapePoints`, `inkLinePoints`, `starPoints`, `burstPoints` |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/draw/EngineGeometryGoldensTest.kt` | numeric parity of that port against the goldens, with the measured tolerances |
 | `toon-core/src/desktopTest/resources/engine-goldens` | the engine's geometry and curves as JSON, written by `scripts/engine-goldens.mjs` (B-03); the port is tested against them |
 | `toon-core/src/commonMain/composeResources` | the font files (`font`) and their OFL texts (`files/licences`) |
 
