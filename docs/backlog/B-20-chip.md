@@ -1,7 +1,7 @@
 ---
 id: B-20
 title: "Chip: filter, assist, input; inflate and paint-in; a 48 dp target"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-2-components
