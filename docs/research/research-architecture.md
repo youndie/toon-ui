@@ -292,6 +292,8 @@ the current position and velocity), tested by feeding it a timeline.
 deviation from the kit while the kit made everything instant. The second snapshot's kit
 cross-fades too (§1.6), so it is no longer one.
 
+*Applied to the switch in B-18:* `instant`.
+
 *Applied to the checkbox and radio in B-17:* a check is `fade 120`, the kit's cross-fade from the
 unchecked frame to the checked one; an uncheck and the radio's drop are `instant`.
 
