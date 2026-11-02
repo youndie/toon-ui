@@ -12,8 +12,44 @@ import { COMPONENT_CELLS, missingPageText } from './component-cells.mjs';
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const dir = join(root, 'toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity');
 
+// The groups drawn by SceneCell (toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/SceneCell.kt).
+const ICON_BUTTON_IMPORTS = [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.component.ToonIconButtonLook',
+      'io.github.youndie.toon.component.ToonIconButtonVariant',
+      'io.github.youndie.toon.component.toonIconButtonScene',
+      'io.github.youndie.toon.icon.ToonIcons',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+    ];
+const BADGE_IMPORTS = [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.component.ToonBadgeLook',
+      'io.github.youndie.toon.component.ToonIconButtonLook',
+      'io.github.youndie.toon.component.ToonIconButtonVariant',
+      'io.github.youndie.toon.component.toonBadgeScene',
+      'io.github.youndie.toon.component.toonIconButtonScene',
+      'io.github.youndie.toon.icon.ToonIcons',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+    ];
+
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  IconButton: {
+    imports: ICON_BUTTON_IMPORTS,
+    cell: `// The MVP page's icon button cells and tap strip against the engine's \`iconBtn\` drawn in Chrome.
+`,
+  },
+  Badge: {
+    imports: BADGE_IMPORTS,
+    cell: `// The MVP page's badge cells and strips against the engine's \`badge\` drawn in Chrome.
+`,
+  },
   TextFloor: {
     imports: [
       'androidx.compose.foundation.Canvas',
@@ -175,14 +211,14 @@ const files = Object.entries(COMPONENT_CELLS).map(([group, cells]) => {
 // \`make components\`, and \`make check\` fails while this file is stale.
 package io.github.youndie.toon.parity
 
-${imports.map(i => `import ${i}`).join('\n')}
+${[...imports].sort().map(i => `import ${i}`).join('\n')}
 
 ${cell}${cells.map(c => {
     const head = `fun ${c.group}${c.name.replaceAll('_', '')}() =`;
     return `
 @ViddikScreenshot(group = "${c.group}", name = "${c.name}", width = ${c.w + c.pad[1] + c.pad[3]}, height = ${c.h + c.pad[0] + c.pad[2]})
 @Composable
-${head.length + 1 + c.kotlin.length <= 120 ? `${head} ${c.kotlin}` : `${head}\n    ${c.kotlin}`}
+${!c.kotlin.includes('\n') && head.length + 1 + c.kotlin.length <= 120 ? `${head} ${c.kotlin}` : `${head}\n    ${c.kotlin}`}
 `;
   }).join('')}`;
   return [join(dir, `${group}ParityFixtures.kt`), kt];

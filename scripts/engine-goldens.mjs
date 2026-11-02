@@ -200,7 +200,11 @@ const fx = {
 // text's place. The port builds the same frame as data and is held to it layer by layer, which no
 // pixel diff can do through a large fill. Without a DOM, `tw` measures text as length × size × 0.55
 // (research §1.2); the test gives the port the same width.
-const FRAME_GROUPS = ['Button'];
+const FRAME_GROUPS = ['Button', 'IconButton', 'Badge'];
+// The press section's `document` stub would make `iconOutline` reach for a DOM it does not have; the
+// frames are taken without it, as every other golden here is.
+const documentStub = globalThis.document;
+delete globalThis.document;
 const frames = Object.fromEntries(FRAME_GROUPS.map(group => [group, Object.fromEntries(COMPONENT_CELLS[group].map(c => {
   const sc = new Function('E', 'T', `return ${c.scene};`)(E, E.THEMES[c.theme]);
   return [c.name, {
@@ -210,6 +214,7 @@ const frames = Object.fromEntries(FRAME_GROUPS.map(group => [group, Object.fromE
     X: sc.X.map(x => ({ s: String(x.s), x: r6(x.x), y: r6(x.y), fill: x.fill, op: r6(x.op), anchor: x.anchor, fw: x.fw, fs: x.fs })),
   }];
 }))]));
+globalThis.document = documentStub;
 
 const engineSha = createHash('sha256').update(readFileSync(enginePath)).digest('hex');
 const files = {
