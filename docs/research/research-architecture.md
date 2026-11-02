@@ -361,6 +361,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the bottom sheet in B-38:* `fade 120` both ways; the sheet and its scrim fade at rest, without sliding.
 
+*Applied to the navigation drawer in B-39:* `fade 120` both ways; the door fades in and out flat, without swinging or shivering.
+
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret

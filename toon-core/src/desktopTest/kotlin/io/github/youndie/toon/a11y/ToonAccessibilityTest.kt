@@ -26,6 +26,7 @@ import io.github.youndie.toon.component.ToonChip
 import io.github.youndie.toon.component.ToonChipVariant
 import io.github.youndie.toon.component.ToonDialog
 import io.github.youndie.toon.component.ToonDivider
+import io.github.youndie.toon.component.ToonDrawerItem
 import io.github.youndie.toon.component.ToonFab
 import io.github.youndie.toon.component.ToonIconButton
 import io.github.youndie.toon.component.ToonListItem
@@ -34,6 +35,7 @@ import io.github.youndie.toon.component.ToonMenu
 import io.github.youndie.toon.component.ToonMenuItem
 import io.github.youndie.toon.component.ToonNavItem
 import io.github.youndie.toon.component.ToonNavigationBar
+import io.github.youndie.toon.component.ToonNavigationDrawer
 import io.github.youndie.toon.component.ToonProgress
 import io.github.youndie.toon.component.ToonRadioGroup
 import io.github.youndie.toon.component.ToonSheetHit
@@ -44,6 +46,7 @@ import io.github.youndie.toon.component.ToonTabs
 import io.github.youndie.toon.component.ToonTextField
 import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.component.toonDialogHit
+import io.github.youndie.toon.component.toonDrawerItemAt
 import io.github.youndie.toon.component.toonMenuItemAt
 import io.github.youndie.toon.component.toonNavSlot
 import io.github.youndie.toon.component.toonSheetHit
@@ -60,7 +63,8 @@ import kotlin.test.assertTrue
 /**
  * B-30: each of the 19 components tells a screen reader what it is (role), what state it is in, and
  * what it says, and each one a finger can press is at least 48 dp each way (the brief's target), even
- * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50), and B-38 the bottom sheet.
+ * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50), B-38 the bottom sheet and B-39
+ * the navigation drawer.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonAccessibilityTest {
@@ -282,6 +286,21 @@ class ToonAccessibilityTest {
         }
         for (i in items.indices) {
             val tall = (0..700).count { toonSheetHit(700f, 2, it.toFloat()) == ToonSheetHit.Item(i) }
+            assertTrue(tall >= target, "row $i is $tall dp tall")
+        }
+    }
+
+    @Test
+    fun `navigation drawer is a pane that names its destination, can be dismissed, its rows 56 dp targets`() {
+        val items = listOf(ToonDrawerItem("Home"), ToonDrawerItem("Saved"))
+        with(node { ToonNavigationDrawer(items, it.size(390.dp, 700.dp), selected = 1) }) {
+            assertEquals(listOf("Home", "Saved"), actions)
+            assertEquals("Saved", state)
+            assertEquals("Saturday", node.config.getOrNull(SemanticsProperties.PaneTitle))
+            assertTrue(node.config.contains(SemanticsActions.Dismiss))
+        }
+        for (i in items.indices) {
+            val tall = (0..700).count { toonDrawerItemAt(300f, 2, 100f, it.toFloat()) == i }
             assertTrue(tall >= target, "row $i is $tall dp tall")
         }
     }

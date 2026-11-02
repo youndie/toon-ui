@@ -110,6 +110,19 @@ const PRELUDE = {
 // over the page's cards (SheetFrames).
 `,
   },
+  NavigationDrawer: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonDrawerMotion',
+    ],
+    cell: `// The v1 page's navigation drawer cells and its open strip against the engine's \`drawer\` drawn in
+// Chrome over the page's cards (DrawerFrames).
+`,
+  },
   Menu: {
     imports: [
       'androidx.compose.runtime.Composable',

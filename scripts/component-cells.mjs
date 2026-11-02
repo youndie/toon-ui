@@ -452,6 +452,27 @@ export const SHEET_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     SHEET_SCENE(`E.sheetMove(${t}, true, 260)`), call('SheetFrames.open', 'tokens', `${t}f`))),
 ]);
 
+// ---- NavigationDrawer (B-39): `toon-ui v1 Components.dc.html` ----
+const DRAWER_PAGE = [
+  "out.drawer = { cells: [['Open', {}], ['Item pressed', { pressed: 2 }], ['Half open', { sx: .5, scrim: .5, textOp: 0 }]].map(([n, a]) => C('NavigationDrawer / ' + n, this.drawerScene(T, { sx: 1, scrim: 1, textOp: 1, ...a }), 360, 520, [0, 0, 0, 0], .5)),",
+  "frames: [0, 80, 160, 240, 420].map(t => { const a = E.drawerOpen(t); return Fr(`${t} ms`, `open ${n0(a.sx * 100)} % · rot ${n2(a.rot)}°`, this.drawerScene(T, a), 360, 520, [0, 0, 0, 0], .34); }) }] };",
+  "drawerScene(T, a, H = 520) { const bg = this.bgCards(T, 360), edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return this.E.cat(bg, this.E.drawer(T, { W: 280, H, SW: 360, ...a })); }",
+];
+// The page's `bgCards` and `drawerScene`, verbatim but for `this`.
+const DRAWER_SCENE = a => `(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = ${a}, H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()`;
+const DRAWER_STATES = [['Open', {}], ['ItemPressed', { pressed: 2 }], ['HalfOpen', { sx: .5, scrim: .5, textOp: 0 }]];
+// A strip frame is the engine's `drawerOpen` at its age, so the cell holds the curve as well as the drawing.
+export const DRAWER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...DRAWER_STATES.map(([n, o]) => {
+    const a = { sx: 1, scrim: 1, textOp: 1, ...o };
+    const m = call('ToonDrawerMotion', kf(a.sx), '0f', kf(a.scrim), kf(a.textOp));
+    return sceneCell('NavigationDrawer', theme, themeName, n, 360, 520, [0, 0, 0, 0], { kind: 'state', ...a },
+      DRAWER_SCENE(js(a)), a.pressed == null ? call('DrawerFrames.scene', 'tokens', m) : call('DrawerFrames.scene', 'tokens', m, String(a.pressed)));
+  }),
+  ...[0, 80, 160, 240, 420].map(t => sceneCell('NavigationDrawer', theme, themeName, `Open_${t}ms`, 360, 520, [0, 0, 0, 0], { kind: 'open', t },
+    DRAWER_SCENE(`E.drawerOpen(${t})`), call('DrawerFrames.open', 'tokens', `${t}f`))),
+]);
+
 // ---- Menu (B-37): `toon-ui v1 Components.dc.html` ----
 const MENU_PAGE = [
   "out.menu = { cells: [['Open', {}], ['Item pressed', { pressed: 1 }], ['Item focused', { focus: 0 }], ['Item disabled', { disabled: 1 }], ['Unrolling', { u: .55 }]].map(([n, o]) => C('Menu / ' + n, E.menu(T, { w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'], ...o }), 200, 172, [6, 10, 10, 6])),",
@@ -644,6 +665,12 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-39: a press on the selected row, which no page cell shows: the engine draws the selection, not
+  // the press, under it.
+  NavigationDrawerProbe: Object.entries(THEMES).map(([theme, themeName]) => {
+    const a = { sx: 1, scrim: 1, textOp: 1, pressed: 0 };
+    return sceneCell('NavigationDrawerProbe', theme, themeName, 'PressedSelected', 360, 520, [0, 0, 0, 0], { kind: 'state', ...a }, DRAWER_SCENE(js(a)), '');
+  }),
   // B-38: the kit's `C.sheet` scene, which the page does not draw (its rows are its own): the
   // default two items and four, at rest and 90 ms into an open, on a 360 × 520 screen.
   BottomSheetKit: Object.entries(THEMES).flatMap(([theme, themeName]) => [2, 4].flatMap(n => [null, 90].map(t => {
@@ -663,6 +690,7 @@ export const missingPageText = [
   ...SLIDER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...MENU_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...SHEET_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
+  ...DRAWER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -682,4 +710,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS, BottomSheet: SHEET_CELLS, NavigationDrawer: DRAWER_CELLS };
