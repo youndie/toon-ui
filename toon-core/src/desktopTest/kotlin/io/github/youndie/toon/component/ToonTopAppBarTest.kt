@@ -113,6 +113,8 @@ class ToonTopAppBarTest {
         clock.tick(1090)
         assertEquals(toonSway(90f, 24f), clock.angle(false), 1e-6f)
         assertEquals(0f, clock.angle(true))
+        clock.tick(1890)
+        assertEquals(toonSway(890f, 24f), clock.angle(false), 1e-6f, "still swinging at 890 ms")
         clock.tick(1900)
         assertEquals(0f, clock.angle(false), "at rest after 900 ms")
         clock.kick()
