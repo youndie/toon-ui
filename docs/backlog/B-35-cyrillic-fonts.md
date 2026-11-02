@@ -1,7 +1,7 @@
 ---
 id: B-35
 title: "Cyrillic: find OFL faces that carry Russian in each of the four roles"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-materials

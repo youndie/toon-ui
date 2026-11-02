@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[ ]` | Cyrillic: find OFL faces that carry Russian in each of the four roles | P1 | M | B-02 |
+| [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[~]` | Cyrillic: find OFL faces that carry Russian in each of the four roles | P1 | M | B-02 |
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-47](docs/backlog/B-47-density-scaling.md) `[ ]` | Draw every component in dp: scale the canvas by the screen density | P1 | S | - |
 | [B-13](docs/backlog/B-13-textures.md) `[ ]` | Textures: get the four tiles, tile them as an ImageShader | P2 | S | - |
