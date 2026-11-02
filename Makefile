@@ -72,13 +72,14 @@ DOCS_BOOTSTRAP_SHIM := 2
 DOCS_BOOTSTRAP_GOALS := check gate report fix
 
 .DEFAULT_GOAL := help
-.PHONY: help check gate report fix
+.PHONY: help check gate report fix goldens
 
 help:
 	@echo "make check   - the gate and the reports: exactly what CI runs"
 	@echo "make gate    - the blocking half alone"
 	@echo "make report  - non-blocking: BDD coverage, code anchors"
 	@echo "make fix     - regenerate the backlog index, fill in missing coverage-map lines"
+	@echo "make goldens - rewrite the engine goldens from reference/design-system/toon-engine.js"
 
 check: gate report
 
@@ -86,6 +87,12 @@ check: gate report
 # `make check`, runs them too - for example, below `gate: docs-gate`:
 #	$(PY) scripts/no_todo_in_main.py
 gate: docs-gate
+	node scripts/engine-goldens.mjs --check
+
+# B-03: rewrite the golden JSON from the vendored engine. Not a docs-bootstrap goal, so it reads no
+# pin and fetches nothing.
+goldens:
+	node scripts/engine-goldens.mjs
 
 report: docs-report
 

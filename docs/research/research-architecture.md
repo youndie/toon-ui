@@ -196,7 +196,10 @@ one, it becomes a module of its own, as in kvadrant-ui.
 The vendored engine is the specification. The Kotlin port is tested against it **numerically**
 (golden JSON emitted by the engine in Node: wobble points, insets, squash geometry, curve values at
 the spec's frame timestamps) and **visually** (per-state PNGs rendered by the engine in headless
-Chrome, measured with viddik). *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
+Chrome, measured with viddik). *Built in B-03:* `scripts/engine-goldens.mjs` runs the engine in Node and writes
+`toon-core/src/desktopTest/resources/engine-goldens`. It records every outline a component's renderer
+asks `wob` for (its arguments and its unrounded points), the `inkLine`, `star` and `burst` paths, and
+43 curves sampled every millisecond. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
 implementation and the HTML can only be photographed. Here the design is a function that can be
 called, and a pixel diff of a wobbly outline cannot say whether a seed, a radius or a font moved it.
 
