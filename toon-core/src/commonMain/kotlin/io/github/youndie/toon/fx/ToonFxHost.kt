@@ -47,10 +47,11 @@ public enum class ToonFx(
 /**
  * A named event that fires an effect: the FX page's names (`card.land`, `field.error`, `dialog.pop` …),
  * which will carry sounds later as well. [bounds] is the element that fired it, and every point an
- * event takes is in root coordinates too (`boundsInRoot()`, `positionInRoot()`). Where an event takes
- * a point and a size, their defaults place the effect on [bounds] as the FX page places it on its
- * 80 × 48 demo block; a component passes the engine's own numbers for it instead (the card's dust
- * from (34, 86) at 36, the field's stars at (w − 30, −4) at 26, the badge's flash at 15).
+ * event takes is in root coordinates too (`boundsInRoot()`, `positionInRoot()`), in pixels; a spread or a
+ * size is in dp. Where an event takes a point, null places the effect on [bounds] as the FX page
+ * places it on its 80 × 48 demo block, its offsets in dp; a component passes the engine's own numbers
+ * instead (the card's dust from (34, 86) at 36, the field's stars at (w − 30, −4) at 26, the badge's
+ * flash at 15).
  */
 public sealed class ToonFxEvent {
     /** The spec's name of the event, as a listener (sound, analytics) reads it. */
@@ -64,43 +65,42 @@ public sealed class ToonFxEvent {
 
     override fun toString(): String = "ToonFxEvent($name)"
 
-    /** `*.land`: an element landed. Dust from each of [puffs] over [spread] dp. */
+    /** `*.land`: an element landed. Dust from each of [puffs] over [spread] dp; null: 8 dp in from each bottom corner, 2 below. */
     public class Land(
         public val source: String,
         override val bounds: Rect,
-        public val puffs: List<Offset> =
-            listOf(Offset(bounds.left + 8, bounds.bottom + 2), Offset(bounds.right - 8, bounds.bottom + 2)),
+        public val puffs: List<Offset>? = null,
         public val spread: Float = 46f,
     ) : ToonFxEvent() {
         override val name: String get() = "$source.land"
         override val fx: ToonFx get() = ToonFx.Dust
     }
 
-    /** `*.hit`: an element was struck. Stars. Stars on an arc of [spread] dp over [at]. */
+    /** `*.hit`: an element was struck. Stars. Stars on an arc of [spread] dp over [at]; null: 6 dp above the top middle. */
     public class Hit(
         public val source: String,
         override val bounds: Rect,
-        public val at: Offset = Offset(bounds.center.x, bounds.top - 6),
+        public val at: Offset? = null,
         public val spread: Float = 40f,
     ) : ToonFxEvent() {
         override val name: String get() = "$source.hit"
         override val fx: ToonFx get() = ToonFx.Stars
     }
 
-    /** `field.error`: a text field refused its input. Stars. Stars on an arc of [spread] dp over [at]. */
+    /** `field.error`: a text field refused its input. Stars. Stars on an arc of [spread] dp over [at]; null: 6 dp above the top middle. */
     public class FieldError(
         override val bounds: Rect,
-        public val at: Offset = Offset(bounds.center.x, bounds.top - 6),
+        public val at: Offset? = null,
         public val spread: Float = 40f,
     ) : ToonFxEvent() {
         override val name: String get() = "field.error"
         override val fx: ToonFx get() = ToonFx.Stars
     }
 
-    /** `dialog.pop`: a dialog closed with a pop. Stars, unlike every other `*.pop`. Stars on an arc of [spread] dp over [at]. */
+    /** `dialog.pop`: a dialog closed with a pop. Stars, unlike every other `*.pop`. Stars on an arc of [spread] dp over [at]; null: 6 dp above the top middle. */
     public class DialogPop(
         override val bounds: Rect,
-        public val at: Offset = Offset(bounds.center.x, bounds.top - 6),
+        public val at: Offset? = null,
         public val spread: Float = 40f,
     ) : ToonFxEvent() {
         override val name: String get() = "dialog.pop"
@@ -116,11 +116,11 @@ public sealed class ToonFxEvent {
         override val fx: ToonFx get() = ToonFx.Speed
     }
 
-    /** `*.pop`, `badge.pop` among them: an element appeared with a pop. Flash. A burst of [size] dp behind [at]. */
+    /** `*.pop`, `badge.pop` among them: an element appeared with a pop. Flash. A burst of [size] dp behind [at]; null: 2 dp above the centre. */
     public class Pop(
         public val source: String,
         override val bounds: Rect,
-        public val at: Offset = Offset(bounds.center.x, bounds.center.y - 2),
+        public val at: Offset? = null,
         public val size: Float = 46f,
     ) : ToonFxEvent() {
         init {
@@ -131,10 +131,10 @@ public sealed class ToonFxEvent {
         override val fx: ToonFx get() = ToonFx.Flash
     }
 
-    /** `success`: an action was confirmed. Flash. A burst of [size] dp behind [at]. */
+    /** `success`: an action was confirmed. Flash. A burst of [size] dp behind [at]; null: 2 dp above the centre. */
     public class Success(
         override val bounds: Rect,
-        public val at: Offset = Offset(bounds.center.x, bounds.center.y - 2),
+        public val at: Offset? = null,
         public val size: Float = 46f,
     ) : ToonFxEvent() {
         override val name: String get() = "success"
@@ -324,19 +324,16 @@ private fun DrawScope.drawToonFx(
     o: Offset,
     px: Float,
 ) {
-    val b =
-        p.event.bounds
-            .translate(-o)
-            .let { Rect(it.left / px, it.top / px, it.right / px, it.bottom / px) }
+    val b = toonFxBounds(p.event, o, px)
     val u = t / p.event.fx.durationMs
+    val place = toonFxPlace(p.event, o, px)
     when (val e = p.event) {
         is ToonFxEvent.Land -> {
-            drawToonDust(colors, u, b.left + 8, b.bottom + 2, 46f)
-            drawToonDust(colors, u, b.right - 8, b.bottom + 2, 46f)
+            for (puff in place.points) drawToonDust(colors, u, puff.x, puff.y, place.size)
         }
 
         is ToonFxEvent.Hit, is ToonFxEvent.FieldError, is ToonFxEvent.DialogPop -> {
-            drawToonStars(colors, u, b.center.x, b.top - 6, 40f)
+            drawToonStars(colors, u, place.points.single().x, place.points.single().y, place.size)
         }
 
         is ToonFxEvent.Whoosh -> {
@@ -344,11 +341,7 @@ private fun DrawScope.drawToonFx(
         }
 
         is ToonFxEvent.Pop, is ToonFxEvent.Success -> {
-            if (p.reduced) {
-                drawToonFlash(colors, FLASH_SETTLED_U, b.center.x, b.center.y - 2, 46f, opacity = 1 - t / p.durationMs)
-            } else {
-                drawToonFlash(colors, u, b.center.x, b.center.y - 2, 46f)
-            }
+            drawFlash(colors, p, t, place.points.single(), place.size)
         }
 
         is ToonFxEvent.Buzz, is ToonFxEvent.Locked, is ToonFxEvent.ActionDenied -> {
@@ -369,6 +362,68 @@ private fun DrawScope.drawToonFx(
 
         is ToonFxEvent.Worry -> {
             drawToonSweat(colors, u, b.left, b.top, b.width)
+        }
+    }
+}
+
+/** [e]'s element in the host's dp: its root pixels moved by the host's origin [o] and divided by the density [px]. */
+internal fun toonFxBounds(
+    e: ToonFxEvent,
+    o: Offset,
+    px: Float,
+): Rect = e.bounds.translate(-o).let { Rect(it.left / px, it.top / px, it.right / px, it.bottom / px) }
+
+/** Where an effect is drawn, in the host's dp: its points and its spread or size. */
+internal class ToonFxPlace(
+    val points: List<Offset>,
+    val size: Float,
+)
+
+/**
+ * Where [e]'s effect goes in a host at root [o] with density [px]: the points the event was sent
+ * with, moved into the host's dp as its bounds are (B-48), or the FX page's place on its bounds; and
+ * the spread or size it was sent with. Effects without a point of their own have none here.
+ */
+internal fun toonFxPlace(
+    e: ToonFxEvent,
+    o: Offset,
+    px: Float,
+): ToonFxPlace {
+    val b = toonFxBounds(e, o, px)
+
+    fun dp(p: Offset) = Offset((p.x - o.x) / px, (p.y - o.y) / px)
+    val starsAt = Offset(b.center.x, b.top - 6)
+    val flashAt = Offset(b.center.x, b.center.y - 2)
+    return when (e) {
+        is ToonFxEvent.Land -> {
+            ToonFxPlace(
+                e.puffs?.map(::dp) ?: listOf(Offset(b.left + 8, b.bottom + 2), Offset(b.right - 8, b.bottom + 2)),
+                e.spread,
+            )
+        }
+
+        is ToonFxEvent.Hit -> {
+            ToonFxPlace(listOf(e.at?.let(::dp) ?: starsAt), e.spread)
+        }
+
+        is ToonFxEvent.FieldError -> {
+            ToonFxPlace(listOf(e.at?.let(::dp) ?: starsAt), e.spread)
+        }
+
+        is ToonFxEvent.DialogPop -> {
+            ToonFxPlace(listOf(e.at?.let(::dp) ?: starsAt), e.spread)
+        }
+
+        is ToonFxEvent.Pop -> {
+            ToonFxPlace(listOf(e.at?.let(::dp) ?: flashAt), e.size)
+        }
+
+        is ToonFxEvent.Success -> {
+            ToonFxPlace(listOf(e.at?.let(::dp) ?: flashAt), e.size)
+        }
+
+        else -> {
+            ToonFxPlace(emptyList(), 0f)
         }
     }
 }

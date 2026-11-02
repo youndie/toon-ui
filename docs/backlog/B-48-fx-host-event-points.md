@@ -1,7 +1,7 @@
 ---
 id: B-48
 title: "FX host: draw each effect where its event puts it"
-status: open
+status: done
 priority: P2
 size: S
 stage: stage-2-components
@@ -23,3 +23,18 @@ whole layer, is drawn above the layer's top edge instead of on the dialog.
 - AC: a host test per event kind finds the effect drawn at the point and size it was sent with, at
   densities 1 and 2; the dialog's pop lands on the dialog.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/fx/ToonFxHost.kt`.
+
+## Findings (2026-11-02)
+
+- **Done as decided:** `drawToonFx` takes each effect's place from `toonFxPlace`, which moves the
+  event's root-pixel points into the host's dp as the bounds are (B-47) and keeps its spread or size,
+  in dp. The dialog's pop now lands on the dialog, the field's stars at (w − 30, −4) at 26.
+- **The defaults moved from the event to the host.** An event's point used to default to a place
+  computed in root pixels (`bounds.top - 6`), which put the FX page's dp offsets at half their size on
+  a 2× screen. The points are nullable now, null meaning the FX page's place, worked out in dp by the
+  host. No component passed the defaults explicitly, so none changed.
+- **Tests:** every event kind with a point is placed where it was sent, and where the FX page puts it
+  without one, at densities 1 and 2 (`ToonFxPlaceTest`); at density 2 the pixels show the dialog's
+  pop stars centred over the dialog on an arc of the spread sent, a 15 dp flash at its point against
+  a 46 dp one, and dust from the puffs sent, wider for a wider spread. Eight mutants caught, two of
+  them in the drawing by the pixel checks added for them.
