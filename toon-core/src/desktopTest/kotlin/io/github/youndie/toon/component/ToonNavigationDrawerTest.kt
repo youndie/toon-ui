@@ -45,7 +45,7 @@ import kotlin.test.assertTrue
 class ToonNavigationDrawerTest {
     @Test
     fun `every navigation drawer cell and open frame is the engine's`() {
-        val cells = EngineFrames.cells("NavigationDrawer")
+        val cells = EngineFrames.cells("NavigationDrawer") + EngineFrames.cells("NavigationDrawerProbe")
         val worst =
             cells.maxOf { cell ->
                 val o = cell.opts
@@ -62,7 +62,7 @@ class ToonNavigationDrawerTest {
                 EngineFrames.compare(cell, scene)
             }
         println("drawer frames: ${cells.size} cells, worst coordinate $worst dp")
-        assertEquals(24, cells.size)
+        assertEquals(27, cells.size)
         assertTrue(worst <= EngineFrames.TOLERANCE, "worst coordinate $worst dp")
     }
 

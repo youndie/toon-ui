@@ -665,6 +665,12 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-39: a press on the selected row, which no page cell shows: the engine draws the selection, not
+  // the press, under it.
+  NavigationDrawerProbe: Object.entries(THEMES).map(([theme, themeName]) => {
+    const a = { sx: 1, scrim: 1, textOp: 1, pressed: 0 };
+    return sceneCell('NavigationDrawerProbe', theme, themeName, 'PressedSelected', 360, 520, [0, 0, 0, 0], { kind: 'state', ...a }, DRAWER_SCENE(js(a)), '');
+  }),
   // B-38: the kit's `C.sheet` scene, which the page does not draw (its rows are its own): the
   // default two items and four, at rest and 90 ms into an open, on a 360 × 520 screen.
   BottomSheetKit: Object.entries(THEMES).flatMap(([theme, themeName]) => [2, 4].flatMap(n => [null, 90].map(t => {
