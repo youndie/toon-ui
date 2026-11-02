@@ -1,7 +1,7 @@
 ---
 id: B-36
 title: "Slider: a ball on a rope that squashes when grabbed"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-2-components
