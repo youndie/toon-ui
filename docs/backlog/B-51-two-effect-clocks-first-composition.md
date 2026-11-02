@@ -1,7 +1,7 @@
 ---
 id: B-51
 title: "Check the two-effect clocks under a first composition"
-status: wip
+status: done
 priority: P3
 size: S
 stage: stage-4-product
@@ -30,3 +30,24 @@ the same way in a real first composition, or only under a hand-driven test clock
   finding that it does not reproduce outside the hand-driven clock.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonMenu.kt`,
   `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTransitionHost.kt`.
+
+## Findings (2026-11-02)
+
+- **The hypothesis was wrong, the defect real and wider.** The effect's shape was not it: the frame
+  loop in a second effect ticks through, every time. Each clock's `age()` returned 0 without reading
+  `nowMs` while a play waited for its first frame (`at == PENDING_START`). Whatever read the clock at
+  that moment — the transition host's composition, a component's draw lambda — took no subscription
+  to the time, so the frames that followed never redrew it. One effect only hid it in B-44: the first
+  tick could land before the composition read the clock.
+- **What it broke, outside tests too, since it is a snapshot read:** a menu or a tooltip opened after
+  it was shown was never drawn (0 px after 1.5 s), a sheet, drawer, dialog or snackbar stuck on its
+  first frame, tabs, the segmented button and the navigation bar on the old selection. Components
+  shown in their state from the start drew right, which is why no test had seen it: every frame and
+  golden test builds the frame from a time it is given.
+- **Fixed in all 24 clocks** of 21 components: `age()` reads `nowMs` before anything else.
+  `ToonClockSubscriptionTest` shows each of twelve components switched after it is shown and holds it
+  to the pixels of the same component shown so from the start, 1.5 s on. It failed on the old clocks
+  (the menu by 25 266 px, the tabs by 14 087) and passes on the new; reverting one clock (menu, tabs,
+  drawer) fails it again. The checkbox, switch and chip were not affected — their draw reads other
+  state that redraws them — and a revert of their clock passes, as it should.
+- The transition host keeps its one effect (B-44); either shape works now.

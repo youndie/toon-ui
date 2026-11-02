@@ -51,6 +51,8 @@ and the new one flies in from the right, overshooting 12 dp. Scene change: the F
 - **Reduce motion** is the page's `cross-fade 120` for all three.
 - **Found on the way:** with the frame loop in a second effect keyed on the clock's start count, the
   host's first test of the class stalled at 0 ms; one effect that switches and asks for frames fixed
-  it. The other components use the two-effect shape and were not rechecked: B-51.
+  it. The other components use the two-effect shape and were not rechecked: B-51. *B-51 found the
+  cause elsewhere: the clock's `age()` did not read the time while a play was pending, so the
+  composition that read it then never recomposed; one effect only made the first tick come first.*
 - **B-34, looked at first:** the design project still serves `toon-engine.js?v=10` and
   `toon-kit.js?v=11`, so there was nothing to re-import.

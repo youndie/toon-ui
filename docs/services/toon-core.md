@@ -260,6 +260,9 @@ None at runtime.
   `refreshing` back to false; a caller that never sets it leaves it spinning (B-42).
 - The title card's rings jump 14 dp at the end of the entrance, as the kit's do: it rests on
   `splashAt(10⁶)`, not on the entrance's last frame (B-43).
+- A component's clock reads `nowMs` first in `age()`, before any pending or null check: a reader that
+  sees a play waiting for its first frame must still subscribe to the time, or it is never redrawn
+  (B-51). `ToonClockSubscriptionTest` holds a component switched after it is shown to its rest.
 - The transition host smears the old screen with `graphicsLayer` on a push, its strokes with it, as
   the engine scales its `miniScreen`; the screens are the caller's and cannot be rebuilt (B-44).
 - An outline's sample counts round half up with 10⁻⁵ of slack (`halfUp`): the engine counts in
