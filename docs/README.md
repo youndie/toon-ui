@@ -58,6 +58,9 @@ no file behind it, fails the coverage check.
 
 - [x] [research-architecture](research/research-architecture.md) — what was imported and verified, the decisions, the open hypotheses
 
+The component catalogue, [components.md](components.md), maps every design file to its composable,
+its engine renderer, its item and the cells, references and goldens that hold it (generated, B-31).
+
 ### Services (3/3)
 
 - [x] [toon-core](services/toon-core.md) — the library module: targets, build, the test toolchain
