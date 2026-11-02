@@ -276,17 +276,14 @@ internal fun toonTopBarScene(
             SIGN_RADII.bottomRight * rs,
             SIGN_RADII.bottomLeft * rs,
         )
+    // The shadow grows by 3 dp once content is underneath.
+    val shadow = if (o.scrolled) sh.shadow + 3 else sh.shadow
     val layers =
         bodyLayers(
             shapePoints(sx, sy, sw, h, r, sh.insets, sh.wobble, sh.seed + 750),
             c.surface,
             c,
-            if (o.scrolled) {
-                sh.shadow +
-                    3
-            } else {
-                sh.shadow
-            },
+            shadow,
         ).toMutableList()
     listOf(sx + 8, sx + sw - 8).forEachIndexed { j, nx ->
         val g = shapePoints(nx - 3.5f, sy + 8 - 3.5f, 7f, 7f, NAIL_RADII, NAIL_INSETS, .3f, sh.seed + 760 + j, 2f)
