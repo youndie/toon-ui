@@ -77,9 +77,12 @@ class ToonClockSubscriptionTest {
     }
 
     @Test
-    fun `a selection changed after showing comes to rest on the new one`() {
+    fun `a selection or a toggle changed after showing comes to rest on the new one`() {
         assertComesToRest("tabs") { ToonTabs(listOf("Today", "Weekend"), selected = if (it) 1 else 0) }
         assertComesToRest("segmented") { ToonSegmented(listOf("Day", "Week"), selected = if (it) 1 else 0) }
+        assertComesToRest("checkbox") { ToonCheckbox(it, {}, "Keep me signed in") }
+        assertComesToRest("switch") { ToonSwitch(it, {}, "Reminders") }
+        assertComesToRest("chip") { ToonChip("Outdoors", selected = it) }
         assertComesToRest("navigation bar") {
             ToonNavigationBar(
                 listOf(ToonNavItem(ToonIcons.Home, "Home"), ToonNavItem(ToonIcons.Heart, "Saved")),
