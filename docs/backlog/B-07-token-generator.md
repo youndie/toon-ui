@@ -1,7 +1,7 @@
 ---
 id: B-07
 title: "Tokens generated from THEMES: colours, shape, type, motion, three themes"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-1-materials
