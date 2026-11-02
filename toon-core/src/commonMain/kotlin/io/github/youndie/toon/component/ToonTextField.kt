@@ -31,6 +31,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.OffsetMapping
+import androidx.compose.ui.text.input.TransformedText
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,6 +59,7 @@ import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
+import io.github.youndie.toon.type.withBacking
 import kotlin.math.max
 import kotlin.math.min
 
@@ -120,6 +124,16 @@ public fun ToonTextField(
             color = tokens.colors.text,
         )
     val baseline = remember(text) { text.measure("Pg", VALUE_STYLE).firstBaseline }
+    val backing = Toon.fonts.bodyCyrillic
+    val cyrillic =
+        remember(backing) {
+            VisualTransformation {
+                TransformedText(
+                    withBacking(it.text, backing, VALUE_STYLE.size, VALUE_STYLE.weight),
+                    OffsetMapping.Identity,
+                )
+            }
+        }
 
     Box(
         modifier
@@ -155,6 +169,8 @@ public fun ToonTextField(
             singleLine = true,
             textStyle = valueStyle,
             cursorBrush = SolidColor(Color.Transparent),
+            // Typed Cyrillic is drawn in the face that backs the body face (B-35), as every label is.
+            visualTransformation = cyrillic,
             interactionSource = interaction,
             onTextLayout = { layout = it },
             modifier =
