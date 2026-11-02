@@ -1,7 +1,7 @@
 ---
 id: B-51
 title: "Check the two-effect clocks under a first composition"
-status: open
+status: wip
 priority: P3
 size: S
 stage: stage-4-product

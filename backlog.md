@@ -62,7 +62,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 | [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[?]` | TopAppBar: with three or more actions the middle ones are 40 dp targets | P2 | S | - |
 | [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[?]` | Menu: with three or more items the middle ones are 44 dp targets | P2 | S | - |
-| [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[ ]` | Check the two-effect clocks under a first composition | P3 | S | - |
+| [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[~]` | Check the two-effect clocks under a first composition | P3 | S | - |
 
 ## Closed (44)
 
