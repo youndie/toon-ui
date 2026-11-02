@@ -231,6 +231,9 @@ caught one. Text needs a floor of its own: Chrome inks a glyph through CoreText 
 advances, Compose through Skia with whole-pixel ones, so the label alone (`TextFloor` cells) differs
 by 1.96–2.30 % of its cell, 48–54 % of its ink. Cells with text are held to that ink floor in
 `InkParityTest`, and each such group has a twin without text (`ButtonShape`) held to the Divider's.
+*Extended in B-22:* where every page frame clamps a value — the list item's press tint is 0 or 1 in
+all of them — `scripts/component-cells.mjs` adds probe frames the engine draws at the moments in
+between, recorded for the frame tests and never rendered.
 *Extended in B-15:* a frame carries icons as ready paths, held to the engine's own `d` for them —
 without a DOM the engine strokes the centerline at the weight's base width, which is what the frame
 golden holds, and the outline itself is B-11's — several texts with their own weights, and the
@@ -295,6 +298,8 @@ cross-fades too (§1.6), so it is no longer one.
 *Applied to the switch in B-18:* `instant`.
 
 *Applied to the chip in B-20:* `instant`.
+
+*Applied to the list item in B-22:* `instant`.
 
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
