@@ -44,6 +44,7 @@ import io.github.youndie.toon.component.ToonSnackbar
 import io.github.youndie.toon.component.ToonSwitch
 import io.github.youndie.toon.component.ToonTabs
 import io.github.youndie.toon.component.ToonTextField
+import io.github.youndie.toon.component.ToonTooltip
 import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.component.toonDialogHit
 import io.github.youndie.toon.component.toonDrawerItemAt
@@ -64,7 +65,7 @@ import kotlin.test.assertTrue
  * B-30: each of the 19 components tells a screen reader what it is (role), what state it is in, and
  * what it says, and each one a finger can press is at least 48 dp each way (the brief's target), even
  * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50), B-38 the bottom sheet and B-39
- * the navigation drawer.
+ * the navigation drawer, B-40 the tooltip.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonAccessibilityTest {
@@ -304,6 +305,14 @@ class ToonAccessibilityTest {
             assertTrue(tall >= target, "row $i is $tall dp tall")
         }
     }
+
+    @Test
+    fun `tooltip says its text, politely, and is no target`() =
+        with(node { ToonTooltip("Tap to add a plan", it) }) {
+            assertEquals("Tap to add a plan", text)
+            assertEquals(LiveRegionMode.Polite, node.config.getOrNull(SemanticsProperties.LiveRegion))
+            assertTrue(!clickable)
+        }
 
     @Test
     fun `progress tells its value, or that it is not known`() {

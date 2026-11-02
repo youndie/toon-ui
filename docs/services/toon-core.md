@@ -92,6 +92,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonMenu.kt` | `ToonMenu` (B-37): `toonMenuScene` is the engine's `menu`, `toonMenuUnroll` its `menuUnroll`, `ToonMenuClock` the kit's 600 and 400 ms |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonBottomSheet.kt` | `ToonBottomSheet` (B-38): `toonSheetScene` is the engine's `sheet`, `toonSheetMove` its `sheetMove`, `toonSheetLayerScene` the kit's `C.sheet` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonNavigationDrawer.kt` | `ToonNavigationDrawer` (B-39): `toonDrawerScene` is the engine's `drawer`, `toonDrawerOpen` and `toonDrawerClose` its curves; the door's skew is `ToonScene.skewedAbout` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTooltip.kt` | `ToonTooltip` (B-40): `toonTooltipScene` is the engine's `tooltip`, `toonTipInflate` its `tipInflate` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the four faces and their Cyrillic backing faces (B-35): `withBacking` puts each run of Cyrillic in the backing face |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
@@ -245,6 +246,10 @@ None at runtime.
 - The navigation drawer's door is squeezed and sheared as the engine's SVG transform does it, its
   ink with it, the one place a stroke is transformed rather than rebuilt; the engine draws it that
   way (B-39). The focused row's ring is the library's: the engine has none for the drawer.
+- The tooltip is only the balloon: it does not place itself over what it explains, nor show on a
+  long press — the kit has neither. Its tail's tip is the bottom middle of its box; inflating to 1.37
+  it draws 17 dp above the box and 19 % of its width past either side, so a parent that clips cuts it
+  (B-40).
 - Two screen references, `Screens_List_BrightCel` and `Screens_Settings_BrightCel`, come out of a
   fresh render a little different now and then: 13 pixels of the navigation bar by up to 2 levels,
   under the 16 every parity reads with. `scripts/design-references.mjs --check` compares bytes and

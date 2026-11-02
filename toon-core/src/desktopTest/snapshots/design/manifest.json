@@ -18644,6 +18644,318 @@
         0
       ],
       "scene": "(() => { const W = 360, it = [['Pancake breakfast', 'Kitchen, bring syrup', '9:00'], ['Bike to the lake', 'Check the tyre pump', '11:30'], ['Paint the fence', 'Green this time', '14:00']]; const bg = E.cat(...it.map((v, i) => E.place(E.card(T, { idx: i, w: W - 36, title: v[0], meta: v[1], time: v[2] }), 18, 24 + i * 102, T.rots[i], (W - 36) / 2, 42))); const a = E.drawerOpen(420), H = 520, edge = 280 * Math.max(0, Math.min(1, a.sx ?? 1)); bg.X = bg.X.filter(x => { const right = x.anchor === 'middle' ? x.x + 30 : x.x; return right > edge + 6 && x.x > edge + 6; }); return E.cat(bg, E.drawer(T, { W: 280, H, SW: 360, ...a })); })()"
+    },
+    {
+      "file": "Tooltip_Default_InkGouacheLight.png",
+      "theme": "il",
+      "w": 159,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Tap to add a plan\"}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Long_InkGouacheLight.png",
+      "theme": "il",
+      "w": 244,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Long-press a card to move it\"}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Inflating_InkGouacheLight.png",
+      "theme": "il",
+      "w": 159,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Tap to add a plan\",\"s\":0.6}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(0, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(60, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_120ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(120, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_200ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(200, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_320ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(320, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Default_InkGouacheNight.png",
+      "theme": "in",
+      "w": 159,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Tap to add a plan\"}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Long_InkGouacheNight.png",
+      "theme": "in",
+      "w": 244,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Long-press a card to move it\"}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Inflating_InkGouacheNight.png",
+      "theme": "in",
+      "w": 159,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Tap to add a plan\",\"s\":0.6}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(0, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(60, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_120ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(120, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_200ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(200, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_320ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(320, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Default_BrightCel.png",
+      "theme": "bc",
+      "w": 159,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Tap to add a plan\"}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Long_BrightCel.png",
+      "theme": "bc",
+      "w": 244,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Long-press a card to move it\"}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Inflating_BrightCel.png",
+      "theme": "bc",
+      "w": 159,
+      "h": 46,
+      "pad": [
+        6,
+        8,
+        6,
+        8
+      ],
+      "scene": "(() => { const tp = E.tooltip(T, {\"text\":\"Tap to add a plan\",\"s\":0.6}); return E.place(tp, tp.w / 2, 46); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(0, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(60, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_120ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(120, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_200ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(200, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
+    },
+    {
+      "file": "Tooltip_Inflate_320ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 56,
+      "pad": [
+        4,
+        4,
+        4,
+        4
+      ],
+      "scene": "(() => { const s = E.tipInflate(320, true), tp = E.tooltip(T, { s }); return E.place(tp, 100, 52); })()"
     }
   ],
   "screens": [

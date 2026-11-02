@@ -123,6 +123,19 @@ const PRELUDE = {
 // Chrome over the page's cards (DrawerFrames).
 `,
   },
+  Tooltip: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.TIP_TEXT',
+    ],
+    cell: `// The v1 page's tooltip cells and its inflate strip against the engine's \`tooltip\` drawn in Chrome,
+// the balloon as wide as Compose measures its text (TipFrames).
+`,
+  },
   Menu: {
     imports: [
       'androidx.compose.runtime.Composable',
