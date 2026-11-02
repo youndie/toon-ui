@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.translate
+import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.tokens.ToonColors
 import io.github.youndie.toon.tokens.ToonShape
 
@@ -44,43 +45,16 @@ internal fun polygonPath(pts: FloatArray): Path =
         close()
     }
 
-/** A shape's outline and fill as paths, built once per frame the shape changes. */
-internal class ToonInkPaths(
-    val ink: Path,
-    val fill: Path,
-)
-
-internal fun ToonShapePoints.toPaths(): ToonInkPaths = ToonInkPaths(smoothPath(ink), smoothPath(fill))
-
 /** How far the night theme's fill is shifted down so that its rim shows along the top edge, in dp. */
-private const val RIM_DROP = 1.6f
+internal const val RIM_DROP = 1.6f
 
 /**
- * The engine's `body`: the outline offset by [shadow] as the hard shadow, the outline in [inkColor],
- * then — where the theme has a rim and [rim] is not null — the fill in the rim colour and the fill
- * again [RIM_DROP] lower, else the fill alone. [inkAlpha] fades ink and shadow together, as a
- * disabled component does.
+ * The engine's `body` from a box: the shape from the theme's insets and wobble, drawn as
+ * [bodyLayers] — the outline offset by [shadow] as the hard shadow, the outline, then the fill over
+ * the rim colour where the theme has a rim and [rim] is not null. [inkAlpha] fades ink and shadow
+ * together, as a disabled component does.
  */
-internal fun DrawScope.drawInkBody(
-    paths: ToonInkPaths,
-    fill: Color,
-    colors: ToonColors,
-    shadow: Float,
-    inkAlpha: Float = 1f,
-    inkColor: Color = colors.ink,
-    rim: Color? = colors.rim,
-) {
-    if (shadow != 0f) translate(shadow, shadow) { drawPath(paths.ink, colors.ink, alpha = inkAlpha) }
-    drawPath(paths.ink, inkColor, alpha = inkAlpha)
-    if (rim != null) {
-        drawPath(paths.fill, rim)
-        translate(0f, RIM_DROP) { drawPath(paths.fill, fill) }
-    } else {
-        drawPath(paths.fill, fill)
-    }
-}
-
-/** The engine's `body` from a box: builds the shape from the theme's insets and wobble, then draws it. */
+@OptIn(InternalToonApi::class)
 internal fun DrawScope.drawInkBody(
     x: Float,
     y: Float,
@@ -94,13 +68,19 @@ internal fun DrawScope.drawInkBody(
     shadow: Float = shape.shadow,
     inkAlpha: Float = 1f,
     rim: Color? = colors.rim,
-) = drawInkBody(
-    shapePoints(x, y, w, h, radii, shape.insets, shape.wobble, seed).toPaths(),
-    fill,
-    colors,
-    shadow,
-    inkAlpha,
-    rim = rim,
+) = drawScene(
+    ToonScene(
+        bodyLayers(
+            shapePoints(x, y, w, h, radii, shape.insets, shape.wobble, seed),
+            fill,
+            colors,
+            shadow,
+            inkAlpha,
+            rim = rim,
+        ),
+        emptyList(),
+    ),
+    null,
 )
 
 /** The engine's `ring`: the focus ring, a dashed wobble 2.5 dp wide in the theme's focus colour. */
@@ -113,19 +93,7 @@ internal fun DrawScope.drawFocusRing(
     colors: ToonColors,
     shape: ToonShape,
     seed: Int,
-) {
-    drawPath(
-        smoothPath(wobblePoints(x, y, w, h, radii, shape.wobble, seed)),
-        colors.focus,
-        style =
-            Stroke(
-                width = 2.5f,
-                cap = StrokeCap.Round,
-                join = StrokeJoin.Round,
-                pathEffect = PathEffect.dashPathEffect(floatArrayOf(7f, 5f)),
-            ),
-    )
-}
+) = drawScene(ToonScene(listOf(ringLayer(x, y, w, h, radii, colors, shape.wobble, seed)), emptyList()), null)
 
 /** The engine's `place`: translate by ([dx], [dy]), then rotate [degrees] about ([px], [py]). */
 internal inline fun DrawScope.place(

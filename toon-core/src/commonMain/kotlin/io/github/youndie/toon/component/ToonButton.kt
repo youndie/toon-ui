@@ -21,11 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Paint
-import androidx.compose.ui.graphics.Path
-import androidx.compose.ui.graphics.StrokeCap
-import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.input.key.Key
@@ -42,20 +38,23 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.text.TextMeasurer
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.InternalToonApi
+import io.github.youndie.toon.draw.ToonLabel
+import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
-import io.github.youndie.toon.draw.drawFocusRing
-import io.github.youndie.toon.draw.drawInkBody
+import io.github.youndie.toon.draw.ToonScene
+import io.github.youndie.toon.draw.ToonSegments
+import io.github.youndie.toon.draw.bodyLayers
+import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
-import io.github.youndie.toon.draw.smoothPath
+import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.spinnerPoints
-import io.github.youndie.toon.draw.toPaths
 import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.fx.drawToonVibe
 import io.github.youndie.toon.fx.toonVibeOffset
@@ -286,15 +285,27 @@ private fun c01(v: Float): Float = max(0f, min(1f, v))
 private val TEXT_BLOB_RADII = ToonRadii(14f, 10f, 16f, 11f)
 private const val BLOB_R = 10f
 
-/** The engine's `btn`: one frame of the button, [w] dp wide, drawn from its top left. */
-@OptIn(InternalToonApi::class)
+/** The engine's `btn` drawn: [toonButtonScene] with [label] laid out at its place. */
 internal fun DrawScope.drawToonButton(
     tokens: ToonTokens,
     variant: ToonButtonVariant,
     w: Float,
     label: TextLayoutResult,
     o: ToonButtonLook,
-) {
+) = drawScene(toonButtonScene(tokens, variant, w, label.multiParagraph.width, o), label)
+
+/**
+ * The engine's `btn`: one frame of the button, [w] dp wide from its top left, whose label is
+ * [labelWidth] dp wide, as layers and the label's place.
+ */
+@OptIn(InternalToonApi::class)
+internal fun toonButtonScene(
+    tokens: ToonTokens,
+    variant: ToonButtonVariant,
+    w: Float,
+    labelWidth: Float,
+    o: ToonButtonLook,
+): ToonScene {
     val c = tokens.colors
     val s = tokens.shape
     val h = ToonSize.BUTTON
@@ -311,53 +322,43 @@ internal fun DrawScope.drawToonButton(
     val ins = s.insets.copy(bottom = s.insets.bottom * (1 + .3f * c01(p)))
     val dis = o.disabled
     val filled = variant == ToonButtonVariant.Filled
+    val layers = mutableListOf<ToonLayer>()
+    val labels = mutableListOf<ToonLabel>()
     if (o.focus) {
-        drawFocusRing(
-            -6f,
-            -6f,
-            w + 12,
-            h + 12,
-            ToonRadii(
-                r.topLeft + 6,
-                r.topRight + 6,
-                r.bottomRight + 6,
-                r.bottomLeft + 6,
-            ),
-            c,
-            s,
-            seed + 3,
-        )
+        val ring = ToonRadii(r.topLeft + 6, r.topRight + 6, r.bottomRight + 6, r.bottomLeft + 6)
+        layers += ringLayer(-6f, -6f, w + 12, h + 12, ring, c, s.wobble, seed + 3)
     }
     if (variant != ToonButtonVariant.Text) {
-        drawInkBody(
-            shapePoints(x, y, bw, bh, r, ins, s.wobble, seed).toPaths(),
-            fill =
-                if (dis) {
-                    c.disabled
-                } else if (filled) {
-                    c.primary
-                } else {
-                    c.surface
-                },
-            colors = c,
-            shadow = if (dis) 0f else (if (filled) s.shadow else s.shadow * .6f) * (1 - c01(p)),
-            inkAlpha = if (dis) .35f else 1f,
-            rim =
-                if (c.rim == null || dis) {
-                    null
-                } else if (filled) {
-                    c.primaryHighlight
-                } else {
-                    c.rim
-                },
-        )
+        layers +=
+            bodyLayers(
+                shapePoints(x, y, bw, bh, r, ins, s.wobble, seed),
+                fill =
+                    if (dis) {
+                        c.disabled
+                    } else if (filled) {
+                        c.primary
+                    } else {
+                        c.surface
+                    },
+                colors = c,
+                shadow = if (dis) 0f else (if (filled) s.shadow else s.shadow * .6f) * (1 - c01(p)),
+                inkAlpha = if (dis) .35f else 1f,
+                rim =
+                    if (c.rim == null || dis) {
+                        null
+                    } else if (filled) {
+                        c.primaryHighlight
+                    } else {
+                        c.rim
+                    },
+            )
     } else if (p > .02f) {
-        drawPath(
-            smoothPath(wobblePoints(x + 8, y + 5, bw - 16, bh - 10, TEXT_BLOB_RADII, s.wobble, seed)),
-            c.surfacePressed,
-            alpha =
+        layers +=
+            smoothLayer(
+                wobblePoints(x + 8, y + 5, bw - 16, bh - 10, TEXT_BLOB_RADII, s.wobble, seed),
+                c.surfacePressed,
                 c01(p * 1.5f),
-        )
+            )
     }
     val fs = ToonTypeScale.Title.size
     val lc =
@@ -377,26 +378,30 @@ internal fun DrawScope.drawToonButton(
         lDy = -26 * u * u
         lOp *= 1 - u
     }
-    val lw = label.multiParagraph.width
-    if (lOp > .01f) drawText(label, lc, Offset(w / 2 - lw / 2, ly + lDy - label.firstBaseline), alpha = lOp)
+    if (lOp > .01f) labels += ToonLabel(w / 2, ly + lDy, lc, lOp)
     if (variant == ToonButtonVariant.Text) {
-        val x0 = w / 2 - lw / 2
+        val x0 = w / 2 - labelWidth / 2
         val yy = ly + 7 + lDy
         val n = 8
-        val wave =
-            Path().apply {
-                moveTo(x0, yy)
-                for (i in 1..n) {
-                    val xx = x0 + lw * i / n
-                    quadraticTo(xx - lw / n / 2, yy + (if (i % 2 == 1) 2.4f else -2.4f), xx, yy)
-                }
-            }
-        drawPath(
-            wave,
-            if (dis) c.textMuted else c.primary,
-            alpha = (if (dis) .5f else 1f) * (if (o.lt != null) lOp else 1f),
-            style = Stroke(width = 3f, cap = StrokeCap.Round, join = StrokeJoin.Round),
-        )
+        val wave = FloatArray(2 + 4 * n)
+        wave[0] = x0
+        wave[1] = yy
+        for (i in 1..n) {
+            val xx = x0 + labelWidth * i / n
+            wave[4 * i - 2] = xx - labelWidth / n / 2
+            wave[4 * i - 1] = yy + (if (i % 2 == 1) 2.4f else -2.4f)
+            wave[4 * i] = xx
+            wave[4 * i + 1] = yy
+        }
+        layers +=
+            ToonLayer(
+                wave,
+                ToonSegments.Quad,
+                closed = false,
+                color = if (dis) c.textMuted else c.primary,
+                alpha = (if (dis) .5f else 1f) * (if (o.lt != null) lOp else 1f),
+                stroke = 3f,
+            )
     }
     if (o.lt != null && o.lt > 100) {
         val u = c01((o.lt - 100) / 100)
@@ -411,12 +416,11 @@ internal fun DrawScope.drawToonButton(
             ssy = 1 - .2f * q
         }
         val ph = o.spin / 1000 * 2 * PI.toFloat()
-        drawPath(smoothPath(spinnerPoints(w / 2, cy, BLOB_R, BLOB_R + 3, ph, ssx, ssy)), c.ink)
-        drawPath(
-            smoothPath(spinnerPoints(w / 2, cy, BLOB_R, BLOB_R, ph, ssx, ssy)),
-            if (filled) c.surface else c.primary,
-        )
+        layers += smoothLayer(spinnerPoints(w / 2, cy, BLOB_R, BLOB_R + 3, ph, ssx, ssy), c.ink)
+        layers +=
+            smoothLayer(spinnerPoints(w / 2, cy, BLOB_R, BLOB_R, ph, ssx, ssy), if (filled) c.surface else c.primary)
     }
+    return ToonScene(layers, labels)
 }
 
 /** One frame of the button without its interaction: what the fixtures and previews draw. */
