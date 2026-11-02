@@ -89,6 +89,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonNavigationBar.kt` | `ToonNavigationBar` (B-27): `toonNavBarScene` is the engine's `navBar`, `toonNavSelect` its `navSelect` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTabs.kt` | `ToonTabs` and `ToonTabsState` (B-28): `toonTabsScene` is the engine's `tabs`, `toonTabsSwitch` its `tabsSwitch` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSlider.kt` | `ToonSlider` (B-36): `toonSliderScene` is the engine's `slider` and `rope`, `toonSliderGrab` its `sliderGrab` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonMenu.kt` | `ToonMenu` (B-37): `toonMenuScene` is the engine's `menu`, `toonMenuUnroll` its `menuUnroll`, `ToonMenuClock` the kit's 600 and 400 ms |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the four faces and their Cyrillic backing faces (B-35): `withBacking` puts each run of Cyrillic in the backing face |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
@@ -230,6 +231,12 @@ None at runtime.
   state, every item as an action, not a node per item (B-30).
 - The slider's keyboard and a screen reader move it one stop, or a twentieth of the rope when it
   has none (B-36); the kit has no keyboard, so the step is the library's.
+- The menu is one node for a screen reader, every item an action, the selected one its state; the
+  arrow keys walk the items and Enter or Space chooses (B-37), where the kit has no keyboard. Its
+  first and last targets reach the scroll's edges; a middle item of three or more stays 44 dp (B-50).
+- The menu is the scroll alone and does not place itself under its trigger: the caller lays it
+  out. It draws outside its box while unrolling, the paper overshooting by up to 23 % (36 dp under
+  three items at 144 ms), so a parent that clips cuts the overshoot.
 - Two screen references, `Screens_List_BrightCel` and `Screens_Settings_BrightCel`, come out of a
   fresh render a little different now and then: 13 pixels of the navigation bar by up to 2 levels,
   under the 16 every parity reads with. `scripts/design-references.mjs --check` compares bytes and

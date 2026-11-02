@@ -434,6 +434,34 @@ export const SLIDER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) 
     `E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(${t}, ${down}) })`, call('toonSliderScene', 'tokens', '200f', '0.5f', sliderLook({}, `toonSliderGrab(${t}f, ${down})`)))),
 ]);
 
+// ---- Menu (B-37): `toon-ui v1 Components.dc.html` ----
+const MENU_PAGE = [
+  "out.menu = { cells: [['Open', {}], ['Item pressed', { pressed: 1 }], ['Item focused', { focus: 0 }], ['Item disabled', { disabled: 1 }], ['Unrolling', { u: .55 }]].map(([n, o]) => C('Menu / ' + n, E.menu(T, { w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'], ...o }), 200, 172, [6, 10, 10, 6])),",
+  "frames: [0, 60, 120, 200, 360].map(t => { const u = E.menuUnroll(t, true); return Fr(`${t} ms`, `paper ${n0(u * 100)} %`, this.menuScene(T, u), 260, 240, [0, 0, 0, 0], .5); }) },",
+  "frames: [0, 60, 120, 160].map(t => { const u = E.menuUnroll(t, false); return Fr(`${t} ms`, `paper ${n0(u * 100)} %`, this.menuScene(T, u), 260, 240, [0, 0, 0, 0], .5); }) }] };",
+  "menuScene(T, u, o = {}) { const E = this.E, m = E.menu(T, { w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'], u, ...o }); return E.cat(E.place(E.iconBtn(T, { icon: 'more', p: 0 }), 186, 4), u > .01 ? E.place(m, 34, 58) : { L: [], X: [] }); }",
+];
+const MENU_STATES = [['Open', {}], ['ItemPressed', { pressed: 1 }], ['ItemFocused', { focus: 0 }], ['ItemDisabled', { disabled: 1 }], ['Unrolling', { u: .55 }]];
+const MENU_JS = "{ w: 200, items: ['Edit', 'Share', 'Delete'], icons: ['edit', 'share', 'delete'] }";
+const menuLook = o => {
+  const a = [];
+  if (o.u != null) a.push(`u = ${kf(o.u)}`);
+  if (o.pressed != null) a.push(`pressed = ${o.pressed}`);
+  if (o.focus != null) a.push(`focus = ${o.focus}`);
+  if (o.disabled != null) a.push(`disabled = ${o.disabled}`);
+  return call('ToonMenuLook', ...a);
+};
+// A strip frame is the page's `menuScene` at the engine's `menuUnroll` for its age, so the cell holds
+// the curve as well as the drawing.
+export const MENU_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...MENU_STATES.map(([n, o]) => sceneCell('Menu', theme, themeName, n, 200, 172, [6, 10, 10, 6], { kind: 'state', ...o },
+    `E.menu(T, Object.assign(${MENU_JS}, ${js(o)}))`, call('toonMenuScene', 'tokens', '200f', 'MenuFrames.items', menuLook(o)))),
+  ...[[true, [0, 60, 120, 200, 360]], [false, [0, 60, 120, 160]]].flatMap(([open, ts]) => ts.map(t =>
+    sceneCell('Menu', theme, themeName, `${open ? 'Unroll' : 'RollUp'}_${t}ms`, 260, 240, [0, 0, 0, 0], { kind: open ? 'unroll' : 'rollUp', t },
+      `(() => { const u = E.menuUnroll(${t}, ${open}), m = E.menu(T, Object.assign(${MENU_JS}, { u })); return E.cat(E.place(E.iconBtn(T, { icon: 'more', p: 0 }), 186, 4), u > .01 ? E.place(m, 34, 58) : { L: [], X: [] }); })()`,
+      call('MenuFrames.strip', 'tokens', String(open), `${t}f`)))),
+]);
+
 // ---- Tabs (B-28): `toon-ui MVP Components.dc.html` ----
 const TABS_PAGE = [
   "TABS = ['Today', 'Weekend', 'Someday'];",
@@ -598,10 +626,16 @@ export const FRAME_PROBES = {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');
   })),
+  // B-37: the paper's first 20 dp, which no page frame lands in — the strips jump from none to most —
+  // where the body is drawn from 2 dp and only the rolls show below it.
+  MenuProbe: Object.entries(THEMES).flatMap(([theme, themeName]) => [.01, .05, .1].map(u =>
+    sceneCell('MenuProbe', theme, themeName, `U${u * 100}`, 200, 172, [0, 0, 0, 0], { kind: 'state', u },
+      `E.menu(T, Object.assign(${MENU_JS}, { u: ${u} }))`, ''))),
 };
 
 export const missingPageText = [
   ...SLIDER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
+  ...MENU_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -621,4 +655,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS, Menu: MENU_CELLS };

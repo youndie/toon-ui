@@ -357,6 +357,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the slider in B-36:* `instant`; the ball is squashed exactly while held, round otherwise.
 
+*Applied to the menu in B-37:* `fade 120` both ways; the scroll fades in unrolled and fades out without rolling up.
+
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret

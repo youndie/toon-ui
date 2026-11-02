@@ -29,6 +29,8 @@ import io.github.youndie.toon.component.ToonFab
 import io.github.youndie.toon.component.ToonIconButton
 import io.github.youndie.toon.component.ToonListItem
 import io.github.youndie.toon.component.ToonListTrailing
+import io.github.youndie.toon.component.ToonMenu
+import io.github.youndie.toon.component.ToonMenuItem
 import io.github.youndie.toon.component.ToonNavItem
 import io.github.youndie.toon.component.ToonNavigationBar
 import io.github.youndie.toon.component.ToonProgress
@@ -39,6 +41,7 @@ import io.github.youndie.toon.component.ToonTabs
 import io.github.youndie.toon.component.ToonTextField
 import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.component.toonDialogHit
+import io.github.youndie.toon.component.toonMenuItemAt
 import io.github.youndie.toon.component.toonNavSlot
 import io.github.youndie.toon.component.toonTopBarTarget
 import io.github.youndie.toon.icon.ToonIcon
@@ -53,7 +56,7 @@ import kotlin.test.assertTrue
 /**
  * B-30: each of the 19 components tells a screen reader what it is (role), what state it is in, and
  * what it says, and each one a finger can press is at least 48 dp each way (the brief's target), even
- * where the design draws it smaller.
+ * where the design draws it smaller. B-37 adds the menu, whose middle items are 44 dp (B-50).
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonAccessibilityTest {
@@ -323,6 +326,22 @@ class ToonAccessibilityTest {
             assertEquals(listOf("Today", "Weekend", "Someday"), actions)
             assertTrue(hDp >= target && wDp / 3 >= target)
         }
+
+    @Test
+    fun `menu names the chosen item and offers each, the first and last 48 dp targets`() {
+        val items = listOf("Edit", "Share", "Delete").map { ToonMenuItem(it) }
+        with(node { ToonMenu(items, it, selected = 1) }) {
+            assertEquals("Share", state)
+            assertEquals(listOf("Edit", "Share", "Delete"), actions)
+            assertTrue(wDp >= target)
+        }
+        for (n in 1..3) {
+            for (i in listOf(0, n - 1)) {
+                val height = (0..200).count { toonMenuItemAt(n, it.toFloat()) == i }
+                assertTrue(height >= target, "$n items: item $i is $height dp tall")
+            }
+        }
+    }
 
     @Test
     fun `icon is an image with its description, or nothing when decorative`() {

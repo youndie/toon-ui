@@ -59,7 +59,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
-| [B-37](docs/backlog/B-37-menu.md) `[ ]` | Menu: a paper scroll that unrolls under its trigger | P2 | S | B-10, B-11 |
 | [B-38](docs/backlog/B-38-bottom-sheet.md) `[ ]` | BottomSheet: a sheet with a tab that slides up with overshoot | P2 | M | B-10, B-22 |
 | [B-39](docs/backlog/B-39-navigation-drawer.md) `[ ]` | NavigationDrawer: a door on three hinges that swings and shivers | P2 | M | B-10 |
 | [B-40](docs/backlog/B-40-tooltip.md) `[ ]` | Tooltip: a speech balloon that inflates from its tail | P2 | S | B-09 |
@@ -70,8 +69,9 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 | [B-48](docs/backlog/B-48-fx-host-event-points.md) `[ ]` | FX host: draw each effect where its event puts it | P2 | S | - |
 | [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[?]` | TopAppBar: with three or more actions the middle ones are 40 dp targets | P2 | S | - |
+| [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[?]` | Menu: with three or more items the middle ones are 44 dp targets | P2 | S | - |
 
-## Closed (35)
+## Closed (36)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -111,6 +111,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-27](docs/backlog/B-27-navigation-bar.md) `[x]` - NavigationBar: jumping icon, dust, paint-stroke indicator
 - [B-28](docs/backlog/B-28-tabs.md) `[x]` - Tabs: bookmarks on an ink shelf, the indicator smears across
 - [B-36](docs/backlog/B-36-slider.md) `[x]` - Slider: a ball on a rope that squashes when grabbed
+- [B-37](docs/backlog/B-37-menu.md) `[x]` - Menu: a paper scroll that unrolls under its trigger
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**

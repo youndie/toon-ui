@@ -40,7 +40,7 @@ const MAP = {
   Icon: { composable: 'ToonIcon', engine: ['icon'], item: 'B-11', group: 'Icon' },
   IconButton: { composable: 'ToonIconButton', engine: ['iconBtn'], item: 'B-15', group: 'IconButton' },
   ListItem: { composable: 'ToonListItem', engine: ['listItem'], item: 'B-22', group: 'ListItem' },
-  Menu: { engine: ['menu'], item: 'B-37' },
+  Menu: { composable: 'ToonMenu', engine: ['menu', 'menuUnroll'], item: 'B-37', group: 'Menu' },
   NavBar: { composable: 'ToonNavigationBar', engine: ['navBar'], item: 'B-27', group: 'NavigationBar' },
   NavDrawer: { engine: ['drawer'], item: 'B-39' },
   Progress: { composable: 'ToonProgress', engine: ['linear', 'circular'], item: 'B-25', group: 'Progress' },
