@@ -20,6 +20,6 @@ Every pressable component squashes the same way: 80 ms ease-out-cubic to p = 1, 
 - D7's one exception to closed-form curves, tested by feeding it timelines: a tap released at
   40 ms, a long press, a press that leaves the box.
 
-- AC: tests over timelines match the kit's integration within tolerance; releasing at 40 ms
+- AC: under `ToonTheme(reduceMotion = true)` the press pose is instant (moved here from B-08); tests over timelines match the kit's integration within tolerance; releasing at 40 ms
   produces no jump.
 - Anchors: `reference/design-system/toon-kit.js`.

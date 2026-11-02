@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (37)
+## Open (36)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-08](docs/backlog/B-08-theme-reduce-motion-idle-budget.md) `[~]` | ToonTheme provider, system reduce motion, and a counted idle budget | P1 | M | B-07 |
 | [B-09](docs/backlog/B-09-ink-drawing-primitives.md) `[ ]` | Ink drawing primitives: body with hard shadow and night rim, focus ring, placement | P1 | M | B-04, B-05, B-06 |
 | [B-10](docs/backlog/B-10-press-feedback.md) `[ ]` | Press feedback: squash on press, spring from where it got to, action on release | P1 | S | B-08 |
 | [B-11](docs/backlog/B-11-icon-set.md) `[ ]` | Icons: 25 centerlines, variable-width outline, Regular and Bold, ToonIcon | P1 | M | B-06, B-09 |
@@ -94,7 +93,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (8)
+## Closed (9)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -108,6 +107,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 **The Divider, a plain body, the icons and the FX match their references; tokens are generated**
 
 - [B-07](docs/backlog/B-07-token-generator.md) `[x]` - Tokens generated from THEMES: colours, shape, type, motion, three themes
+- [B-08](docs/backlog/B-08-theme-reduce-motion-idle-budget.md) `[x]` - ToonTheme provider, system reduce motion, and a counted idle budget
 
 **The owner's questions answered; the semantics and contrast tests pass**
 

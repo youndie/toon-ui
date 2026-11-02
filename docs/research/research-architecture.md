@@ -302,6 +302,7 @@ otherwise follows oldge-ui (B-32).
 | H7 | **Variable weights below Android 8.** Each body weight is a `wght` setting on one variable file. Android applies font variations from API 26, and `minSdk` is 24. On 7.x the body text would then render at the files' default instance, Light 300, for every weight. Read, not run: nothing visual runs on Android (D9). | Checked on a device or emulator at API 24–25 when one is available. If it holds, either raise `minSdk` to 26 or bundle static instances for Android only, which makes them modified fonts (§1.4). The owner decides. |
 | H6 | **Textures.** The four tiles came from the owner, not from DesignSync, and differ from the project's pixels by up to 22 levels (§1.1). | References and library use the same vendored files, so parity is unaffected. B-13 checks the wrap, the gouache tiles' vertical one first. |
 | R1 | **The FX and idle budget get exceeded silently.** The brief allows at most 2 idle elements per screen; `LocalIdleBudget = 2` in the sketch enforces nothing. | B-08 makes the budget a counted resource, and a third idle request falls back to static, observable in a test. |
+| R1 — *closed, B-08* | `ToonTheme` hands out idle slots from a `ToonIdleBudget` of capacity 2 in composition order. A third request is refused, reduced motion grants none, and a refused element stays still when a slot frees up (`ToonThemeTest`). | — |
 
 ## 4. What happens next
 
