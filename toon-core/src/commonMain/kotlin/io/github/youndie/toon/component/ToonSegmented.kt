@@ -51,6 +51,7 @@ import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.theme.Toon
+import io.github.youndie.toon.tokens.ToonSize
 import io.github.youndie.toon.tokens.ToonTokens
 import kotlin.math.floor
 import kotlin.math.max
@@ -97,7 +98,7 @@ public fun ToonSegmented(
 
     Canvas(
         modifier
-            .size(width, SEG_H.dp)
+            .size(width, ToonSize.TARGET_MIN.dp)
             .semantics {
                 stateDescription = labels.getOrNull(clock.sel) ?: ""
                 if (!enabled) {
@@ -161,13 +162,14 @@ public fun ToonSegmented(
                     focus = focusOn.takeIf { focused && enabled },
                     disabled = !enabled,
                 )
-            drawScene(toonSegmentedScene(tokens, w, labels, look), texts)
+            drawScene(toonSegmentedScene(tokens, w, labels, look).placed(0f, SEG_DROP), texts)
         }
     }
 }
 
-/** The kit's box: 44 dp tall. */
+/** The design draws it 44 dp tall; it is laid out 48, a finger's target (research §1.6), the drawing 2 dp down. */
 private const val SEG_H = 44f
+private const val SEG_DROP = (ToonSize.TARGET_MIN - SEG_H) / 2
 
 /** The switch plays for 700 ms in the kit; under reduce motion — the v1 page's `instant` — none. */
 private const val SWITCH_MS = 700f
