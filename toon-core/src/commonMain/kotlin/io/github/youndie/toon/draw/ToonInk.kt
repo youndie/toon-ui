@@ -80,7 +80,6 @@ internal fun DrawScope.drawInkBody(
         ),
         emptyList(),
     ),
-    null,
 )
 
 /** The engine's `ring`: the focus ring, a dashed wobble 2.5 dp wide in the theme's focus colour. */
@@ -93,7 +92,7 @@ internal fun DrawScope.drawFocusRing(
     colors: ToonColors,
     shape: ToonShape,
     seed: Int,
-) = drawScene(ToonScene(listOf(ringLayer(x, y, w, h, radii, colors, shape.wobble, seed)), emptyList()), null)
+) = drawScene(ToonScene(listOf(ringLayer(x, y, w, h, radii, colors, shape.wobble, seed)), emptyList()))
 
 /** The engine's `place`: translate by ([dx], [dy]), then rotate [degrees] about ([px], [py]). */
 internal inline fun DrawScope.place(

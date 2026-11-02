@@ -35,22 +35,19 @@ import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.text
 import androidx.compose.ui.text.AnnotatedString
-import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextMeasurer
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.draw.ToonLabel
 import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonSegments
+import io.github.youndie.toon.draw.ToonTextRenderer
+import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
@@ -105,14 +102,15 @@ public fun ToonButton(
 ) {
     val tokens = Toon.tokens
     val reduce = Toon.reduceMotion
-    val text = rememberToonButtonLabel(label)
+    val text = rememberToonText()
+    val labelWidth = remember(label, text) { text.measure(label, BUTTON_LABEL).multiParagraph.width }
     val w =
         if (width >
             0.dp
         ) {
             width.value
         } else {
-            max(MIN_WIDTH, (text.multiParagraph.width + LABEL_PADDING).roundToInt().toFloat())
+            max(MIN_WIDTH, (labelWidth + LABEL_PADDING).roundToInt().toFloat())
         }
     val press = rememberToonPressState()
     val interaction = remember { MutableInteractionSource() }
@@ -172,10 +170,12 @@ public fun ToonButton(
         translate(dx, 0f) {
             if (fade != null && fade < 1f) {
                 // Reduce motion's `fade 120`: the resting button fades into the loading one.
-                withAlpha(1 - fade) { drawToonButton(tokens, variant, w, text, look.copy(lt = null)) }
-                withAlpha(fade) { drawToonButton(tokens, variant, w, text, look) }
+                withAlpha(
+                    1 - fade,
+                ) { drawToonButton(tokens, variant, w, label, labelWidth, look.copy(lt = null), text) }
+                withAlpha(fade) { drawToonButton(tokens, variant, w, label, labelWidth, look, text) }
             } else {
-                drawToonButton(tokens, variant, w, text, look)
+                drawToonButton(tokens, variant, w, label, labelWidth, look, text)
             }
         }
     }
@@ -306,21 +306,7 @@ internal data class ToonButtonLook(
 )
 
 /** The label's style: the Core page's Title step in the theme's body face. */
-@Composable
-internal fun rememberToonButtonLabel(label: String): TextLayoutResult {
-    val measurer: TextMeasurer = rememberTextMeasurer()
-    val family = Toon.fonts.body
-    return remember(label, family) {
-        measurer.measure(
-            label,
-            TextStyle(
-                fontFamily = family,
-                fontWeight = FontWeight(ToonTypeScale.Title.weight),
-                fontSize = ToonTypeScale.Title.size.sp,
-            ),
-        )
-    }
-}
+internal val BUTTON_LABEL = ToonTextStyle(ToonTypeScale.Title.weight, ToonTypeScale.Title.size)
 
 private fun c01(v: Float): Float = max(0f, min(1f, v))
 
@@ -328,17 +314,19 @@ private fun c01(v: Float): Float = max(0f, min(1f, v))
 private val TEXT_BLOB_RADII = ToonRadii(14f, 10f, 16f, 11f)
 private const val BLOB_R = 10f
 
-/** The engine's `btn` drawn: [toonButtonScene] with [label] laid out at its place. */
+/** The engine's `btn` drawn: [toonButtonScene] with its label laid out by [text]. */
 internal fun DrawScope.drawToonButton(
     tokens: ToonTokens,
     variant: ToonButtonVariant,
     w: Float,
-    label: TextLayoutResult,
+    label: String,
+    labelWidth: Float,
     o: ToonButtonLook,
-) = drawScene(toonButtonScene(tokens, variant, w, label.multiParagraph.width, o), label)
+    text: ToonTextRenderer,
+) = drawScene(toonButtonScene(tokens, variant, w, label, labelWidth, o), text)
 
 /**
- * The engine's `btn`: one frame of the button, [w] dp wide from its top left, whose label is
+ * The engine's `btn`: one frame of the button, [w] dp wide from its top left, whose [label] is
  * [labelWidth] dp wide, as layers and the label's place.
  */
 @OptIn(InternalToonApi::class)
@@ -346,6 +334,7 @@ internal fun toonButtonScene(
     tokens: ToonTokens,
     variant: ToonButtonVariant,
     w: Float,
+    label: String,
     labelWidth: Float,
     o: ToonButtonLook,
 ): ToonScene {
@@ -421,7 +410,7 @@ internal fun toonButtonScene(
         lDy = -26 * u * u
         lOp *= 1 - u
     }
-    if (lOp > .01f) labels += ToonLabel(w / 2, ly + lDy, lc, lOp)
+    if (lOp > .01f) labels += ToonLabel(label, w / 2, ly + lDy, lc, lOp, BUTTON_LABEL)
     if (variant == ToonButtonVariant.Text) {
         val x0 = w / 2 - labelWidth / 2
         val yy = ly + 7 + lDy
@@ -476,6 +465,9 @@ internal fun ToonButtonFrame(
     modifier: Modifier = Modifier,
 ) {
     val tokens = Toon.tokens
-    val text = rememberToonButtonLabel(label)
-    Canvas(modifier.size(width.dp, ToonSize.BUTTON.dp)) { drawToonButton(tokens, variant, width, text, look) }
+    val text = rememberToonText()
+    val labelWidth = remember(label, text) { text.measure(label, BUTTON_LABEL).multiParagraph.width }
+    Canvas(modifier.size(width.dp, ToonSize.BUTTON.dp)) {
+        drawToonButton(tokens, variant, width, label, labelWidth, look, text)
+    }
 }

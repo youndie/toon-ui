@@ -84,7 +84,77 @@ export const TEXT_FLOOR_CELLS = Object.entries(THEMES).map(([theme, themeName]) 
   kotlin: `LabelCell(${TOKENS[theme]})`,
 }));
 
-export const missingPageText = BUTTON_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`);
+// ---- IconButton and Badge (B-15): `toon-ui MVP Components.dc.html`, `buildStatic` ----
+const MVP = page('toon-ui MVP Components.dc.html');
+const MVP_PAGE = [
+  "out.ib = { cells: [['Standard / Default', { icon: 'heart' }], ['Standard / Pressed', { icon: 'heart', p: 1 }], ['Standard / Focused', { icon: 'heart', focus: true }], ['Standard / Selected', { icon: 'heart', sel: true }], ['Standard / Disabled', { icon: 'heart', disabled: true }], ['Filled / Default', { icon: 'edit', variant: 'filled' }], ['Filled / Selected', { icon: 'star', variant: 'filled', sel: true }]]",
+  ".map(([n, o]) => C('IconButton / ' + n, E.iconBtn(T, o), 48, 48, [10, 12, 10, 10])),",
+  "frames: [['0 ms', { p: 0 }], ['80 ms · held', { p: 1 }], ...[70, 140, 200, 300].map(t => ['+' + t + ' ms', { p: E.spr(t / 1000, .35, 45), iy: E.iconBounce(t) }])].map(([t, o]) => Fr(t, `sY ${n2(E.squashOf(o.p).sy)} · icon y ${n2(o.iy || 0)}`, E.iconBtn(T, { icon: 'heart', sel: t !== '0 ms' && t !== '80 ms · held', ...o }), 48, 48, [18, 10, 8, 10])) }] };",
+  "out.badge = { cells: [['Dot', { dot: true }], ['1 digit', { n: 3 }], ['2 digits', { n: 12 }], ['Overflow', { n: '99+' }]].map(([n, o]) => C('Badge / ' + n, E.badge(T, o), 0, 0, [20, 30, 20, 30]))",
+  ".concat([C('Badge / On IconButton', E.cat(E.iconBtn(T, { icon: 'bell' }), E.place(E.badge(T, { n: 3 }), 40, 6)), 48, 48, [12, 22, 10, 10])]),",
+  "frames: [0, 42, 90, 180, 280].map(t => { const a = E.badgeAppear(t); return Fr(`${t} ms`, `scale ${n2(a.s)} · number ${a.numOp ? 'on' : 'off'}`, E.badge(T, { n: 3, ...a }), 0, 0, [22, 30, 22, 30]); }) },",
+  "frames: [0, 60, 120, 180, 240].map(t => { const a = E.badgeCount(t); return Fr(`${t} ms`, `old y ${n0(a.oldDy)} · new y ${n0(a.numDy)} · x ${n2(a.dx)}`, E.badge(T, { n: 4, old: 3, ...a }), 0, 0, [22, 30, 22, 30]); }) },",
+];
+const pascal = s => s[0].toUpperCase() + s.slice(1);
+// A Kotlin call as ktlint writes it: on one line when it fits in 120 columns at [indent], else one
+// argument per line with a trailing comma. A node is a string or { f, a: [nodes] }.
+const call = (f, ...a) => ({ f, a });
+const fmt = (node, indent) => {
+  if (typeof node === 'string') return node;
+  const args = node.a.map(x => fmt(x, indent));
+  const one = `${node.f}(${args.join(', ')})`;
+  if (!args.some(x => x.includes('\n')) && indent + one.length + 1 <= 120) return one;
+  const pad = ' '.repeat(indent + 4);
+  return `${node.f}(\n${node.a.map(x => `${pad}${fmt(x, indent + 4)},\n`).join('')}${' '.repeat(indent)})`;
+};
+const rounded = o => Object.fromEntries(Object.entries(o).map(([k, x]) => [k, typeof x === 'number' ? num(x) : x]));
+// A cell drawn by SceneCell: the page's padding, the frame's origin at its left and top.
+const sceneCell = (group, theme, themeName, name, w, h, pad, opts, scene, kotlinScene) => ({
+  group, name: `${name}_${themeName}`, theme, themeName, w, h, pad, opts: rounded(opts), scene,
+  kotlin: `SceneCell(${TOKENS[theme]}, ${w + pad[1] + pad[3]}, ${h + pad[0] + pad[2]}, ${pad[3]}, ${pad[0]}) {\n        ${fmt(kotlinScene, 8)}\n    }`,
+});
+const ibLook = o => {
+  const a = [];
+  if (o.p) a.push(`p = ${kf(o.p)}`);
+  if (o.iy) a.push(`iy = ${kf(o.iy)}`);
+  if (o.sel) a.push('selected = true');
+  if (o.disabled) a.push('disabled = true');
+  if (o.focus) a.push('focus = true');
+  return call('ToonIconButtonLook', ...a);
+};
+const ibScene = o => call('toonIconButtonScene', 'it', `ToonIcons.${pascal(o.icon)}`, `ToonIconButtonVariant.${o.variant === 'filled' ? 'Filled' : 'Standard'}`, ibLook(o));
+const IB_CELLS = [['Standard / Default', { icon: 'heart' }], ['Standard / Pressed', { icon: 'heart', p: 1 }], ['Standard / Focused', { icon: 'heart', focus: true }], ['Standard / Selected', { icon: 'heart', sel: true }], ['Standard / Disabled', { icon: 'heart', disabled: true }], ['Filled / Default', { icon: 'edit', variant: 'filled' }], ['Filled / Selected', { icon: 'star', variant: 'filled', sel: true }]];
+const IB_TAP = [['0ms', { p: 0 }], ['80msHeld', { p: 1 }], ...[70, 140, 200, 300].map(t => [`Plus${t}ms`, { p: E.spr(t / 1000, .35, 45), iy: E.iconBounce(t) }])]
+  .map(([t, o]) => [t, { icon: 'heart', sel: t !== '0ms' && t !== '80msHeld', ...o }]);
+export const ICON_BUTTON_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...IB_CELLS.map(([n, o]) => sceneCell('IconButton', theme, themeName, n.replace(' / ', '_'), 48, 48, [10, 12, 10, 10], o, `E.iconBtn(T, ${js(o)})`, ibScene(o))),
+  ...IB_TAP.map(([t, o]) => sceneCell('IconButton', theme, themeName, `Tap_${t}`, 48, 48, [18, 10, 8, 10], o, `E.iconBtn(T, ${js(o)})`, ibScene(o))),
+]);
+
+const badgeLook = o => {
+  const a = [o.dot ? '""' : JSON.stringify(String(o.n))];
+  if (o.dot) a.push('dot = true');
+  for (const k of ['s', 'numOp', 'numDy', 'oldOp', 'oldDy', 'dx']) if (o[k] != null) a.push(`${k} = ${kf(o[k])}`);
+  if (o.old != null) a.push(`old = ${JSON.stringify(String(o.old))}`);
+  return call('ToonBadgeLook', ...a);
+};
+const BADGE = [['Dot', { dot: true }], ['1 digit', { n: 3 }], ['2 digits', { n: 12 }], ['Overflow', { n: '99+' }]];
+const BADGE_STRIPS = [
+  ...[0, 42, 90, 180, 280].map(t => [`Appear_${t}ms`, { n: 3, ...E.badgeAppear(t) }]),
+  ...[0, 60, 120, 180, 240].map(t => [`Count_${t}ms`, { n: 4, old: 3, ...E.badgeCount(t) }]),
+];
+export const BADGE_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...BADGE.map(([n, o]) => sceneCell('Badge', theme, themeName, n.replace(' ', ''), 0, 0, [20, 30, 20, 30], o, `E.badge(T, ${js(o)})`, call('toonBadgeScene', 'it', badgeLook(o)))),
+  sceneCell('Badge', theme, themeName, 'OnIconButton', 48, 48, [12, 22, 10, 10], { onIconButton: true },
+    "E.cat(E.iconBtn(T, { icon: 'bell' }), E.place(E.badge(T, { n: 3 }), 40, 6))",
+    'toonIconButtonScene(it, ToonIcons.Bell, ToonIconButtonVariant.Standard, ToonIconButtonLook()) +\n            toonBadgeScene(it, ToonBadgeLook("3")).placed(40f, 6f)'),
+  ...BADGE_STRIPS.map(([n, o]) => sceneCell('Badge', theme, themeName, n, 0, 0, [22, 30, 22, 30], o, `E.badge(T, ${js(o)})`, call('toonBadgeScene', 'it', badgeLook(o)))),
+]);
+
+export const missingPageText = [
+  ...BUTTON_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
+  ...MVP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
+];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS };

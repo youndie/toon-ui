@@ -1,5 +1,8 @@
 package io.github.youndie.toon.draw
 
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
@@ -9,10 +12,18 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.text.TextLayoutResult
+import androidx.compose.ui.text.TextMeasurer
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.InternalToonApi
+import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonColors
 
 // A component's frame as the engine returns it (B-14): layers of paths (`L`) drawn in order, then
@@ -26,7 +37,11 @@ internal enum class ToonSegments { Quad, Line }
 /**
  * One path of a frame, as the engine's `L`: its coordinates in the order the engine writes its `d`,
  * the [color] it fills (or strokes, when [stroke] is above 0, with round caps and joins as `toSvg`
- * draws every stroke), [alpha], and the translation [dx], [dy] of its `transform`.
+ * draws every stroke), [alpha], and its `transform`: a translation [dx], [dy], then a [scale].
+ *
+ * A path the engine does not compute from numbers — an icon — comes as a ready [shape], with the
+ * engine's own `d` for it as [source]. Without a DOM the engine strokes an icon's centerline
+ * [iconBase] wide instead of filling its outline (research §1.2), which is what a frame golden holds.
  */
 internal class ToonLayer(
     val numbers: FloatArray,
@@ -38,9 +53,13 @@ internal class ToonLayer(
     val dy: Float = 0f,
     val stroke: Float = 0f,
     val dash: FloatArray? = null,
+    val scale: Float = 1f,
+    val shape: Path? = null,
+    val source: String? = null,
+    val iconBase: Float? = null,
 ) {
     val path: Path by lazy {
-        Path().apply {
+        shape ?: Path().apply {
             moveTo(numbers[0], numbers[1])
             val step = if (segments == ToonSegments.Quad) 4 else 2
             var i = 2
@@ -55,21 +74,53 @@ internal class ToonLayer(
             if (closed) close()
         }
     }
+
+    /** This layer translated by ([x], [y]) first, as the engine's `place` prefixes a transform. */
+    fun moved(
+        x: Float,
+        y: Float,
+    ): ToonLayer =
+        ToonLayer(numbers, segments, closed, color, alpha, dx + x, dy + y, stroke, dash, scale, shape, source, iconBase)
 }
 
-/** One text of a frame, as the engine's `X` with `anchor: middle`: centred on [x], on [baseline]. */
+/** The weight and size of a frame's text, in the theme's body face. */
+internal class ToonTextStyle(
+    val weight: Int,
+    val size: Float,
+)
+
+/** One text of a frame, as the engine's `X` with `anchor: middle`: [text] centred on [x], on [baseline]. */
 internal class ToonLabel(
+    val text: String,
     val x: Float,
     val baseline: Float,
     val color: Color,
     val alpha: Float,
+    val style: ToonTextStyle,
 )
 
 /** A frame: [layers] in order, then [labels] over them. */
 internal class ToonScene(
     val layers: List<ToonLayer>,
     val labels: List<ToonLabel>,
-)
+) {
+    /** The engine's `place` without rotation: everything moved by ([x], [y]). */
+    fun placed(
+        x: Float,
+        y: Float,
+    ): ToonScene =
+        ToonScene(
+            layers.map { it.moved(x, y) },
+            labels.map { ToonLabel(it.text, it.x + x, it.baseline + y, it.color, it.alpha, it.style) },
+        )
+
+    /** The engine's `cat`: [other]'s layers after these, its labels after these. */
+    operator fun plus(other: ToonScene): ToonScene = ToonScene(layers + other.layers, labels + other.labels)
+
+    companion object {
+        val Empty: ToonScene = ToonScene(emptyList(), emptyList())
+    }
+}
 
 /** The engine's `smooth` as numbers: the midpoint of the last and first point, then each point and the next midpoint. */
 @OptIn(InternalToonApi::class)
@@ -132,10 +183,37 @@ internal fun ringLayer(
 
 private val RING_DASH = floatArrayOf(7f, 5f)
 
-/** Draws [scene]: its layers in order, then [text] at each of its labels. */
+/** Lays out a frame's texts in the theme's body face; [measurer] caches the layouts. */
+@Stable
+internal class ToonTextRenderer(
+    private val measurer: TextMeasurer,
+    private val body: FontFamily,
+) {
+    fun measure(
+        text: String,
+        style: ToonTextStyle,
+    ): TextLayoutResult =
+        measurer.measure(
+            text,
+            TextStyle(fontFamily = body, fontWeight = FontWeight(style.weight), fontSize = style.size.sp),
+        )
+}
+
+/** The [ToonTextRenderer] of the nearest `ToonTheme`. */
+@Composable
+internal fun rememberToonText(): ToonTextRenderer {
+    val measurer = rememberTextMeasurer()
+    val body = Toon.fonts.body
+    return remember(measurer, body) { ToonTextRenderer(measurer, body) }
+}
+
+/**
+ * Draws [scene]: its layers in order, then each label laid out by [text], skipping what the
+ * engine's `toSvg` skips, a text at opacity 0.01 or less.
+ */
 internal fun DrawScope.drawScene(
     scene: ToonScene,
-    text: TextLayoutResult?,
+    text: ToonTextRenderer? = null,
 ) {
     for (l in scene.layers) {
         val style =
@@ -152,18 +230,22 @@ internal fun DrawScope.drawScene(
             } else {
                 Fill
             }
-        if (l.dx == 0f && l.dy == 0f) {
-            drawPath(l.path, l.color, alpha = l.alpha, style = style)
-        } else {
-            translate(l.dx, l.dy) { drawPath(l.path, l.color, alpha = l.alpha, style = style) }
+        translate(l.dx, l.dy) {
+            if (l.scale == 1f) {
+                drawPath(l.path, l.color, alpha = l.alpha, style = style)
+            } else {
+                scale(l.scale, Offset.Zero) { drawPath(l.path, l.color, alpha = l.alpha, style = style) }
+            }
         }
     }
     if (text == null) return
     for (x in scene.labels) {
+        if (x.alpha <= .01f) continue
+        val layout = text.measure(x.text, x.style)
         drawText(
-            text,
+            layout,
             x.color,
-            Offset(x.x - text.multiParagraph.width / 2, x.baseline - text.firstBaseline),
+            Offset(x.x - layout.multiParagraph.width / 2, x.baseline - layout.firstBaseline),
             alpha = x.alpha,
         )
     }

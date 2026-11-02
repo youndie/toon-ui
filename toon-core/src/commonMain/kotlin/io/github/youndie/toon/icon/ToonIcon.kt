@@ -20,7 +20,9 @@ import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.InternalToonApi
+import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRandom
+import io.github.youndie.toon.draw.ToonSegments
 import io.github.youndie.toon.theme.Toon
 import kotlin.math.PI
 import kotlin.math.ceil
@@ -56,7 +58,66 @@ public class ToonIconGlyph internal constructor(
     public val fill: String?,
 ) {
     override fun toString(): String = "ToonIconGlyph($name)"
+
+    /** The outline per weight and the fill, built once, as the engine caches per (name, base). */
+    private val outlines = arrayOfNulls<Path>(ToonIconWeight.entries.size)
+    private var fillPath: Path? = null
+
+    internal fun outline(weight: ToonIconWeight): Path =
+        outlines[weight.ordinal] ?: iconOutlinePath(this, weight).also { outlines[weight.ordinal] = it }
+
+    internal fun fillShape(): Path? = fill?.let { fillPath ?: parsePath(it).also { p -> fillPath = p } }
 }
+
+/**
+ * The engine's `icon` as frame layers: [glyph] at ([x], [y]) scaled from the 24 dp grid to [size],
+ * its cel fill in [fill] first where both exist, then its outline in [color]; [alpha] on both.
+ */
+internal fun iconLayers(
+    glyph: ToonIconGlyph,
+    x: Float,
+    y: Float,
+    color: Color,
+    size: Float = 24f,
+    weight: ToonIconWeight = ToonIconWeight.Regular,
+    fill: Color? = null,
+    alpha: Float = 1f,
+): List<ToonLayer> =
+    buildList {
+        val s = size / 24f
+        val shape = glyph.fillShape()
+        if (fill != null && shape != null) {
+            add(
+                ToonLayer(
+                    FloatArray(0),
+                    ToonSegments.Line,
+                    true,
+                    fill,
+                    alpha,
+                    x,
+                    y,
+                    scale = s,
+                    shape = shape,
+                    source = glyph.fill,
+                ),
+            )
+        }
+        add(
+            ToonLayer(
+                FloatArray(0),
+                ToonSegments.Line,
+                true,
+                color,
+                alpha,
+                x,
+                y,
+                scale = s,
+                shape = glyph.outline(weight),
+                source = glyph.centerline,
+                iconBase = weight.base.toFloat(),
+            ),
+        )
+    }
 
 /**
  * The engine's `icon`: [icon] at [size], its outline in [weight] and [color], over its cel fill in the
@@ -73,8 +134,8 @@ public fun ToonIcon(
     filled: Boolean = false,
     color: Color = Toon.colors.text,
 ) {
-    val outline = remember(icon, weight) { iconOutlinePath(icon, weight) }
-    val fill = remember(icon, filled) { if (filled) icon.fill?.let(::parsePath) else null }
+    val outline = icon.outline(weight)
+    val fill = if (filled) icon.fillShape() else null
     val fillColor = Toon.colors.chipSelected
     val described =
         if (contentDescription == null) {

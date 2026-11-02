@@ -230,7 +230,12 @@ drawing, and every button mutant tried is caught by the frame (nine of nine) whe
 caught one. Text needs a floor of its own: Chrome inks a glyph through CoreText with sub-pixel
 advances, Compose through Skia with whole-pixel ones, so the label alone (`TextFloor` cells) differs
 by 1.96–2.30 % of its cell, 48–54 % of its ink. Cells with text are held to that ink floor in
-`InkParityTest`, and each such group has a twin without text (`ButtonShape`) held to the Divider's. So a component's parity
+`InkParityTest`, and each such group has a twin without text (`ButtonShape`) held to the Divider's.
+*Extended in B-15:* a frame carries icons as ready paths, held to the engine's own `d` for them —
+without a DOM the engine strokes the centerline at the weight's base width, which is what the frame
+golden holds, and the outline itself is B-11's — several texts with their own weights, and the
+engine's `place`. The frame goldens are taken with the kit's `document` stub removed, or
+`iconOutline` reaches for a DOM it does not have. Every later component is built on these frames. So a component's parity
 is read against its own Divider-like floor in the commit body, not against the 5 % default, and the
 default stays the report's threshold only. *Rejected:* pixels only, as in oldge-ui. There the CSS is the only
 implementation and the HTML can only be photographed. Here the design is a function that can be
