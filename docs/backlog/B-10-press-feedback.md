@@ -1,7 +1,7 @@
 ---
 id: B-10
 title: "Press feedback: squash on press, spring from where it got to, action on release"
-status: open
+status: wip
 priority: P1
 size: S
 stage: stage-1-materials

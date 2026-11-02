@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-10](docs/backlog/B-10-press-feedback.md) `[ ]` | Press feedback: squash on press, spring from where it got to, action on release | P1 | S | B-08 |
+| [B-10](docs/backlog/B-10-press-feedback.md) `[~]` | Press feedback: squash on press, spring from where it got to, action on release | P1 | S | B-08 |
 | [B-11](docs/backlog/B-11-icon-set.md) `[ ]` | Icons: 25 centerlines, variable-width outline, Regular and Bold, ToonIcon | P1 | M | B-06, B-09 |
 | [B-12](docs/backlog/B-12-fx-layer-and-events.md) `[ ]` | FX layer: eight effects and the named events that fire them | P1 | L | B-09 |
 | [B-14](docs/backlog/B-14-button.md) `[ ]` | Button: filled, outlined, text; loading blob, idle breath, disabled buzz | P1 | M | B-10, B-11, B-12 |
