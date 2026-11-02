@@ -23,10 +23,10 @@ import org.jetbrains.compose.resources.Font
  * A theme's two families: [display] for title cards and headlines, [body] for everything else
  * (research §1.4).
  *
- * | Theme | display | body |
- * |---|---|---|
- * | Ink & Gouache, day and night | Shrikhand | Figtree 400–800 |
- * | Bright Cel | Titan One | Fredoka 400–700 |
+ * | Theme | display | body | Cyrillic display | Cyrillic body |
+ * |---|---|---|---|---|
+ * | Ink & Gouache, day and night | Shrikhand | Figtree 400–800 | Rubik Italic 900 | Onest 400–800 |
+ * | Bright Cel | Titan One | Fredoka 400–700 | Nunito 1000 | Nunito 600–1000 |
  *
  * Figtree and Fredoka ship as the unmodified variable files from google/fonts, and each weight is a
  * `wght` setting on the same file: cutting static instances would be a modified font. Fredoka's axis
@@ -45,7 +45,8 @@ internal class ToonFontFamilies(
 /**
  * A face that draws the Cyrillic its role's face lacks: [family], at [scale] times the size so its
  * x-height meets the design face's (CSS's `size-adjust`), and at [weight] for the weight asked of the
- * design face.
+ * design face. A display backing is one instance (Rubik at 900, Nunito at 1000), which every weight
+ * asked of it resolves to.
  */
 @Immutable
 internal class ToonBackingFace(

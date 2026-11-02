@@ -84,6 +84,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt` | `ToonTopAppBar` (B-26): `toonTopBarScene` is the engine's `topBar`, `toonSway` its `sway`, `ToonTopAppBarState` the fling kick |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonNavigationBar.kt` | `ToonNavigationBar` (B-27): `toonNavBarScene` is the engine's `navBar`, `toonNavSelect` its `navSelect` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTabs.kt` | `ToonTabs` and `ToonTabsState` (B-28): `toonTabsScene` is the engine's `tabs`, `toonTabsSwitch` its `tabsSwitch` |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the four faces and their Cyrillic backing faces (B-35): `withBacking` puts each run of Cyrillic in the backing face |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt` | a frame as the engine's layers and texts, `bodyLayers`, `ringLayer`, `drawScene` (B-14) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/motion/ToonCurves.kt` | the shared curves: `spr`, `osc`, `squashOf` |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/component/ToonButtonSceneTest.kt` | every button cell against the engine's frame, layer by layer (`engine-goldens/components.json`) |
@@ -197,6 +198,12 @@ None at runtime.
 - The tabs do not move the content under them: `ToonTabsState.contentOffset` is the engine's `cx`,
   40 dp toward the new tab springing back to 0, and the caller offsets its content by it (B-28). It
   is 0 at rest and under reduce motion. The MVP page's disabled tab is drawn by the frame, not a prop.
+- Cyrillic is drawn in a backing face per role (B-35), as spans of an `AnnotatedString` the frame's
+  text renderer and the text field's visual transformation build; Compose has no per-glyph fallback
+  between bundled families. A label in another script the design's faces lack (Greek, say) still
+  falls to the platform's face.
+- viddik's default verification is not strict, and a label's size or weight can move in a large
+  goldens sheet unseen (`Cyrillic_Sheet_*`); the faces are held by `ToonCyrillicMetricsTest`.
 - The worm arches out of its tube by up to 11 dp and the linear indicator is laid out 14 dp tall: the
   kit pads its box 18 dp above. A parent that clips cuts the arch.
 - A snackbar is laid out 56 dp tall but draws outside that box: its rope and nail 30 dp above, and the

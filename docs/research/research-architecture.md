@@ -123,6 +123,27 @@ fallback font, which is exactly the oldge-ui finding (`youndie/oldge-ui@618cef8b
 found in the work. B-02 bundles the four faces as designed, and B-35 finds OFL families with a
 `cyrillic` subset to back each role, recording each candidate here.
 
+**Backing faces, chosen in B-35.** Each candidate was read at the same google/fonts commit as the
+design's faces, `6c1dbe27dcf7d817d4b62cec033ba77fa8e2a5ec`, and every one is OFL with a `cyrillic`
+subset in its `METADATA.pb`. They were drawn in Chrome beside the design's face, the Cyrillic scaled
+to the design face's x-height (CSS `size-adjust`, from `x` measured at 100 px), in a Latin word and
+a Russian phrase from the components (`Saturday` / `Суббота · Удалить план?`, `Add plan` /
+`Добавить план`, the card's title and meta).
+
+| Role | Chosen | Lost, and why |
+|---|---|---|
+| Shrikhand (display) | **Rubik Italic 900**, `ofl/rubik/Rubik-Italic[wght].ttf`, x-height 52.0 against 52.9 | Lobster and Pattaya are scripts, thin beside a fat brush; Yeseva One is a high-contrast serif; Rubik 900 upright and Montserrat Italic 900 carry the weight, but upright loses the slant and Montserrat's geometry is colder. No face reads as Shrikhand; Rubik's heavy italic sits next to it as the same voice. |
+| Figtree (body) | **Onest**, `ofl/onest/Onest[wght].ttf`, weights 1 : 1, x-height 52.7 against 50.0 | Golos Text is as close and a little darker at 800; Manrope and Montserrat are wider. |
+| Titan One (display) | **Nunito 1000**, `ofl/nunito/Nunito[wght].ttf`, x-height 49.7 against 58.0 | Russo One and Days One are square where Titan One is round; Rubik 900 is close but less round. |
+| Fredoka (body) | **Nunito**, the same file, two weight steps heavier (Fredoka 700 reads as Nunito 900) | Comfortaa is too light and too geometric; Rubik 700 matches the weight but not the round terminals; Onest is not round. |
+
+The design's face draws Latin and the backing face draws each run of Cyrillic (`withBacking`), as a
+browser's fallback from one to the other does; spaces and punctuation stay in the design's face. The
+three files ship unmodified, renamed only for compose-resources, with their licences beside the
+others (SHA-256 `08c6c401…` Rubik Italic, `966c5c29…` Onest, `bb55a5ca…` Nunito); the font folder
+grows from 0.5 to 1.3 MB. `ToonCyrillicMetricsTest` holds the result on the faces themselves at
+100 sp: x-height within a pixel row of the Latin, stems within 12 %.
+
 ### 1.5 The Kotlin sketch is not a 1:1 port
 
 `compose/README.md` says "every function here is a 1:1 port" and that the RNG "matches the JS
@@ -394,7 +415,7 @@ otherwise follows oldge-ui (B-32).
 | H1 | **Performance.** Rebuilding about 130 points per shape per frame, for 10 cards appearing at once with FX, holds the brief's 60 fps on a Pixel 6a-class phone. The sketch asserts "cheap"; nothing was measured. | Measure before building components on it: frame time on desktop and on a real Android device with the B-21 card cascade, against a cached-path variant. If it fails, cache per (size, seed, squash bucket) and simplify the animation rather than lowering the target, as the brief says (B-05). The device is a Pixel 6a (owner, 2026-11-02). |
 | H1 — *verdict, B-05, 2026-11-02* | **Red for the worst case, and geometry is not the cause.** On a Pixel 6a (Android 17, 60 Hz, release build), ten cards in the 40 ms cascade with two dust puffs each give a FrameMetrics total of p50 15.0 ms and p95 18.2 ms. 23.6 % of frames run over 16.7 ms, though only 1.6 % of vsync slots go unfilled. The pre-registered bar (≤ 1 % over 16.7 ms, p95 ≤ 16.7 ms) is missed. The scene's own draw call, geometry rebuilt from the engine plus recording, is p50 2.4 ms and p95 4.1 ms. The rest is the RenderThread issuing commands (p50 5.0 ms) and the GPU (p50 5.6 ms) filling about 200 paths. Caching geometry by quarter-dp size moved p50 to 12.9 ms and p95 not at all (17.8 ms). The squash and the growing dust change sizes every frame, so the cache misses. A 20 ms busy-wait control showed 100 % over 16.7 ms. | B-09 rebuilds geometry and does not cache. What fits the target is fewer paths drawn at once, which is a change to the animation; the owner decides (B-45). Raw logs and the summary script: `docs/research/b-05`. |
 | H2 | **Text width.** Box widths depend on measured text (`ToonButton` width = text + 56, Chip, Checkbox and Switch labels). Chrome's `measureText` and Skia's `TextMeasurer` disagree by subpixels, and a different box moves the wobble (radii are clamped to the box). | Pixel parity reveals it. Numeric parity is run at the box size Chrome measured, recorded in the golden, so geometry is tested apart from text (B-03, B-06). |
-| H3 | **Fonts without Cyrillic** (§1.4). | Cyrillic is in scope (owner, 2026-11-02). B-35 finds the backing faces; the risk left is that no OFL face reads as one family with Shrikhand, and then a role changes face, which goes back to the owner. |
+| H3 | **Fonts without Cyrillic** (§1.4). | *Closed by B-35:* each role is backed by an OFL face with Cyrillic, matched in x-height and weight. Shrikhand has no true twin; Rubik Italic 900 is the nearest voice, and a role change was not needed. |
 | H4 | **The design keeps moving.** The project is live: the engine went from `?v=8` to `?v=10` within the day of the import (§1.1). | The import is a snapshot. A re-import is an item that diffs the engine and re-emits the goldens (B-34). |
 | H5 | **The sketch does not compile** (§1.5, the `fillMaxSize` helper). | Irrelevant to the port (D6), but stated as read, not run. B-01 compiles nothing from `compose/`; if anyone does, the result goes here. |
 | H7 | **Variable weights below Android 8.** Each body weight is a `wght` setting on one variable file. Android applies font variations from API 26, and `minSdk` is 24. On 7.x the body text would then render at the files' default instance, Light 300, for every weight. Read, not run: nothing visual runs on Android (D9). | Checked on a device or emulator at API 24–25 when one is available. If it holds, either raise `minSdk` to 26 or bundle static instances for Android only, which makes them modified fonts (§1.4). The owner decides. |

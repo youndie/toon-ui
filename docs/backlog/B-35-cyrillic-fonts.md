@@ -1,7 +1,7 @@
 ---
 id: B-35
 title: "Cyrillic: find OFL faces that carry Russian in each of the four roles"
-status: wip
+status: done
 priority: P1
 size: M
 stage: stage-1-materials
@@ -32,3 +32,22 @@ and Figtree are latin/latin-ext, Titan One latin/latin-ext, Fredoka adds only He
   themes, drawn in the chosen faces; the licences are in the repository; research §1.4 names each
   choice and the alternatives that lost.
 - Anchors: `docs/research/research-architecture.md`, `reference/design-system/README.md`.
+
+## Findings (2026-11-02)
+
+- **Done as decided.** Each role keeps the design's face for Latin and is backed for Cyrillic:
+  Rubik Italic 900 under Shrikhand, Onest under Figtree, Nunito 1000 under Titan One, Nunito two
+  weight steps heavier under Fredoka. The candidates, the verdicts and the commit are in research
+  §1.4; no role had to switch faces, so nothing went back to the owner.
+- **How it is drawn:** every label (`ToonTextRenderer`) and the text field's value (a visual
+  transformation) put runs of Cyrillic in the backing face, scaled to the design face's x-height.
+  Latin is untouched: none of the 1315 goldens moved.
+- **Screenshots:** `Cyrillic_Sheet_*`, one per theme — the top app bar, tabs, buttons, chips,
+  checkbox and radio, switch, text field, card, list item, FAB and badge, snackbar, dialog and
+  navigation bar, every label Russian.
+- **A check that could not see it:** viddik's default verification let a Titan One backing at the
+  wrong scale through the sheets. `ToonCyrillicMetricsTest` measures the faces instead (x-height
+  within a row, stems within 12 %); every scale and weight mutant fails it. The display backings
+  are one instance each, so the weight asked of them cannot change them.
+- **Licences** are in `toon-core/src/commonMain/composeResources/files/licences` (Rubik, Onest,
+  Nunito, beside the four). The font folder grows by 0.8 MB.

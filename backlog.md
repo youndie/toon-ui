@@ -52,11 +52,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (19)
+## Open (18)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[~]` | Cyrillic: find OFL faces that carry Russian in each of the four roles | P1 | M | B-02 |
 | [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-47](docs/backlog/B-47-density-scaling.md) `[ ]` | Draw every component in dp: scale the canvas by the screen density | P1 | S | - |
 | [B-13](docs/backlog/B-13-textures.md) `[ ]` | Textures: get the four tiles, tile them as an ImageShader | P2 | S | - |
@@ -76,7 +75,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 | [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 
-## Closed (28)
+## Closed (29)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -95,6 +94,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-10](docs/backlog/B-10-press-feedback.md) `[x]` - Press feedback: squash on press, spring from where it got to, action on release
 - [B-11](docs/backlog/B-11-icon-set.md) `[x]` - Icons: 25 centerlines, variable-width outline, Regular and Bold, ToonIcon
 - [B-12](docs/backlog/B-12-fx-layer-and-events.md) `[x]` - FX layer: eight effects and the named events that fire them
+- [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[x]` - Cyrillic: find OFL faces that carry Russian in each of the four roles
 
 **Each MVP component matches its strips and cells in three themes**
 
