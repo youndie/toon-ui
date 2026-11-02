@@ -432,6 +432,11 @@ export const TABS_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     `(() => { const a = E.tabsSwitch(${t}, 0, 1, 114); return E.tabs(T, { labels: ${JSON.stringify(TABS)}, sel: a.sel, ia: a.ia, ib: a.ib }); })()`,
     call('toonTabsSwitchScene', 'tokens', `${t}f`))),
 ]);
+// The same cells without their labels: the shape alone, held to the Divider's floor, since the labels'
+// ink takes the group past it (18 % in Bright Cel) and the text floor would hide a wrong bookmark.
+export const TABS_SHAPE_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => TABS_STATES.map(([n, o]) =>
+  sceneCell('TabsShape', theme, themeName, n, 342, 52, [6, 8, 8, 8], { kind: 'state', ...o },
+    `E.tabs(T, Object.assign({ labels: ['', '', ''] }, ${JSON.stringify(o)}))`, call('toonTabsScene', 'tokens', '342f', 'listOf("", "", "")', tabsLook(o)))));
 
 // ---- NavigationBar (B-27): `toon-ui MVP Components.dc.html` ----
 const NAV_PAGE = [
@@ -589,4 +594,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS };
