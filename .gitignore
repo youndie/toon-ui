@@ -1,7 +1,7 @@
+.DS_Store
 .docs-bootstrap/
 .gradle/
 build/
 .kotlin/
 local.properties
 .idea/
-.DS_Store
