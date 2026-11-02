@@ -115,10 +115,17 @@ internal object EngineFrames {
                 }
         }
 
-    /** A layer's own transform: its translation, then its scale about its pivot. */
+    /** A layer's own transform: its translation, its rotation, then its scale about its pivot. */
     private fun ToonLayer.affine(): Affine =
-        Affine(e = dx, f = dy) * Affine(e = pivotX, f = pivotY) * Affine(a = scale, d = scaleY) *
+        Affine(e = dx, f = dy) * rotationOf(rotation) * Affine(e = pivotX, f = pivotY) * Affine(a = scale, d = scaleY) *
             Affine(e = -pivotX, f = -pivotY)
+
+    private fun rotationOf(degrees: Float): Affine {
+        val r = Math.toRadians(degrees.toDouble())
+        val cos = kotlin.math.cos(r).toFloat()
+        val sin = kotlin.math.sin(r).toFloat()
+        return Affine(cos, sin, -sin, cos)
+    }
 
     /** Asserts [scene] is [cell]'s frame and returns its worst path coordinate off the engine's. */
     fun compare(

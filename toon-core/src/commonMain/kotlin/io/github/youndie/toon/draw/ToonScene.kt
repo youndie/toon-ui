@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Fill
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.graphics.drawscope.scale
 import androidx.compose.ui.graphics.drawscope.translate
 import androidx.compose.ui.text.TextLayoutResult
@@ -38,7 +39,8 @@ internal enum class ToonSegments { Quad, Line }
  * One path of a frame, as the engine's `L`: its coordinates in the order the engine writes its `d`,
  * the [color] it fills (or strokes, when [stroke] is above 0, with round caps and joins as `toSvg`
  * draws every stroke, dashed by [dash] from [dashOffset]), [alpha], and its `transform`: a translation
- * [dx], [dy], then a [scale] (by [scale] and [scaleY], about the pivot [pivotX], [pivotY]).
+ * [dx], [dy], then a [rotation] in degrees, then a [scale] (by [scale] and [scaleY], about the
+ * pivot [pivotX], [pivotY]).
  *
  * A path the engine does not compute from numbers — an icon — comes as a ready [shape], with the
  * engine's own `d` for it as [source]. Without a DOM the engine strokes an icon's centerline
@@ -62,6 +64,7 @@ internal class ToonLayer(
     val scaleY: Float = scale,
     val pivotX: Float = 0f,
     val pivotY: Float = 0f,
+    val rotation: Float = 0f,
 ) {
     val path: Path by lazy {
         shape ?: Path().apply {
@@ -104,6 +107,7 @@ internal class ToonLayer(
             scaleY,
             pivotX,
             pivotY,
+            rotation,
         )
 }
 
@@ -270,14 +274,16 @@ internal fun DrawScope.drawScene(
                 Fill
             }
         translate(l.dx, l.dy) {
-            if (l.scale == 1f && l.scaleY == 1f) {
-                drawPath(l.path, l.color, alpha = l.alpha, style = style)
-            } else {
-                scale(
-                    l.scale,
-                    l.scaleY,
-                    Offset(l.pivotX, l.pivotY),
-                ) { drawPath(l.path, l.color, alpha = l.alpha, style = style) }
+            rotate(l.rotation, Offset.Zero) {
+                if (l.scale == 1f && l.scaleY == 1f) {
+                    drawPath(l.path, l.color, alpha = l.alpha, style = style)
+                } else {
+                    scale(
+                        l.scale,
+                        l.scaleY,
+                        Offset(l.pivotX, l.pivotY),
+                    ) { drawPath(l.path, l.color, alpha = l.alpha, style = style) }
+                }
             }
         }
     }
