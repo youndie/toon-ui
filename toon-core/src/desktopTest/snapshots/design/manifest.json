@@ -8582,6 +8582,1098 @@
         14
       ],
       "scene": "E.btn(T, Object.assign({ v: \"filled\", w: 150, label: \"\" }, {\"br\":1,\"seed\":62}))"
+    },
+    {
+      "file": "IconButton_Standard_Default_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\"})"
+    },
+    {
+      "file": "IconButton_Standard_Pressed_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"p\":1})"
+    },
+    {
+      "file": "IconButton_Standard_Focused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"focus\":true})"
+    },
+    {
+      "file": "IconButton_Standard_Selected_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true})"
+    },
+    {
+      "file": "IconButton_Standard_Disabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"disabled\":true})"
+    },
+    {
+      "file": "IconButton_Filled_Default_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"edit\",\"variant\":\"filled\"})"
+    },
+    {
+      "file": "IconButton_Filled_Selected_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"star\",\"variant\":\"filled\",\"sel\":true})"
+    },
+    {
+      "file": "IconButton_Tap_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":false,\"p\":0})"
+    },
+    {
+      "file": "IconButton_Tap_80msHeld_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":false,\"p\":1})"
+    },
+    {
+      "file": "IconButton_Tap_Plus70ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":-0.302481,\"iy\":-7})"
+    },
+    {
+      "file": "IconButton_Tap_Plus140ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":0.086975,\"iy\":0})"
+    },
+    {
+      "file": "IconButton_Tap_Plus200ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":-0.009947,\"iy\":0.236954})"
+    },
+    {
+      "file": "IconButton_Tap_Plus300ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":0.009107,\"iy\":0.092916})"
+    },
+    {
+      "file": "IconButton_Standard_Default_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\"})"
+    },
+    {
+      "file": "IconButton_Standard_Pressed_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"p\":1})"
+    },
+    {
+      "file": "IconButton_Standard_Focused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"focus\":true})"
+    },
+    {
+      "file": "IconButton_Standard_Selected_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true})"
+    },
+    {
+      "file": "IconButton_Standard_Disabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"disabled\":true})"
+    },
+    {
+      "file": "IconButton_Filled_Default_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"edit\",\"variant\":\"filled\"})"
+    },
+    {
+      "file": "IconButton_Filled_Selected_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"star\",\"variant\":\"filled\",\"sel\":true})"
+    },
+    {
+      "file": "IconButton_Tap_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":false,\"p\":0})"
+    },
+    {
+      "file": "IconButton_Tap_80msHeld_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":false,\"p\":1})"
+    },
+    {
+      "file": "IconButton_Tap_Plus70ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":-0.302481,\"iy\":-7})"
+    },
+    {
+      "file": "IconButton_Tap_Plus140ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":0.086975,\"iy\":0})"
+    },
+    {
+      "file": "IconButton_Tap_Plus200ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":-0.009947,\"iy\":0.236954})"
+    },
+    {
+      "file": "IconButton_Tap_Plus300ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":0.009107,\"iy\":0.092916})"
+    },
+    {
+      "file": "IconButton_Standard_Default_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\"})"
+    },
+    {
+      "file": "IconButton_Standard_Pressed_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"p\":1})"
+    },
+    {
+      "file": "IconButton_Standard_Focused_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"focus\":true})"
+    },
+    {
+      "file": "IconButton_Standard_Selected_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true})"
+    },
+    {
+      "file": "IconButton_Standard_Disabled_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"disabled\":true})"
+    },
+    {
+      "file": "IconButton_Filled_Default_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"edit\",\"variant\":\"filled\"})"
+    },
+    {
+      "file": "IconButton_Filled_Selected_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        10,
+        12,
+        10,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"star\",\"variant\":\"filled\",\"sel\":true})"
+    },
+    {
+      "file": "IconButton_Tap_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":false,\"p\":0})"
+    },
+    {
+      "file": "IconButton_Tap_80msHeld_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":false,\"p\":1})"
+    },
+    {
+      "file": "IconButton_Tap_Plus70ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":-0.302481,\"iy\":-7})"
+    },
+    {
+      "file": "IconButton_Tap_Plus140ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":0.086975,\"iy\":0})"
+    },
+    {
+      "file": "IconButton_Tap_Plus200ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":-0.009947,\"iy\":0.236954})"
+    },
+    {
+      "file": "IconButton_Tap_Plus300ms_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        18,
+        10,
+        8,
+        10
+      ],
+      "scene": "E.iconBtn(T, {\"icon\":\"heart\",\"sel\":true,\"p\":0.009107,\"iy\":0.092916})"
+    },
+    {
+      "file": "Badge_Dot_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"dot\":true})"
+    },
+    {
+      "file": "Badge_1digit_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3})"
+    },
+    {
+      "file": "Badge_2digits_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":12})"
+    },
+    {
+      "file": "Badge_Overflow_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":\"99+\"})"
+    },
+    {
+      "file": "Badge_OnIconButton_InkGouacheLight.png",
+      "theme": "il",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        12,
+        22,
+        10,
+        10
+      ],
+      "scene": "E.cat(E.iconBtn(T, { icon: 'bell' }), E.place(E.badge(T, { n: 3 }), 40, 6))"
+    },
+    {
+      "file": "Badge_Appear_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0,\"numOp\":0})"
+    },
+    {
+      "file": "Badge_Appear_42ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0.930222,\"numOp\":0})"
+    },
+    {
+      "file": "Badge_Appear_90ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":1.3,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Appear_180ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0.950026,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Appear_280ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":1.000174,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Count_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":0,\"oldOp\":1,\"numDy\":-12,\"numOp\":0,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-5.04,\"oldOp\":0.4,\"numDy\":-12,\"numOp\":0,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_120ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":-3,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_180ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":0,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_240ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":0,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Dot_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"dot\":true})"
+    },
+    {
+      "file": "Badge_1digit_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3})"
+    },
+    {
+      "file": "Badge_2digits_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":12})"
+    },
+    {
+      "file": "Badge_Overflow_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":\"99+\"})"
+    },
+    {
+      "file": "Badge_OnIconButton_InkGouacheNight.png",
+      "theme": "in",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        12,
+        22,
+        10,
+        10
+      ],
+      "scene": "E.cat(E.iconBtn(T, { icon: 'bell' }), E.place(E.badge(T, { n: 3 }), 40, 6))"
+    },
+    {
+      "file": "Badge_Appear_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0,\"numOp\":0})"
+    },
+    {
+      "file": "Badge_Appear_42ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0.930222,\"numOp\":0})"
+    },
+    {
+      "file": "Badge_Appear_90ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":1.3,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Appear_180ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0.950026,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Appear_280ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":1.000174,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Count_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":0,\"oldOp\":1,\"numDy\":-12,\"numOp\":0,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-5.04,\"oldOp\":0.4,\"numDy\":-12,\"numOp\":0,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_120ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":-3,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_180ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":0,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_240ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":0,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Dot_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"dot\":true})"
+    },
+    {
+      "file": "Badge_1digit_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3})"
+    },
+    {
+      "file": "Badge_2digits_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":12})"
+    },
+    {
+      "file": "Badge_Overflow_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        20,
+        30,
+        20,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":\"99+\"})"
+    },
+    {
+      "file": "Badge_OnIconButton_BrightCel.png",
+      "theme": "bc",
+      "w": 48,
+      "h": 48,
+      "pad": [
+        12,
+        22,
+        10,
+        10
+      ],
+      "scene": "E.cat(E.iconBtn(T, { icon: 'bell' }), E.place(E.badge(T, { n: 3 }), 40, 6))"
+    },
+    {
+      "file": "Badge_Appear_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0,\"numOp\":0})"
+    },
+    {
+      "file": "Badge_Appear_42ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0.930222,\"numOp\":0})"
+    },
+    {
+      "file": "Badge_Appear_90ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":1.3,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Appear_180ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":0.950026,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Appear_280ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":3,\"s\":1.000174,\"numOp\":1})"
+    },
+    {
+      "file": "Badge_Count_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":0,\"oldOp\":1,\"numDy\":-12,\"numOp\":0,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-5.04,\"oldOp\":0.4,\"numDy\":-12,\"numOp\":0,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_120ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":-3,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_180ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":0,\"numOp\":1,\"dx\":0})"
+    },
+    {
+      "file": "Badge_Count_240ms_BrightCel.png",
+      "theme": "bc",
+      "w": 0,
+      "h": 0,
+      "pad": [
+        22,
+        30,
+        22,
+        30
+      ],
+      "scene": "E.badge(T, {\"n\":4,\"old\":3,\"oldDy\":-14,\"oldOp\":0,\"numDy\":0,\"numOp\":1,\"dx\":0})"
     }
   ]
 }
