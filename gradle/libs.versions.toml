@@ -5,6 +5,11 @@ sborka = "0.4.0.111"
 # 37 is forced by the AndroidX Compose 1.12 AAR metadata (kvadrant-ui measured 36 failing).
 android-compileSdk = "37"
 android-minSdk = "24"
+# The B-05 bench app's host; not in `wip`. oldge-ui's version.
+activityCompose = "1.13.0"
+
+[libraries]
+androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
 
 [plugins]
 sborkaKmp = { id = "io.github.youndie.sborka.kmp", version.ref = "sborka" }

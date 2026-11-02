@@ -1,5 +1,6 @@
 package io.github.youndie.toon.draw
 
+import io.github.youndie.toon.InternalToonApi
 import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
@@ -19,12 +20,13 @@ import kotlin.math.sin
  * 32-bit integer arithmetic, so the integers match the engine bit for bit; only the final
  * division is a [Double].
  */
-internal class ToonRandom(
+@InternalToonApi
+public class ToonRandom(
     seed: Int,
 ) {
     private var a = seed
 
-    fun next(): Double {
+    public fun next(): Double {
         a += 0x6D2B79F5
         var t = (a xor (a ushr 15)) * (1 or a)
         t = (t + (t xor (t ushr 7)) * (61 or t)) xor t
@@ -33,31 +35,35 @@ internal class ToonRandom(
 }
 
 /** Four corner radii, clockwise from the top left, as the engine's `r` arrays are. */
-internal data class ToonRadii(
-    val topLeft: Float,
-    val topRight: Float,
-    val bottomRight: Float,
-    val bottomLeft: Float,
+@InternalToonApi
+public data class ToonRadii(
+    public val topLeft: Float,
+    public val topRight: Float,
+    public val bottomRight: Float,
+    public val bottomLeft: Float,
 )
 
 /** Fill insets per side, as the engine's `ins` arrays are: `[top, right, bottom, left]`. */
-internal data class ToonInsets(
-    val top: Float,
-    val right: Float,
-    val bottom: Float,
-    val left: Float,
+@InternalToonApi
+public data class ToonInsets(
+    public val top: Float,
+    public val right: Float,
+    public val bottom: Float,
+    public val left: Float,
 )
 
 /** An ink outline and the fill inside it; the ink between them is the variable-weight line. */
-internal class ToonShapePoints(
-    val ink: FloatArray,
-    val fill: FloatArray,
+@InternalToonApi
+public class ToonShapePoints(
+    public val ink: FloatArray,
+    public val fill: FloatArray,
 )
 
 private const val PI_F = PI.toFloat()
 
 /** The engine's `rr`: points every [step] along a rectangle with four independent radii. */
-internal fun roundRectPoints(
+@InternalToonApi
+public fun roundRectPoints(
     x: Float,
     y: Float,
     w: Float,
@@ -115,7 +121,8 @@ internal fun roundRectPoints(
  * The engine's `wob`: each point of [roundRectPoints] pushed along its normal by a three-harmonic
  * offset whose phases come from [seed]. Low harmonics, so the line looks drawn, not noisy.
  */
-internal fun wobblePoints(
+@InternalToonApi
+public fun wobblePoints(
     x: Float,
     y: Float,
     w: Float,
@@ -152,7 +159,8 @@ internal fun wobblePoints(
  * The engine's `shape`: the outline, and a fill inset by [ins] per side with radii shrunk by the
  * mean of the top and left insets, wobbling at 0.8 of [amp] from the next seed but six.
  */
-internal fun shapePoints(
+@InternalToonApi
+public fun shapePoints(
     x: Float,
     y: Float,
     w: Float,
@@ -191,7 +199,8 @@ internal fun shapePoints(
  * The engine's `inkLine`: a tapering stroke from [x0] to [x1], thickest in the middle, as a closed
  * outline — the top edge left to right, then the bottom edge back. [sag] bows it downward.
  */
-internal fun inkLinePoints(
+@InternalToonApi
+public fun inkLinePoints(
     x0: Float,
     x1: Float,
     y: Float,
@@ -223,7 +232,8 @@ internal fun inkLinePoints(
 }
 
 /** The engine's `star`: ten points about the origin, outer radius [outer], inner [inner], jittered by [seed]. */
-internal fun starPoints(
+@InternalToonApi
+public fun starPoints(
     outer: Float,
     inner: Float,
     seed: Int,
@@ -240,7 +250,8 @@ internal fun starPoints(
 }
 
 /** The engine's `burst`: a [spikes]-pointed jagged ellipse about the origin, inner points at [k] of the outer. */
-internal fun burstPoints(
+@InternalToonApi
+public fun burstPoints(
     rx: Float,
     ry: Float,
     spikes: Int,

@@ -39,6 +39,9 @@ kotlin {
                 .toInt()
     }
 
+    // The geometry is public behind an opt-in for the bench module (B-05); this module itself opts in.
+    sourceSets.all { languageSettings.optIn("io.github.youndie.toon.InternalToonApi") }
+
     // No Material artefact, ever (research D2).
     sourceSets {
         commonMain.dependencies {

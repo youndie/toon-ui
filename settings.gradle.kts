@@ -29,3 +29,5 @@ plugins {
 rootProject.name = "toon-ui"
 
 include(":toon-core")
+include(":bench")
+include(":bench-android")

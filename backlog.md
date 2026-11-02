@@ -56,7 +56,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-05](docs/backlog/B-05-frame-cost-measurement.md) `[~]` | Measure the frame cost of per-frame geometry before components depend on it | P0 | M | B-04 |
 | [B-06](docs/backlog/B-06-pixel-references-and-floor.md) `[ ]` | Pixel references: render every state in headless Chrome, measure parity's floor | P0 | L | B-01, B-02 |
 | [B-07](docs/backlog/B-07-token-generator.md) `[ ]` | Tokens generated from THEMES: colours, shape, type, motion, three themes | P1 | M | B-03 |
 | [B-08](docs/backlog/B-08-theme-reduce-motion-idle-budget.md) `[ ]` | ToonTheme provider, system reduce motion, and a counted idle budget | P1 | M | B-07 |
@@ -80,6 +79,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-27](docs/backlog/B-27-navigation-bar.md) `[ ]` | NavigationBar: jumping icon, dust, paint-stroke indicator | P1 | S | B-10, B-12 |
 | [B-28](docs/backlog/B-28-tabs.md) `[ ]` | Tabs: bookmarks on an ink shelf, the indicator smears across | P1 | S | B-10 |
 | [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[ ]` | Cyrillic: find OFL faces that carry Russian in each of the four roles | P1 | M | B-02 |
+| [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[?]` | The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify | P1 | S | B-05 |
 | [B-13](docs/backlog/B-13-textures.md) `[ ]` | Textures: get the four tiles, tile them as an ImageShader | P2 | S | - |
 | [B-29](docs/backlog/B-29-demo-screens-and-sample.md) `[ ]` | Demo screens: sign in, the list, settings, day and night, and a sample app | P2 | M | B-13, B-14, B-19, B-21, B-27 |
 | [B-30](docs/backlog/B-30-accessibility.md) `[ ]` | Accessibility: semantics, state descriptions, contrast, targets | P2 | M | B-14, B-15, B-16, B-17, B-18, B-19, B-20, B-21, B-22, B-23, B-24, B-25, B-26, B-27, B-28 |
@@ -96,7 +96,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-43](docs/backlog/B-43-title-card.md) `[ ]` | Title card: splash and empty state, rings and a plaque | P2 | S | B-12 |
 | [B-44](docs/backlog/B-44-screen-transitions.md) `[ ]` | Screen transitions: push with smear, iris scene change, hole in the wall | P2 | M | B-12 |
 
-## Closed (5)
+## Closed (6)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -104,6 +104,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-02](docs/backlog/B-02-fonts-and-cyrillic.md) `[x]` - Fonts: bundle the four OFL families the design names
 - [B-03](docs/backlog/B-03-engine-golden-harness.md) `[x]` - Engine harness: run toon-engine.js in Node and emit golden JSON
 - [B-04](docs/backlog/B-04-geometry-port-and-numeric-parity.md) `[x]` - Geometry port: Mulberry32, rr, wob, shape, squash, inkLine, with numeric parity
+- [B-05](docs/backlog/B-05-frame-cost-measurement.md) `[x]` - Measure the frame cost of per-frame geometry before components depend on it
 
 **The owner's questions answered; the semantics and contrast tests pass**
 
