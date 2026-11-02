@@ -65,6 +65,7 @@ const OWN = {
   rememberToonPressState: ['the press machine, for a component of the caller\'s own', 'B-10'],
   ToonFxHost: ['the FX layer that draws the effects events fire', 'B-12'],
   ToonStage: ['the stage: the theme colour and the gouache tile', 'B-13'],
+  ToonTransitionHost: ['the screen transitions of the v1 page: push, scene change, hole in the wall', 'B-44'],
 };
 
 const problems = [];
@@ -82,7 +83,7 @@ const kotlin = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) =>
 const composables = new Map();
 for (const file of kotlin(SOURCES)) {
   const text = readFileSync(file, 'utf8');
-  for (const m of text.matchAll(/@(?:androidx\.compose\.runtime\.)?Composable\b(?:\s*@[^\n]*)*\s*public fun (\w+)\s*\(/g)) composables.set(m[1], file.slice(ROOT.length + 1));
+  for (const m of text.matchAll(/@(?:androidx\.compose\.runtime\.)?Composable\b(?:\s*@[^\n]*)*\s*public fun (?:<[^>]*>\s*)?(\w+)\s*\(/g)) composables.set(m[1], file.slice(ROOT.length + 1));
 }
 
 const designFiles = readdirSync(DESIGN).filter((f) => /^Toon\w+\.dc\.html$/.test(f)).map((f) => f.slice(4, -8));

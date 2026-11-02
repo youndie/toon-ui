@@ -371,6 +371,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the title card in B-43:* `fade 120`; the card fades in at rest, without the pop, the flowing rings or the stars.
 
+*Applied to the screen transitions in B-44:* `cross-fade 120` for all three; the old screen fades out as the new one fades in.
+
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret
