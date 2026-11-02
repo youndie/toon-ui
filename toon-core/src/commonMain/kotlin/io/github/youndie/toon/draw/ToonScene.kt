@@ -34,6 +34,7 @@ import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.atan2
 import kotlin.math.cos
+import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.sin
 import kotlin.math.sqrt
@@ -286,17 +287,31 @@ internal class ToonScene(
     ): ToonScene {
         if (sx == 1f && sy == 1f) return this
         val m = ToonAffine.translate(px, py) * ToonAffine.scale(sx, sy) * ToonAffine.translate(-px, -py)
+        val pairSlack = max(pairRounding(px, sx), pairRounding(py, sy))
         return ToonScene(
             layers.map {
                 it.copy(
                     outer = m * it.outer,
                     outerPairs = it.outerPairs + 1,
-                    outerSlack = it.outerSlack + SCALE_ROUNDING * max(abs(px), abs(py)),
+                    outerSlack = it.outerSlack + SCALE_ROUNDING * max(abs(px), abs(py)) + pairSlack,
                     outerTurn = it.outerTurn + SCALE_ROUNDING,
                 )
             },
             labels,
         )
+    }
+
+    /**
+     * What the engine's `f` does to the pair about a pivot [p] scaled by [s]: it writes `translate(f(p))`
+     * and `translate(f(-p))`, and `Math.round` takes a half up, so off the 0.1 grid the two ends round
+     * apart (146.25 → 146.3 and −146.2) and the second is scaled.
+     */
+    private fun pairRounding(
+        p: Float,
+        s: Float,
+    ): Float {
+        fun f(v: Float) = floor(v * 10 + .5f) / 10
+        return abs(f(p) - p) + abs(s) * abs(f(-p) + p)
     }
 
     /** The engine's `cat`: [other]'s layers after these, its labels after these. */
