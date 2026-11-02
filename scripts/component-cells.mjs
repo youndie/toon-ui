@@ -336,7 +336,55 @@ export const CHIP_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
   }),
 ]);
 
+// ---- Card (B-21): `toon-ui Core.dc.html` ----
+const CARD_PAGE = [
+  "{ title: 'Pancake breakfast', meta: 'Kitchen, bring syrup', time: '9:00' },",
+  "{ title: 'Bike to the lake', meta: 'Check the tyre pump', time: '11:30' },",
+  "{ title: 'Paint the fence', meta: 'Green this time', time: '14:00' },",
+  "const cCells = [['Default', {}], ['Pressed', { press: 1 }], ['Selected', { sel: true }], ['Disabled', { dis: true }]]",
+  ".map(([S, o], i) => C(`Card / ${S}`, this.place(this.card(T, { idx: i % 3, ...this.items[i % 3], ...o }), 0, 0, T.rots[i % 3] + (o.press ? -1 : 0), 171, 42), 342, 84, [18, 18, 18, 14]));",
+  "frames: [0, 60, 120, 220, 380].map(t => { const a = this.cardAppear(t, T.rots[0]);",
+  "this.cat(this.place(this.card(T, { idx: 0, ...this.items[0], sx: a.sx, sy: a.sy }), 0, a.dy, a.rot, 171, 42, a.op), this.dust(T, a.du, 34, 86, 36), this.dust(T, a.du, 308, 86, 36)), 342, 84, [40, 20, 30, 20], cS); }) },",
+  "frames: [0, 50, 100].map(t => { const p = 1 - Math.pow(1 - t / 100, 3);",
+  "this.place(this.card(T, { idx: 0, ...this.items[0], press: p }), 0, 0, T.rots[0] - p, 171, 42), 342, 84, [20, 20, 20, 20], cS); }) },",
+  "frames: [0, 70, 140, 190, 300, 450].map(t => { const d = this.cardDismiss(t);",
+  "this.cardStack(T, t, 'dismiss'), 342, 288, [24, 20, 24, 60], .36); }) },",
+  "if (d && i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(this.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (t - 170) / 300; if (hu >= 0 && hu < 1) under.push(this.place(this.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }",
+  "if (d && i === 2) yy += d.n * 102;",
+  "if (op > .01) parts.push(this.place(this.card(T, { idx: i, ...this.items[i], sx, sy, press: o_press(i) }), dx, yy, a.rot, 171, 42, op));",
+];
+const ITEMS = [{ title: 'Pancake breakfast', meta: 'Kitchen, bring syrup', time: '9:00' }, { title: 'Bike to the lake', meta: 'Check the tyre pump', time: '11:30' }, { title: 'Paint the fence', meta: 'Green this time', time: '14:00' }];
+// The page's `cardStack(T, t, 'dismiss')` with the engine in place of the page's own copies.
+const CARD_STACK = t => `(() => { const items = ${JSON.stringify(ITEMS)}, parts = [], under = [], d = E.cardDismiss(${t});
+  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i]; let dx = 0, sx = 1, sy = 1, op = 1, yy = base;
+    if (i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(E.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (${t} - 170) / 300; if (hu >= 0 && hu < 1) under.push(E.place(E.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }
+    if (i === 2) yy += d.n * 102;
+    if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }
+  return E.cat(...under, ...parts); })()`;
+const cardLook = o => {
+  const a = [];
+  if (o.press) a.push(`press = ${kf(o.press)}`);
+  if (o.sel) a.push('selected = true');
+  if (o.dis) a.push('disabled = true');
+  return call('ToonCardLook', ...a);
+};
+const CARD_STATES = [['Default', {}], ['Pressed', { press: 1 }], ['Selected', { sel: true }], ['Disabled', { dis: true }]];
+export const CARD_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...CARD_STATES.map(([n, o], i) => sceneCell('Card', theme, themeName, n, 342, 84, [18, 18, 18, 14], { kind: 'state', i, ...o },
+    `E.place(E.card(T, ${js({ idx: i % 3, ...ITEMS[i % 3], ...o })}), 0, 0, T.rots[${i % 3}] + ${o.press ? -1 : 0}, 171, 42)`,
+    call('CardFrames.state', 'tokens', String(i), cardLook(o)))),
+  ...[0, 60, 120, 220, 380].map(t => sceneCell('Card', theme, themeName, `Appear_${t}ms`, 342, 84, [40, 20, 30, 20], { kind: 'appear', t },
+    `(() => { const a = E.cardAppear(${t}, T.rots[0]); return E.cat(E.place(E.card(T, Object.assign({ idx: 0 }, ${JSON.stringify(ITEMS[0])}, { sx: a.sx, sy: a.sy })), 0, a.dy, a.rot, 171, 42, a.op), E.dust(T, a.du, 34, 86, 36), E.dust(T, a.du, 308, 86, 36)); })()`,
+    call('CardFrames.appear', 'tokens', `${t}f`))),
+  ...[0, 50, 100].map(t => { const p = 1 - Math.pow(1 - t / 100, 3); return sceneCell('Card', theme, themeName, `Press_${t}ms`, 342, 84, [20, 20, 20, 20], { kind: 'press', p: num(p) },
+    `E.place(E.card(T, Object.assign({ idx: 0 }, ${JSON.stringify(ITEMS[0])}, { press: ${num(p)} })), 0, 0, T.rots[0] - ${num(p)}, 171, 42)`,
+    call('CardFrames.press', 'tokens', kf(p))); }),
+  ...[0, 70, 140, 190, 300, 450].map(t => sceneCell('Card', theme, themeName, `Dismiss_${t}ms`, 342, 288, [24, 20, 24, 60], { kind: 'dismiss', t },
+    CARD_STACK(t), call('CardFrames.dismiss', 'tokens', `${t}f`))),
+]);
+
 export const missingPageText = [
+  ...CARD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...CHIP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...FIELD_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
   ...SWITCH_PAGE.filter(s => !CORE.includes(s)).map(s => `toon-ui Core.dc.html: ${s}`),
@@ -348,4 +396,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS };

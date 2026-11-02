@@ -40,6 +40,19 @@ const BADGE_IMPORTS = [
 
 // Per component: the imports and the cell composable its fixtures call.
 const PRELUDE = {
+  Card: {
+    imports: [
+      'androidx.compose.runtime.Composable',
+      'io.github.youndie.toon.tokens.brightCel',
+      'io.github.youndie.toon.tokens.inkGouacheLight',
+      'io.github.youndie.toon.tokens.inkGouacheNight',
+      'io.github.youndie.viddik.annotations.ViddikScreenshot',
+      'io.github.youndie.toon.component.ToonCardLook',
+    ],
+    cell: `// The Core page's card cells and its appear, press and dismiss strips against the engine's \`card\`
+// drawn in Chrome, composed as the page composes them (CardFrames).
+`,
+  },
   Chip: {
     imports: [
       'androidx.compose.runtime.Composable',
