@@ -8,11 +8,13 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.unit.dp
-import io.github.youndie.toon.component.rememberToonButtonLabel
+import io.github.youndie.toon.component.BUTTON_LABEL
+import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.theme.ToonTheme
 import io.github.youndie.toon.tokens.ToonTokens
 import io.github.youndie.toon.tokens.brightCel
@@ -26,7 +28,8 @@ import io.github.youndie.viddik.annotations.ViddikScreenshot
 @Composable
 private fun LabelCell(tokens: ToonTokens) {
     ToonTheme(tokens) {
-        val label = rememberToonButtonLabel("Add plan")
+        val text = rememberToonText()
+        val label = remember(text) { text.measure("Add plan", BUTTON_LABEL) }
         Box(Modifier.size(180.dp, 82.dp).background(tokens.colors.stage).padding(start = 14.dp, top = 14.dp)) {
             Canvas(Modifier.size(150.dp, 52.dp)) {
                 val baseline = 52f / 2 + 18f * .35f

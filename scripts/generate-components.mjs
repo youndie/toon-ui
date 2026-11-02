@@ -23,10 +23,12 @@ const PRELUDE = {
       'androidx.compose.foundation.layout.size',
       'androidx.compose.runtime.Composable',
       'androidx.compose.ui.Modifier',
+      'androidx.compose.runtime.remember',
       'androidx.compose.ui.geometry.Offset',
       'androidx.compose.ui.text.drawText',
       'androidx.compose.ui.unit.dp',
-      'io.github.youndie.toon.component.rememberToonButtonLabel',
+      'io.github.youndie.toon.component.BUTTON_LABEL',
+      'io.github.youndie.toon.draw.rememberToonText',
       'io.github.youndie.toon.theme.ToonTheme',
       'io.github.youndie.toon.tokens.ToonTokens',
       'io.github.youndie.toon.tokens.brightCel',
@@ -40,7 +42,8 @@ const PRELUDE = {
 @Composable
 private fun LabelCell(tokens: ToonTokens) {
     ToonTheme(tokens) {
-        val label = rememberToonButtonLabel("Add plan")
+        val text = rememberToonText()
+        val label = remember(text) { text.measure("Add plan", BUTTON_LABEL) }
         Box(Modifier.size(180.dp, 82.dp).background(tokens.colors.stage).padding(start = 14.dp, top = 14.dp)) {
             Canvas(Modifier.size(150.dp, 52.dp)) {
                 val baseline = 52f / 2 + 18f * .35f
