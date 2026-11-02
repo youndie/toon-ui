@@ -408,6 +408,32 @@ export const SNACK_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =
     snackMoment(false, t))),
 ]);
 
+// ---- Slider (B-36): `toon-ui v1 Components.dc.html` ----
+const V1 = page('toon-ui v1 Components.dc.html');
+const SLIDER_PAGE = [
+  "out.slider = { cells: [['Default', { value: .4 }], ['Dragging', { value: .6, grab: 1 }], ['Focused', { value: .4, focus: true }], ['Full', { value: 1 }], ['Disabled', { value: .4, disabled: true }]].map(([n, o]) => C('Slider / ' + n, E.slider(T, { w: 260, ...o }), 260, 48, [10, 14, 10, 14])),",
+  "frames: [['0 ms', 0], ['40 ms', .875], ['80 ms · held', 1], ...[60, 130, 220].map(t => ['+' + t + ' ms', E.sliderGrab(t, false)])].map(([lb, q]) => Fr(lb, sq(q), E.slider(T, { w: 200, value: .5, grab: q }), 200, 48, [10, 14, 10, 14])) }] };",
+];
+const SLIDER_STATES = [['Default', { value: .4 }], ['Dragging', { value: .6, grab: 1 }], ['Focused', { value: .4, focus: true }], ['Full', { value: 1 }], ['Disabled', { value: .4, disabled: true }]];
+const sliderLook = (o, grab) => {
+  const a = [];
+  if (grab) a.push(`grab = ${grab}`);
+  else if (o.grab) a.push(`grab = ${kf(o.grab)}`);
+  if (o.focus) a.push('focus = true');
+  if (o.disabled) a.push('disabled = true');
+  return call('ToonSliderLook', ...a);
+};
+// The page's strip: held at 0, 40 and 80 ms (the press curve gives 0, .875 and 1, the page's own
+// numbers), then let go 60, 130 and 220 ms — each the engine's `sliderGrab` at its age, so the cell
+// holds the curve as well as the drawing.
+const SLIDER_FRAMES = [['0ms', 0, true], ['40ms', 40, true], ['80msHeld', 80, true], ['Plus60ms', 60, false], ['Plus130ms', 130, false], ['Plus220ms', 220, false]];
+export const SLIDER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) => [
+  ...SLIDER_STATES.map(([n, o]) => sceneCell('Slider', theme, themeName, n, 260, 48, [10, 14, 10, 14], { kind: 'state', ...o },
+    `E.slider(T, ${js({ w: 260, ...o })})`, call('toonSliderScene', 'tokens', '260f', kf(o.value), sliderLook(o)))),
+  ...SLIDER_FRAMES.map(([n, t, down]) => sceneCell('Slider', theme, themeName, `Grab_${n}`, 200, 48, [10, 14, 10, 14], { kind: 'grab', t, down },
+    `E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(${t}, ${down}) })`, call('toonSliderScene', 'tokens', '200f', '0.5f', sliderLook({}, `toonSliderGrab(${t}f, ${down})`)))),
+]);
+
 // ---- Tabs (B-28): `toon-ui MVP Components.dc.html` ----
 const TABS_PAGE = [
   "TABS = ['Today', 'Weekend', 'Someday'];",
@@ -575,6 +601,7 @@ export const FRAME_PROBES = {
 };
 
 export const missingPageText = [
+  ...SLIDER_PAGE.filter(s => !V1.includes(s)).map(s => `toon-ui v1 Components.dc.html: ${s}`),
   ...TABS_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...NAV_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
   ...TOP_PAGE.filter(s => !MVP.includes(s)).map(s => `toon-ui MVP Components.dc.html: ${s}`),
@@ -594,4 +621,4 @@ export const missingPageText = [
 ];
 
 /** Every component's cells, by group: the fixture file each generates. */
-export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS };
+export const COMPONENT_CELLS = { TextFloor: TEXT_FLOOR_CELLS, Button: BUTTON_CELLS, ButtonShape: BUTTON_SHAPE_CELLS, IconButton: ICON_BUTTON_CELLS, Badge: BADGE_CELLS, Fab: FAB_CELLS, Checkbox: CHECKBOX_CELLS, Radio: RADIO_CELLS, Switch: SWITCH_CELLS, TextField: FIELD_CELLS, Chip: CHIP_CELLS, Card: CARD_CELLS, Divider: DIVIDER_CELLS, ListItem: LIST_CELLS, Snackbar: SNACK_CELLS, Dialog: DIALOG_CELLS, Progress: PROGRESS_CELLS, TopAppBar: TOP_CELLS, NavigationBar: NAV_CELLS, Tabs: TABS_CELLS, TabsShape: TABS_SHAPE_CELLS, Slider: SLIDER_CELLS };

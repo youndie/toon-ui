@@ -355,6 +355,8 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the tabs in B-28:* `instant`; the bookmark moves at once and the content does not slide.
 
+*Applied to the slider in B-36:* `instant`; the ball is squashed exactly while held, round otherwise.
+
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret

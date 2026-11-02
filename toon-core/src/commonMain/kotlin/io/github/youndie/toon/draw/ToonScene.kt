@@ -54,8 +54,9 @@ import kotlin.math.sqrt
  * [Iris] is the engine's `iris`, a rectangle with a round hole filled even-odd, kept as its `d` writes
  * it: `M0 0`, `H` w, `V` h, `H0`, then `M` the circle's right point and two arcs `A r r 0 1 0 x y`.
  * An [Arc] is `M x y` and one circular arc `A r r 0 large sweep x y`, as the circular progress draws.
+ * [Pairs] is a run of separate strokes, `M x y L x y` each, as the slider's rope hatching is drawn.
  */
-internal enum class ToonSegments { Quad, Line, Iris, Arc }
+internal enum class ToonSegments { Quad, Line, Iris, Arc, Pairs }
 
 /** A 2D affine transform as SVG writes it, `[a c e; b d f]`: what `place` and `scaleAbout` prefix. */
 internal class ToonAffine(
@@ -149,6 +150,16 @@ internal class ToonLayer(
     val path: Path by lazy {
         if (segments == ToonSegments.Iris) return@lazy irisPath(numbers)
         if (segments == ToonSegments.Arc) return@lazy arcPath(numbers)
+        if (segments == ToonSegments.Pairs) {
+            return@lazy Path().apply {
+                var i = 0
+                while (i + 4 <= numbers.size) {
+                    moveTo(numbers[i], numbers[i + 1])
+                    lineTo(numbers[i + 2], numbers[i + 3])
+                    i += 4
+                }
+            }
+        }
         shape ?: Path().apply {
             moveTo(numbers[0], numbers[1])
             val step = if (segments == ToonSegments.Quad) 4 else 2

@@ -17084,6 +17084,435 @@
         8
       ],
       "scene": "E.tabs(T, Object.assign({ labels: ['', '', ''] }, {\"sel\":0,\"disabled\":2}))"
+    },
+    {
+      "file": "Slider_Default_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4})"
+    },
+    {
+      "file": "Slider_Dragging_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.6,\"grab\":1})"
+    },
+    {
+      "file": "Slider_Focused_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4,\"focus\":true})"
+    },
+    {
+      "file": "Slider_Full_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":1})"
+    },
+    {
+      "file": "Slider_Disabled_InkGouacheLight.png",
+      "theme": "il",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4,\"disabled\":true})"
+    },
+    {
+      "file": "Slider_Grab_0ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(0, true) })"
+    },
+    {
+      "file": "Slider_Grab_40ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(40, true) })"
+    },
+    {
+      "file": "Slider_Grab_80msHeld_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(80, true) })"
+    },
+    {
+      "file": "Slider_Grab_Plus60ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(60, false) })"
+    },
+    {
+      "file": "Slider_Grab_Plus130ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(130, false) })"
+    },
+    {
+      "file": "Slider_Grab_Plus220ms_InkGouacheLight.png",
+      "theme": "il",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(220, false) })"
+    },
+    {
+      "file": "Slider_Default_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4})"
+    },
+    {
+      "file": "Slider_Dragging_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.6,\"grab\":1})"
+    },
+    {
+      "file": "Slider_Focused_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4,\"focus\":true})"
+    },
+    {
+      "file": "Slider_Full_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":1})"
+    },
+    {
+      "file": "Slider_Disabled_InkGouacheNight.png",
+      "theme": "in",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4,\"disabled\":true})"
+    },
+    {
+      "file": "Slider_Grab_0ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(0, true) })"
+    },
+    {
+      "file": "Slider_Grab_40ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(40, true) })"
+    },
+    {
+      "file": "Slider_Grab_80msHeld_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(80, true) })"
+    },
+    {
+      "file": "Slider_Grab_Plus60ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(60, false) })"
+    },
+    {
+      "file": "Slider_Grab_Plus130ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(130, false) })"
+    },
+    {
+      "file": "Slider_Grab_Plus220ms_InkGouacheNight.png",
+      "theme": "in",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(220, false) })"
+    },
+    {
+      "file": "Slider_Default_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4})"
+    },
+    {
+      "file": "Slider_Dragging_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.6,\"grab\":1})"
+    },
+    {
+      "file": "Slider_Focused_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4,\"focus\":true})"
+    },
+    {
+      "file": "Slider_Full_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":1})"
+    },
+    {
+      "file": "Slider_Disabled_BrightCel.png",
+      "theme": "bc",
+      "w": 260,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, {\"w\":260,\"value\":0.4,\"disabled\":true})"
+    },
+    {
+      "file": "Slider_Grab_0ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(0, true) })"
+    },
+    {
+      "file": "Slider_Grab_40ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(40, true) })"
+    },
+    {
+      "file": "Slider_Grab_80msHeld_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(80, true) })"
+    },
+    {
+      "file": "Slider_Grab_Plus60ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(60, false) })"
+    },
+    {
+      "file": "Slider_Grab_Plus130ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(130, false) })"
+    },
+    {
+      "file": "Slider_Grab_Plus220ms_BrightCel.png",
+      "theme": "bc",
+      "w": 200,
+      "h": 48,
+      "pad": [
+        10,
+        14,
+        10,
+        14
+      ],
+      "scene": "E.slider(T, { w: 200, value: .5, grab: E.sliderGrab(220, false) })"
     }
   ],
   "screens": [

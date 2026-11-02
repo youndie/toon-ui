@@ -47,7 +47,7 @@ const MAP = {
   PullToRefresh: { engine: ['pull'], item: 'B-42' },
   RadioGroup: { composable: 'ToonRadioGroup', engine: ['radio'], item: 'B-17', group: 'Radio' },
   Segmented: { engine: ['segmented'], item: 'B-41' },
-  Slider: { engine: ['slider'], item: 'B-36' },
+  Slider: { composable: 'ToonSlider', engine: ['slider', 'sliderGrab'], item: 'B-36', group: 'Slider' },
   Snackbar: { composable: 'ToonSnackbar', engine: ['snack'], item: 'B-23', group: 'Snackbar' },
   Switch: { composable: 'ToonSwitch', engine: ['sw'], item: 'B-18', group: 'Switch' },
   Tabs: { composable: 'ToonTabs', engine: ['tabs'], item: 'B-28', group: 'Tabs' },
