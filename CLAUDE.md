@@ -22,19 +22,40 @@ and its engine `toon-engine.js` is the ruler everything is measured against.
 4. The layer document for the area you are touching, once it exists ([docs/README.md](docs/README.md)
    lists what does).
 
-## Local workflow
+## The loop merges its own pull requests
 
-There is no remote repository (B-32 decides when there is one), so no pull requests. The `/loop`
-over the backlog works one item per branch and merges it itself (owner, 2026-11-02):
+The repository is `youndie/toon-ui`: public, with CI, since B-32 (2026-11-03). Before that it was
+local only, and the loop merged into the local `main`.
 
-1. `feat/b-NN-<slug>` from `main`.
-2. Implement, with the item's status and documents in the same branch.
-3. On the branch's head commit, `make check` and `./gradlew check` (once B-01 has made the build)
-   are both green.
-4. `git merge --no-ff` into `main`, with `Refs: B-NN` in the merge message. The branch is kept.
+- The `/loop` over the backlog works one item per branch, `feat/b-NN-<slug>` from `main`, with the
+  item's status and documents in the same branch; it pushes the branch and opens a pull request.
+- It merges that pull request itself, squashed with `Refs: B-NN` and the branch deleted, when two
+  things hold:
+  - both jobs of `check.yaml` are green;
+  - that green was taken on the pull request's **head commit**, not an earlier one.
+- The pull request's body carries the evidence: the gate results, the mutants, and the parity
+  summary for a component.
+- Red is never merged, and a check is never loosened to get green. An item whose status is
+  `question`, or that needs the owner (a device, a decision), stops the loop with the question
+  instead.
 
-Red is never merged, and a check is never loosened to get green. An item whose status is `question`,
-or that needs the owner (a device, a decision), stops the loop with the question instead.
+## Publishing
+
+- **Every push to `main` publishes** `toon-core` as `<version>.<run number>`, `0.1.0.<run>` now
+  (B-32). `publish.yaml` calls sborka's reusable `publish-wip.yaml` on `macos-latest`: it runs
+  `./gradlew check` first, in a step of its own, then `publishAllPublicationsToWipRepository`, and
+  its consumer job resolves the published root afterwards.
+- **`version` in `gradle.properties` is only the head**, and it names the next release, never one
+  already tagged: `X.Y.Z.N` sorts above `X.Y.Z`, so once a release is tagged the head moves to the
+  next patch before anything else lands on `main`.
+- The Reposilite credentials are issued by the `reposilite-token.yaml` workflow of the portfolio's
+  private infrastructure repository, with a route for each coordinate: `toon-core` and its
+  `-desktop`, `-android`, `-iosarm64`, `-iossimulatorarm64` and `-wasm-js`. They are never created
+  by hand. A new target is a new coordinate, and needs the token reissued with it.
+- The public API is pinned: `toon-core/api/` is the committed dump, and `check` fails on a change to
+  it that was not recorded with `./gradlew :toon-core:updateKotlinAbi`.
+- **The sample in a browser** is `pages.yaml`: `:sample:wasmJsBrowserDistribution`, deployed to
+  https://youndie.github.io/toon-ui/ from `main`. The desktop sample is `./gradlew :sample:run`.
 
 ## Gates
 
