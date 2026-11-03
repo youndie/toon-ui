@@ -22,9 +22,10 @@ move, and when the refresh ends the spinner shrinks to nothing where it hung.
     its pegs to the blob just over the content;
   - let go past 40 dp, the band snaps and flings the blob up (the engine's `pullRelease`), and the
     content springs to 60 dp down on the same spring and waits under the spinning blob;
-  - done, the blob shrinks as before (260 ms), then the content springs back up and closes the gap
-    (420 ms), the slack band on its pegs going with it;
-  - let go short of 40 dp, the content springs straight back.
+  - done, the content springs back up at once (420 ms) and squashes the still spinning blob flat
+    as it closes the gap (iteration 2);
+  - let go short of 40 dp, the content springs straight back, the band contracting through the
+    drag's own looks.
 
   The strip and all its cells stay as the design has them; the box only adds the gap
   (`toonPullGapAt`) and draws the strip in it. A drag a child consumes does not pull, and a pull
@@ -53,3 +54,18 @@ move, and when the refresh ends the spinner shrinks to nothing where it hung.
 - Not covered: overscroll of a scrolling child (nested scroll). Inside a list that scrolls, the
   pull works where the list does not consume the drag — a mouse drag on desktop, a touch above the
   list. Pulling a list from its top by touch wants a nested-scroll connection, a later item.
+
+## Iteration 2 (2026-11-03): the end
+
+The owner, in the kit: "pull to refresh disappears badly". Done, the blob shrank in place for the
+strip's 260 ms, and then the rest look — a slack band on its pegs — popped into the gap while the
+content came back: two unrelated steps and a band from nowhere. A short pull also snapped its band
+straight while the content was still on its way back.
+
+- `toonPullBoxLookAt` gives the box its own look while the gap closes: done, the blob keeps spinning
+  in the middle of the gap, `bsy` the gap's share of 60 and `bsx` up to 1.6, so the returning content
+  squashes it flat; no band. A short pull's band is the drag's look for the closing gap, so it
+  contracts as it stretched. The gap closes from the first frame of done, without the 260 ms hold.
+- `ToonPullToRefreshTest`: every millisecond of the close the band is off, the blob is inside the
+  gap and its squash never steps more than 0.06; a short pull's band always matches the drag's look
+  for the same gap. Mutant: the blob popped instead of squashed — "the blob inside the gap at 45 ms".
