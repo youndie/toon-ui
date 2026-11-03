@@ -45,3 +45,5 @@ which caps a file at 256 KiB. The owner supplied them on 2026-11-02, and they ar
   fails it.
 - **AC carried to B-29:** the Screens fixtures do not exist yet; B-29 now names `ToonStage` as what
   they stand on.
+- **Superseded by B-59 (2026-11-03):** the bundled tiles are now made seamless from these by
+  `make tiles`, 448 px, every 224 dp; the vendored ones are unchanged.

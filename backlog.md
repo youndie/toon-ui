@@ -61,7 +61,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[ ]` | A chip makes room for its tick smoothly | P2 | S | - |
 | [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[ ]` | Title card rings ease into place, and can loop | P2 | S | - |
 
-## Closed (52)
+## Closed (53)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -83,6 +83,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-13](docs/backlog/B-13-textures.md) `[x]` - Textures: get the four tiles, tile them as an ImageShader
 - [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[x]` - Cyrillic: find OFL faces that carry Russian in each of the four roles
 - [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[x]` - The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify
+- [B-59](docs/backlog/B-59-seamless-textures.md) `[x]` - The stage tiles are seamless
 
 **Each MVP component matches its strips and cells in three themes**
 
