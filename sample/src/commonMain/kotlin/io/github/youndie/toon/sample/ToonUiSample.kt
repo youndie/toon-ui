@@ -122,7 +122,10 @@ fun ToonUiSample() {
                                 Box(
                                     Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
                                     Alignment.TopCenter,
-                                ) { SampleApp() }
+                                ) {
+                                    // One theme for the whole app: the header and the phone's settings switch it (B-52).
+                                    SampleApp(look, { look = it }, calm, { calm = it })
+                                }
                             }
                         }
                     }

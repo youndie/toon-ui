@@ -77,13 +77,29 @@ private val THEMES = listOf(ToonThemes.InkGouacheLight, ToonThemes.InkGouacheNig
 
 private enum class Screen { SignIn, List, Settings }
 
-/** The sample: one phone screen at a time, in the theme the settings pick. */
+/** The sample on its own: one phone screen at a time, in the theme the settings pick. */
 @Composable
 fun SampleApp() {
-    var screen by remember { mutableStateOf(Screen.SignIn) }
     var look by remember { mutableIntStateOf(0) }
-    ToonTheme(THEMES[look]) {
-        ToonStage(Modifier.size(390.dp, 844.dp)) {
+    var calm by remember { mutableStateOf(false) }
+    SampleApp(look, { look = it }, calm, { calm = it })
+}
+
+/**
+ * The screens in the theme [look] (an index of the three) and with [calm] as reduce motion, both
+ * owned by the caller (B-52): the settings' "Look" and "Calm motion" report to [onLook] and
+ * [onCalm], so the kit's header and the phone's settings switch the same theme.
+ */
+@Composable
+fun SampleApp(
+    look: Int,
+    onLook: (Int) -> Unit,
+    calm: Boolean,
+    onCalm: (Boolean) -> Unit,
+) {
+    var screen by remember { mutableStateOf(Screen.SignIn) }
+    ToonTheme(THEMES[look], reduceMotion = calm) {
+        ToonStage(Modifier.size(390.dp, 844.dp).testTag("phone")) {
             when (screen) {
                 Screen.SignIn -> {
                     SignIn { screen = Screen.List }
@@ -94,7 +110,7 @@ fun SampleApp() {
                 }
 
                 Screen.Settings -> {
-                    Settings(look, { look = it }, { screen = Screen.SignIn }) {
+                    Settings(look, onLook, calm, onCalm, { screen = Screen.SignIn }) {
                         if (it ==
                             0
                         ) {
@@ -201,11 +217,12 @@ private fun PlanList(onNavigate: (Int) -> Unit) {
 private fun Settings(
     look: Int,
     onLook: (Int) -> Unit,
+    calm: Boolean,
+    onCalm: (Boolean) -> Unit,
     onSignOut: () -> Unit,
     onNavigate: (Int) -> Unit,
 ) {
     var reminders by remember { mutableStateOf(true) }
-    var calm by remember { mutableStateOf(false) }
     At(0, 28) { ToonTopAppBar("Settings", actions = emptyList()) }
     Column(Modifier.offset(24.dp, 120.dp)) {
         ToonListItem(
@@ -232,7 +249,7 @@ private fun Settings(
             trailing = ToonListTrailing.Switch,
             on = calm,
             last = true,
-            onCheckedChange = { calm = it },
+            onCheckedChange = onCalm,
         )
     }
     At(24, 430) { ToonDivider(width = 342.dp) }

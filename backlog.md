@@ -52,17 +52,16 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (5)
+## Open (4)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-53](docs/backlog/B-53-press-sticks-on-fast-clicks.md) `[ ]` | A press can stick for good under fast clicks | P1 | S | - |
-| [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[ ]` | The kit's theme and reduce motion reach the Screens app | P2 | S | - |
 | [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[ ]` | A chip makes room for its tick smoothly | P2 | S | - |
 | [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[ ]` | Title card rings ease into place, and can loop | P2 | S | - |
 | [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[ ]` | The top app bar's title swings with its sign | P2 | S | - |
 
-## Closed (51)
+## Closed (52)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -129,5 +128,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[x]` - TopAppBar: with three or more actions the middle ones are 40 dp targets
 - [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[x]` - Menu: with three or more items the middle ones are 44 dp targets
 - [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[x]` - Check the two-effect clocks under a first composition
+- [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[x]` - The kit's theme and reduce motion reach the Screens app
 
 <!-- END INDEX -->
