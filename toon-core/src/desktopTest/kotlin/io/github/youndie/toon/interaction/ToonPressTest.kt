@@ -119,4 +119,26 @@ class ToonPressTest {
             waitForIdle()
             assertEquals(1, clicks)
         }
+
+    @Test
+    fun `a release on the frame the press loop ends still springs back to rest`() =
+        runComposeUiTest {
+            // B-53: the loop that steps the machine ends once the press is fully down. A release that
+            // lands before the next recomposition must still start the spring, or the press sticks.
+            mainClock.autoAdvance = false
+            lateinit var state: ToonPressState
+            setContent {
+                state = rememberToonPressState()
+                Box(Modifier.size(10.dp))
+            }
+            mainClock.advanceTimeByFrame()
+            runOnUiThread { state.press() }
+            var frames = 0
+            while (state.progress < 1f && frames++ < 60) mainClock.advanceTimeByFrame()
+            assertEquals(1f, state.progress, "fully pressed")
+            runOnUiThread { state.release() }
+            mainClock.advanceTimeBy(1_500)
+            assertEquals(0f, state.progress, "back at rest")
+            assertEquals(ToonPressMachine.Mode.Rest, state.machine.mode)
+        }
 }

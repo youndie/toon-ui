@@ -1,7 +1,7 @@
 ---
 id: B-53
 title: "A press can stick for good under fast clicks"
-status: open
+status: done
 priority: P1
 size: S
 stage: stage-2-components
@@ -22,3 +22,14 @@ Every component on `rememberToonPressState` is exposed.
 - AC: a release that lands on the frame the press loop ends springs the button back to rest; a
   test does exactly that, and fails on the Boolean key.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/interaction/ToonPress.kt`.
+
+## Findings (2026-11-03)
+
+- **Reproduced** by `ToonPressTest`'s new case: press until fully down, release on that same frame,
+  advance 1.5 s — on the Boolean key the button stayed at progress 1.0.
+- **Fixed** by keying the loop on `wakes`, bumped by every press and release. A relaunch while the
+  machine moves steps the time since the cancelled loop's last frame (`lastFrameMs`), so the
+  timeline is the one a single loop would have run: every golden and press timeline held.
+- Not reproduced through a pointer in a test (long, short, moving, inside a scroll, with and
+  without the idle breath): the race needs the release on the exact frame the loop ends, which fast
+  repeated clicks hit sooner or later.

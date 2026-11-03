@@ -9,6 +9,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -109,14 +110,22 @@ public class ToonPressState internal constructor() {
     public var progress: Float by mutableFloatStateOf(0f)
         internal set
 
-    internal var running by mutableStateOf(false)
+    /**
+     * Bumped by every press and release, and the key of the frame loop (B-53). A Boolean "running"
+     * was the key before: a release landing between the loop's end and the next recomposition wrote
+     * it back to true unseen, the loop never relaunched, and the press stuck for good.
+     */
+    internal var wakes by mutableIntStateOf(0)
+
+    /** The last frame the loop stepped on while the machine moved, so a relaunch continues its time. */
+    internal var lastFrameMs: Long? = null
 
     internal fun press() {
         machine.press()
-        running = true
+        wakes++
     }
 
-    internal fun release(): Boolean = machine.release().also { running = true }
+    internal fun release(): Boolean = machine.release().also { wakes++ }
 }
 
 /** A [ToonPressState] that steps on the frame clock while it moves, and sleeps at rest or fully pressed. */
@@ -124,10 +133,13 @@ public class ToonPressState internal constructor() {
 public fun rememberToonPressState(): ToonPressState {
     val state = remember { ToonPressState() }
     val reduce = Toon.reduceMotion
-    LaunchedEffect(state, state.running, reduce) {
-        if (!state.running) return@LaunchedEffect
+    LaunchedEffect(state, state.wakes, reduce) {
+        if (state.machine.mode == ToonPressMachine.Mode.Rest) return@LaunchedEffect
         var last = withFrameMillis { it }
-        state.machine.step(0.0, reduce)
+        // A relaunch mid-motion (a release while the press was still going down) steps the time since
+        // the cancelled loop's last frame, as one loop running through would have.
+        state.machine.step(state.lastFrameMs?.let { min(MAX_FRAME_MS, (last - it).toDouble()) } ?: 0.0, reduce)
+        state.lastFrameMs = last
         state.progress = state.machine.progress.toFloat()
         // A held press stops asking for frames once it is fully down; the release wakes it again.
         while (state.machine.mode == ToonPressMachine.Mode.Spring ||
@@ -137,10 +149,11 @@ public fun rememberToonPressState(): ToonPressState {
                 // The kit caps a frame at 50 ms so that a stall does not fling the spring.
                 state.machine.step(min(MAX_FRAME_MS, (now - last).toDouble()), reduce)
                 last = now
+                state.lastFrameMs = now
                 state.progress = state.machine.progress.toFloat()
             }
         }
-        state.running = false
+        state.lastFrameMs = null
     }
     return state
 }
