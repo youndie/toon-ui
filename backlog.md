@@ -52,16 +52,17 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (4)
+## Open (5)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
+| [B-53](docs/backlog/B-53-press-sticks-on-fast-clicks.md) `[ ]` | A press can stick for good under fast clicks | P1 | S | - |
 | [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[ ]` | The kit's theme and reduce motion reach the Screens app | P2 | S | - |
 | [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[ ]` | A chip makes room for its tick smoothly | P2 | S | - |
 | [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[ ]` | Title card rings ease into place, and can loop | P2 | S | - |
 | [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[ ]` | The top app bar's title swings with its sign | P2 | S | - |
 
-## Closed (52)
+## Closed (51)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -113,7 +114,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-46](docs/backlog/B-46-card-list.md) `[x]` - Card list: the 40 ms cascade and the close-up after a dismiss
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
 - [B-48](docs/backlog/B-48-fx-host-event-points.md) `[x]` - FX host: draw each effect where its event puts it
-- [B-53](docs/backlog/B-53-press-sticks-on-fast-clicks.md) `[x]` - A press can stick for good under fast clicks
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
 
