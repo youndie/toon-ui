@@ -62,6 +62,7 @@ import kotlin.math.pow
 // A port of the engine's `listItem` and `listPress` and the kit's `C.listitem` (B-22): a 72 dp row with
 // a sticker icon, a title and a line under it, and a trailing chevron, switch or check. Pressed, the
 // row sinks 2 dp and its bottom rule bows 6 dp like a plank; on release it springs back past flat once.
+// A trailing check plays the checkbox's own toggle, which the design's row leaves out (B-65).
 
 /** The `trailing` prop of `ToonListItem.dc.html`. */
 public enum class ToonListTrailing {
@@ -158,10 +159,14 @@ public fun ToonListItem(
 
 private const val ROW_H = 72f
 
-/** The kit runs a press for 200 ms, a release for 500 and the switch's toggle for 520, its curve 480. */
+/**
+ * The kit runs a press for 200 ms, a release for 500 and the switch's toggle for 520, its curve 480; the
+ * check's toggle is the checkbox's, 300.
+ */
 private const val RELEASE_MS = 500f
 private const val TOGGLE_MS = 520f
 private const val SWITCH_ANIM_MS = 480f
+private const val CHECK_ANIM_MS = 300f
 
 /** The engine's `listPress` at [t] ms: the row's sag, 0 to 1 on the way [down], a bouncy spring back after. */
 internal fun toonListPress(
@@ -171,8 +176,10 @@ internal fun toonListPress(
 
 /**
  * The kit's `C.listitem.scene` at a moment: pressed [pressAgeMs] ago, released [releaseAgeMs] ago,
- * the switch toggled [toggleAgeMs] ago (null for any that has not happened). Under reduce motion —
- * the MVP page's `instant` — the row is fully down while pressed and flat once let go.
+ * the switch or the check toggled [toggleAgeMs] ago (null for any that has not happened). Under
+ * reduce motion — the MVP page's `instant` — the row is fully down while pressed and flat once let go.
+ * The check plays the checkbox's `chkAnim`, reduce motion as the checkbox's (B-65): the design's row
+ * draws it settled at once, the one control in the kit that does not animate.
  */
 internal fun toonListItemFrameAt(
     pressAgeMs: Float?,
@@ -196,7 +203,13 @@ internal fun toonListItemFrameAt(
         } else {
             null
         }
-    return ToonListItemLook(on = on, sag = sag, switchLook = sw)
+    val check =
+        if (trailing == ToonListTrailing.Check && toggleAgeMs != null && toggleAgeMs < CHECK_ANIM_MS) {
+            toonCheckboxFrameAt(on, toggleAgeMs, 0f, reduceMotion)
+        } else {
+            null
+        }
+    return ToonListItemLook(on = on, sag = sag, switchLook = sw, checkLook = check)
 }
 
 private const val SETTLED_MS = 1e6f
@@ -267,6 +280,7 @@ internal data class ToonListItemLook(
     val sag: Float = 0f,
     val selected: Boolean = false,
     val switchLook: ToonSwitchLook? = null,
+    val checkLook: ToonCheckboxLook? = null,
     val seed: Int = 0,
     val last: Boolean = false,
     val disabled: Boolean = false,
@@ -339,12 +353,16 @@ internal fun toonListItemScene(
         }
 
         ToonListTrailing.Check -> {
-            layers +=
-                toonCheckboxScene(
-                    tokens,
-                    "",
-                    ToonCheckboxLook(on = o.on, disabled = dis),
-                ).placed(w - 48, 12 + dy).layers
+            val look = (o.checkLook ?: ToonCheckboxLook(on = o.on)).copy(disabled = dis)
+            val fade = look.fade
+            if (fade != null && fade < 1f) {
+                // Reduce motion's `fade 120`, as the checkbox: the unchecked box fades into the checked one.
+                layers +=
+                    toonCheckboxScene(tokens, "", ToonCheckboxLook(on = false, disabled = dis))
+                        .placed(w - 48, 12 + dy, 1 - fade)
+                        .layers
+            }
+            layers += toonCheckboxScene(tokens, "", look).placed(w - 48, 12 + dy, fade ?: 1f).layers
         }
 
         // Nothing trails the text.
