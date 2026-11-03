@@ -96,7 +96,8 @@ public fun ToonChip(
     val click by rememberUpdatedState(onClick)
     LaunchedEffect(clock.starts) { while (clock.running(SELECT_MS)) withFrameMillis { clock.tick(it) } }
     val look = toonChipFrameAt(sel, clock.age(), press.progress, reduce)
-    val w = chipWidth(variant, sel, labelWidth)
+    // The box follows the tick's room as it opens and closes (B-54), and the row it sits in with it.
+    val w = chipWidth(variant, look.lead, labelWidth)
 
     Canvas(
         modifier
@@ -118,7 +119,7 @@ public fun ToonChip(
             ) {
                 if (variant == ToonChipVariant.Filter) {
                     sel = !sel
-                    if (sel) clock.start()
+                    clock.start()
                     change(sel)
                 }
                 click()
@@ -148,16 +149,37 @@ internal val CHIP_LABEL = ToonTextStyle(600, 15f)
 /** The selection runs 700 ms in the kit. */
 private const val SELECT_MS = 700f
 
+/** The tick's room opens and closes over the paint's 180 ms sweep (B-54). */
+private const val LEAD_MS = 180f
+
 /** The engine's chip width: padding, a 24 dp lead (an icon, or a filter's tick), the label, a 22 dp close. */
 internal fun chipWidth(
     variant: ToonChipVariant,
     selected: Boolean,
     labelWidth: Float,
+): Float = chipWidth(variant, if (selected) 1f else 0f, labelWidth)
+
+/** The width with a filter's tick room [lead] open, 0 to 1 (B-54); an assist chip's icon is always there. */
+internal fun chipWidth(
+    variant: ToonChipVariant,
+    lead: Float,
+    labelWidth: Float,
 ): Float {
-    val lead = if (variant == ToonChipVariant.Assist || (variant == ToonChipVariant.Filter && selected)) 24f else 0f
     val trail = if (variant == ToonChipVariant.Input) 22f else 0f
-    return 16 + lead + labelWidth + trail + 16
+    return 16 + LEAD * leadOf(variant, lead) + labelWidth + trail + 16
 }
+
+private const val LEAD = 24f
+
+private fun leadOf(
+    variant: ToonChipVariant,
+    lead: Float,
+): Float =
+    when (variant) {
+        ToonChipVariant.Assist -> 1f
+        ToonChipVariant.Filter -> lead
+        ToonChipVariant.Input -> 0f
+    }
 
 /** The engine's `chipSelect` at [t] ms: the inflation, and how far the paint has swept. */
 internal fun toonChipSelect(t: Float): ToonChipLook {
@@ -170,12 +192,15 @@ internal fun toonChipSelect(t: Float): ToonChipLook {
             1 + .15f * toonOscillation((t - 90) / 1000, .25f, 55f)
         }
     val u = c01(t / 180)
-    return ToonChipLook(selected = true, scale = sc, swipe = 1 - (1 - u).pow(2))
+    val sweep = 1 - (1 - u).pow(2)
+    // The tick's room opens with the sweep (B-54); the engine has it all from the first frame.
+    return ToonChipLook(selected = true, scale = sc, swipe = sweep, lead = sweep)
 }
 
 /**
- * The kit's `C.chip.scene` at a moment: [selected], the selection [selectAgeMs] ago (null before
- * any), under press [p]. Under reduce motion — the MVP page's `instant` — the chip is painted at once.
+ * The kit's `C.chip.scene` at a moment: [selected], the last toggle [selectAgeMs] ago (null before
+ * any), under press [p]. A deselect closes the tick's room over 180 ms (B-54). Under reduce motion —
+ * the MVP page's `instant` — the chip is painted, or cleared, at once.
  */
 internal fun toonChipFrameAt(
     selected: Boolean,
@@ -185,9 +210,21 @@ internal fun toonChipFrameAt(
 ): ToonChipLook {
     val base =
         when {
-            !selected -> ToonChipLook()
-            !reduceMotion && selectAgeMs != null && selectAgeMs < SELECT_MS -> toonChipSelect(selectAgeMs)
-            else -> ToonChipLook(selected = true)
+            !selected && !reduceMotion && selectAgeMs != null && selectAgeMs < LEAD_MS -> {
+                ToonChipLook(lead = (1 - selectAgeMs / LEAD_MS).pow(2))
+            }
+
+            !selected -> {
+                ToonChipLook()
+            }
+
+            !reduceMotion && selectAgeMs != null && selectAgeMs < SELECT_MS -> {
+                toonChipSelect(selectAgeMs)
+            }
+
+            else -> {
+                ToonChipLook(selected = true)
+            }
         }
     return base.copy(p = p)
 }
@@ -199,6 +236,8 @@ internal data class ToonChipLook(
     val selected: Boolean = false,
     val scale: Float = 1f,
     val swipe: Float = if (selected) 1f else 0f,
+    /** How far a filter chip's tick room is open, 0 to 1 (B-54). */
+    val lead: Float = if (selected) 1f else 0f,
     val p: Float = 0f,
     val focus: Boolean = false,
     val disabled: Boolean = false,
@@ -220,8 +259,8 @@ internal fun toonChipScene(
     val sh = tokens.shape
     val fs = CHIP_LABEL.size
     val h = CHIP_H
-    val lead = variant == ToonChipVariant.Assist || (variant == ToonChipVariant.Filter && o.selected)
-    val w = chipWidth(variant, o.selected, labelWidth)
+    val lead = leadOf(variant, o.lead)
+    val w = chipWidth(variant, o.lead, labelWidth)
     val p = o.p
     val bw = w * o.scale * (1 + .06f * p)
     val bh = h * o.scale * (1 - .12f * p)
@@ -272,15 +311,14 @@ internal fun toonChipScene(
     val op = if (dis) .5f else 1f
     val tc = if (swp > .5f) c.ink else c.text
     var tx = 16f
-    if (lead) {
-        if (variant == ToonChipVariant.Filter) {
-            val tick = floatArrayOf(tx + 1, cy, tx + 6, cy + 5, tx + 16, cy - 6)
-            layers += ToonLayer(tick, ToonSegments.Line, false, tc, op, stroke = 3f)
-        } else {
-            layers += iconLayers(icon, tx - 2, cy - 10, tc, size = 20f, alpha = op)
-        }
-        tx += 24
+    if (variant == ToonChipVariant.Filter && o.selected && lead > 0f) {
+        // The tick comes in with its room.
+        val tick = floatArrayOf(tx + 1, cy, tx + 6, cy + 5, tx + 16, cy - 6)
+        layers += ToonLayer(tick, ToonSegments.Line, false, tc, op * lead, stroke = 3f)
+    } else if (variant == ToonChipVariant.Assist) {
+        layers += iconLayers(icon, tx - 2, cy - 10, tc, size = 20f, alpha = op)
     }
+    tx += LEAD * lead
     val labels =
         listOf(ToonLabel(label, tx, cy + fs * .35f, if (dis) c.textMuted else tc, op, CHIP_LABEL, ToonAnchor.Start))
     if (variant ==

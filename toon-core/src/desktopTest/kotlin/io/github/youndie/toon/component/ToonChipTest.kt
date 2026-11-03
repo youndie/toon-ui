@@ -112,4 +112,37 @@ class ToonChipTest {
             node.assert(SemanticsMatcher.expectValue(SemanticsProperties.Selected, true))
             assertEquals(listOf(true), changes)
         }
+
+    @Test
+    fun `the chip opens room for its tick with the sweep and closes it the same way, never in a jump`() {
+        // B-54: a departure from the engine, which gives the tick its 24 dp in the first frame.
+        val lw = 60f
+        val off = chipWidth(ToonChipVariant.Filter, false, lw)
+        val on = chipWidth(ToonChipVariant.Filter, true, lw)
+
+        fun width(
+            selected: Boolean,
+            t: Int,
+            reduce: Boolean = false,
+        ) = chipWidth(ToonChipVariant.Filter, toonChipFrameAt(selected, t.toFloat(), 0f, reduce).lead, lw)
+        var last = off
+        for (t in 0..700 step 5) {
+            val w = width(true, t)
+            assertTrue(w in off..on && w >= last, "select at $t ms: $w after $last")
+            if (t >= 180) assertEquals(on, w, "select at $t ms")
+            last = w
+        }
+        assertTrue(width(true, 30) - off < (on - off) / 2, "the room opens over time, not at once")
+        last = on
+        for (t in 0..400 step 5) {
+            val w = width(false, t)
+            assertTrue(w in off..on && w <= last, "deselect at $t ms: $w after $last")
+            if (t >= 180) assertEquals(off, w, "deselect at $t ms")
+            last = w
+        }
+        assertTrue(width(false, 30) > off, "the room closes over time, not at once")
+        // Reduce motion is the page's `instant`.
+        assertEquals(on, width(true, 0, reduce = true))
+        assertEquals(off, width(false, 0, reduce = true))
+    }
 }
