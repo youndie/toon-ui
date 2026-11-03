@@ -52,16 +52,11 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (4)
+## Open (0)
 
-| Task | | Priority | Size | Blocked by |
-|---|---|---|---|---|
-| [B-53](docs/backlog/B-53-press-sticks-on-fast-clicks.md) `[ ]` | A press can stick for good under fast clicks | P1 | S | - |
-| [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[ ]` | The kit's theme and reduce motion reach the Screens app | P2 | S | - |
-| [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[ ]` | A chip makes room for its tick smoothly | P2 | S | - |
-| [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[ ]` | Title card rings ease into place, and can loop | P2 | S | - |
+No open tasks.
 
-## Closed (52)
+## Closed (65)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -83,6 +78,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-13](docs/backlog/B-13-textures.md) `[x]` - Textures: get the four tiles, tile them as an ImageShader
 - [B-35](docs/backlog/B-35-cyrillic-fonts.md) `[x]` - Cyrillic: find OFL faces that carry Russian in each of the four roles
 - [B-45](docs/backlog/B-45-card-cascade-over-budget.md) `[x]` - The card cascade with dust misses 60 fps on a Pixel 6a: what to simplify
+- [B-59](docs/backlog/B-59-seamless-textures.md) `[x]` - The stage tiles are seamless
 
 **Each MVP component matches its strips and cells in three themes**
 
@@ -113,7 +109,18 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-46](docs/backlog/B-46-card-list.md) `[x]` - Card list: the 40 ms cascade and the close-up after a dismiss
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
 - [B-48](docs/backlog/B-48-fx-host-event-points.md) `[x]` - FX host: draw each effect where its event puts it
+- [B-53](docs/backlog/B-53-press-sticks-on-fast-clicks.md) `[x]` - A press can stick for good under fast clicks
+- [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[x]` - A chip makes room for its tick smoothly
+- [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[x]` - Title card rings ease into place, and can loop
 - [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[x]` - The top app bar's title swings with its sign
+- [B-57](docs/backlog/B-57-transition-keeps-screens.md) `[x]` - A transition keeps both screens' state, and the new screen shows through the hole
+- [B-58](docs/backlog/B-58-slider-rope-moves.md) `[x]` - Both halves of the slider's rope move with a drag
+- [B-60](docs/backlog/B-60-tooltip-tail-joint.md) `[x]` - No ink seam where the tooltip's tail meets the balloon
+- [B-61](docs/backlog/B-61-menu-roll-stripes.md) `[x]` - No stripe across the menu's rolls
+- [B-62](docs/backlog/B-62-kit-circular-progress.md) `[x]` - The kit shows a circular progress filling up
+- [B-63](docs/backlog/B-63-text-field-label-flies-smoothly.md) `[x]` - The text field's label flies out and back without a jump
+- [B-64](docs/backlog/B-64-pull-to-refresh-holds-content.md) `[x]` - Pull-to-refresh pulls the content, not a band by its tip
+- [B-65](docs/backlog/B-65-list-item-check-animates.md) `[x]` - A list item's check plays the checkbox's toggle
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
 
@@ -129,5 +136,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[x]` - TopAppBar: with three or more actions the middle ones are 40 dp targets
 - [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[x]` - Menu: with three or more items the middle ones are 44 dp targets
 - [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[x]` - Check the two-effect clocks under a first composition
+- [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[x]` - The kit's theme and reduce motion reach the Screens app
 
 <!-- END INDEX -->

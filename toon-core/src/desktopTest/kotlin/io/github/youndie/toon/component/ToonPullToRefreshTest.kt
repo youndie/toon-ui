@@ -1,5 +1,7 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,11 +14,13 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.down
+import androidx.compose.ui.test.getBoundsInRoot
 import androidx.compose.ui.test.moveTo
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.up
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
 import io.github.youndie.toon.parity.PullFrames
@@ -207,5 +211,114 @@ class ToonPullToRefreshTest {
             action.action()
             assertEquals(2, refreshes, "a screen reader refreshes without the drag")
         }
+    }
+
+    @Test
+    fun `held content opens a gap that follows the drag, holds under the spinner, and closes without a jump`() {
+        // B-64: the strip alone was a band pulled by its tip, with a spinner that shrank where it
+        // hung. Over content, the gap above the content is the motion, and it never jumps.
+        fun gap(
+            dragging: Boolean = false,
+            d: Float = 0f,
+            refreshing: Boolean = false,
+            release: Float? = null,
+            done: Float? = null,
+            back: Float? = null,
+        ) = toonPullGapAt(dragging, d, refreshing, release, 90f, done, back, false)
+        assertEquals(0f, gap())
+        // Dragged, the gap grows with the band and makes room for the blob as it reaches 40 dp.
+        var last = 0f
+        for (d in 1..120) {
+            val g = gap(dragging = true, d = d.toFloat())
+            assertTrue(g > last && g - last < 2f, "dragging $d dp: the gap $last then $g")
+            last = g
+        }
+        // Let go at 90: from the dragged gap to 60 on the release spring, then held.
+        assertEquals(gap(dragging = true, d = 90f), gap(refreshing = true, release = 0f), 1e-3f)
+        assertEquals(60f, gap(refreshing = true, release = 2000f), .5f)
+        assertEquals(60f, gap(refreshing = true))
+        // Done: closed in 420 ms from the first frame, never below 0, never in a jump.
+        last = gap(refreshing = true)
+        for (t in 0..800) {
+            val g = gap(done = t.toFloat())
+            assertTrue(g >= 0f && abs(g - last) < 2f, "done $t ms: the gap $last then $g")
+            last = g
+        }
+        assertEquals(0f, gap(done = 800f))
+        // A short pull springs straight back.
+        assertEquals(gap(dragging = true, d = 90f), gap(back = 0f), 1e-3f)
+        assertEquals(0f, gap(back = 500f))
+        // Under reduce motion the gap is where it ends up, at once.
+        assertEquals(60f, toonPullGapAt(false, 0f, true, 0f, 90f, null, null, true))
+        assertEquals(0f, toonPullGapAt(false, 0f, false, null, 90f, 0f, null, true))
+    }
+
+    @Test
+    fun `the content is what a pull moves, and it comes back once the refresh is done`() {
+        runComposeUiTest {
+            mainClock.autoAdvance = false
+            var refreshing by mutableStateOf(false)
+            var refreshes = 0
+            setContent {
+                ToonTheme {
+                    ToonPullToRefreshBox(
+                        refreshing,
+                        {
+                            refreshes++
+                            refreshing = true
+                        },
+                        Modifier.size(300.dp, 240.dp).testTag("box"),
+                    ) { Box(Modifier.size(300.dp, 100.dp).testTag("content")) }
+                }
+            }
+            mainClock.advanceTimeByFrame()
+
+            fun top() = onNodeWithTag("content").getBoundsInRoot().top.value
+            val rest = top()
+            val k = density.density
+            onNodeWithTag("box").performTouchInput {
+                down(Offset(150f * k, 20f * k))
+                moveTo(Offset(150f * k, 140f * k))
+            }
+            mainClock.advanceTimeByFrame()
+            assertTrue(top() - rest > 80f, "the content follows the finger: ${top() - rest} dp")
+            onNodeWithTag("box").performTouchInput { up() }
+            assertEquals(1, refreshes)
+            mainClock.advanceTimeBy(1_000)
+            assertEquals(60f, top() - rest, 1f, "refreshing, the content waits under the spinner")
+            refreshing = false
+            mainClock.advanceTimeBy(1_000)
+            assertEquals(rest, top(), .5f, "done, it is back")
+        }
+    }
+
+    @Test
+    fun `closing, the blob stays in the gap and is squashed by the content, and a short pull's band contracts`() {
+        // B-64, the owner: "pull to refresh disappears badly". The blob shrank in place for 260 ms,
+        // then a slack band popped into the gap while the content came back.
+        var last: ToonPullLook? = null
+        for (t in 0 until 420) {
+            val gap = toonPullGapAt(false, 0f, false, null, 90f, t.toFloat(), null, false)
+            val look = checkNotNull(toonPullBoxLookAt(gap, false, false, t.toFloat(), null, 0f, false))
+            assertTrue(!look.band, "no band pops in at $t ms")
+            assertTrue(look.blobY!! + 14 * look.bsy <= gap + 1e-3f, "the blob inside the gap at $t ms")
+            last?.let { assertTrue(abs(look.bsy - it.bsy) < .06f, "the blob squashed without a jump at $t ms") }
+            last = look
+        }
+        assertEquals(0f, last!!.bsy, .02f)
+        // A short pull: the band contracts through the drag's own looks, from where the drag left it.
+        val dragged = toonPullGapAt(true, 30f, false, null, 30f, null, null, false)
+        assertEquals(30f, toonPullBoxLookAt(dragged, false, false, null, 0f, 0f, false)!!.d, .01f)
+        for (t in 0 until 420) {
+            val gap = toonPullGapAt(false, 0f, false, null, 30f, null, t.toFloat(), false)
+            val look = checkNotNull(toonPullBoxLookAt(gap, false, false, null, t.toFloat(), 0f, false))
+            // Run backwards: the band stands where a drag would have it for this gap.
+            assertTrue(look.band, "the band stays at $t ms")
+            assertEquals(gap, toonPullGapAt(true, look.d, false, null, 0f, null, null, false), .01f, "at $t ms")
+        }
+        // While dragging or refreshing, or under reduce motion, the strip's own look stands.
+        assertNull(toonPullBoxLookAt(60f, false, true, null, null, 0f, false))
+        assertNull(toonPullBoxLookAt(60f, true, false, null, null, 0f, false))
+        assertNull(toonPullBoxLookAt(60f, false, false, 0f, null, 0f, true))
     }
 }

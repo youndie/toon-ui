@@ -1,17 +1,30 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.toPixelMap
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.hasSetTextAction
 import androidx.compose.ui.test.onNodeWithContentDescription
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performTextInput
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
 import io.github.youndie.toon.fx.ToonFxHost
 import io.github.youndie.toon.fx.toonStarsScene
+import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.theme.ToonTheme
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -209,4 +222,66 @@ class ToonTextFieldTest {
             }
         }
     }
+
+    /** The box's pixels at every frame of a focus, then a blur, of an empty field labelled [label]. */
+    private fun focusAndBlurFrames(label: String): List<IntArray> {
+        val frames = mutableListOf<IntArray>()
+        runComposeUiTest {
+            mainClock.autoAdvance = false
+            lateinit var focus: FocusManager
+            setContent {
+                ToonTheme {
+                    focus = LocalFocusManager.current
+                    Box(Modifier.background(Toon.colors.stage).testTag("box")) {
+                        ToonTextField("", {}, label, width = 300.dp)
+                    }
+                }
+            }
+            mainClock.advanceTimeBy(500)
+
+            fun grab(n: Int) =
+                repeat(n) {
+                    val image = onNodeWithTag("box").captureToImage().toPixelMap()
+                    frames +=
+                        IntArray(image.width * image.height) { image[it % image.width, it / image.width].toArgb() }
+                    mainClock.advanceTimeByFrame()
+                }
+            grab(1)
+            onNode(hasSetTextAction()).performClick()
+            grab(30)
+            focus.clearFocus()
+            grab(30)
+        }
+        return frames
+    }
+
+    @Test
+    fun `the label flies out and back without standing a frame at the far end`() {
+        // B-63: the same frames with and without the label differ only in the label; its rows' mean is
+        // where it stands. The composition that first saw a new focus drew it at the old play's settled
+        // age, so the label stood a frame at its far end — up on focus, down on blur — then started back.
+        val labelled = focusAndBlurFrames("Plan name")
+        val bare = focusAndBlurFrames("")
+        val width = 300
+        val ys =
+            labelled.indices.map { i ->
+                val rows = labelled[i].indices.filter { labelled[i][it] != bare[i][it] }.map { it / width }
+                assertTrue(rows.isNotEmpty(), "frame $i: no label drawn")
+                rows.average()
+            }
+        val rest = ys.first()
+        val lifted = ys[30]
+        println("label rows by frame: ${ys.joinToString { "%.1f".format(it) }}")
+        assertTrue(rest - lifted > 30, "the label did not lift: $rest to $lifted")
+        val steps = ys.zipWithNext { a, b -> abs(b - a) }
+        val worst = steps.indices.maxBy { steps[it] }
+        assertTrue(
+            steps[worst] <= MAX_LABEL_STEP,
+            "the label jumped ${"%.1f".format(steps[worst])} px between frames $worst and ${worst + 1}: " +
+                ys.joinToString { "%.1f".format(it) },
+        )
+    }
 }
+
+/** The widest move of the label between two 16 ms frames: the spring's steepest step measures 12 dp; the jump was 44. */
+private const val MAX_LABEL_STEP = 20.0

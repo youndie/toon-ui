@@ -25,8 +25,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -54,7 +56,7 @@ import io.github.youndie.toon.component.ToonNavigationBar
 import io.github.youndie.toon.component.ToonNavigationDrawer
 import io.github.youndie.toon.component.ToonProgress
 import io.github.youndie.toon.component.ToonProgressKind
-import io.github.youndie.toon.component.ToonPullToRefresh
+import io.github.youndie.toon.component.ToonPullToRefreshBox
 import io.github.youndie.toon.component.ToonRadioGroup
 import io.github.youndie.toon.component.ToonSegmented
 import io.github.youndie.toon.component.ToonSheetItem
@@ -122,7 +124,10 @@ fun ToonUiSample() {
                                 Box(
                                     Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
                                     Alignment.TopCenter,
-                                ) { SampleApp() }
+                                ) {
+                                    // One theme for the whole app: the header and the phone's settings switch it (B-52).
+                                    SampleApp(look, { look = it }, calm, { calm = it })
+                                }
                             }
                         }
                     }
@@ -325,6 +330,7 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                     Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                         ToonProgress(kind = ToonProgressKind.Circular, value = .62f)
                         ToonProgress(kind = ToonProgressKind.Circular)
+                        ToonProgress(Modifier.testTag("filling"), kind = ToonProgressKind.Circular, value = filling())
                     }
                 }
             }
@@ -335,6 +341,15 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                     sub = "Your weekend is wide open",
                     width = 320.dp,
                     height = 300.dp,
+                )
+            }
+            Plate("Title card · loop") {
+                ToonTitleCard(
+                    title = "Saturday",
+                    sub = "Plans for the good part of the week",
+                    width = 320.dp,
+                    height = 300.dp,
+                    loop = true,
                 )
             }
         }
@@ -452,8 +467,25 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                     }
                 }
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Note("Drag down on the band")
-                    ToonPullToRefresh(refreshing, { refreshing = true }, Modifier.height(140.dp))
+                    Note("Drag the list down")
+                    // B-64: the list is what the finger pulls; the band stretches in the gap above it.
+                    ToonPullToRefreshBox(
+                        refreshing,
+                        { refreshing = true },
+                        Modifier.size(320.dp, 240.dp).testTag("pull"),
+                    ) {
+                        Column {
+                            ToonListItem("Pancake breakfast", icon = ToonIcons.Calendar, sub = "9:00", width = 320.dp)
+                            ToonListItem("Bike to the lake", icon = ToonIcons.Calendar, sub = "11:30", width = 320.dp)
+                            ToonListItem(
+                                "Paint the fence",
+                                icon = ToonIcons.Calendar,
+                                sub = "14:00",
+                                width = 320.dp,
+                                last = true,
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -469,6 +501,8 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                         screen,
                         Modifier.size(300.dp, 360.dp),
                         transition = ToonTransition.entries[how],
+                        // The title card's plaque, 280 × 120 about (150, 0.42 × 360): the hole bursts from it.
+                        origin = Rect(10f, 91.2f, 290f, 211.2f),
                     ) {
                         ToonStage(Modifier.fillMaxSize()) {
                             ToonTitleCard(
@@ -516,6 +550,23 @@ private fun Plate(
         Box(Modifier.padding(start = 6.dp)) { content() }
     }
 }
+
+/**
+ * A value that fills from 0 to 1 over [FILL_MS], holds full for [HOLD_MS] and starts again: a
+ * determinate progress shown moving (B-62).
+ */
+@Composable
+private fun filling(): Float {
+    var value by remember { mutableFloatStateOf(0f) }
+    LaunchedEffect(Unit) {
+        val start = withFrameMillis { it }
+        while (true) withFrameMillis { value = minOf(1f, (it - start) % (FILL_MS + HOLD_MS) / FILL_MS.toFloat()) }
+    }
+    return value
+}
+
+private const val FILL_MS = 2400L
+private const val HOLD_MS = 600L
 
 @Composable
 private fun Note(text: String) =

@@ -18,6 +18,7 @@ import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
+import kotlin.math.hypot
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -111,16 +112,21 @@ class ToonTitleCardTest {
         // A long time after, the rings stand 16 dp along their 34: 40 000 dp of travel.
         assertEquals(16f, rest.phase % 34)
         assertEquals(ToonTitleCardMoment(rest), toonTitleCardFrameAt(null, false))
-        assertEquals(ToonTitleCardMoment(toonSplashAt(240f)), toonTitleCardFrameAt(240f, false))
+        // The live card's rings are its own (B-55); the rest of the entrance is the engine's.
+        assertEquals(
+            ToonTitleCardMoment(toonSplashAt(240f).copy(phase = toonRings(240f, false).phase)),
+            toonTitleCardFrameAt(240f, false),
+        )
         assertEquals(ToonTitleCardMoment(rest, .5f), toonTitleCardFrameAt(60f, true))
         assertEquals(ToonTitleCardMoment(rest, 1f), toonTitleCardFrameAt(300f, true))
         assertEquals(0f, toonTitleCardFrameAt(60f, true).motion.stars)
         val clock = ToonTitleCardClock()
         assertEquals(0f, clock.age())
         clock.tick(1000)
-        clock.tick(1899)
-        assertEquals(899f, clock.age())
-        clock.tick(1900)
+        clock.tick(2399)
+        // The plaque lands at 900 ms; the rings ease on to 1400 (B-55).
+        assertEquals(1399f, clock.age())
+        clock.tick(2400)
         assertNull(clock.age())
         clock.restart()
         clock.tick(3000)
@@ -183,5 +189,57 @@ class ToonTitleCardTest {
             card.performClick()
             assertEquals(1, clicks)
         }
+    }
+
+    @Test
+    fun `the rings never jump, ease two periods into where they rest, and looping swell and surge`() {
+        // B-55: the engine's rings run at 0.04 dp a ms and then jump 14 dp to rest; and a ring's
+        // colour taken from the phase modulo one period swapped every colour when it wrapped.
+        val base = hypot(360f, 520f) * .62f
+        val samples = (0 until 700).map { 30f + it * .5f }
+
+        // The colour at each distance from the centre: the innermost ring that reaches it.
+        fun picture(m: ToonSplashMotion): List<Boolean?> {
+            val rings = toonRingRadii(base, m.phase, m.warp, m.swirl)
+            return samples.map { d -> rings.lastOrNull { it.first >= d }?.second }
+        }
+
+        fun changed(
+            a: List<Boolean?>,
+            b: List<Boolean?>,
+        ) = a.indices.count { a[it] != b[it] }
+        val rest = picture(toonSplashAt(1e6f))
+        assertEquals(
+            rest,
+            picture(toonTitleCardFrameAt(0f, false).motion),
+            "the entrance starts on the resting picture",
+        )
+        assertEquals(rest, picture(toonTitleCardFrameAt(null, false).motion))
+        for (loop in listOf(false, true)) {
+            var last = picture(toonTitleCardFrameAt(0f, false, loop).motion)
+            for (t in 1..12000) {
+                val now = picture(toonTitleCardFrameAt(t.toFloat(), false, loop).motion)
+                // An edge moving under a sample flips it; a whole-picture swap flips hundreds.
+                assertTrue(
+                    changed(last, now) <= 40,
+                    "loop=$loop: ${changed(last, now)} of ${samples.size} samples flip at $t ms",
+                )
+                last = now
+            }
+        }
+        assertEquals(rest, picture(toonTitleCardFrameAt(1400f, false).motion), "without the loop they rest")
+        // Looping: the speed surges and ebbs, never backwards, and the widths swell and shrink.
+        val speeds = (1500..12000 step 10).map { toonRings(it + 1f, true).phase - toonRings(it.toFloat(), true).phase }
+        assertTrue(speeds.all { it > 0 }, "the rings never flow backwards")
+        assertTrue(speeds.max() / speeds.min() > 3, "the speed surges: ${speeds.min()}..${speeds.max()} dp a ms")
+        val widths =
+            (3000..9000 step 500).flatMap { t ->
+                val m = toonRings(t.toFloat(), true)
+                toonRingRadii(base, m.phase, m.warp, m.swirl).zipWithNext { a, b -> a.first - b.first }
+            }
+        assertTrue(widths.all { it > 0 }, "the rings stay in order")
+        assertTrue(widths.max() / widths.min() > 2.5, "the widths swell: ${widths.min()}..${widths.max()} dp")
+        // Reduce motion holds them still.
+        assertEquals(toonSplashAt(1e6f), toonTitleCardFrameAt(3000f, true, loop = true).motion)
     }
 }

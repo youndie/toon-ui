@@ -99,7 +99,8 @@ public fun ToonTextField(
     val density = LocalDensity.current.density
     val hasError = error.isNotEmpty()
 
-    LaunchedEffect(focused) { clock.focusChanged() }
+    // In composition, not in an effect: the frame that first sees the new focus starts its play (B-63).
+    clock.focusIs(focused)
     LaunchedEffect(hasError) {
         if (!hasError) return@LaunchedEffect
         if (fx !== NoToonFxHost && !reduce) {
@@ -276,15 +277,19 @@ private class ToonFieldClock {
     var starts by mutableStateOf(0)
     private var focusAt: Long? = null
     private var errorAt: Long? = null
-    private var first = true
+    private var seenFocus: Boolean? = null
 
-    fun focusChanged() {
-        if (first) {
-            first = false
-            return
-        }
-        focusAt = PENDING_START
-        starts++
+    /**
+     * Called from composition with the field's focus: a change starts the focus play at once, so the
+     * composition that first draws the new focus reads its age 0. Recorded later, in an effect, that
+     * composition drew the new focus at the old play's age — a settled one — and the label stood a
+     * frame at its far end before the play began from its near one (B-63). The loop restarts on the
+     * focus key; plain fields, since nothing reads them but this composition and the clock.
+     */
+    fun focusIs(focused: Boolean) {
+        val seen = seenFocus
+        seenFocus = focused
+        if (seen != null && seen != focused) focusAt = PENDING_START
     }
 
     fun errored() {

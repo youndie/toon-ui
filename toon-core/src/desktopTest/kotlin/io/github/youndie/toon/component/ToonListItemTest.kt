@@ -1,13 +1,18 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.toPixelMap
+import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.SemanticsMatcher
 import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertHeightIsEqualTo
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performSemanticsAction
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
@@ -24,6 +29,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
 
 /**
@@ -145,4 +151,62 @@ class ToonListItemTest {
             assertEquals(listOf(false), changes)
             assertEquals(1, clicks)
         }
+
+    /** How many different pictures a check row shows over the 20 frames after a click that sets it [to]. */
+    private fun checkRowPictures(to: Boolean): Int {
+        val pictures = mutableSetOf<List<Int>>()
+        runComposeUiTest {
+            mainClock.autoAdvance = false
+            setContent {
+                ToonTheme {
+                    ToonListItem(
+                        "Share plans",
+                        sub = "With family",
+                        trailing = ToonListTrailing.Check,
+                        on = !to,
+                        last = true,
+                    )
+                }
+            }
+            mainClock.advanceTimeBy(500)
+            val row = onNodeWithText("Share plans, With family")
+            // Through semantics, not the pointer: no press, so the row does not sink and only the check moves.
+            row.performSemanticsAction(SemanticsActions.OnClick)
+            repeat(20) {
+                val image = row.captureToImage().toPixelMap()
+                pictures += List(image.width * image.height) { image[it % image.width, it / image.width].toArgb() }
+                mainClock.advanceTimeByFrame()
+            }
+            row.assert(SemanticsMatcher.expectValue(SemanticsProperties.ToggleableState, ToggleableState(to)))
+        }
+        return pictures.size
+    }
+
+    @Test
+    fun `a check row plays the checkbox's check and uncheck`() {
+        // B-65: the design's row drew its check settled at once; it plays the checkbox's chkAnim now.
+        val check = checkRowPictures(true)
+        val uncheck = checkRowPictures(false)
+        println("check row pictures over 20 frames: check $check, uncheck $uncheck")
+        assertTrue(check >= 8, "the check drew $check different frames")
+        assertTrue(uncheck >= 4, "the uncheck drew $uncheck different frames")
+    }
+
+    @Test
+    fun `a check row draws the checkbox's frames, and its fade under reduce motion`() {
+        // The standalone checkbox's frame, unpressed: chkAnim with its squash's overshoot held at 1.
+        for (at in listOf(0f, 40f, 120f, 200f, 299f)) {
+            for (on in listOf(true, false)) {
+                assertEquals(
+                    toonCheckboxFrameAt(on, at, 0f, false),
+                    toonListItemFrameAt(null, null, at, on, ToonListTrailing.Check, false).checkLook,
+                    "$on at $at",
+                )
+            }
+        }
+        assertEquals(null, toonListItemFrameAt(null, null, 300f, true, ToonListTrailing.Check, false).checkLook)
+        assertEquals(null, toonListItemFrameAt(null, null, 40f, true, ToonListTrailing.Switch, false).checkLook)
+        val reduced = assertNotNull(toonListItemFrameAt(null, null, 60f, true, ToonListTrailing.Check, true).checkLook)
+        assertEquals(.5f, reduced.fade!!, 1e-6f)
+    }
 }
