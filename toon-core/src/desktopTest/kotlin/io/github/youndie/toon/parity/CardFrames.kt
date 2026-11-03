@@ -64,6 +64,31 @@ internal object CardFrames {
         p: Float,
     ): ToonScene = card(tokens, 0, ToonCardLook(press = p)).placed(0f, 0f, 1f, tokens.shape.tilts[0] - p, 171f, 42f)
 
+    /** `cardStack(T, t, 'appear')` (B-46): three cards falling 40 ms apart, each with its dust over all of them. */
+    fun cascade(
+        tokens: ToonTokens,
+        t: Float,
+    ): ToonScene {
+        var parts = ToonScene.Empty
+        var over = ToonScene.Empty
+        for (i in 0 until 3) {
+            val a = toonCardAppear(t - 40 * i, tokens.shape.tilts[i])
+            val yy = i * 102f + a.dy
+            if (a.op >
+                .01f
+            ) {
+                parts +=
+                    card(tokens, i, ToonCardLook(sx = a.sx, sy = a.sy)).placed(0f, yy, a.op, a.rot, 171f, 42f)
+            }
+            if (a.du > 0 && a.du < 1) {
+                over +=
+                    toonDustScene(tokens.colors, a.du, 34f, yy + 86, 36f) +
+                    toonDustScene(tokens.colors, a.du, 308f, yy + 86, 36f)
+            }
+        }
+        return parts + over
+    }
+
     /** `cardStack(T, t, 'dismiss')`: three cards, the middle one thrown, the one below closing up. */
     fun dismiss(
         tokens: ToonTokens,

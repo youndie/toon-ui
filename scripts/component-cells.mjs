@@ -351,7 +351,11 @@ const CARD_PAGE = [
   "frames: [0, 70, 140, 190, 300, 450].map(t => { const d = this.cardDismiss(t);",
   "this.cardStack(T, t, 'dismiss'), 342, 288, [24, 20, 24, 60], .36); }) },",
   "if (d && i === 1) { dx = d.dx; sx = d.sx; sy = d.sy; op = d.op; under.push(this.speed(T, d.lu, Math.min(dx, 342), base, 84)); const hu = (t - 170) / 300; if (hu >= 0 && hu < 1) under.push(this.place(this.hole(T, hu, 0, 0, 342, 84, [11, 17, 13, 19].map(v => v * T.rs), 5), 0, base, rot, 171, 42)); }",
+  "const a = mode === 'appear' ? this.cardAppear(t - 40 * i, rot) : { op: 1, dy: 0, rot, sx: 1, sy: 1, du: -1 };",
+  "let dx = 0, sx = a.sx, sy = a.sy, op = a.op, yy = base + a.dy;",
   "if (d && i === 2) yy += d.n * 102;",
+  "if (a.du > 0 && a.du < 1) { over.push(this.dust(T, a.du, 34, yy + 86, 36), this.dust(T, a.du, 308, yy + 86, 36)); }",
+  "return this.cat(...under, ...parts, ...over);",
   "if (op > .01) parts.push(this.place(this.card(T, { idx: i, ...this.items[i], sx, sy, press: o_press(i) }), dx, yy, a.rot, 171, 42, op));",
 ];
 const ITEMS = [{ title: 'Pancake breakfast', meta: 'Kitchen, bring syrup', time: '9:00' }, { title: 'Bike to the lake', meta: 'Check the tyre pump', time: '11:30' }, { title: 'Paint the fence', meta: 'Green this time', time: '14:00' }];
@@ -362,6 +366,12 @@ const CARD_STACK = t => `(() => { const items = ${JSON.stringify(ITEMS)}, parts 
     if (i === 2) yy += d.n * 102;
     if (op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx, sy, press: 0 }), dx, yy, rot, 171, 42, op)); }
   return E.cat(...under, ...parts); })()`;
+// B-46: the page's `cardStack(T, t, 'appear')`, which no page strip shows: the 40 ms cascade of a list.
+const CARD_CASCADE = t => `(() => { const items = ${JSON.stringify(ITEMS)}, parts = [], over = [];
+  for (let i = 0; i < 3; i++) { const base = i * 102, rot = T.rots[i], a = E.cardAppear(${t} - 40 * i, rot), yy = base + a.dy;
+    if (a.op > .01) parts.push(E.place(E.card(T, { idx: i, ...items[i], sx: a.sx, sy: a.sy, press: 0 }), 0, yy, a.rot, 171, 42, a.op));
+    if (a.du > 0 && a.du < 1) over.push(E.dust(T, a.du, 34, yy + 86, 36), E.dust(T, a.du, 308, yy + 86, 36)); }
+  return E.cat(...parts, ...over); })()`;
 const cardLook = o => {
   const a = [];
   if (o.press) a.push(`press = ${kf(o.press)}`);
@@ -752,6 +762,8 @@ export const LIST_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
 // reference, no fixture): a pressed row passes through these sags in its first 30 ms, where the press
 // tint's opacity, c01(sag × 1.4), is neither 0 nor 1 — every page frame clamps it.
 export const FRAME_PROBES = {
+  CardCascade: Object.entries(THEMES).flatMap(([theme, themeName]) => [0, 40, 80, 120, 160, 220, 300, 380, 460].map(t =>
+    sceneCell('CardCascade', theme, themeName, `Appear_${t}ms`, 342, 288, [24, 20, 24, 60], { t }, CARD_CASCADE(t), ''))),
   ListItemProbe: Object.entries(THEMES).flatMap(([theme, themeName]) => [.2, .4, .6].map(sag => {
     const o = { icon: 'calendar', title: 'Weekend plans', sub: '3 plans', trailing: 'chevron', sag };
     return sceneCell('ListItemProbe', theme, themeName, `Sag${sag * 10}`, 342, 72, [0, 0, 0, 0], o, `E.listItem(T, ${js(o)})`, '');

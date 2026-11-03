@@ -375,6 +375,9 @@ cross-fades too (§1.6), so it is no longer one.
 
 *Applied to the card in B-21:* appear and dismiss `fade 120`, press `instant`.
 
+*Applied to the card list in B-46:* the dismiss's `fade 120` covers the close-up too: the cards below
+hold still while the card fades, then move up into its slot at once, without the slide.
+
 *Applied to the text field in B-19:* focus `instant`, the error `instant, red only`, the caret
 `steady caret`.
 

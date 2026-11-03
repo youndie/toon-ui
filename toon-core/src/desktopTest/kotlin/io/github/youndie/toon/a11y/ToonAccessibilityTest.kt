@@ -2,6 +2,7 @@ package io.github.youndie.toon.a11y
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.LiveRegionMode
@@ -13,7 +14,10 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.state.ToggleableState
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.hasClickAction
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performCustomAccessibilityActionWithLabel
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.unit.dp
@@ -21,6 +25,8 @@ import io.github.youndie.toon.component.ToonBadge
 import io.github.youndie.toon.component.ToonBottomSheet
 import io.github.youndie.toon.component.ToonButton
 import io.github.youndie.toon.component.ToonCard
+import io.github.youndie.toon.component.ToonCardList
+import io.github.youndie.toon.component.ToonCardListItem
 import io.github.youndie.toon.component.ToonCheckbox
 import io.github.youndie.toon.component.ToonChip
 import io.github.youndie.toon.component.ToonChipVariant
@@ -236,6 +242,32 @@ class ToonAccessibilityTest {
         }
         assertEquals(1, dismissed)
         with(node { ToonCard("Pancake breakfast", it) }) { isTarget() }
+    }
+
+    @Test
+    fun `card list, each card a button that offers its dismissal, and gone from the tree once dismissed`() {
+        val heard = mutableListOf<Any>()
+        runComposeUiTest {
+            val items =
+                mutableStateListOf(ToonCardListItem(0, "Pancake breakfast"), ToonCardListItem(1, "Bike to the lake"))
+            setContent {
+                ToonTheme(reduceMotion = true) {
+                    ToonCardList(items, it, dismissible = true, onDismiss = {
+                        heard += it.key
+                        items.remove(it)
+                    })
+                }
+            }
+            val cards = onAllNodes(hasClickAction())
+            assertEquals(2, cards.fetchSemanticsNodes().size)
+            val bike = onNode(hasText("Bike to the lake"))
+            assertEquals(Role.Button, bike.fetchSemanticsNode().config.getOrNull(SemanticsProperties.Role))
+            bike.performCustomAccessibilityActionWithLabel("Dismiss")
+            mainClock.advanceTimeBy(2_000)
+            waitForIdle()
+            assertEquals(0, onAllNodes(hasText("Bike to the lake")).fetchSemanticsNodes().size)
+        }
+        assertEquals(listOf<Any>(1), heard)
     }
 
     @Test

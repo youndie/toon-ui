@@ -1,13 +1,5 @@
 package io.github.youndie.toon.parity
 
-import androidx.compose.ui.graphics.toArgb
-import io.github.youndie.toon.tokens.brightCel
-import io.github.youndie.toon.tokens.inkGouacheLight
-import io.github.youndie.toon.tokens.inkGouacheNight
-import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.ImageIO
-import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -21,51 +13,15 @@ import kotlin.test.assertTrue
  * alone (research D3). Both sides are committed files: the Chrome reference and the viddik golden.
  */
 class InkParityTest {
-    private val snapshots = File("src/desktopTest/snapshots")
-
-    private val stages =
-        mapOf(
-            "InkGouacheLight" to inkGouacheLight.colors.stage.toArgb(),
-            "InkGouacheNight" to inkGouacheNight.colors.stage.toArgb(),
-            "BrightCel" to brightCel.colors.stage.toArgb(),
-        )
-
-    private fun differs(
-        a: Int,
-        b: Int,
-    ): Boolean = (0..16 step 8).any { s -> abs((a shr s and 0xFF) - (b shr s and 0xFF)) > CHANNEL }
-
-    /** Differing pixels over inked pixels, for one reference and its golden. */
-    private fun inkRatio(name: String): Double {
-        val ref: BufferedImage = ImageIO.read(File(snapshots, "design/$name"))
-        val golden: BufferedImage = ImageIO.read(File(snapshots, name))
-        val stage = stages.getValue(stages.keys.single { name.removeSuffix(".png").endsWith(it) })
-        var ink = 0
-        var diff = 0
-        for (y in 0 until ref.height) {
-            for (x in 0 until ref.width) {
-                val r = ref.getRGB(x, y)
-                val g = golden.getRGB(x, y)
-                if (differs(r, stage) || differs(g, stage)) ink++
-                if (differs(r, g)) diff++
-            }
-        }
-        return if (ink == 0) 0.0 else diff.toDouble() / ink
-    }
-
-    private fun cells(group: String?) =
-        checkNotNull(File(snapshots, "design").list())
-            .filter { it.endsWith(".png") && (group == null || it.startsWith("${group}_")) }
-            .sorted()
-
     @Test
     fun `every cell is within its ink floor`() {
-        val floor = cells("Divider").maxOf(::inkRatio)
-        val textFloor = cells("TextFloor").maxOf(::inkRatio)
+        val floor = InkRatio.shapes
+        val textFloor = InkRatio.text
         val all =
-            cells(
-                null,
-            ).filterNot { it.startsWith("Divider_") || it.startsWith("TextFloor_") }.associateWith(::inkRatio)
+            InkRatio
+                .cells(null)
+                .filterNot { it.startsWith("Divider_") || it.startsWith("TextFloor_") }
+                .associateWith(InkRatio::ofCell)
 
         fun floorOf(cell: String) = if (cell.substringBefore('_') in WITH_TEXT) textFloor else floor
         for ((label, cells) in all.entries.groupBy { it.key.substringBefore('_') in WITH_TEXT }) {
@@ -86,9 +42,6 @@ class InkParityTest {
     private fun pct(v: Double) = "%.2f %%".format(v * 100)
 
     private companion object {
-        /** viddik's `designChannelTolerance` in toon-core/build.gradle.kts. */
-        const val CHANNEL = 16
-
         /**
          * Groups whose cells carry text, read against the text floor: the `TextFloor` cells, a label
          * alone, which Chrome inks through CoreText and Compose through Skia with whole-pixel advances.

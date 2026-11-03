@@ -65,6 +65,7 @@ const OWN = {
   rememberToonPressState: ['the press machine, for a component of the caller\'s own', 'B-10'],
   ToonFxHost: ['the FX layer that draws the effects events fire', 'B-12'],
   ToonStage: ['the stage: the theme colour and the gouache tile', 'B-13'],
+  ToonCardList: ['a column of cards: the 40 ms cascade and the close-up after a dismiss, as the Core page\'s `cardStack`', 'B-46'],
   ToonTransitionHost: ['the screen transitions of the v1 page: push, scene change, hole in the wall', 'B-44'],
 };
 
