@@ -1,6 +1,7 @@
 package io.github.youndie.toon.sample
 
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
@@ -11,6 +12,7 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.swipeLeft
 import androidx.compose.ui.test.v2.runComposeUiTest
 import kotlin.test.Test
+import kotlin.test.assertTrue
 
 /** B-29: the sample runs its screens: sign in, dismiss a plan and undo it, open the settings, sign out. B-32: the kit. */
 @OptIn(ExperimentalTestApi::class)
@@ -60,6 +62,29 @@ class SampleAppTest {
             mainClock.advanceTimeBy(1_000)
             onNodeWithTag("sign-in").assertExists()
             onNodeWithText("Actions").assertDoesNotExist()
+        }
+    }
+
+    @Test
+    fun `the kit's filling circular progress moves`() {
+        // B-62: a determinate circular progress that fills up, beside the static one and the spinner.
+        runComposeUiTest {
+            mainClock.autoAdvance = false
+            setContent { ToonUiSample() }
+            mainClock.advanceTimeBy(1_000)
+
+            fun value() =
+                onNodeWithTag("filling")
+                    .fetchSemanticsNode()
+                    .config[SemanticsProperties.ProgressBarRangeInfo]
+                    .current
+            val a = value()
+            mainClock.advanceTimeBy(600)
+            val b = value()
+            assertTrue(b > a, "the value grows: $a then $b")
+            // Past a whole fill and hold it starts again.
+            mainClock.advanceTimeBy(3_000)
+            assertTrue(value() in 0f..1f)
         }
     }
 }

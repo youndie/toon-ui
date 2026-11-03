@@ -25,6 +25,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
@@ -325,6 +326,7 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                     Row(horizontalArrangement = Arrangement.spacedBy(24.dp)) {
                         ToonProgress(kind = ToonProgressKind.Circular, value = .62f)
                         ToonProgress(kind = ToonProgressKind.Circular)
+                        ToonProgress(Modifier.testTag("filling"), kind = ToonProgressKind.Circular, value = filling())
                     }
                 }
             }
@@ -516,6 +518,23 @@ private fun Plate(
         Box(Modifier.padding(start = 6.dp)) { content() }
     }
 }
+
+/**
+ * A value that fills from 0 to 1 over [FILL_MS], holds full for [HOLD_MS] and starts again: a
+ * determinate progress shown moving (B-62).
+ */
+@Composable
+private fun filling(): Float {
+    var value by remember { mutableFloatStateOf(0f) }
+    LaunchedEffect(Unit) {
+        val start = withFrameMillis { it }
+        while (true) withFrameMillis { value = minOf(1f, (it - start) % (FILL_MS + HOLD_MS) / FILL_MS.toFloat()) }
+    }
+    return value
+}
+
+private const val FILL_MS = 2400L
+private const val HOLD_MS = 600L
 
 @Composable
 private fun Note(text: String) =
