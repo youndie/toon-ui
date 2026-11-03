@@ -3,6 +3,11 @@ package io.github.youndie.toon.component
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,6 +22,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.input.pointer.positionChanged
 import androidx.compose.ui.semantics.CustomAccessibilityAction
@@ -52,6 +58,11 @@ import kotlin.math.sqrt
 // band between two pegs that a finger drags down, thinning as it stretches, with the blob at its tip.
 // Let go past 40 dp, it snaps back past the pegs and flings the blob up into the spinning progress
 // blob, which turns until the caller is done refreshing.
+//
+// B-64 puts content under it (`ToonPullToRefreshBox`): the strip alone is a band pulled by its tip, with nothing attached,
+// and a spinner that shrinks away where it hung. With content, the content is what the finger pulls;
+// the band stretches in the gap that opens above it, the content settles under the spinning blob
+// while refreshing, and closes the gap once the blob has gone.
 
 /**
  * The design's pull-to-refresh strip, [width] wide and 140 dp tall: a drag down it stretches the band
@@ -120,6 +131,151 @@ public fun ToonPullToRefresh(
     }
 }
 
+/**
+ * Pull-to-refresh over [content]: a drag down the box pulls the content down after it, a band
+ * stretching in the gap that opens above; let go past 40 dp, [onRefresh] is called, the content
+ * settles 60 dp down under the spinning blob until [refreshing] turns false, and then the blob goes
+ * and the content springs back up (B-64). Short of 40 dp the content springs straight back. A drag
+ * that a child consumes, a list scrolling for instance, does not pull.
+ */
+@Composable
+public fun ToonPullToRefreshBox(
+    refreshing: Boolean,
+    onRefresh: () -> Unit,
+    modifier: Modifier = Modifier,
+    content: @Composable () -> Unit,
+) {
+    val tokens = Toon.tokens
+    val reduce = Toon.reduceMotion
+    val texts = rememberToonText()
+    val state = remember { ToonPullState(refreshing) }
+    val refresh by rememberUpdatedState(onRefresh)
+    LaunchedEffect(refreshing) { state.refreshingChanged(refreshing) }
+    LaunchedEffect(state.starts, state.ref, reduce) {
+        while (state.running(reduce, held = true)) withFrameMillis { state.tick(it) }
+    }
+    BoxWithConstraints(
+        modifier
+            .clipToBounds()
+            .semantics {
+                if (state.ref) {
+                    progressBarRangeInfo = ProgressBarRangeInfo.Indeterminate
+                } else {
+                    customActions =
+                        listOf(
+                            CustomAccessibilityAction(
+                                REFRESH_ACTION,
+                            ) { state.release(PULL_THRESHOLD + 1).also { refresh() } },
+                        )
+                }
+            }.pointerInput(Unit) {
+                awaitEachGesture {
+                    val down = awaitFirstDown(requireUnconsumed = false)
+                    if (state.ref) return@awaitEachGesture
+                    val y0 = down.position.y / density
+                    var pulling = false
+                    while (true) {
+                        val e = awaitPointerEvent()
+                        val c = e.changes.firstOrNull { it.id == down.id } ?: break
+                        if (!c.pressed) break
+                        if (!pulling && c.isConsumed) return@awaitEachGesture
+                        val travel = c.position.y / density - y0
+                        if (!pulling && travel > PULL_SLOP) {
+                            pulling = true
+                            state.dragging = true
+                        }
+                        if (pulling && c.positionChanged()) {
+                            state.d = toonPullDistance(travel - PULL_SLOP)
+                            c.consume()
+                        }
+                    }
+                    if (pulling && state.release(state.d)) refresh()
+                }
+            },
+    ) {
+        val w = maxWidth.value
+        val gap = state.gap(reduce)
+        Box(Modifier.fillMaxSize().graphicsLayer { translationY = gap * density }) { content() }
+        if (gap > 0f) {
+            Canvas(Modifier.fillMaxWidth().height(gap.dp).clipToBounds()) {
+                inDp { drawScene(toonPullScene(tokens, w, state.look(reduce)), texts) }
+            }
+        }
+    }
+}
+
+/** A drag must travel this far down before it pulls, so a tap or a sideways drag stays the content's. */
+private const val PULL_SLOP = 8f
+
+/** While refreshing the content waits this far down, under the blob spinning at 40. */
+private const val HOLD_GAP = 60f
+
+/** Done, the content springs back up over this long once the blob has gone (B-64). */
+private const val CLOSE_MS = 420f
+
+/**
+ * The gap over the content (B-64), in dp: while dragged, the band's travel and room for the blob
+ * under its tip, the room growing in as the band reaches 40 dp; after a release past 40, from where
+ * the content was to [HOLD_GAP], on the engine's release spring; held while refreshing; done, held
+ * while the blob shrinks, then back to 0 on the same spring; a short release springs straight back.
+ */
+internal fun toonPullGapAt(
+    dragging: Boolean,
+    d: Float,
+    refreshing: Boolean,
+    releaseAge: Float?,
+    d0: Float,
+    doneAge: Float?,
+    backAge: Float?,
+    reduceMotion: Boolean,
+): Float {
+    fun dragged(d: Float) = d + BLOB_ROOM * min(1f, d / PULL_THRESHOLD)
+    return when {
+        dragging -> {
+            dragged(d)
+        }
+
+        refreshing && reduceMotion -> {
+            HOLD_GAP
+        }
+
+        refreshing && releaseAge != null -> {
+            HOLD_GAP +
+                (dragged(d0) - HOLD_GAP) * toonSpring(releaseAge / 1000, .4f, 30f)
+        }
+
+        refreshing -> {
+            HOLD_GAP
+        }
+
+        reduceMotion -> {
+            0f
+        }
+
+        doneAge != null && doneAge < DONE_MS -> {
+            HOLD_GAP
+        }
+
+        doneAge != null && doneAge < DONE_MS + CLOSE_MS -> {
+            max(
+                0f,
+                HOLD_GAP * toonSpring((doneAge - DONE_MS) / 1000, .7f, 22f),
+            )
+        }
+
+        backAge != null && backAge < CLOSE_MS -> {
+            max(0f, dragged(d0) * toonSpring(backAge / 1000, .7f, 22f))
+        }
+
+        else -> {
+            0f
+        }
+    }
+}
+
+/** The blob, 14 dp with its rim and up to 1.5 times as tall stretched, hangs 14 dp under the band's tip: room for it. */
+private const val BLOB_ROOM = 34f
+
 /** The kit's box: 140 dp tall, clipped. */
 private const val PULL_H = 140f
 
@@ -167,16 +323,25 @@ internal class ToonPullState(
     private var d0 = 0f
     private var releasedAt: Long? = null
     private var doneAt: Long? = null
+    private var backAt: Long? = null
 
-    /** The kit's `up`: past 40 dp it starts a refresh and says so. */
+    /** The kit's `up`: past 40 dp it starts a refresh and says so; short of it the content springs back (B-64). */
     fun release(distance: Float): Boolean {
         dragging = false
         d = 0f
-        if (distance <= PULL_THRESHOLD) return false
+        if (distance <= PULL_THRESHOLD) {
+            if (distance > 0f) {
+                d0 = distance
+                backAt = PENDING_START
+                starts++
+            }
+            return false
+        }
         d0 = distance
         ref = true
         releasedAt = PENDING_START
         doneAt = null
+        backAt = null
         starts++
         return true
     }
@@ -194,6 +359,7 @@ internal class ToonPullState(
         nowMs = now
         if (releasedAt == PENDING_START) releasedAt = now
         if (doneAt == PENDING_START) doneAt = now
+        if (backAt == PENDING_START) backAt = now
     }
 
     private fun age(at: Long?): Float? =
@@ -213,7 +379,19 @@ internal class ToonPullState(
      * The spinner turns for as long as the refresh lasts, and the end plays out; under reduce motion
      * nothing moves, so no frame is asked for.
      */
-    fun running(reduceMotion: Boolean): Boolean = !reduceMotion && (ref || (age(doneAt)?.let { it < DONE_MS } ?: false))
+    fun running(
+        reduceMotion: Boolean,
+        held: Boolean = false,
+    ): Boolean {
+        if (reduceMotion) return false
+        val end = if (held) DONE_MS + CLOSE_MS else DONE_MS
+        return ref || (age(doneAt)?.let { it < end } ?: false) ||
+            (held && (age(backAt)?.let { it < CLOSE_MS } ?: false))
+    }
+
+    /** The gap over held content (B-64). */
+    fun gap(reduceMotion: Boolean): Float =
+        toonPullGapAt(dragging, d, ref, age(releasedAt), d0, age(doneAt), age(backAt), reduceMotion)
 
     fun look(reduceMotion: Boolean): ToonPullLook =
         toonPullFrameAt(dragging, d, ref, age(releasedAt), d0, age(doneAt), nowMs.toFloat(), reduceMotion)

@@ -54,7 +54,7 @@ import io.github.youndie.toon.component.ToonNavigationBar
 import io.github.youndie.toon.component.ToonNavigationDrawer
 import io.github.youndie.toon.component.ToonProgress
 import io.github.youndie.toon.component.ToonProgressKind
-import io.github.youndie.toon.component.ToonPullToRefresh
+import io.github.youndie.toon.component.ToonPullToRefreshBox
 import io.github.youndie.toon.component.ToonRadioGroup
 import io.github.youndie.toon.component.ToonSegmented
 import io.github.youndie.toon.component.ToonSheetItem
@@ -452,8 +452,25 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                     }
                 }
                 Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                    Note("Drag down on the band")
-                    ToonPullToRefresh(refreshing, { refreshing = true }, Modifier.height(140.dp))
+                    Note("Drag the list down")
+                    // B-64: the list is what the finger pulls; the band stretches in the gap above it.
+                    ToonPullToRefreshBox(
+                        refreshing,
+                        { refreshing = true },
+                        Modifier.size(320.dp, 240.dp).testTag("pull"),
+                    ) {
+                        Column {
+                            ToonListItem("Pancake breakfast", icon = ToonIcons.Calendar, sub = "9:00", width = 320.dp)
+                            ToonListItem("Bike to the lake", icon = ToonIcons.Calendar, sub = "11:30", width = 320.dp)
+                            ToonListItem(
+                                "Paint the fence",
+                                icon = ToonIcons.Calendar,
+                                sub = "14:00",
+                                width = 320.dp,
+                                last = true,
+                            )
+                        }
+                    }
                 }
             }
         }

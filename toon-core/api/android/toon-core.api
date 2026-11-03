@@ -153,6 +153,7 @@ public final class io/github/youndie/toon/component/ToonProgressKt {
 
 public final class io/github/youndie/toon/component/ToonPullToRefreshKt {
 	public static final fun ToonPullToRefresh-hGBTI10 (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;FLkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ToonPullToRefreshBox (ZLkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/youndie/toon/component/ToonRadioGroupKt {
