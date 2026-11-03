@@ -1,7 +1,7 @@
 ---
 id: B-56
 title: "The top app bar's title swings with its sign"
-status: open
+status: done
 priority: P2
 size: S
 stage: stage-2-components
@@ -18,6 +18,15 @@ moved, never turned, by `ToonScene.placed` (the design's rule that text never ti
 - **The decision and its reason.** The title turns with the sign about the same pivot, so the sign
   swings as one piece. Other components keep their text level.
 - AC: in a sway frame the title is drawn turned by the sign's angle about its pivot; at rest
-  nothing changes; the sway cells are listed in `ToonDepartures` with their goldens re-recorded.
+  nothing changes.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt`,
   `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonScene.kt`.
+
+## Findings (2026-11-03)
+
+- `drawToonTopBar` draws the sign's shapes through `placed` as before and its labels inside a
+  `rotate` about the same pivot, 40 dp above the sign's middle. The composable draws through it.
+- **No cell departed.** The scene (`toonTopBarScene(...).placed(...)`) is unchanged, so every engine
+  frame, fixture and golden of the sway strip still shows the design's level title; the departure is
+  in how the live bar draws the scene. `ToonTopAppBarTest` holds it: at rest the bar is pixel for
+  pixel what it was; at 4° the title is drawn turned, against the level one.
