@@ -2,6 +2,7 @@ package io.github.youndie.toon.sample
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.toPixelMap
+import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.click
@@ -96,5 +97,28 @@ class SampleAppTest {
             night < day - .25,
             "the phone under Night (${"%.2f".format(night)}) is not darker than under Day (${"%.2f".format(day)})",
         )
+    }
+
+    @Test
+    fun `the kit's filling circular progress moves`() {
+        // B-62: a determinate circular progress that fills up, beside the static one and the spinner.
+        runComposeUiTest {
+            mainClock.autoAdvance = false
+            setContent { ToonUiSample() }
+            mainClock.advanceTimeBy(1_000)
+
+            fun value() =
+                onNodeWithTag("filling")
+                    .fetchSemanticsNode()
+                    .config[SemanticsProperties.ProgressBarRangeInfo]
+                    .current
+            val a = value()
+            mainClock.advanceTimeBy(600)
+            val b = value()
+            assertTrue(b > a, "the value grows: $a then $b")
+            // Past a whole fill and hold it starts again.
+            mainClock.advanceTimeBy(3_000)
+            assertTrue(value() in 0f..1f)
+        }
     }
 }
