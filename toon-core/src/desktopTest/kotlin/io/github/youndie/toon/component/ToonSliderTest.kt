@@ -16,12 +16,14 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
 import io.github.youndie.toon.theme.ToonTheme
+import io.github.youndie.toon.tokens.inkGouacheLight
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.booleanOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
+import kotlin.math.roundToInt
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -34,8 +36,10 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalTestApi::class)
 class ToonSliderTest {
     @Test
-    fun `every slider cell and grab frame is the engine's`() {
-        val cells = EngineFrames.cells("Slider")
+    fun `every slider cell and grab frame is the engine's, drawn as designed`() {
+        // B-58 departs from the cells in one thing, the filled half's hatching; drawn as designed,
+        // everything else is still held to the engine.
+        val cells = EngineFrames.cells("Slider", asDesigned = true)
         val worst =
             cells.maxOf { cell ->
                 val o = cell.opts
@@ -48,6 +52,7 @@ class ToonSliderTest {
                             200f,
                             .5f,
                             ToonSliderLook(grab = toonSliderGrab(o.f("t")!!, flag("down"))),
+                            asDesigned = true,
                         )
                     } else {
                         toonSliderScene(
@@ -55,6 +60,7 @@ class ToonSliderTest {
                             260f,
                             o.f("value")!!,
                             ToonSliderLook(o.f("grab") ?: 0f, flag("focus"), flag("disabled")),
+                            asDesigned = true,
                         )
                     }
                 EngineFrames.compare(cell, scene)
@@ -115,6 +121,28 @@ class ToonSliderTest {
             assertEquals(.75f, v)
             onNodeWithTag("slider").performSemanticsAction(SemanticsActions.SetProgress) { it(.3f) }
             assertEquals(.25f, v)
+        }
+    }
+
+    @Test
+    fun `both halves of the rope are hatched from the ball, so a drag moves the whole rope`() {
+        // B-58: the engine hatches the filled half from its peg, so dragging left it standing while
+        // the other half travelled with the ball.
+        fun marks(value: Float): Pair<List<Float>, List<Float>> {
+            val layers = toonSliderScene(inkGouacheLight, 260f, value, ToonSliderLook()).layers
+            val tx = 14 + (260 - 28) * value
+
+            fun offsets(hatch: FloatArray) = (hatch.indices step 4).map { hatch[it] + 1.6f - tx }
+            // The empty half's three layers, then the filled half's: the hatching is the third of each.
+            return offsets(layers[5].numbers).sorted().reversed() to offsets(layers[2].numbers).sorted()
+        }
+        val (filled, empty) = marks(.3f)
+        assertEquals(listOf(-4f, -10f, -16f, -22f, -28f), filled.take(5).map { (it * 100).roundToInt() / 100f })
+        assertEquals(listOf(4f, 10f, 16f, 22f, 28f), empty.take(5).map { (it * 100).roundToInt() / 100f })
+        for (value in listOf(.31f, .5f, .77f)) {
+            val (f, e) = marks(value)
+            assertEquals(filled.take(5), f.take(5).map { (it * 100).roundToInt() / 100f }, "filled half at $value")
+            assertEquals(empty.take(5), e.take(5).map { (it * 100).roundToInt() / 100f }, "empty half at $value")
         }
     }
 }

@@ -54,7 +54,9 @@ import kotlin.math.sin
 
 // A port of the engine's `slider`, `rope` and `sliderGrab` and the kit's `C.slider` (B-36): a ball on
 // a rope strung between two pegs. Grabbed, the ball squashes under the finger and the rope sags 5 dp
-// beneath it; let go, the ball springs round and the rope twangs back once.
+// beneath it; let go, the ball springs round and the rope twangs back once. Both halves of the rope
+// are hatched from the ball outwards, so a drag pulls the whole rope with it (B-58); the engine
+// hatches the filled half from its peg, which leaves it standing while the other half moves.
 
 /**
  * The design's slider: [value] from 0 to 1 along a rope [width] wide, set by a press or a drag and
@@ -234,7 +236,10 @@ private val PEG_INSETS = ToonInsets(1.3f, 1.3f, 1.8f, 1.3f)
 private val BALL_INSETS = ToonInsets(1.8f, 2.2f, 3f, 1.8f)
 private val RING_RADII = ToonRadii(22f, 20f, 22f, 19f)
 
-/** The engine's `rope`: from [x0] to [x1] on [y], sagging [sag] about [sx], in [color] over ink, hatched. */
+/**
+ * The engine's `rope`: from [x0] to [x1] on [y], sagging [sag] about [sx], in [color] over ink,
+ * hatched every 6 dp from [x0], or from [x1] backwards when [hatchFromEnd].
+ */
 private fun ropeLayers(
     tokens: ToonTokens,
     x0: Float,
@@ -244,6 +249,7 @@ private fun ropeLayers(
     sag: Float,
     color: androidx.compose.ui.graphics.Color,
     seed: Int,
+    hatchFromEnd: Boolean = false,
 ): List<ToonLayer> {
     fun at(x: Float) = y + sag * exp(-((x - sx) / 46).pow(2))
     val n = 40
@@ -255,10 +261,21 @@ private fun ropeLayers(
         p[2 * i + 1] = at(x) + .5f * sin(u * 11 + seed)
     }
     val hatch = mutableListOf<Float>()
-    var x = x0 + 4
-    while (x < x1 - 2) {
-        hatch += listOf(x - 1.6f, at(x) + 1.8f, x + 1.6f, at(x) - 1.8f)
-        x += 6
+    if (hatchFromEnd) {
+        // The engine's spacing mirrored: 4 dp in from the ball, every 6, stopping 2 short of the peg.
+        val marks = mutableListOf<Float>()
+        var x = x1 - 4
+        while (x > x0 + 2) {
+            marks += x
+            x -= 6
+        }
+        marks.asReversed().forEach { hatch += listOf(it - 1.6f, at(it) + 1.8f, it + 1.6f, at(it) - 1.8f) }
+    } else {
+        var x = x0 + 4
+        while (x < x1 - 2) {
+            hatch += listOf(x - 1.6f, at(x) + 1.8f, x + 1.6f, at(x) - 1.8f)
+            x += 6
+        }
     }
     val ink = tokens.colors.ink
     return listOf(
@@ -276,13 +293,17 @@ private fun ropeLayers(
     )
 }
 
-/** The engine's `slider`: one frame [w] dp wide from its top left, the rope on y 24. */
+/**
+ * The engine's `slider`: one frame [w] dp wide from its top left, the rope on y 24; the filled half
+ * hatched from the ball (B-58), or from its peg as the engine does when [asDesigned].
+ */
 @OptIn(InternalToonApi::class)
 internal fun toonSliderScene(
     tokens: ToonTokens,
     w: Float,
     value: Float,
     o: ToonSliderLook,
+    asDesigned: Boolean = false,
 ): ToonScene {
     val c = tokens.colors
     val sh = tokens.shape
@@ -297,7 +318,7 @@ internal fun toonSliderScene(
     val layers = mutableListOf<ToonLayer>()
     if (o.focus) layers += ringLayer(tx - 22, 2f, 44f, 44f, RING_RADII, c, sh.wobble, sh.seed + 1501)
     layers += ropeLayers(tokens, tx, x1, y, tx, sag, if (dis) c.disabled else c.trackOff, 3)
-    layers += ropeLayers(tokens, x0, tx, y, tx, sag, if (dis) c.disabled else c.primary, 1)
+    layers += ropeLayers(tokens, x0, tx, y, tx, sag, if (dis) c.disabled else c.primary, 1, hatchFromEnd = !asDesigned)
     listOf(x0 - 4, x1 + 4).forEachIndexed { j, px ->
         val g = shapePoints(px - 4, y - 8, 8f, 16f, PEG_RADII, PEG_INSETS, .3f, sh.seed + 1510 + j, 2f)
         layers += smoothLayer(g.ink, c.ink)

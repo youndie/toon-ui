@@ -45,10 +45,16 @@ internal object EngineFrames {
         val frame: JsonObject,
     )
 
-    /** A group's cells, less those the code has left on purpose (research D13, `ToonDepartures`). */
-    fun cells(group: String): List<Cell> =
+    /**
+     * A group's cells, less those the code has left on purpose (research D13, `ToonDepartures`) —
+     * or all of them [asDesigned], for a component that can still draw the design to be held to it.
+     */
+    fun cells(
+        group: String,
+        asDesigned: Boolean = false,
+    ): List<Cell> =
         all.getValue(group).jsonObject.mapNotNull { (name, f) ->
-            if (ToonDepartures.of("${group}_$name") != null) return@mapNotNull null
+            if (!asDesigned && ToonDepartures.of("${group}_$name") != null) return@mapNotNull null
             val o = f.jsonObject
             Cell(name, themes.getValue(o.getValue("theme").jsonPrimitive.content), o.getValue("opts").jsonObject, o)
         }
