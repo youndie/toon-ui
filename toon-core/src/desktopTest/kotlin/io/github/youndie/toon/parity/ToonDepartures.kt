@@ -11,6 +11,8 @@ internal object ToonDepartures {
         mapOf(
             // The filled half of the rope hatched from the ball, so it moves with a drag.
             "Slider_" to "B-58",
+            // The tail's paper reaches up into the balloon's, so no ink hairline crosses the joint.
+            "Tooltip_" to "B-60",
         )
 
     /** The item a cell departed in, or null when it is still the design's. */

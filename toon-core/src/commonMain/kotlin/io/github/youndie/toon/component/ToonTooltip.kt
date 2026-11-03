@@ -40,7 +40,9 @@ import kotlin.math.min
 
 // A port of the engine's `tooltip` and `tipInflate` and the kit's `C.tooltip` (B-40): a speech
 // balloon whose tail tip is its origin, blown up from that tip with a wobble, its text in once it is
-// past 0.85; hidden, it deflates in 120 ms.
+// past 0.85; hidden, it deflates in 120 ms. The paper inside the tail reaches 3.5 dp further up into
+// the balloon than the engine's (B-60): the engine's stops 0.2 dp short of the balloon's paper in
+// Bright Cel, whose bottom inset is the deepest, and leaves an ink hairline across the joint.
 
 /**
  * The design's tooltip: [text] in a balloon whose tail points down at the bottom middle of its box,
@@ -159,11 +161,40 @@ internal val TIP_TEXT = ToonTextStyle(600, 14f)
 
 /** The tail: two curves from the balloon's foot to the tip at the origin, and the paper inside it. */
 private val TAIL = floatArrayOf(-7f, -14f, -2f, -6f, 1f, 0f, 4f, -7f, 9f, -14f)
-private val TAIL_IN = floatArrayOf(-4.6f, -15.5f, -1.5f, -8f, .9f, -3.4f, 3f, -8.5f, 6.6f, -15.5f)
+private val TAIL_IN_AS_DESIGNED = floatArrayOf(-4.6f, -15.5f, -1.5f, -8f, .9f, -3.4f, 3f, -8.5f, 6.6f, -15.5f)
+
+/**
+ * The engine's paper with both sides carried on straight along their tangents from y −15.5 to −19, so
+ * it overlaps the balloon's paper in every theme: the balloon's paper ends 12 dp + 0.8 × its bottom
+ * inset above the tip, give or take 1.12 × 0.8² × its wobble — 15.7 ± 0.4 in Bright Cel, 15.2 ± 0.8
+ * in Ink & Gouache. The part below −15.5, the only part that shows, is the engine's.
+ */
+private val TAIL_IN =
+    floatArrayOf(
+        -6.05f,
+        -19f,
+        -5.325f,
+        -17.25f,
+        -4.6f,
+        -15.5f,
+        -1.5f,
+        -8f,
+        .9f,
+        -3.4f,
+        3f,
+        -8.5f,
+        6.6f,
+        -15.5f,
+        7.5f,
+        -17.25f,
+        8.4f,
+        -19f,
+    )
 
 /**
  * The engine's `tooltip`: the balloon over [text], [textWidth] wide, scaled by [s] about its tail's tip
- * at the origin. The text is not scaled; it shows once the balloon is past 0.85.
+ * at the origin. The text is not scaled; it shows once the balloon is past 0.85. [asDesigned] draws the
+ * tail's paper as the engine does, short of the balloon's (B-60), for the engine-frame test.
  */
 @OptIn(InternalToonApi::class)
 internal fun toonTooltipScene(
@@ -171,6 +202,7 @@ internal fun toonTooltipScene(
     text: String,
     textWidth: Float,
     s: Float,
+    asDesigned: Boolean = false,
 ): ToonScene {
     if (s < .02f) return ToonScene.Empty
     val c = tokens.colors
@@ -187,7 +219,7 @@ internal fun toonTooltipScene(
                 ToonLayer(TAIL, ToonSegments.Quad, true, c.ink),
                 smoothLayer(g.ink, c.ink),
                 smoothLayer(g.fill, c.surface),
-                ToonLayer(TAIL_IN, ToonSegments.Quad, true, c.surface),
+                ToonLayer(if (asDesigned) TAIL_IN_AS_DESIGNED else TAIL_IN, ToonSegments.Quad, true, c.surface),
             ),
             emptyList(),
         ).scaledAbout(0f, 0f, s, s)

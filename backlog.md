@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 No open tasks.
 
-## Closed (59)
+## Closed (60)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -115,6 +115,7 @@ No open tasks.
 - [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[x]` - The top app bar's title swings with its sign
 - [B-57](docs/backlog/B-57-transition-keeps-screens.md) `[x]` - A transition keeps both screens' state, and the new screen shows through the hole
 - [B-58](docs/backlog/B-58-slider-rope-moves.md) `[x]` - Both halves of the slider's rope move with a drag
+- [B-60](docs/backlog/B-60-tooltip-tail-joint.md) `[x]` - No ink seam where the tooltip's tail meets the balloon
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
 
