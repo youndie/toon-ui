@@ -1,11 +1,7 @@
 ---
 id: B-52
 title: "The kit's theme and reduce motion reach the Screens app"
-<<<<<<< HEAD
 status: done
-=======
-status: open
->>>>>>> origin/main
 priority: P2
 size: S
 stage: stage-4-product
@@ -25,7 +21,6 @@ Day / Night / Cel and Reduce motion do not reach it (owner, 2026-11-03).
   changes the header's too.
 - Anchors: `sample/src/commonMain/kotlin/io/github/youndie/toon/sample/SampleApp.kt`,
   `sample/src/commonMain/kotlin/io/github/youndie/toon/sample/ToonUiSample.kt`.
-<<<<<<< HEAD
 
 ## Findings (2026-11-03)
 
@@ -35,5 +30,3 @@ Day / Night / Cel and Reduce motion do not reach it (owner, 2026-11-03).
   report back to it, so the two places switch one theme.
 - `SampleAppTest`: the phone under the header's Night is darker than under Day; with the screens
   given their own state again, the test fails.
-=======
->>>>>>> origin/main
