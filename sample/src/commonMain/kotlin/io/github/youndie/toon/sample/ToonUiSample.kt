@@ -27,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
@@ -469,6 +470,8 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                         screen,
                         Modifier.size(300.dp, 360.dp),
                         transition = ToonTransition.entries[how],
+                        // The title card's plaque, 280 × 120 about (150, 0.42 × 360): the hole bursts from it.
+                        origin = Rect(10f, 91.2f, 290f, 211.2f),
                     ) {
                         ToonStage(Modifier.fillMaxSize()) {
                             ToonTitleCard(
