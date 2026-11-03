@@ -1,7 +1,11 @@
 ---
 id: B-55
 title: "Title card rings ease into place, and can loop"
+<<<<<<< HEAD
 status: done
+=======
+status: open
+>>>>>>> origin/main
 priority: P2
 size: S
 stage: stage-2-components
@@ -19,6 +23,7 @@ slowing down, and add a loop version so it shows" (2026-11-03). Departs from the
   ease-in-out, ending where they rest, so the last frame of the entrance is the resting frame. A
   `loop` parameter keeps them flowing, a period every 1.6 s with the same ease, for a splash screen
   that waits; reduce motion holds them still.
+<<<<<<< HEAD
 - AC: no jump between the last entrance frame and rest; the loop is continuous across periods.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTitleCard.kt`.
 
@@ -35,3 +40,8 @@ slowing down, and add a loop version so it shows" (2026-11-03). Departs from the
   engine's curve; only the live clock (`toonTitleCardFrameAt`) takes the new phase. `ToonTitleCardTest`
   holds it: no step over 0.2 dp a ms (the ease peaks at 0.11; the old jump was 14 dp), the entrance
   ends at rest, the loop moves and stays seamless for 6 s.
+=======
+- AC: no jump between the last entrance frame and rest; the loop is continuous across periods;
+  the entrance cells that changed are listed in `ToonDepartures` with their goldens re-recorded.
+- Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTitleCard.kt`.
+>>>>>>> origin/main
