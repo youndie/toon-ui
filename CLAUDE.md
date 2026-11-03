@@ -2,8 +2,10 @@
 
 The toon-ui design — 1940s–50s theatrical cartoons: ink outline of variable weight, flat cel
 fills, hard shadows, squash, overshoot and dust — as a Compose Multiplatform component library.
-The design is a Claude Design project, frozen in [reference/design-system/](reference/design-system/),
-and its engine `toon-engine.js` is the ruler everything is measured against.
+It started from a Claude Design project, frozen in [reference/design-system/](reference/design-system/),
+whose engine `toon-engine.js` was the ruler everything was measured against. **Since 2026-11-03 the
+code is primary** (research D13): the design is where a component came from, and the code leaves it
+where the owner asks, each departure recorded in `ToonDepartures`.
 
 ## How to start a session
 
@@ -86,27 +88,30 @@ check` fails while they are stale against the vendored engine. A file in a sibli
 **Builds run on this mac, not on the Linux box.** The project is not in `mutagen sync list`. The
 screenshot references and goldens are a claim about the rasteriser that recorded them, as in oldge-ui.
 
-## Re-importing the design
+## The design is a record, not a source
 
 `reference/design-system/` is a snapshot of claude.ai/design project
-`72369202-fef7-4ced-b990-f25e2e4d1f26`, taken on 2026-11-02. The owner and the designer can keep
-changing it, so a newer version is taken on a branch of its own, never by overwriting (B-34):
+`72369202-fef7-4ced-b990-f25e2e4d1f26`, taken on 2026-11-02, and is no longer re-imported (B-34
+dropped, research D13). It stays unedited: the engine goldens and the Chrome references are
+generated from it and still hold every cell that has not departed.
 
-1. **Fetch** with the DesignSync tool (`list_files`, then `get_file` per path), which needs the
-   signed-in session; a script cannot do it. Skip `screenshots/` and `.thumbnail`. `get_file` caps a
-   file at 256 KiB, so the texture PNGs come back truncated. The vendored tiles are the owner's copies
-   (research §1.1); a re-import keeps them unless the owner supplies new ones.
-2. **Diff** `toon-engine.js` by function — `THEMES`, `ICONS`, each renderer, each curve — and put
-   the diff in the commit body.
-3. **Regenerate** the tokens (`make tokens`), the icons (`make icons`), the FX fixtures (`make fx`), the component fixtures (`make components`), the goldens (`make goldens`) and the references in the same branch, and update research
-   §1.1 with the new snapshot.
+**To depart from the design**, in the item that does it:
+
+1. Change the component.
+2. List the cells it no longer draws as the design does in
+   `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/ToonDepartures.kt`, with the item
+   id. The engine-frame and ink-parity checks skip exactly those; `ToonDeparturesTest` fails on an
+   entry that names no cell.
+3. Re-record the goldens of those cells (`viddikRecord` for that group), look at each, and say in
+   the item what changed and why.
 
 ## Rules that are easy to get wrong here
 
 - **`Toon` in every identifier, package `io.github.youndie.toon.*`** (research D1), not the sketch's
   `toon.ui`.
-- **Numbers come from `toon-engine.js`, never from the Kotlin sketch** (D6). The sketch's rim
-  colour, icon width, release spring and text button all differ from the engine.
+- **Numbers come from `toon-engine.js`, never from the Kotlin sketch** (D6), unless the component
+  has departed from the design on purpose (D13), and then from its item. The sketch's rim colour,
+  icon width, release spring and text button all differ from the engine.
 - **No literal colour, size or duration in a component.** Tokens are generated from `THEMES` (D4).
 - **Never scale a shape with a stroke** (`graphicsLayer.scale`): rebuild the geometry squashed and
   keep the ink weight, as `btn` does. Text never scales, tilts or smears.
@@ -115,10 +120,10 @@ changing it, so a newer version is taken on a branch of its own, never by overwr
 - **Touch target ≥ 48 dp even where the design draws smaller** (the Chip, research §1.6).
 - **Reduce motion follows the spec's word per animation** (D8), not the kit's "everything instant".
 - **Never edit the vendored engine, a golden or a reference to make parity pass**, and never raise
-  a tolerance to get green. A gap is a number in the commit body with its cause.
-- **No component without a design.** A component the design project does not have is drawn in
-  Claude Design first and arrives by re-import (B-33, B-34). It is not designed here from the
-  Principles recipe.
+  a tolerance to get green. A gap is a number in the commit body with its cause. A golden is
+  re-recorded only for a departure listed in `ToonDepartures` (D13).
+- **A new component may be designed here** (D13; until 2026-11-03 it had to be drawn in Claude
+  Design first, B-33). It follows the Principles page's recipe and is held to its own goldens.
 - **Fonts only under an open licence** (all four in the design are OFL, research §1.4).
 - **`main` describes what exists.** A document describing something not yet built is
   `status: draft` and lives on a branch.

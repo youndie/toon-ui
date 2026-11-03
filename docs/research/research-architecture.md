@@ -431,6 +431,29 @@ and buys a precision nobody can see.
 The owner chose MIT on 2026-11-02 (`LICENSE`). oldge-ui and kvadrant-ui are Apache 2.0. Publishing
 otherwise follows oldge-ui (B-32).
 
+### D13. The code is primary from 2026-11-03 — *a deviation from D3*
+
+The owner, on 2026-11-03, looking at the kit: "somewhere we will part from the original design, so
+from this point the code is primary to the design". Until then the design was the ruler (D3) and
+the code followed it; now the design is where the code started, and the code may leave it where the
+owner asks.
+
+- **Nothing is re-imported.** B-34 is dropped: a newer design would be a list of proposals, not a
+  snapshot to regenerate everything from. The vendored engine stays as it is, unedited, as the
+  record of where each component came from.
+- **The checks against the design stay**, as a regression net for everything that has not left it:
+  engine frames (B-14), goldens, and ink parity against the Chrome references (B-12).
+- **A departure is recorded, not loosened.** A cell where the code now draws something else on
+  purpose is listed in `ToonDepartures` (`toon-core/src/desktopTest`) with its item: the engine-frame
+  and ink-parity checks skip it there and nowhere else, its golden is re-recorded in the same change,
+  and a test keeps every entry naming cells that exist. A cell that is not listed is still held to
+  the design.
+- **A new component may be designed here** (this replaces the rule of B-33), and is then held to its
+  own goldens.
+
+*Rejected:* editing the vendored engine to match the code, so that the frame checks pass again. It
+would keep a ruler that measures the code against itself, and lose the record of the design.
+
 ## 3. Risks and open questions
 
 | # | Hypothesis or risk | Mitigation, and where it is settled |
@@ -440,7 +463,7 @@ otherwise follows oldge-ui (B-32).
 | H1 — *accepted, B-45, 2026-11-02* | **The owner accepted the measured numbers for the ten-card cascade with dust** (p50 15.0, p95 18.2 ms, 23.6 % of frames over 16.7 ms, 1.6 % of vsync slots unfilled on the Pixel 6a). The animation is kept as the design draws it; no simplification. Two things the measure did not control, written down so a later re-run knows them: the release build had R8 off and no baseline profile, which bear only on the UI thread's 2.6 ms of the 15; and its bar is FrameMetrics' total against a fixed 16.7 ms, stricter than the platform's own deadline-based jank. | The cascade stays as designed (B-46 builds it); a re-measure with R8, a baseline profile and the deadline measure is the owner's to ask for. |
 | H2 | **Text width.** Box widths depend on measured text (`ToonButton` width = text + 56, Chip, Checkbox and Switch labels). Chrome's `measureText` and Skia's `TextMeasurer` disagree by subpixels, and a different box moves the wobble (radii are clamped to the box). | Pixel parity reveals it. Numeric parity is run at the box size Chrome measured, recorded in the golden, so geometry is tested apart from text (B-03, B-06). |
 | H3 | **Fonts without Cyrillic** (§1.4). | *Closed by B-35:* each role is backed by an OFL face with Cyrillic, matched in x-height and weight. Shrikhand has no true twin; Rubik Italic 900 is the nearest voice, and a role change was not needed. |
-| H4 | **The design keeps moving.** The project is live: the engine went from `?v=8` to `?v=10` within the day of the import (§1.1). | The import is a snapshot. A re-import is an item that diffs the engine and re-emits the goldens (B-34). |
+| H4 | **The design keeps moving.** The project is live: the engine went from `?v=8` to `?v=10` within the day of the import (§1.1). | *Closed by D13 (2026-11-03):* the code is primary, nothing is re-imported (B-34 dropped). A later design is read as proposals. |
 | H5 | **The sketch does not compile** (§1.5, the `fillMaxSize` helper). | Irrelevant to the port (D6), but stated as read, not run. B-01 compiles nothing from `compose/`; if anyone does, the result goes here. |
 | H7 | **Variable weights below Android 8.** Each body weight is a `wght` setting on one variable file. Android applies font variations from API 26, and `minSdk` is 24. On 7.x the body text would then render at the files' default instance, Light 300, for every weight. Read, not run: nothing visual runs on Android (D9). | Checked on a device or emulator at API 24–25 when one is available. If it holds, either raise `minSdk` to 26 or bundle static instances for Android only, which makes them modified fonts (§1.4). The owner decides. |
 | H6 | **Textures.** The four tiles came from the owner, not from DesignSync, and differ from the project's pixels by up to 22 levels (§1.1). | *Checked in B-13:* the library bundles the same files byte for byte. Every horizontal wrap and the paper tiles' vertical ones are within 7 % of the inner difference; the gouache tiles' vertical wrap is 1.91 times it, a faint lighter line at 8× zoom in a 2 × 2 render and not visible at 1:1. It is the tile's own, as Chrome draws it too; a cleaner tile is the owner's to supply. |

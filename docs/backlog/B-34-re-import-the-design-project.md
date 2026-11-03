@@ -1,7 +1,7 @@
 ---
 id: B-34
 title: "Re-import the design project as a diff, never an overwrite"
-status: open
+status: dropped
 priority: P2
 size: S
 stage: stage-4-product
@@ -27,3 +27,11 @@ changes goldens, references and tokens at once.
 - AC: one re-import done end to end with the diff in its commit; every component the re-import
   brought in has its own item, built like stage 2 (B-33).
 - Anchors: `reference/design-system/README.md`, `CLAUDE.md`.
+
+## Dropped (owner, 2026-11-03)
+
+"Somewhere we will part from the original design, so from this point the code is primary to the
+design; close B-34." No re-import will be taken: the code now leaves the design where the owner
+asks (research D13), so a newer engine is a set of proposals, not a snapshot to regenerate the
+goldens from. On 2026-11-03 the project still loaded engine `?v=10` and kit `?v=11`, the vendored
+version.
