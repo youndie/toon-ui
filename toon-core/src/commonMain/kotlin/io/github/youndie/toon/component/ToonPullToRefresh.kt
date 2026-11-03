@@ -62,7 +62,7 @@ import kotlin.math.sqrt
 // B-64 puts content under it (`ToonPullToRefreshBox`): the strip alone is a band pulled by its tip, with nothing attached,
 // and a spinner that shrinks away where it hung. With content, the content is what the finger pulls;
 // the band stretches in the gap that opens above it, the content settles under the spinning blob
-// while refreshing, and closes the gap once the blob has gone.
+// while refreshing, and closes the gap, squashing the blob flat.
 
 /**
  * The design's pull-to-refresh strip, [width] wide and 140 dp tall: a drag down it stretches the band
@@ -134,8 +134,8 @@ public fun ToonPullToRefresh(
 /**
  * Pull-to-refresh over [content]: a drag down the box pulls the content down after it, a band
  * stretching in the gap that opens above; let go past 40 dp, [onRefresh] is called, the content
- * settles 60 dp down under the spinning blob until [refreshing] turns false, and then the blob goes
- * and the content springs back up (B-64). Short of 40 dp the content springs straight back. A drag
+ * settles 60 dp down under the spinning blob until [refreshing] turns false, and then springs back
+ * up, squashing the blob flat as it closes the gap (B-64). Short of 40 dp the content springs straight back. A drag
  * that a child consumes, a list scrolling for instance, does not pull.
  */
 @Composable
@@ -198,7 +198,7 @@ public fun ToonPullToRefreshBox(
         Box(Modifier.fillMaxSize().graphicsLayer { translationY = gap * density }) { content() }
         if (gap > 0f) {
             Canvas(Modifier.fillMaxWidth().height(gap.dp).clipToBounds()) {
-                inDp { drawScene(toonPullScene(tokens, w, state.look(reduce)), texts) }
+                inDp { drawScene(toonPullScene(tokens, w, state.boxLook(reduce)), texts) }
             }
         }
     }
@@ -210,14 +210,14 @@ private const val PULL_SLOP = 8f
 /** While refreshing the content waits this far down, under the blob spinning at 40. */
 private const val HOLD_GAP = 60f
 
-/** Done, the content springs back up over this long once the blob has gone (B-64). */
+/** Done, the content springs back up over this long, squashing the blob (B-64). */
 private const val CLOSE_MS = 420f
 
 /**
  * The gap over the content (B-64), in dp: while dragged, the band's travel and room for the blob
  * under its tip, the room growing in as the band reaches 40 dp; after a release past 40, from where
- * the content was to [HOLD_GAP], on the engine's release spring; held while refreshing; done, held
- * while the blob shrinks, then back to 0 on the same spring; a short release springs straight back.
+ * the content was to [HOLD_GAP], on the engine's release spring; held while refreshing; done, back
+ * to 0 on a stiffer spring; a short release springs straight back.
  */
 internal fun toonPullGapAt(
     dragging: Boolean,
@@ -252,15 +252,8 @@ internal fun toonPullGapAt(
             0f
         }
 
-        doneAge != null && doneAge < DONE_MS -> {
-            HOLD_GAP
-        }
-
-        doneAge != null && doneAge < DONE_MS + CLOSE_MS -> {
-            max(
-                0f,
-                HOLD_GAP * toonSpring((doneAge - DONE_MS) / 1000, .7f, 22f),
-            )
+        doneAge != null && doneAge < CLOSE_MS -> {
+            max(0f, HOLD_GAP * toonSpring(doneAge / 1000, .7f, 22f))
         }
 
         backAge != null && backAge < CLOSE_MS -> {
@@ -272,6 +265,44 @@ internal fun toonPullGapAt(
         }
     }
 }
+
+/**
+ * The box's own look while its [gap] closes (B-64), or null where the strip's is the one. Done, the
+ * blob keeps spinning in the middle of the gap and the content coming back up squashes it, wider
+ * and flatter, until the gap is gone: one motion instead of the strip's shrink in place and a slack
+ * band popping in after it. A short pull let go, the band contracts with the gap, the blob on its
+ * tip, as it stretched.
+ */
+internal fun toonPullBoxLookAt(
+    gap: Float,
+    dragging: Boolean,
+    refreshing: Boolean,
+    doneAge: Float?,
+    backAge: Float?,
+    nowMs: Float,
+    reduceMotion: Boolean,
+): ToonPullLook? {
+    if (reduceMotion || dragging || refreshing) return null
+    val g = max(0f, min(1f, gap / HOLD_GAP))
+    return when {
+        doneAge != null && doneAge < CLOSE_MS -> {
+            ToonPullLook(band = false, blobY = HELD_BLOB_Y * g, ph = nowMs, bsx = 1 + .6f * (1 - g), bsy = g)
+        }
+
+        backAge != null && backAge < CLOSE_MS -> {
+            // The drag's gap run backwards: d + room, the room in full from 40 dp.
+            val d = if (gap >= PULL_THRESHOLD + BLOB_ROOM) gap - BLOB_ROOM else gap / (1 + BLOB_ROOM / PULL_THRESHOLD)
+            ToonPullLook(d = d, bsy = 1 + d / 240, bsx = 1 - d / 600)
+        }
+
+        else -> {
+            null
+        }
+    }
+}
+
+/** Where the blob spins while the content waits: the strip's 40 dp. */
+private const val HELD_BLOB_Y = 40f
 
 /** The blob, 14 dp with its rim and up to 1.5 times as tall stretched, hangs 14 dp under the band's tip: room for it. */
 private const val BLOB_ROOM = 34f
@@ -384,10 +415,15 @@ internal class ToonPullState(
         held: Boolean = false,
     ): Boolean {
         if (reduceMotion) return false
-        val end = if (held) DONE_MS + CLOSE_MS else DONE_MS
+        val end = if (held) CLOSE_MS else DONE_MS
         return ref || (age(doneAt)?.let { it < end } ?: false) ||
             (held && (age(backAt)?.let { it < CLOSE_MS } ?: false))
     }
+
+    /** What the box draws in its gap (B-64): the strip's look, but for the box's own close and spring-back. */
+    fun boxLook(reduceMotion: Boolean): ToonPullLook =
+        toonPullBoxLookAt(gap(reduceMotion), dragging, ref, age(doneAt), age(backAt), nowMs.toFloat(), reduceMotion)
+            ?: look(reduceMotion)
 
     /** The gap over held content (B-64). */
     fun gap(reduceMotion: Boolean): Float =

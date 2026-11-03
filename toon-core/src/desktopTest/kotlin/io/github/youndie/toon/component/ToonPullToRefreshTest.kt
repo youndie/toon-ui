@@ -237,7 +237,7 @@ class ToonPullToRefreshTest {
         assertEquals(gap(dragging = true, d = 90f), gap(refreshing = true, release = 0f), 1e-3f)
         assertEquals(60f, gap(refreshing = true, release = 2000f), .5f)
         assertEquals(60f, gap(refreshing = true))
-        // Done: held while the blob shrinks, then closed in 420 ms, never below 0, never in a jump.
+        // Done: closed in 420 ms from the first frame, never below 0, never in a jump.
         last = gap(refreshing = true)
         for (t in 0..800) {
             val g = gap(done = t.toFloat())
@@ -290,5 +290,35 @@ class ToonPullToRefreshTest {
             mainClock.advanceTimeBy(1_000)
             assertEquals(rest, top(), .5f, "done, it is back")
         }
+    }
+
+    @Test
+    fun `closing, the blob stays in the gap and is squashed by the content, and a short pull's band contracts`() {
+        // B-64, the owner: "pull to refresh disappears badly". The blob shrank in place for 260 ms,
+        // then a slack band popped into the gap while the content came back.
+        var last: ToonPullLook? = null
+        for (t in 0 until 420) {
+            val gap = toonPullGapAt(false, 0f, false, null, 90f, t.toFloat(), null, false)
+            val look = checkNotNull(toonPullBoxLookAt(gap, false, false, t.toFloat(), null, 0f, false))
+            assertTrue(!look.band, "no band pops in at $t ms")
+            assertTrue(look.blobY!! + 14 * look.bsy <= gap + 1e-3f, "the blob inside the gap at $t ms")
+            last?.let { assertTrue(abs(look.bsy - it.bsy) < .06f, "the blob squashed without a jump at $t ms") }
+            last = look
+        }
+        assertEquals(0f, last!!.bsy, .02f)
+        // A short pull: the band contracts through the drag's own looks, from where the drag left it.
+        val dragged = toonPullGapAt(true, 30f, false, null, 30f, null, null, false)
+        assertEquals(30f, toonPullBoxLookAt(dragged, false, false, null, 0f, 0f, false)!!.d, .01f)
+        for (t in 0 until 420) {
+            val gap = toonPullGapAt(false, 0f, false, null, 30f, null, t.toFloat(), false)
+            val look = checkNotNull(toonPullBoxLookAt(gap, false, false, null, t.toFloat(), 0f, false))
+            // Run backwards: the band stands where a drag would have it for this gap.
+            assertTrue(look.band, "the band stays at $t ms")
+            assertEquals(gap, toonPullGapAt(true, look.d, false, null, 0f, null, null, false), .01f, "at $t ms")
+        }
+        // While dragging or refreshing, or under reduce motion, the strip's own look stands.
+        assertNull(toonPullBoxLookAt(60f, false, true, null, null, 0f, false))
+        assertNull(toonPullBoxLookAt(60f, true, false, null, null, 0f, false))
+        assertNull(toonPullBoxLookAt(60f, false, false, 0f, null, 0f, true))
     }
 }
