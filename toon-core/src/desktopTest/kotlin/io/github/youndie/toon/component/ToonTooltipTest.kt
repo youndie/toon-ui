@@ -4,16 +4,29 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
+import io.github.youndie.toon.draw.drawScene
 import io.github.youndie.toon.parity.TipFrames
 import io.github.youndie.toon.theme.ToonTheme
+import io.github.youndie.toon.tokens.brightCel
+import io.github.youndie.toon.tokens.inkGouacheLight
+import io.github.youndie.toon.tokens.inkGouacheNight
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -34,23 +47,57 @@ class ToonTooltipTest {
     private fun nodeWidth(text: String) = text.length * 14 * .55f
 
     @Test
-    fun `every tooltip cell and inflate frame is the engine's`() {
-        val cells = EngineFrames.cells("Tooltip")
+    fun `every tooltip cell and inflate frame is the engine's, drawn as designed`() {
+        val cells = EngineFrames.cells("Tooltip", asDesigned = true)
         val worst =
             cells.maxOf { cell ->
                 val o = cell.opts
                 val scene =
                     if (o.getValue("kind").jsonPrimitive.content == "inflate") {
-                        TipFrames.inflate(cell.tokens, o.f("t")!!, nodeWidth(TipFrames.TEXT))
+                        TipFrames.inflate(cell.tokens, o.f("t")!!, nodeWidth(TipFrames.TEXT), asDesigned = true)
                     } else {
                         val text = o.getValue("text").jsonPrimitive.content
-                        TipFrames.cell(cell.tokens, text, o.f("s") ?: 1f, nodeWidth(text))
+                        TipFrames.cell(cell.tokens, text, o.f("s") ?: 1f, nodeWidth(text), asDesigned = true)
                     }
                 EngineFrames.compare(cell, scene)
             }
         println("tooltip frames: ${cells.size} cells, worst coordinate $worst dp")
         assertEquals(24, cells.size)
         assertTrue(worst <= EngineFrames.TOLERANCE, "worst coordinate $worst dp")
+    }
+
+    @Test
+    fun `no ink crosses the joint between the balloon's paper and the tail's, in any theme`() {
+        // B-60: the engine's tail paper stops at y −15.5, and Bright Cel's balloon paper ends at −15.7,
+        // so a 0.2 dp hairline of the balloon's ink ran across the tail's top. Drawn 8× with no text,
+        // the columns over the tail's middle are paper from inside the balloon down into the tail.
+        val k = 8
+        for ((theme, tokens) in listOf(
+            "InkGouacheLight" to inkGouacheLight,
+            "InkGouacheNight" to inkGouacheNight,
+            "BrightCel" to brightCel,
+        )) {
+            val w = toonTooltipWidth(100f)
+            val img = ImageBitmap((w * k).toInt(), 46 * k)
+            CanvasDrawScope().draw(Density(1f), LayoutDirection.Ltr, Canvas(img), Size(w * k, 46f * k)) {
+                drawRect(tokens.colors.stage)
+                scale(k.toFloat(), k.toFloat(), Offset.Zero) {
+                    drawScene(toonTooltipScene(tokens, "", 100f, 1f).placed(w / 2, 46f))
+                }
+            }
+            val px = img.toPixelMap()
+            val paper = tokens.colors.surface
+            for (x in -1..3) {
+                for (row in (46 - 20) * k until (46 - 10) * k) {
+                    val c = px[((w / 2 + x) * k).toInt(), row]
+                    val off = maxOf(abs(c.red - paper.red), abs(c.green - paper.green), abs(c.blue - paper.blue))
+                    assertTrue(
+                        off < .1f,
+                        "$theme: ink at x $x dp, y ${row.toFloat() / k - 46} dp ($c)",
+                    )
+                }
+            }
+        }
     }
 
     @Test
@@ -104,7 +151,7 @@ class ToonTooltipTest {
 
     @Test
     fun `the text shows past 0_85 of the balloon, and the box is the balloon's width`() {
-        val tokens = io.github.youndie.toon.tokens.inkGouacheLight
+        val tokens = inkGouacheLight
         assertEquals(0f, toonTooltipScene(tokens, "Hi", 20f, .85f).labels.single().alpha)
         assertEquals(.5f, toonTooltipScene(tokens, "Hi", 20f, .925f).labels.single().alpha, 1e-5f)
         assertEquals(1f, toonTooltipScene(tokens, "Hi", 20f, 1.3f).labels.single().alpha)

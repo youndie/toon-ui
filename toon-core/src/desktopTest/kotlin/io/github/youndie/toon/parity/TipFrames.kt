@@ -9,7 +9,8 @@ import io.github.youndie.toon.tokens.ToonTokens
 /**
  * B-40: the v1 page's tooltip cells and inflate strip. The balloon is as wide as its text, which the
  * engine measures: on a canvas in Chrome, as length × 14 × 0.55 in Node. [textWidth] is that width,
- * Compose's own measure for the fixtures and Node's for the frame test.
+ * Compose's own measure for the fixtures and Node's for the frame test. [asDesigned] draws the tail as
+ * the engine does (B-60), for the frame test.
  */
 internal object TipFrames {
     const val TEXT = "Tap to add a plan"
@@ -20,12 +21,14 @@ internal object TipFrames {
         text: String,
         s: Float,
         textWidth: Float,
-    ): ToonScene = toonTooltipScene(tokens, text, textWidth, s).placed(toonTooltipWidth(textWidth) / 2, 46f)
+        asDesigned: Boolean = false,
+    ): ToonScene = toonTooltipScene(tokens, text, textWidth, s, asDesigned).placed(toonTooltipWidth(textWidth) / 2, 46f)
 
     /** The page's inflate strip at [t] ms, the tip at (100, 52). */
     fun inflate(
         tokens: ToonTokens,
         t: Float,
         textWidth: Float,
-    ): ToonScene = toonTooltipScene(tokens, TEXT, textWidth, toonTipInflate(t, true)).placed(100f, 52f)
+        asDesigned: Boolean = false,
+    ): ToonScene = toonTooltipScene(tokens, TEXT, textWidth, toonTipInflate(t, true), asDesigned).placed(100f, 52f)
 }

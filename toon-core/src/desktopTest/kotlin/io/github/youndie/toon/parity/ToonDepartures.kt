@@ -7,7 +7,11 @@ package io.github.youndie.toon.parity
  * held to the design, and `ToonDeparturesTest` keeps each entry naming cells that exist.
  */
 internal object ToonDepartures {
-    val cells: Map<String, String> = emptyMap()
+    val cells: Map<String, String> =
+        mapOf(
+            // The tail's paper reaches up into the balloon's, so no ink hairline crosses the joint.
+            "Tooltip_" to "B-60",
+        )
 
     /** The item a cell departed in, or null when it is still the design's. */
     fun of(cell: String): String? = cells.entries.firstOrNull { cell.startsWith(it.key) }?.value
