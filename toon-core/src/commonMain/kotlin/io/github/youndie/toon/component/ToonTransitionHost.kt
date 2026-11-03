@@ -8,18 +8,25 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
@@ -61,8 +68,10 @@ public enum class ToonTransition {
 /**
  * Shows [content] for [target], and when [target] changes plays [transition] from the old screen to
  * the new one over the whole of its box, which it clips. [origin] is the tapped element in dp within
- * the box: the iris closes on its centre and the hole bursts from it. Without one, the page's own
- * places: the iris on a point 46 dp above the bottom middle, the hole from the second card.
+ * the box: the iris closes on its centre and the hole bursts from it, growing until it covers the
+ * box. Without one, the page's own places: the iris on a point 46 dp above the bottom middle, the hole
+ * from the second card. Each screen keeps its state across the transition: the old one does not start
+ * over when it begins to leave, nor the new one when it has arrived (B-57).
  */
 @Composable
 public fun <S> ToonTransitionHost(
@@ -79,16 +88,21 @@ public fun <S> ToonTransitionHost(
         state.go(target, transition)
         while (state.running()) withFrameMillis { state.tick(it) }
     }
+    // One movable composition per screen, so a screen moving between the frame's slots keeps its state.
+    val body by rememberUpdatedState(content)
+    val screens = remember { mutableMapOf<S, @Composable () -> Unit>() }
     val age = state.age()
-    val from = state.from
+    val from = state.from?.takeIf { age != null }
+    screens.keys.retainAll(setOf(state.current, from))
+    val screen = { s: S -> screens.getOrPut(s) { movableContentOf { body(s) } } }
     ToonTransitionFrame(
         state.kind,
         age,
         reduce,
         origin,
         modifier,
-        from = if (age != null && from != null) ({ key(from) { content(from) } }) else null,
-        to = { key(state.current) { content(state.current) } },
+        from = from?.let(screen),
+        to = screen(state.current),
     )
 }
 
@@ -173,11 +187,46 @@ internal data class ToonHoleMotion(
     val newOp: Float,
 )
 
-/** The engine's `holeScene` motion: the silhouette holds 15 % of 380 ms, then grows ×10 ease-in 2.2; the new screen fades in from 380 in 80. */
-internal fun toonHoleAt(t: Float): ToonHoleMotion {
+/**
+ * The engine's `holeScene` motion: the silhouette holds 15 % of 380 ms, then grows ×10 ease-in 2.2 —
+ * ×[grow] + 1 where the box needs more to be covered (B-57); the new screen fades in from 380 in 80.
+ */
+internal fun toonHoleAt(
+    t: Float,
+    grow: Float = HOLE_GROW,
+): ToonHoleMotion {
     val u = c01(t / 380)
     val e = if (u < .15f) 0f else ((u - .15f) / .85f).pow(2.2f)
-    return ToonHoleMotion(1 + e * 9, if (t >= 380) c01((t - 380) / 80) else 0f)
+    return ToonHoleMotion(1 + e * grow, if (t >= 380) c01((t - 380) / 80) else 0f)
+}
+
+/** The hole has grown over the whole box when the new screen starts to fade in. */
+private const val HOLE_COVERED_MS = 380f
+
+/** The engine's growth: ×10, enough for the 180 × 320 screen of the page. */
+private const val HOLE_GROW = 9f
+
+/** How far past the box's edge the grown silhouette reaches, beyond its teeth (B-57). */
+private const val HOLE_REACH = 8f
+
+/**
+ * How much the hole grows from the card [x], [y], [w], [h] to cover a box [boxW] × [boxH]: the
+ * engine's ×10, or as much more as the farthest edge of the box needs (B-57). The engine's page
+ * never needs more; a larger box, or a card off its centre, does.
+ */
+internal fun toonHoleGrow(
+    x: Float,
+    y: Float,
+    w: Float,
+    h: Float,
+    boxW: Float,
+    boxH: Float,
+): Float {
+    val cx = x + w / 2
+    val cy = y + h / 2
+    val across = (max(cx, boxW - cx) + HOLE_REACH) / (w / 2)
+    val down = (max(cy, boxH - cy) + HOLE_REACH) / (h / 2)
+    return max(HOLE_GROW, max(across, down) - 1)
 }
 
 private fun c01(v: Float) = max(0f, min(1f, v))
@@ -185,33 +234,69 @@ private fun c01(v: Float) = max(0f, min(1f, v))
 /** The page's tapped card for the hole: the second of three, 14 dp in, 82 down, 46 tall. */
 private val HOLE_CARD_RADII = ToonRadii(10f, 7f, 11f, 8f)
 
+/** The hole [t] ms in: its paper [edge] and the [cut] the new screen shows through, points in dp. */
+internal class ToonHoleCut(
+    val edge: FloatArray,
+    val cut: FloatArray,
+)
+
 /**
- * The hole's silhouette over a screen and the stars of its impact, [t] ms in, from the card
- * [x], [y], [w], [h]: the engine's `hole` at 0.05, its paper edge and its inside, grown about the
- * card's centre.
+ * The hole [t] ms in from the card [x], [y], [w], [h]: the engine's `hole` silhouette at 0.05 grown
+ * about the card's centre by [grow] (see [toonHoleGrow]), or null before it opens and once it covers
+ * the box at 380 ms. The engine fills the cut with the surface and fades the new screen in over it
+ * from 380; here the new screen shows through the cut as it grows (B-57).
  */
-@OptIn(InternalToonApi::class)
-internal fun toonHoleTransitionScene(
-    colors: ToonColors,
+internal fun toonHoleCut(
     t: Float,
     x: Float,
     y: Float,
     w: Float,
     h: Float,
-): ToonScene {
-    if (t <= 0 || t >= 420) return ToonScene.Empty
+    grow: Float = HOLE_GROW,
+): ToonHoleCut? {
+    if (t <= 0 || t >= HOLE_COVERED_MS) return null
     val cx = x + w / 2
     val cy = y + h / 2
+    val k = toonHoleAt(t, grow).scale
     val outline = toonHoleOutline(.05f, x, y, w, h, HOLE_CARD_RADII, 5)
-    val silhouette =
-        ToonScene(
-            listOf(
-                ToonLayer(outline.edge, ToonSegments.Line, true, colors.holeEdge),
-                ToonLayer(outline.ink, ToonSegments.Line, true, colors.surfacePressed),
-            ),
-            emptyList(),
-        ).scaledAbout(cx, cy, toonHoleAt(t).scale, toonHoleAt(t).scale)
-    return silhouette + toonStarsScene(colors, t / 380, cx, y, 30f)
+
+    fun grown(p: FloatArray) = FloatArray(p.size) { if (it % 2 == 0) cx + (p[it] - cx) * k else cy + (p[it] - cy) * k }
+    return ToonHoleCut(grown(outline.edge), grown(outline.ink))
+}
+
+/** The hole's paper edge, under the new screen showing through its cut. */
+@OptIn(InternalToonApi::class)
+internal fun toonHoleEdgeScene(
+    colors: ToonColors,
+    cut: ToonHoleCut,
+): ToonScene = ToonScene(listOf(ToonLayer(cut.edge, ToonSegments.Line, true, colors.holeEdge)), emptyList())
+
+/** The stars of the impact over the card at [x], [y], [w] wide, [t] ms in, as the engine's `holeScene` has them. */
+internal fun toonHoleStarsScene(
+    colors: ToonColors,
+    t: Float,
+    x: Float,
+    y: Float,
+    w: Float,
+): ToonScene = if (t <= 0 || t >= 420) ToonScene.Empty else toonStarsScene(colors, t / 380, x + w / 2, y, 30f)
+
+/** A closed polygon of points in dp as a shape, for clipping a screen to the hole. */
+private class ToonPolygonShape(
+    private val points: FloatArray,
+) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density,
+    ): Outline =
+        Outline.Generic(
+            Path().apply {
+                val d = density.density
+                moveTo(points[0] * d, points[1] * d)
+                for (i in 2 until points.size step 2) lineTo(points[i] * d, points[i + 1] * d)
+                close()
+            },
+        )
 }
 
 /**
@@ -272,11 +357,28 @@ internal fun ToonTransitionFrame(
 
             ToonTransition.Hole -> {
                 val card = origin ?: Rect(14f, 82f, 14f + (w - 28), 82f + 46)
-                Box(Modifier.fillMaxSize()) { from() }
+                val grow = toonHoleGrow(card.left, card.top, card.width, card.height, w, h)
+                val cut = toonHoleCut(t, card.left, card.top, card.width, card.height, grow)
+                // The new screen shows through the cut, and whole once the hole has covered the box (B-57).
+                val covered = t >= HOLE_COVERED_MS
+                Box(Modifier.fillMaxSize().graphicsLayer { alpha = if (covered) 0f else 1f }) { from() }
                 Canvas(Modifier.fillMaxSize()) {
-                    inDp { drawScene(toonHoleTransitionScene(colors, t, card.left, card.top, card.width, card.height)) }
+                    inDp {
+                        cut?.let { drawScene(toonHoleEdgeScene(colors, it)) }
+                    }
                 }
-                Box(Modifier.fillMaxSize().graphicsLayer { alpha = toonHoleAt(t).newOp }) { to() }
+                Box(
+                    Modifier.fillMaxSize().graphicsLayer {
+                        alpha = if (covered || cut != null) 1f else 0f
+                        if (cut != null) {
+                            clip = true
+                            shape = ToonPolygonShape(cut.cut)
+                        }
+                    },
+                ) { to() }
+                Canvas(Modifier.fillMaxSize()) {
+                    inDp { drawScene(toonHoleStarsScene(colors, t, card.left, card.top, card.width)) }
+                }
             }
         }
     }

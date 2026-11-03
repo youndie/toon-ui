@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 No open tasks.
 
-## Closed (56)
+## Closed (57)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -112,6 +112,7 @@ No open tasks.
 - [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[x]` - A chip makes room for its tick smoothly
 - [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[x]` - Title card rings ease into place, and can loop
 - [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[x]` - The top app bar's title swings with its sign
+- [B-57](docs/backlog/B-57-transition-keeps-screens.md) `[x]` - A transition keeps both screens' state, and the new screen shows through the hole
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
 

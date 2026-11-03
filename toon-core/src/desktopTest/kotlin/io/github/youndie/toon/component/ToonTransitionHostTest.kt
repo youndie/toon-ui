@@ -1,14 +1,20 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.fx.toonIrisAt
@@ -21,6 +27,7 @@ import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 /**
@@ -99,9 +106,12 @@ class ToonTransitionHostTest {
         assertTrue(worstScale <= 5e-4f + 1e-5f, "hole scale off the engine by $worstScale")
         assertTrue(worstOp <= 1e-5f, "new screen's fade off the engine by $worstOp")
         val tokens = io.github.youndie.toon.tokens.inkGouacheLight
-        assertTrue(toonHoleTransitionScene(tokens.colors, 0f, 14f, 82f, 152f, 46f).layers.isEmpty())
-        assertTrue(toonHoleTransitionScene(tokens.colors, 419f, 14f, 82f, 152f, 46f).layers.isNotEmpty())
-        assertTrue(toonHoleTransitionScene(tokens.colors, 420f, 14f, 82f, 152f, 46f).layers.isEmpty())
+        // The cut is open until the hole covers the box at 380 (B-57); the stars are gone by 420.
+        assertNull(toonHoleCut(0f, 14f, 82f, 152f, 46f))
+        assertTrue(toonHoleCut(379f, 14f, 82f, 152f, 46f) != null)
+        assertNull(toonHoleCut(380f, 14f, 82f, 152f, 46f))
+        assertTrue(toonHoleStarsScene(tokens.colors, 200f, 14f, 82f, 152f).layers.isNotEmpty())
+        assertTrue(toonHoleStarsScene(tokens.colors, 420f, 14f, 82f, 152f).layers.isEmpty())
     }
 
     @Test
@@ -145,6 +155,131 @@ class ToonTransitionHostTest {
                     assertEquals(0, onAllNodesWithTagCount("list"), "$kind, reduced $reduce: the old screen after")
                     assertEquals(1, onAllNodesWithTagCount("plan"))
                 }
+            }
+        }
+    }
+
+    @Test
+    fun `each screen is composed once across a transition, its state kept as it moves`() {
+        // B-57: the old screen was recomposed from scratch when it began to leave, and the new one
+        // again when it had arrived, so a title card on either played its entrance twice.
+        for (kind in ToonTransition.entries) {
+            for (reduce in listOf(false, true)) {
+                runComposeUiTest {
+                    mainClock.autoAdvance = false
+                    val made = mutableMapOf<String, Int>()
+                    var screen by mutableStateOf("list")
+                    setContent {
+                        ToonTheme(reduceMotion = reduce) {
+                            ToonTransitionHost(screen, Modifier.size(180.dp, 320.dp), transition = kind) {
+                                remember { made[it] = (made[it] ?: 0) + 1 }
+                                Box(Modifier.fillMaxSize().testTag(it))
+                            }
+                        }
+                    }
+                    mainClock.advanceTimeByFrame()
+                    screen = "plan"
+                    mainClock.advanceTimeBy(100)
+                    mainClock.advanceTimeBy(700)
+                    assertEquals(mapOf("list" to 1, "plan" to 1), made, "$kind, reduced $reduce")
+                    screen = "list"
+                    mainClock.advanceTimeBy(800)
+                    assertEquals(
+                        mapOf("list" to 2, "plan" to 1),
+                        made,
+                        "$kind, reduced $reduce: a screen that left is new again",
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `the hole covers a box larger than the page's before the new screen shows`() {
+        // B-57: the engine grows the hole ×10, which covers its 180 × 320 screen from the second card
+        // and left the bottom of a 300 × 360 one showing the old screen under a torn edge.
+        assertEquals(9f, toonHoleGrow(14f, 82f, 152f, 46f, 180f, 320f), "the page's own box is the engine's")
+        val old = Color(0xFFFF0000)
+        runComposeUiTest {
+            setContent {
+                ToonTheme {
+                    ToonTransitionFrame(
+                        ToonTransition.Hole,
+                        379f,
+                        false,
+                        null,
+                        Modifier.size(300.dp, 360.dp).testTag("frame"),
+                        from = { Box(Modifier.fillMaxSize().background(old)) },
+                        to = { Box(Modifier.fillMaxSize().background(Color.Blue)) },
+                    )
+                }
+            }
+            val image = onNodeWithTag("frame").captureToImage().toPixelMap()
+            val shown = (0 until image.width * image.height).count { image[it % image.width, it / image.width] == old }
+            assertEquals(0, shown, "pixels of the old screen left around the hole at 379 ms")
+        }
+    }
+
+    @Test
+    fun `the old screen does not show through the new one as it fades in after the hole`() {
+        // B-57: the engine drops the silhouette at 420 ms while the new screen is half faded in, so
+        // the old screen showed through it until 460: two titles over each other.
+        for (t in listOf(380f, 400f, 420f, 440f, 459f)) {
+            val frames =
+                listOf(Color.Red, Color.Green).map { old ->
+                    var pixels: List<Color> = emptyList()
+                    runComposeUiTest {
+                        setContent {
+                            ToonTheme {
+                                ToonTransitionFrame(
+                                    ToonTransition.Hole,
+                                    t,
+                                    false,
+                                    null,
+                                    Modifier.size(300.dp, 360.dp).testTag("frame"),
+                                    from = { Box(Modifier.fillMaxSize().background(old)) },
+                                    to = { Box(Modifier.size(150.dp, 360.dp).background(Color.Blue)) },
+                                )
+                            }
+                        }
+                        val image = onNodeWithTag("frame").captureToImage().toPixelMap()
+                        pixels = (0 until image.width * image.height).map { image[it % image.width, it / image.width] }
+                    }
+                    pixels
+                }
+            val through = frames[0].indices.count { frames[0][it] != frames[1][it] }
+            assertEquals(0, through, "pixels where the old screen shows at $t ms")
+        }
+    }
+
+    @Test
+    fun `the new screen shows through the hole as it grows`() {
+        // B-57, a departure: the engine fills the hole with the surface and fades the new screen in
+        // over it from 380 ms, so for a quarter of a second the screen was empty.
+        for (t in listOf(60f, 120f, 200f, 300f)) {
+            runComposeUiTest {
+                setContent {
+                    ToonTheme {
+                        ToonTransitionFrame(
+                            ToonTransition.Hole,
+                            t,
+                            false,
+                            null,
+                            Modifier.size(300.dp, 360.dp).testTag("frame"),
+                            from = { Box(Modifier.fillMaxSize().background(Color.Red)) },
+                            to = { Box(Modifier.fillMaxSize().background(Color.Blue)) },
+                        )
+                    }
+                }
+                val image = onNodeWithTag("frame").captureToImage().toPixelMap()
+                val k = image.width / 300f
+                // The card's centre, 150 × 105, is in the cut from the start; the bottom corner is not yet.
+                assertEquals(
+                    Color.Blue,
+                    image[(150 * k).toInt(), (105 * k).toInt()],
+                    "the new screen in the hole at $t ms",
+                )
+                assertEquals(Color.Red, image[(4 * k).toInt(), (356 * k).toInt()], "the old screen round it at $t ms")
             }
         }
     }
