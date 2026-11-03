@@ -194,6 +194,9 @@ internal fun toonHoleAt(
     return ToonHoleMotion(1 + e * grow, if (t >= 380) c01((t - 380) / 80) else 0f)
 }
 
+/** The hole has grown over the whole box when the new screen starts to fade in. */
+private const val HOLE_COVERED_MS = 380f
+
 /** The engine's growth: ×10, enough for the 180 × 320 screen of the page. */
 private const val HOLE_GROW = 9f
 
@@ -313,8 +316,12 @@ internal fun ToonTransitionFrame(
 
             ToonTransition.Hole -> {
                 val card = origin ?: Rect(14f, 82f, 14f + (w - 28), 82f + 46)
-                Box(Modifier.fillMaxSize()) { from() }
+                // By the time the new screen starts to show, the hole has covered the old one; the
+                // engine still lets it through once the silhouette goes at 420 (B-57).
+                val covered = t >= HOLE_COVERED_MS
+                Box(Modifier.fillMaxSize().graphicsLayer { alpha = if (covered) 0f else 1f }) { from() }
                 Canvas(Modifier.fillMaxSize()) {
+                    if (covered) drawRect(colors.surfacePressed)
                     inDp {
                         val grow = toonHoleGrow(card.left, card.top, card.width, card.height, w, h)
                         drawScene(

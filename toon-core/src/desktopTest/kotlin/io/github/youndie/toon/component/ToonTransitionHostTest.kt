@@ -216,6 +216,38 @@ class ToonTransitionHostTest {
         }
     }
 
+    @Test
+    fun `the old screen does not show through the new one as it fades in after the hole`() {
+        // B-57: the engine drops the silhouette at 420 ms while the new screen is half faded in, so
+        // the old screen showed through it until 460: two titles over each other.
+        for (t in listOf(380f, 400f, 420f, 440f, 459f)) {
+            val frames =
+                listOf(Color.Red, Color.Green).map { old ->
+                    var pixels: List<Color> = emptyList()
+                    runComposeUiTest {
+                        setContent {
+                            ToonTheme {
+                                ToonTransitionFrame(
+                                    ToonTransition.Hole,
+                                    t,
+                                    false,
+                                    null,
+                                    Modifier.size(300.dp, 360.dp).testTag("frame"),
+                                    from = { Box(Modifier.fillMaxSize().background(old)) },
+                                    to = { Box(Modifier.size(150.dp, 360.dp).background(Color.Blue)) },
+                                )
+                            }
+                        }
+                        val image = onNodeWithTag("frame").captureToImage().toPixelMap()
+                        pixels = (0 until image.width * image.height).map { image[it % image.width, it / image.width] }
+                    }
+                    pixels
+                }
+            val through = frames[0].indices.count { frames[0][it] != frames[1][it] }
+            assertEquals(0, through, "pixels where the old screen shows at $t ms")
+        }
+    }
+
     private fun androidx.compose.ui.test.ComposeUiTest.onAllNodesWithTagCount(tag: String) =
         onAllNodes(
             androidx.compose.ui.test
