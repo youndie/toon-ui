@@ -8,10 +8,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
+import androidx.compose.runtime.movableContentOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
@@ -61,8 +62,10 @@ public enum class ToonTransition {
 /**
  * Shows [content] for [target], and when [target] changes plays [transition] from the old screen to
  * the new one over the whole of its box, which it clips. [origin] is the tapped element in dp within
- * the box: the iris closes on its centre and the hole bursts from it. Without one, the page's own
- * places: the iris on a point 46 dp above the bottom middle, the hole from the second card.
+ * the box: the iris closes on its centre and the hole bursts from it, growing until it covers the
+ * box. Without one, the page's own places: the iris on a point 46 dp above the bottom middle, the hole
+ * from the second card. Each screen keeps its state across the transition: the old one does not start
+ * over when it begins to leave, nor the new one when it has arrived (B-57).
  */
 @Composable
 public fun <S> ToonTransitionHost(
@@ -79,16 +82,21 @@ public fun <S> ToonTransitionHost(
         state.go(target, transition)
         while (state.running()) withFrameMillis { state.tick(it) }
     }
+    // One movable composition per screen, so a screen moving between the frame's slots keeps its state.
+    val body by rememberUpdatedState(content)
+    val screens = remember { mutableMapOf<S, @Composable () -> Unit>() }
     val age = state.age()
-    val from = state.from
+    val from = state.from?.takeIf { age != null }
+    screens.keys.retainAll(setOf(state.current, from))
+    val screen = { s: S -> screens.getOrPut(s) { movableContentOf { body(s) } } }
     ToonTransitionFrame(
         state.kind,
         age,
         reduce,
         origin,
         modifier,
-        from = if (age != null && from != null) ({ key(from) { content(from) } }) else null,
-        to = { key(state.current) { content(state.current) } },
+        from = from?.let(screen),
+        to = screen(state.current),
     )
 }
 
@@ -173,11 +181,43 @@ internal data class ToonHoleMotion(
     val newOp: Float,
 )
 
-/** The engine's `holeScene` motion: the silhouette holds 15 % of 380 ms, then grows ×10 ease-in 2.2; the new screen fades in from 380 in 80. */
-internal fun toonHoleAt(t: Float): ToonHoleMotion {
+/**
+ * The engine's `holeScene` motion: the silhouette holds 15 % of 380 ms, then grows ×10 ease-in 2.2 —
+ * ×[grow] + 1 where the box needs more to be covered (B-57); the new screen fades in from 380 in 80.
+ */
+internal fun toonHoleAt(
+    t: Float,
+    grow: Float = HOLE_GROW,
+): ToonHoleMotion {
     val u = c01(t / 380)
     val e = if (u < .15f) 0f else ((u - .15f) / .85f).pow(2.2f)
-    return ToonHoleMotion(1 + e * 9, if (t >= 380) c01((t - 380) / 80) else 0f)
+    return ToonHoleMotion(1 + e * grow, if (t >= 380) c01((t - 380) / 80) else 0f)
+}
+
+/** The engine's growth: ×10, enough for the 180 × 320 screen of the page. */
+private const val HOLE_GROW = 9f
+
+/** How far past the box's edge the grown silhouette reaches, beyond its teeth (B-57). */
+private const val HOLE_REACH = 8f
+
+/**
+ * How much the hole grows from the card [x], [y], [w], [h] to cover a box [boxW] × [boxH]: the
+ * engine's ×10, or as much more as the farthest edge of the box needs (B-57). The engine's page
+ * never needs more; a larger box, or a card off its centre, does.
+ */
+internal fun toonHoleGrow(
+    x: Float,
+    y: Float,
+    w: Float,
+    h: Float,
+    boxW: Float,
+    boxH: Float,
+): Float {
+    val cx = x + w / 2
+    val cy = y + h / 2
+    val across = (max(cx, boxW - cx) + HOLE_REACH) / (w / 2)
+    val down = (max(cy, boxH - cy) + HOLE_REACH) / (h / 2)
+    return max(HOLE_GROW, max(across, down) - 1)
 }
 
 private fun c01(v: Float) = max(0f, min(1f, v))
@@ -188,7 +228,7 @@ private val HOLE_CARD_RADII = ToonRadii(10f, 7f, 11f, 8f)
 /**
  * The hole's silhouette over a screen and the stars of its impact, [t] ms in, from the card
  * [x], [y], [w], [h]: the engine's `hole` at 0.05, its paper edge and its inside, grown about the
- * card's centre.
+ * card's centre by [grow] (see [toonHoleGrow]).
  */
 @OptIn(InternalToonApi::class)
 internal fun toonHoleTransitionScene(
@@ -198,6 +238,7 @@ internal fun toonHoleTransitionScene(
     y: Float,
     w: Float,
     h: Float,
+    grow: Float = HOLE_GROW,
 ): ToonScene {
     if (t <= 0 || t >= 420) return ToonScene.Empty
     val cx = x + w / 2
@@ -210,7 +251,7 @@ internal fun toonHoleTransitionScene(
                 ToonLayer(outline.ink, ToonSegments.Line, true, colors.surfacePressed),
             ),
             emptyList(),
-        ).scaledAbout(cx, cy, toonHoleAt(t).scale, toonHoleAt(t).scale)
+        ).scaledAbout(cx, cy, toonHoleAt(t, grow).scale, toonHoleAt(t, grow).scale)
     return silhouette + toonStarsScene(colors, t / 380, cx, y, 30f)
 }
 
@@ -274,7 +315,12 @@ internal fun ToonTransitionFrame(
                 val card = origin ?: Rect(14f, 82f, 14f + (w - 28), 82f + 46)
                 Box(Modifier.fillMaxSize()) { from() }
                 Canvas(Modifier.fillMaxSize()) {
-                    inDp { drawScene(toonHoleTransitionScene(colors, t, card.left, card.top, card.width, card.height)) }
+                    inDp {
+                        val grow = toonHoleGrow(card.left, card.top, card.width, card.height, w, h)
+                        drawScene(
+                            toonHoleTransitionScene(colors, t, card.left, card.top, card.width, card.height, grow),
+                        )
+                    }
                 }
                 Box(Modifier.fillMaxSize().graphicsLayer { alpha = toonHoleAt(t).newOp }) { to() }
             }

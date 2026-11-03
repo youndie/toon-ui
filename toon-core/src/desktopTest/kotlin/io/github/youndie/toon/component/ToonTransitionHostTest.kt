@@ -1,14 +1,20 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.captureToImage
+import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.fx.toonIrisAt
@@ -146,6 +152,67 @@ class ToonTransitionHostTest {
                     assertEquals(1, onAllNodesWithTagCount("plan"))
                 }
             }
+        }
+    }
+
+    @Test
+    fun `each screen is composed once across a transition, its state kept as it moves`() {
+        // B-57: the old screen was recomposed from scratch when it began to leave, and the new one
+        // again when it had arrived, so a title card on either played its entrance twice.
+        for (kind in ToonTransition.entries) {
+            for (reduce in listOf(false, true)) {
+                runComposeUiTest {
+                    mainClock.autoAdvance = false
+                    val made = mutableMapOf<String, Int>()
+                    var screen by mutableStateOf("list")
+                    setContent {
+                        ToonTheme(reduceMotion = reduce) {
+                            ToonTransitionHost(screen, Modifier.size(180.dp, 320.dp), transition = kind) {
+                                remember { made[it] = (made[it] ?: 0) + 1 }
+                                Box(Modifier.fillMaxSize().testTag(it))
+                            }
+                        }
+                    }
+                    mainClock.advanceTimeByFrame()
+                    screen = "plan"
+                    mainClock.advanceTimeBy(100)
+                    mainClock.advanceTimeBy(700)
+                    assertEquals(mapOf("list" to 1, "plan" to 1), made, "$kind, reduced $reduce")
+                    screen = "list"
+                    mainClock.advanceTimeBy(800)
+                    assertEquals(
+                        mapOf("list" to 2, "plan" to 1),
+                        made,
+                        "$kind, reduced $reduce: a screen that left is new again",
+                    )
+                }
+            }
+        }
+    }
+
+    @Test
+    fun `the hole covers a box larger than the page's before the new screen shows`() {
+        // B-57: the engine grows the hole ×10, which covers its 180 × 320 screen from the second card
+        // and left the bottom of a 300 × 360 one showing the old screen under a torn edge.
+        assertEquals(9f, toonHoleGrow(14f, 82f, 152f, 46f, 180f, 320f), "the page's own box is the engine's")
+        val old = Color(0xFFFF0000)
+        runComposeUiTest {
+            setContent {
+                ToonTheme {
+                    ToonTransitionFrame(
+                        ToonTransition.Hole,
+                        379f,
+                        false,
+                        null,
+                        Modifier.size(300.dp, 360.dp).testTag("frame"),
+                        from = { Box(Modifier.fillMaxSize().background(old)) },
+                        to = { Box(Modifier.fillMaxSize().background(Color.Blue)) },
+                    )
+                }
+            }
+            val image = onNodeWithTag("frame").captureToImage().toPixelMap()
+            val shown = (0 until image.width * image.height).count { image[it % image.width, it / image.width] == old }
+            assertEquals(0, shown, "pixels of the old screen left around the hole at 379 ms")
         }
     }
 
