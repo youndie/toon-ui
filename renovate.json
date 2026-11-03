@@ -1,0 +1,11 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": [
+    "The portfolio's configuration, extended by name rather than copied: sborka's `default.json` (the Monday batch, the kotlin / kotlinx / sborka / ci-actions groups, majors to a human).",
+    "The harness preset is second on purpose: package rules are concatenated in the order the presets are named, and its automerge rule has to come after the base preset's `majors get a human`. Its precondition holds here: both jobs of check.yaml run on `pull_request`."
+  ],
+  "extends": [
+    "github>youndie/sborka",
+    "github>youndie/sborka:automerge-harness"
+  ]
+}

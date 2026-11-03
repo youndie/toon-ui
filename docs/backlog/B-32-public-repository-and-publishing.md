@@ -1,7 +1,7 @@
 ---
 id: B-32
 title: "Public repository and publishing"
-status: wip
+status: done
 priority: P2
 size: S
 stage: stage-4-product
@@ -46,5 +46,9 @@ The brief calls toon-ui open source. The repository is local and has no remote.
   AWS, Slack, Anthropic tokens and private keys over every commit), one author.
 - **CLAUDE.md** now says what oldge-ui's says: the loop opens a pull request per item and merges it
   itself on green CI over the head commit.
-- Status stays `wip` until the AC is seen from outside: CI green on GitHub and a `0.1.0.<run>`
-  resolving for a consumer.
+- **Seen from outside (2026-11-03).** The first push ran `check`, `pages` and `publish`. Publish
+  failed once, before any build, because the token workflow had not yet written the secrets; rerun
+  after it, all three green. `0.1.0.1` is in the Reposilite for the root and all five targets, and
+  `publish-wip.yaml`'s consumer job resolved it. https://youndie.github.io/toon-ui/ serves the kit.
+- `renovate.json` is oldge-ui's: sborka's presets by name, so the stack hold and the Monday batch
+  apply here too.
