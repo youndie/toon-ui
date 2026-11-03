@@ -72,7 +72,7 @@ DOCS_BOOTSTRAP_SHIM := 2
 DOCS_BOOTSTRAP_GOALS := check gate report fix
 
 .DEFAULT_GOAL := help
-.PHONY: help check gate report fix goldens references tokens icons fx components
+.PHONY: help check gate report fix goldens references tokens icons fx components tiles
 
 help:
 	@echo "make check   - the gate and the reports: exactly what CI runs"
@@ -85,6 +85,7 @@ help:
 	@echo "make components - rewrite the component fixtures from the spec pages' cells"
 	@echo "make goldens - rewrite the engine goldens from reference/design-system/toon-engine.js"
 	@echo "make references - re-render the Chrome design references (needs Google Chrome)"
+	@echo "make tiles   - rewrite the bundled stage tiles, seamless, from the design's (needs a JDK)"
 
 check: gate report
 
@@ -120,6 +121,13 @@ fx:
 # B-14: rewrite the component fixtures from the spec pages' cells. Not a docs-bootstrap goal either.
 components:
 	node scripts/generate-components.mjs
+
+# B-59: rewrite the bundled stage tiles, seamless, from the design's. Not in the gate: the bytes of a
+# PNG depend on the JDK that wrote it; ToonStageSeamTest holds what matters, the wrap.
+TILES := gouache-light gouache-night paper-light paper-night
+tiles:
+	for t in $(TILES); do java scripts/seamless-tiles.java reference/design-system/assets/textures/$$t.png \
+		toon-core/src/commonMain/composeResources/drawable/$$(echo $$t | tr - _).png || exit 1; done
 
 # B-03: rewrite the golden JSON from the vendored engine. Not a docs-bootstrap goal, so it reads no
 # pin and fetches nothing.
