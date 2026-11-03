@@ -182,6 +182,8 @@ None at runtime.
 - An icon's outline and fill are built once per glyph and weight and kept in the glyph, as the engine
   caches per name and base (B-15). Two threads drawing a new glyph at once may each build it; the
   result is the same.
+- The top app bar's title turns with its sign when it sways (B-56), the one place text tilts; the
+  scene keeps it level, as the design does, and `drawToonTopBar` turns it at drawing time.
 - A card's hole goes to the FX host when there is one (`card.gone`), else the card draws it, turned
   with the card; the host's hole is not turned (B-21).
 - `ToonCardList` keeps a thrown card's slot until the cards below have closed up over it (520 ms, or
