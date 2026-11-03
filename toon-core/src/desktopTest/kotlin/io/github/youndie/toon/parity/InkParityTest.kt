@@ -21,6 +21,8 @@ class InkParityTest {
             InkRatio
                 .cells(null)
                 .filterNot { it.startsWith("Divider_") || it.startsWith("TextFloor_") }
+                // Cells the code has left on purpose are held to their own goldens only (research D13).
+                .filter { ToonDepartures.of(it.removeSuffix(".png")) == null }
                 .associateWith(InkRatio::ofCell)
 
         fun floorOf(cell: String) = if (cell.substringBefore('_') in WITH_TEXT) textFloor else floor

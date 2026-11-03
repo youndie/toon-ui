@@ -2,6 +2,7 @@ package io.github.youndie.toon.draw
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import io.github.youndie.toon.parity.ToonDepartures
 import io.github.youndie.toon.tokens.ToonTokens
 import io.github.youndie.toon.tokens.brightCel
 import io.github.youndie.toon.tokens.inkGouacheLight
@@ -44,11 +45,16 @@ internal object EngineFrames {
         val frame: JsonObject,
     )
 
+    /** A group's cells, less those the code has left on purpose (research D13, `ToonDepartures`). */
     fun cells(group: String): List<Cell> =
-        all.getValue(group).jsonObject.map { (name, f) ->
+        all.getValue(group).jsonObject.mapNotNull { (name, f) ->
+            if (ToonDepartures.of("${group}_$name") != null) return@mapNotNull null
             val o = f.jsonObject
             Cell(name, themes.getValue(o.getValue("theme").jsonPrimitive.content), o.getValue("opts").jsonObject, o)
         }
+
+    /** Every cell as `<group>_<cell>`, departed or not. */
+    fun allCellNames(): List<String> = all.flatMap { (group, cells) -> cells.jsonObject.keys.map { "${group}_$it" } }
 
     private data class Quad(
         val what: String,

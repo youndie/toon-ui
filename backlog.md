@@ -52,13 +52,17 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (1)
+## Open (5)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
+| [B-53](docs/backlog/B-53-press-sticks-on-fast-clicks.md) `[ ]` | A press can stick for good under fast clicks | P1 | S | - |
+| [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[ ]` | The kit's theme and reduce motion reach the Screens app | P2 | S | - |
+| [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[ ]` | A chip makes room for its tick smoothly | P2 | S | - |
+| [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[ ]` | Title card rings ease into place, and can loop | P2 | S | - |
+| [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[ ]` | The top app bar's title swings with its sign | P2 | S | - |
 
-## Closed (50)
+## Closed (51)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -121,6 +125,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-31](docs/backlog/B-31-component-catalogue.md) `[x]` - Component catalogue: which composable is which design file, generated
 - [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[x]` - Public repository and publishing
 - [B-33](docs/backlog/B-33-v1-components-need-design.md) `[x]` - The brief's v1 components have no design yet
+- [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[-]` - Re-import the design project as a diff, never an overwrite
 - [B-49](docs/backlog/B-49-top-bar-action-spacing.md) `[x]` - TopAppBar: with three or more actions the middle ones are 40 dp targets
 - [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[x]` - Menu: with three or more items the middle ones are 44 dp targets
 - [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[x]` - Check the two-effect clocks under a first composition
