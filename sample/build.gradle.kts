@@ -1,5 +1,6 @@
-// B-29: the sample app, the Screens page's three screens running live on the desktop. Not published,
-// not a dependency of anything: `./gradlew :sample:run`.
+// B-29: the sample app, the Screens page's three screens running live; B-32 adds the kit, every
+// component on one sheet, and the browser. Not published, not a dependency of anything:
+// `./gradlew :sample:run` on the desktop, `:sample:wasmJsBrowserDistribution` for the Pages site.
 plugins {
     alias(wip.plugins.kotlinMultiplatform)
     alias(wip.plugins.composeMultiplatform)
@@ -14,12 +15,20 @@ kotlin {
 
     jvm("desktop")
 
+    @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
+    wasmJs {
+        browser { commonWebpackConfig { outputFileName = "sample.js" } }
+        binaries.executable()
+    }
+
     sourceSets {
-        getByName("desktopMain").dependencies {
+        commonMain.dependencies {
             implementation(project(":toon-core"))
             implementation(wip.compose.runtime)
             implementation(wip.compose.foundation)
             implementation(wip.compose.ui)
+        }
+        getByName("desktopMain").dependencies {
             implementation(compose.desktop.currentOs)
         }
         getByName("desktopTest").dependencies {
@@ -31,4 +40,5 @@ kotlin {
 
 compose.desktop.application {
     mainClass = "io.github.youndie.toon.sample.MainKt"
+    nativeDistributions { packageName = "toon-ui" }
 }

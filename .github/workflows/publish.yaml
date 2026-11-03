@@ -1,0 +1,36 @@
+# Every build of main publishes toon-core as <head>.<run number> (B-32), through sborka's reusable
+# workflow, as oldge-ui does. `gradle.properties`' `version` is the head, and `determine-version`
+# puts the run number on the tail through -PVERSION: two publishes never share a coordinate, or a
+# consumer could not tell them apart and would keep the cached older one. No step here spells the
+# version. The head names the next release, never a tagged one: X.Y.Z.N sorts above X.Y.Z.
+#
+# The credentials are put here by the `reposilite-token.yaml` workflow of the portfolio's private
+# infrastructure repository, with a route for each of the six coordinates: `toon-core` and one per
+# target. A new target is a new coordinate, and needs the token reissued with it.
+name: publish
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    uses: youndie/sborka/.github/workflows/publish-wip.yaml@v0.5.0.130
+    with:
+      # macOS for two reasons. The check before the publish is the whole gate, and its goldens are a
+      # claim about the Mac's rasteriser. And a multiplatform module publishes its root and every
+      # target from one host.
+      runner: macos-latest
+      konan-cache: true
+      # In a step of its own, before the publish: a publish is the one step that cannot be taken back.
+      check: check
+      tasks: publishAllPublicationsToWipRepository
+      test-results: true
+      # The root only: a consumer names the root, and its module metadata sends Gradle to the
+      # target's variant.
+      coordinates: |
+        io.github.youndie:toon-core
+    secrets:
+      REPOSILITE_USER: ${{ secrets.REPOSILITE_USER }}
+      REPOSILITE_SECRET: ${{ secrets.REPOSILITE_SECRET }}

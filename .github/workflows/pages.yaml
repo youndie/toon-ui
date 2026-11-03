@@ -1,0 +1,59 @@
+# The kit in a browser (B-32): the sample's wasm build, every component on one sheet and the demo
+# screens, at https://youndie.github.io/toon-ui/. Built the way kvadrant-ui builds its demo.
+#
+# TWO JOBS, AND THE SPLIT IS THE POINT. `build` runs on `main` and on every pull request, because a
+# sample that no longer compiles for the browser has to be a red build rather than a discovery.
+# `deploy` runs on `main` alone, so the site never shows a branch's idea of the library.
+name: pages
+
+# `main` and pull requests, not every push: a branch with a pull request open receives both events
+# for the same commit, and the bundle would be built twice.
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.130
+
+      # Nothing here renders: the wasm build compiles and bundles, so no display server is needed.
+      - run: ./gradlew --no-daemon :sample:wasmJsBrowserDistribution
+
+      # An empty upload deploys a blank site over a working one and reports success.
+      - name: the site is not empty
+        run: |
+          site=sample/build/dist/wasmJs/productionExecutable
+          ls -la "$site"
+          test -f "$site/index.html"
+          test -f "$site/sample.js"
+          test -n "$(find "$site" -name '*.wasm' -print -quit)"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: sample/build/dist/wasmJs/productionExecutable
+
+  # One deployment at a time: a half-finished one leaves the site serving a mixture of two builds.
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

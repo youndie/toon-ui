@@ -7,12 +7,19 @@ plugins {
     alias(libs.plugins.viddik)
     id("io.github.youndie.sborka.kmp")
     id("io.github.youndie.sborka.lint")
+    // Every push to `main` publishes `<version>.<run>` to the Reposilite (B-32), as oldge-ui does.
+    id("io.github.youndie.sborka.publish")
 }
 
 // Four targets (research D9). Android and iOS lead the brief; desktop is where the screenshot and
 // parity gate runs, so a green `check` says nothing visual about the other three.
 kotlin {
     jvm("desktop")
+
+    // The public API is pinned (B-32), as in oldge-ui: `toon-core/api/` is the committed dump, and
+    // `check` fails on any change to it that was not recorded with `updateKotlinAbi`.
+    @OptIn(org.jetbrains.kotlin.gradle.dsl.abi.ExperimentalAbiValidation::class)
+    abiValidation {}
 
     @OptIn(org.jetbrains.kotlin.gradle.ExperimentalWasmDsl::class)
     wasmJs {
