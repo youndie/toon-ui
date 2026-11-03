@@ -17,6 +17,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.CustomAccessibilityAction
@@ -35,6 +37,7 @@ import io.github.youndie.toon.draw.ToonLabel
 import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonScene
+import io.github.youndie.toon.draw.ToonTextRenderer
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
@@ -155,13 +158,24 @@ public fun ToonTopAppBar(
 
         inDp {
             val look = ToonTopBarLook(scrolled = scrolled, pressed = pressed)
-            val rot = sway.angle(reduce)
-            drawScene(
-                toonTopBarScene(tokens, w, title, variant, actions, nav, look).placed(0f, 0f, 1f, rot, w / 2, PIVOT_Y),
-                texts,
-            )
+            drawToonTopBar(toonTopBarScene(tokens, w, title, variant, actions, nav, look), sway.angle(reduce), w, texts)
         }
     }
+}
+
+/**
+ * The sign [scene], [w] dp wide, swung by [rot] degrees about its pivot, the title with it (B-56): the
+ * engine's `place` turns the sign's shapes and moves its text level, so the title hung still while
+ * the sign swung under it. A departure from the design's rule that text never tilts, for this sign.
+ */
+internal fun DrawScope.drawToonTopBar(
+    scene: ToonScene,
+    rot: Float,
+    w: Float,
+    texts: ToonTextRenderer,
+) {
+    drawScene(ToonScene(scene.placed(0f, 0f, 1f, rot, w / 2, PIVOT_Y).layers, emptyList()), texts)
+    rotate(rot, Offset(w / 2, PIVOT_Y)) { drawScene(ToonScene(emptyList(), scene.labels), texts) }
 }
 
 /** The kit's box: 76 dp, the sign 56 tall and 10 down. */
