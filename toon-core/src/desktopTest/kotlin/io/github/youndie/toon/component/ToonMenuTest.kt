@@ -5,6 +5,12 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Canvas
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
+import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.SemanticsActions
@@ -19,10 +25,16 @@ import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.pressKey
 import androidx.compose.ui.test.up
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.LayoutDirection
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
+import io.github.youndie.toon.draw.drawScene
 import io.github.youndie.toon.parity.MenuFrames
 import io.github.youndie.toon.theme.ToonTheme
+import io.github.youndie.toon.tokens.brightCel
+import io.github.youndie.toon.tokens.inkGouacheLight
+import io.github.youndie.toon.tokens.inkGouacheNight
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonArray
@@ -42,8 +54,8 @@ import kotlin.test.assertTrue
 @OptIn(ExperimentalTestApi::class)
 class ToonMenuTest {
     @Test
-    fun `every menu cell and strip frame is the engine's`() {
-        val cells = EngineFrames.cells("Menu") + EngineFrames.cells("MenuProbe")
+    fun `every menu cell and strip frame is the engine's, drawn as designed`() {
+        val cells = EngineFrames.cells("Menu", asDesigned = true) + EngineFrames.cells("MenuProbe", asDesigned = true)
         val worst =
             cells.maxOf { cell ->
                 val o = cell.opts
@@ -52,11 +64,11 @@ class ToonMenuTest {
                 val scene =
                     when (o.getValue("kind").jsonPrimitive.content) {
                         "unroll" -> {
-                            MenuFrames.strip(cell.tokens, true, o.f("t")!!)
+                            MenuFrames.strip(cell.tokens, true, o.f("t")!!, asDesigned = true)
                         }
 
                         "rollUp" -> {
-                            MenuFrames.strip(cell.tokens, false, o.f("t")!!)
+                            MenuFrames.strip(cell.tokens, false, o.f("t")!!, asDesigned = true)
                         }
 
                         else -> {
@@ -70,6 +82,7 @@ class ToonMenuTest {
                                     focus = index("focus"),
                                     disabled = index("disabled"),
                                 ),
+                                asDesigned = true,
                             )
                         }
                     }
@@ -78,6 +91,48 @@ class ToonMenuTest {
         println("menu frames: ${cells.size} cells, worst coordinate $worst dp")
         assertEquals(51, cells.size)
         assertTrue(worst <= EngineFrames.TOLERANCE, "worst coordinate $worst dp")
+    }
+
+    @Test
+    fun `no stripe crosses the rolls, in any theme`() {
+        // B-61: the engine creases each roll with a 1 dp line of ink at 35 %, 1 dp under its middle, which
+        // read as a blurred stripe through the art. Drawn 8×, the rolls' paper is one colour from 3 dp
+        // above their middle to 3 dp under it, 20 dp in from either end.
+        val k = 8
+        val w = 200f
+        val full = 14 + MenuFrames.items.size * 44f + 10
+        for ((theme, tokens) in listOf(
+            "InkGouacheLight" to inkGouacheLight,
+            "InkGouacheNight" to inkGouacheNight,
+            "BrightCel" to brightCel,
+        )) {
+            val img = ImageBitmap((w * k).toInt(), ((full + 30) * k).toInt())
+            CanvasDrawScope().draw(
+                Density(1f),
+                LayoutDirection.Ltr,
+                Canvas(img),
+                Size(img.width.toFloat(), img.height.toFloat()),
+            ) {
+                drawRect(tokens.colors.stage)
+                scale(k.toFloat(), k.toFloat(), Offset.Zero) {
+                    drawScene(toonMenuScene(tokens, w, MenuFrames.items, ToonMenuLook()))
+                }
+            }
+            val px = img.toPixelMap()
+            val roll = tokens.colors.surfacePressed
+            for ((which, y) in listOf("top" to 7f, "bottom" to 7 + full)) {
+                for (row in ((y - 3) * k).toInt()..((y + 3) * k).toInt()) {
+                    for (x in (20 * k) until ((w - 20) * k).toInt() step k) {
+                        val c = px[x, row]
+                        val off = maxOf(abs(c.red - roll.red), abs(c.green - roll.green), abs(c.blue - roll.blue))
+                        assertTrue(
+                            off < .05f,
+                            "$theme, $which roll: off its paper at x ${x / k} dp, y ${row.toFloat() / k} dp ($c)",
+                        )
+                    }
+                }
+            }
+        }
     }
 
     @Test

@@ -20,11 +20,15 @@ internal object MenuFrames {
             ToonMenuItem("Delete", ToonIcons.Delete),
         )
 
-    /** The page's `menuScene` at [t] ms into an unroll ([open]) or a roll-up: the trigger, and the scroll under it. */
+    /**
+     * The page's `menuScene` at [t] ms into an unroll ([open]) or a roll-up: the trigger, and the scroll
+     * under it, its rolls creased as the engine draws them when [asDesigned] (B-61).
+     */
     fun strip(
         tokens: ToonTokens,
         open: Boolean,
         t: Float,
+        asDesigned: Boolean = false,
     ): ToonScene {
         val u = toonMenuUnroll(t, open)
         val trigger =
@@ -37,7 +41,7 @@ internal object MenuFrames {
         return if (u >
             .01f
         ) {
-            trigger + toonMenuScene(tokens, 200f, items, ToonMenuLook(u = u)).placed(34f, 58f)
+            trigger + toonMenuScene(tokens, 200f, items, ToonMenuLook(u = u), asDesigned).placed(34f, 58f)
         } else {
             trigger
         }

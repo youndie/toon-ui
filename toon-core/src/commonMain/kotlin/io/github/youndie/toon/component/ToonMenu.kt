@@ -62,7 +62,9 @@ import kotlin.math.pow
 
 // A port of the engine's `menu` and `menuUnroll` and the kit's `C.menu` (B-37): a paper scroll whose
 // bottom roll drops and unrolls the paper with an overshoot, the items fading in as it passes them;
-// closed, it rolls back up in 160 ms. An item fires on release, before the roll finishes.
+// closed, it rolls back up in 160 ms. An item fires on release, before the roll finishes. The rolls
+// are drawn without the engine's crease, a straight 1 dp line of ink at 35 % across each roll (B-61):
+// on the wobbled roll it read as a blurred stripe through the art, not as a fold.
 
 /** One item of a [ToonMenu]: its [label] and an [icon] before it. A label naming a deletion is drawn in red. */
 public class ToonMenuItem(
@@ -255,13 +257,17 @@ private val ITEM_LABEL = ToonTextStyle(600, 16f)
 /** A deletion's label, drawn in the danger text colour. */
 private val DANGER = Regex("delete|remove", RegexOption.IGNORE_CASE)
 
-/** The engine's `menu`: one frame [w] dp wide from its top left. */
+/**
+ * The engine's `menu`: one frame [w] dp wide from its top left. [asDesigned] draws each roll's crease
+ * as the engine does (B-61), for the engine-frame test.
+ */
 @OptIn(InternalToonApi::class)
 internal fun toonMenuScene(
     tokens: ToonTokens,
     w: Float,
     items: List<ToonMenuItem>,
     o: ToonMenuLook,
+    asDesigned: Boolean = false,
 ): ToonScene {
     val c = tokens.colors
     val sh = tokens.shape
@@ -279,7 +285,10 @@ internal fun toonMenuScene(
         layers += smoothLayer(g.ink, c.ink, dx = sh.shadow * .6f, dy = sh.shadow * .6f)
         layers += smoothLayer(g.ink, c.ink)
         layers += smoothLayer(g.fill, c.surfacePressed)
-        layers += ToonLayer(floatArrayOf(8f, y + 1, w - 8, y + 1), ToonSegments.Line, false, c.ink, .35f, stroke = 1f)
+        if (asDesigned) {
+            layers +=
+                ToonLayer(floatArrayOf(8f, y + 1, w - 8, y + 1), ToonSegments.Line, false, c.ink, .35f, stroke = 1f)
+        }
     }
     if (h > 2) {
         layers +=
