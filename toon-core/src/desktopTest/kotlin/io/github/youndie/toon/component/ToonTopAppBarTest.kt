@@ -1,17 +1,34 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.translate
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.click
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
+import io.github.youndie.toon.draw.ToonScene
+import io.github.youndie.toon.draw.ToonTextRenderer
+import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
+import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
+import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.theme.ToonTheme
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonNull
@@ -153,5 +170,61 @@ class ToonTopAppBarTest {
             assertEquals(1, navs)
             assertEquals(listOf(ToonIcons.Search, ToonIcons.More), acted)
         }
+    }
+
+    /** The bar drawn by [draw] at [rot] degrees, as pixels, on the light theme's stage. */
+    private fun bar(
+        rot: Float,
+        draw: DrawScope.(ToonScene, Float, ToonTextRenderer) -> Unit,
+    ): IntArray {
+        lateinit var out: IntArray
+        runComposeUiTest {
+            setContent {
+                ToonTheme {
+                    val text = rememberToonText()
+                    val tokens = Toon.tokens
+                    Box(Modifier.size(410.dp, 140.dp).background(Toon.colors.stage).testTag("bar")) {
+                        Canvas(Modifier.fillMaxSize()) {
+                            inDp {
+                                translate(10f, 50f) {
+                                    draw(
+                                        toonTopBarScene(
+                                            tokens,
+                                            390f,
+                                            "Saturday",
+                                            ToonTopAppBarVariant.Center,
+                                            listOf(ToonIcons.Search),
+                                            true,
+                                            ToonTopBarLook(),
+                                        ),
+                                        rot,
+                                        text,
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            val m = onNodeWithTag("bar").captureToImage().toPixelMap()
+            out = IntArray(m.width * m.height) { m[it % m.width, it / m.width].toArgb() }
+        }
+        return out
+    }
+
+    @Test
+    fun `the title swings with the sign, and at rest the bar is drawn as before`() {
+        // B-56: before, the sign's shapes turned and its title only moved, level.
+        val level: DrawScope.(ToonScene, Float, ToonTextRenderer) -> Unit =
+            { scene, rot, text -> drawScene(scene.placed(0f, 0f, 1f, rot, 195f, -40f), text) }
+        val swung: DrawScope.(ToonScene, Float, ToonTextRenderer) -> Unit =
+            { scene, rot, text -> drawToonTopBar(scene, rot, 390f, text) }
+        val atRest = bar(0f, swung)
+        val before = bar(0f, level)
+        assertEquals(0, atRest.indices.count { atRest[it] != before[it] }, "at rest nothing changes")
+        val tilted = bar(4f, swung)
+        val old = bar(4f, level)
+        val differ = tilted.indices.count { tilted[it] != old[it] }
+        assertTrue(differ > 100, "at 4° the title is drawn turned: $differ px differ from the level title")
     }
 }
