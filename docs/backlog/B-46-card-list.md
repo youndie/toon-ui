@@ -1,7 +1,7 @@
 ---
 id: B-46
 title: "Card list: the 40 ms cascade and the close-up after a dismiss"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-2-components

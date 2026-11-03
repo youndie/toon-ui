@@ -58,7 +58,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 |---|---|---|---|---|
 | [B-32](docs/backlog/B-32-public-repository-and-publishing.md) `[ ]` | Public repository and publishing | P2 | S | B-01 |
 | [B-34](docs/backlog/B-34-re-import-the-design-project.md) `[ ]` | Re-import the design project as a diff, never an overwrite | P2 | S | B-03, B-06, B-07 |
-| [B-46](docs/backlog/B-46-card-list.md) `[ ]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
+| [B-46](docs/backlog/B-46-card-list.md) `[~]` | Card list: the 40 ms cascade and the close-up after a dismiss | P2 | S | B-21, B-45 |
 
 ## Closed (48)
 
