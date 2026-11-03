@@ -236,7 +236,7 @@ public final class io/github/youndie/toon/component/ToonTextFieldKt {
 }
 
 public final class io/github/youndie/toon/component/ToonTitleCardKt {
-	public static final fun ToonTitleCard-3GLzNTs (Landroidx/compose/ui/Modifier;Lio/github/youndie/toon/component/ToonTitleCardVariant;Ljava/lang/String;Ljava/lang/String;FFLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ToonTitleCard-tOXsyB8 (Landroidx/compose/ui/Modifier;Lio/github/youndie/toon/component/ToonTitleCardVariant;Ljava/lang/String;Ljava/lang/String;FFZLkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/youndie/toon/component/ToonTitleCardVariant : java/lang/Enum {

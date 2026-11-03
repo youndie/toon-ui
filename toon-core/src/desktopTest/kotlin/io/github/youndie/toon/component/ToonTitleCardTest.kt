@@ -111,7 +111,11 @@ class ToonTitleCardTest {
         // A long time after, the rings stand 16 dp along their 34: 40 000 dp of travel.
         assertEquals(16f, rest.phase % 34)
         assertEquals(ToonTitleCardMoment(rest), toonTitleCardFrameAt(null, false))
-        assertEquals(ToonTitleCardMoment(toonSplashAt(240f)), toonTitleCardFrameAt(240f, false))
+        // The live card's rings are its own (B-55); the rest of the entrance is the engine's.
+        assertEquals(
+            ToonTitleCardMoment(toonSplashAt(240f).copy(phase = toonRingPhase(240f, false))),
+            toonTitleCardFrameAt(240f, false),
+        )
         assertEquals(ToonTitleCardMoment(rest, .5f), toonTitleCardFrameAt(60f, true))
         assertEquals(ToonTitleCardMoment(rest, 1f), toonTitleCardFrameAt(300f, true))
         assertEquals(0f, toonTitleCardFrameAt(60f, true).motion.stars)
@@ -183,5 +187,32 @@ class ToonTitleCardTest {
             card.performClick()
             assertEquals(1, clicks)
         }
+    }
+
+    @Test
+    fun `the rings ease one period into where they rest, and looping keep flowing without a jump`() {
+        // B-55: the engine's rings run at 0.04 dp a ms and then jump 14 dp to rest.
+        fun ring(p: Float) = ((p % 34) + 34) % 34
+
+        fun step(
+            a: Float,
+            b: Float,
+        ) = minOf(abs(ring(a) - ring(b)), 34 - abs(ring(a) - ring(b)))
+        val rest = ring(toonSplashAt(1e6f).phase)
+        assertEquals(rest, ring(toonRingPhase(0f, false)), 1e-3f, "the entrance starts a whole period behind")
+        assertEquals(rest, ring(toonTitleCardFrameAt(899.9f, false).motion.phase), 1e-2f, "and ends where it rests")
+        for (loop in listOf(false, true)) {
+            var last = toonRingPhase(0f, loop)
+            for (t in 1..6000) {
+                val p = toonRingPhase(t.toFloat(), loop)
+                assertTrue(step(last, p) < .2f, "loop=$loop: the rings jump ${step(last, p)} dp at $t ms")
+                last = p
+            }
+        }
+        assertEquals(rest, ring(toonRingPhase(3000f, false)), "without the loop they stay at rest")
+        assertTrue(step(rest, toonRingPhase(900f + 800f, true)) > 10f, "looping, they move")
+        assertEquals(rest, ring(toonTitleCardFrameAt(3000f, true, loop = true).motion.phase), 1e-2f)
+        // Reduce motion holds them still.
+        assertEquals(toonSplashAt(1e6f), toonTitleCardFrameAt(3000f, true, loop = true).motion)
     }
 }

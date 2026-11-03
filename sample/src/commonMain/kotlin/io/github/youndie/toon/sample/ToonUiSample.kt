@@ -337,6 +337,15 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                     height = 300.dp,
                 )
             }
+            Plate("Title card · loop") {
+                ToonTitleCard(
+                    title = "Saturday",
+                    sub = "Plans for the good part of the week",
+                    width = 320.dp,
+                    height = 300.dp,
+                    loop = true,
+                )
+            }
         }
 
         Section("Navigation") {
