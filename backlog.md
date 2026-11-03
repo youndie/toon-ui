@@ -61,7 +61,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-54](docs/backlog/B-54-chip-widens-smoothly.md) `[ ]` | A chip makes room for its tick smoothly | P2 | S | - |
 | [B-55](docs/backlog/B-55-title-card-rings-ease.md) `[ ]` | Title card rings ease into place, and can loop | P2 | S | - |
 
-## Closed (52)
+## Closed (53)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -114,6 +114,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
 - [B-48](docs/backlog/B-48-fx-host-event-points.md) `[x]` - FX host: draw each effect where its event puts it
 - [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[x]` - The top app bar's title swings with its sign
+- [B-62](docs/backlog/B-62-kit-circular-progress.md) `[x]` - The kit shows a circular progress filling up
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
 
