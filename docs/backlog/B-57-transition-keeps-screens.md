@@ -18,7 +18,8 @@ three faults:
   vanished and popped in again the moment the transition ended;
 - the hole stopped short of the bottom of the box, so a strip of the old screen showed under a torn
   edge until the new screen faded over it;
-- in the kit it burst from the page's default card, 82 dp from the top, where the kit draws nothing.
+- in the kit it burst from the page's default card, 82 dp from the top, where the kit draws nothing;
+- from 420 ms to 460 the old screen showed through the new one fading in: two titles over each other.
 
 - **The decision and its reason.** `ToonTransitionHost` composed each screen with `key(screen)` in
   whichever slot of the frame it occupied, so a screen moving from the resting slot to the leaving
@@ -27,11 +28,13 @@ three faults:
   is the current or the leaving screen. The hole's growth, ×10 in the engine, is enough for the
   page's 180 × 320 screen from its second card and no more; `toonHoleGrow` keeps ×10 where that
   covers the box and grows further where it does not, so no cell of the page changes. The kit's
-  host passes the plaque as its `origin`. The alternative, a growth fixed to a larger factor,
+  host passes the plaque as its `origin`. The engine drops the silhouette at 420 while the new
+  screen fades in until 460; from 380, when the hole covers the box and the fade starts, the old
+  screen is hidden and the hole's inside fills the box under the fade. The alternative, a growth fixed to a larger factor,
   changes the page's cells and still fails on a box tall enough.
 - AC: each screen is composed once across a transition, for every kind, with and without reduce
   motion; the hole leaves none of the old screen at 379 ms on a box larger than the page's; the
-  page's own box grows exactly as the engine does.
+  page's own box grows exactly as the engine does; from 380 ms the old screen shows nowhere.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTransitionHost.kt`,
   `sample/src/commonMain/kotlin/io/github/youndie/toon/sample/ToonUiSample.kt`.
 
@@ -40,6 +43,10 @@ three faults:
 - `ToonTransitionHostTest` holds both: a screen's `remember` runs once per visit (it ran twice for
   each screen, for every kind, before), and at 379 ms on 300 × 360 not one pixel of the old screen
   shows (854 did with the fixed ×10). Mutants: the screens composed plainly again — `{list=2,
-  plan=2}`; the growth fixed at ×10 — 854 pixels.
+  plan=2}`; the growth fixed at ×10 — 854 pixels. A third test renders the frame at 380…459 ms
+  over a red and over a green old screen and finds the two identical; with the old screen shown
+  throughout, they differ at 420.
 - **No cell departed.** On the page's 180 × 320 box from its second card the box needs ×9.7, so the
-  growth stays the engine's ×10, and the transition goldens and engine frames are unchanged.
+  growth stays the engine's ×10; the old screen is hidden only from 380, where no cell of the page
+  stands but 460, which the new screen covers whole. The transition goldens and engine frames are
+  unchanged.
