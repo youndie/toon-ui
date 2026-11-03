@@ -53,6 +53,7 @@ The library's own, which no design file draws:
 | `rememberToonPressState` | [ToonPress.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/interaction/ToonPress.kt) | the press machine, for a component of the caller's own | [B-10](backlog/B-10-press-feedback.md) |
 | `ToonFxHost` | [ToonFxHost.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/fx/ToonFxHost.kt) | the FX layer that draws the effects events fire | [B-12](backlog/B-12-fx-layer-and-events.md) |
 | `ToonStage` | [ToonStage.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonStage.kt) | the stage: the theme colour and the gouache tile | [B-13](backlog/B-13-textures.md) |
+| `ToonCardList` | [ToonCardList.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCardList.kt) | a column of cards: the 40 ms cascade and the close-up after a dismiss, as the Core page's `cardStack` | [B-46](backlog/B-46-card-list.md) |
 | `ToonTransitionHost` | [ToonTransitionHost.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTransitionHost.kt) | the screen transitions of the v1 page: push, scene change, hole in the wall | [B-44](backlog/B-44-screen-transitions.md) |
 
 <!-- END CATALOGUE -->

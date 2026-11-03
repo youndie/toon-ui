@@ -89,6 +89,43 @@ public fun ToonCard(
     onDismiss: () -> Unit = {},
     onClick: () -> Unit = {},
 ) {
+    val state = remember { ToonCardState(appear) }
+    ToonCard(
+        state,
+        title,
+        modifier,
+        meta,
+        time,
+        index,
+        tilt,
+        delay,
+        width,
+        selected,
+        enabled,
+        dismissible,
+        onDismiss,
+        onClick,
+    )
+}
+
+/** The card over a [state] its caller holds: a [ToonCardList] reads each card's dismiss to close up the cards below. */
+@Composable
+internal fun ToonCard(
+    state: ToonCardState,
+    title: String,
+    modifier: Modifier,
+    meta: String,
+    time: String,
+    index: Int,
+    tilt: Boolean,
+    delay: Int,
+    width: Dp,
+    selected: Boolean,
+    enabled: Boolean,
+    dismissible: Boolean,
+    onDismiss: () -> Unit,
+    onClick: () -> Unit,
+) {
     val tokens = Toon.tokens
     val reduce = Toon.reduceMotion
     val text = rememberToonText()
@@ -96,7 +133,6 @@ public fun ToonCard(
     val w = width.value
     val i = index.mod(3)
     val rot0 = if (tilt) tokens.shape.tilts[i] else 0f
-    val state = remember { ToonCardState(appear) }
     var bounds by remember { mutableStateOf(Rect.Zero) }
     val click by rememberUpdatedState(onClick)
     val dismissed by rememberUpdatedState(onDismiss)
@@ -303,6 +339,20 @@ internal class ToonCardState(
         abs(target - press) > .01f || drag != 0f || held ||
             (age(appearAt)?.let { it < APPEAR_MS + delayMs } ?: false) ||
             (age(dismissAt)?.let { it < DISMISS_MS } ?: false)
+
+    /**
+     * How far the cards below have closed up over this one, in card steps: the engine's `cardDismiss`
+     * `n`, 0 until 200 ms into the throw and −1 once settled. Under reduce motion the page's `fade 120`
+     * moves nothing; the list takes the slot away when the fade is over.
+     */
+    fun closeUp(reduceMotion: Boolean): Float =
+        if (reduceMotion || !dismissing) 0f else age(dismissAt)?.let { toonCardDismiss(it).n } ?: 0f
+
+    /** True once the throw has played out — 520 ms, or the 120 ms fade under reduce motion — and the slot can go. */
+    fun closedUp(reduceMotion: Boolean): Boolean =
+        // A card not thrown reads no time, so a list is not recomposed on every frame of a press.
+        dismissing &&
+            age(dismissAt)?.let { it >= if (reduceMotion) REDUCED_FADE_MS else DISMISS_MS } ?: false
 }
 
 private const val PENDING_START = -1L

@@ -78,7 +78,8 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTextField.kt` | `ToonTextField` (B-19): `toonFieldScene` is the engine's `field`, `toonFldFocus` its `fldFocus`, over a `BasicTextField` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonChip.kt` | `ToonChip` (B-20): `toonChipScene` is the engine's `chip`, `toonChipSelect` its `chipSelect` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCard.kt` | `ToonCard` (B-21): `toonCardScene` is the engine's `card`, `toonCardAppear` and `toonCardDismiss` its curves |
-| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/CardFrames.kt` | the Core page's card cells and strips composed as the page does, `cardStack` included |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCardList.kt` | `ToonCardList` (B-46): the cascade's delays and the close-up, `n` of `cardDismiss` over a 102 dp step, read off each thrown card's own clock |
+| `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/CardFrames.kt` | the Core page's card cells and strips composed as the page does, `cardStack` in both its modes (the cascade is B-46's) |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonListItem.kt` | `ToonListItem` (B-22): `toonListItemScene` is the engine's `listItem`, `toonListPress` its `listPress` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonDivider.kt` | `ToonDivider` (B-22): `toonDividerScene` is the engine's `divider` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSnackbar.kt` | `ToonSnackbar` (B-23): `toonSnackScene` is the engine's `snack`, `toonSnkShow` and `toonSnkHide` its curves, `toonSnackbarFrameAt` the kit's `C.snackbar` |
@@ -183,7 +184,17 @@ None at runtime.
   result is the same.
 - A card's hole goes to the FX host when there is one (`card.gone`), else the card draws it, turned
   with the card; the host's hole is not turned (B-21).
-- A list of cards — the 40 ms cascade and the close-up after a dismiss — is not built: B-46.
+- `ToonCardList` keeps a thrown card's slot until the cards below have closed up over it (520 ms, or
+  the 120 ms fade under reduce motion), though it reports the dismissal at `card.gone`, 200 ms in, and
+  the caller may drop the item then. A dismissed card stays out while the caller still lists it; it
+  comes back only when removed and added again. Each card keeps the colour and tilt of the place it
+  was first shown in, so nothing changes colour as the list closes up (B-46).
+- The list's cascade runs for the cards it is first shown with; a card added later drops in on its
+  own, with no delay (B-46).
+- Before 170 ms a thrown card is the kit's throw, not the Core page's strip: it leaves from the finger
+  with no 10 dp pull-back, and its smear scales the placed card about its centre where the strip
+  rebuilds it squashed. `ToonCardListTest` holds the strip from 170 ms, when only the list's close-up
+  is left (B-46).
 - A dialog is a full-screen layer: the caller puts it over the content it dims (a `Box` with both),
   and it fills its box. Closed, it takes no input, so it can stay composed (B-24).
 - A dialog's pop hands its stars to a `ToonFxHost` 170 ms into the close (`dialog.pop`), which plays
