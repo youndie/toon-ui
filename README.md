@@ -21,9 +21,17 @@ dependency.
 **[Try it in the browser →](https://youndie.github.io/toon-ui/)** Every component on one sheet,
 under the three themes and reduce motion, and the three demo screens beside it.
 
-All 27 components of the design are built, and a list of cards besides. Each is held to the design
-twice: its geometry, frame by frame, against the design's own drawing engine run in Node, and its
-pixels against references rendered from the design in Chrome.
+All 27 components of the design are built, and four of the library's own besides: a list of cards,
+a screen-transition host, a pull-to-refresh box that pulls its content, and the stage the rest stand
+on. Each started from the design and is held to it twice: its geometry, frame by frame, against the
+design's own drawing engine run in Node, and its pixels against references rendered from the design
+in Chrome.
+
+The code is primary, though, not the design. Where the running kit showed something the design gets
+wrong — a seam under the tooltip's tail, a stripe across the menu's rolls, half the slider's rope
+standing still in a drag, a line through the stage's texture — the component departs from it. Each
+departure is a backlog item with its reason; where it changes a cell of the design, that cell is
+listed, and the checks skip exactly the listed cells, so everything else is still the design's.
 
 Every image here is a screenshot golden: the picture `./gradlew check` compares the code's render
 against on every build. So it is what the library draws, not a mock-up.
@@ -59,6 +67,10 @@ the design's own frame timestamps. A dialog opening, at 0, 60, 120, 200 and 400 
     <td><img src="toon-core/src/desktopTest/snapshots/Dialog_Open_400ms_InkGouacheLight.png" width="150" alt="400 ms"></td>
   </tr>
 </table>
+
+Motion the design does not draw — a title card's looping rings, a chip making room for its tick, a
+list closing up under the pull-to-refresh spinner — is tested at every millisecond for a jump, and
+each such test is checked by a mutant that brings the jump back.
 
 Reduce motion follows the design's word for each animation — a fade, a static spinner, or nothing —
 rather than switching everything off.
@@ -102,8 +114,11 @@ The sample app, the kit and the demo screens in one window: `./gradlew :sample:r
 ## Where things are
 
 [docs/](docs/README.md) holds the documentation. Start with the
-[architecture research](docs/research/research-architecture.md), then the [backlog](backlog.md).
-The design itself is vendored in [reference/design-system/](reference/design-system/).
+[architecture research](docs/research/research-architecture.md), then the [backlog](backlog.md):
+every change is an item there, with its cause, its decision and the alternative it rejected. The
+design is vendored, unedited, in [reference/design-system/](reference/design-system/), and the
+departures from it are listed in
+[`ToonDepartures`](toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/ToonDepartures.kt).
 
 ## Licence
 
