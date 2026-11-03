@@ -77,4 +77,5 @@ None.
   is shorter.
 - In the browser the fonts arrive a moment after the first frame (compose resources load
   asynchronously on wasm), so the first frame is set in the fallback face.
-- The header's switches cover the whole app; the Screens page's own "Look" switches only the phone.
+- One theme for the whole app (B-52): the header's switches and the Screens page's "Look" and
+  "Calm motion" set the same state, and "Calm motion" is reduce motion.
