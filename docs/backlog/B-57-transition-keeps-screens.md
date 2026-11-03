@@ -1,6 +1,6 @@
 ---
 id: B-57
-title: "A transition keeps both screens' state, and the hole covers any box"
+title: "A transition keeps both screens' state, and the new screen shows through the hole"
 status: done
 priority: P2
 size: S
@@ -8,7 +8,7 @@ stage: stage-2-components
 epic: feature-components
 ---
 
-# B-57 — A transition keeps both screens' state, and the hole covers any box
+# B-57 — A transition keeps both screens' state, and the new screen shows through the hole
 
 The owner, in the running kit (2026-11-03): "debug the transition too — the hole is crooked". Drawn
 frame by frame at the kit's size (300 × 360, a title card on each screen), the hole transition had
@@ -32,8 +32,8 @@ three faults:
   screen fades in until 460; from 380, when the hole covers the box and the fade starts, the old
   screen is hidden and the hole's inside fills the box under the fade. The alternative, a growth fixed to a larger factor,
   changes the page's cells and still fails on a box tall enough.
-- AC: each screen is composed once across a transition, for every kind, with and without reduce
-  motion; the hole leaves none of the old screen at 379 ms on a box larger than the page's; the
+- AC: the new screen shows through the hole while it grows; each screen is composed once across
+  a transition, for every kind, with and without reduce motion; the hole leaves none of the old screen at 379 ms on a box larger than the page's; the
   page's own box grows exactly as the engine does; from 380 ms the old screen shows nowhere.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTransitionHost.kt`,
   `sample/src/commonMain/kotlin/io/github/youndie/toon/sample/ToonUiSample.kt`.
@@ -50,3 +50,26 @@ three faults:
   growth stays the engine's ×10; the old screen is hidden only from 380, where no cell of the page
   stands but 460, which the new screen covers whole. The transition goldens and engine frames are
   unchanged.
+
+## Iteration 2 (2026-11-03): the hole showed nothing
+
+The owner, on the fixed kit: "the hole is still strange". Frame by frame it was: the plaque turned
+into a blot of the surface's colour, the blot grew over the screen, and for a quarter of a second
+(from about 200 ms to 380) the box was empty but for the stars before the new screen faded in. A
+card bursting through the screen led into nothing.
+
+- **A departure (D13).** The new screen now shows through the cut from the moment it opens: the old
+  screen, the hole's paper edge, the new screen clipped to the hole's silhouette, the stars on top.
+  At 380 ms the hole covers the box and the new screen stands whole; nothing fades. The growth and
+  the stars are still the engine's `holeScene`, and `toonHoleAt` still matches its curve, `newOp`
+  included, though the host no longer uses the fade.
+- `toonHoleCut` gives the edge and the cut grown about the card, `toonHoleStarsScene` the stars;
+  `toonHoleTransitionScene`, which filled the cut, is gone.
+- `ToonTransitionHostTest`: at 60, 120, 200 and 300 ms on 300 × 360 the card's centre shows the new
+  screen and the bottom corner the old one. Mutant: the new screen hidden until 380 — fails at 60.
+- **Goldens.** Four cells drawn mid-burst were re-recorded, each looked at:
+  `Transition_Hole_200ms_InkGouacheLight`, `_330ms_InkGouacheLight`, `_260ms_InkGouacheNight` and
+  `_260ms_BrightCel` now show the plan screen inside the hole where they showed the flat surface.
+  The cells at 0, 80 and 460 ms did not change. The transition cells have no design reference and
+  no engine frame — the page's only record of the hole is its curve — so `ToonDepartures`, which
+  lists cells of those two, has nothing to name.

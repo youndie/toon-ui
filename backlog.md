@@ -114,7 +114,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-47](docs/backlog/B-47-density-scaling.md) `[x]` - Draw every component in dp: scale the canvas by the screen density
 - [B-48](docs/backlog/B-48-fx-host-event-points.md) `[x]` - FX host: draw each effect where its event puts it
 - [B-56](docs/backlog/B-56-top-bar-title-swings.md) `[x]` - The top app bar's title swings with its sign
-- [B-57](docs/backlog/B-57-transition-keeps-screens.md) `[x]` - A transition keeps both screens' state, and the hole covers any box
+- [B-57](docs/backlog/B-57-transition-keeps-screens.md) `[x]` - A transition keeps both screens' state, and the new screen shows through the hole
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
 
