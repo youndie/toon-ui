@@ -1,7 +1,7 @@
 ---
 id: B-32
 title: "Public repository and publishing"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-4-product
