@@ -22,7 +22,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-/** B-13: the stage is textured in Ink & Gouache, repeating every 256 dp at any density, and flat in Bright Cel. */
+/** B-13: the stage is textured in Ink & Gouache, repeating every 224 dp at any density (B-59), and flat in Bright Cel. */
 @OptIn(ExperimentalTestApi::class)
 class ToonStageTest {
     private fun stage(
@@ -43,11 +43,11 @@ class ToonStageTest {
     }
 
     @Test
-    fun `the gouache stage repeats every 256 dp, at densities 1 and 2`() {
+    fun `the gouache stage repeats every 224 dp, at densities 1 and 2`() {
         for (tokens in listOf(inkGouacheLight, inkGouacheNight)) {
             for (d in listOf(1f, 2f)) {
                 val px = stage(tokens, d)
-                val period = (256 * d).toInt()
+                val period = (224 * d).toInt()
                 val colours = mutableSetOf<Int>()
                 var mismatched = 0
                 for (y in 0 until period step 3) {
@@ -61,7 +61,8 @@ class ToonStageTest {
                         if (px[x, y].toArgb() != px[x + period / 2, y].toArgb()) halfway++
                     }
                 }
-                // Not at half the period: a tile drawn at 256 px would repeat at 512 px too.
+                // Not at half the period: a tile drawn at half its size would repeat there too, and a
+                // tile healed by blending with itself rolled by half nearly does (B-59).
                 assertTrue(halfway > 0, "density $d: the tile repeats at ${period / 2} px")
                 // The tile's palette is small (8 colours on a 6 px grid of the PNG); the flat stage has one.
                 assertTrue(colours.size >= 4, "density $d: a texture, not a flat colour (${colours.size} colours)")

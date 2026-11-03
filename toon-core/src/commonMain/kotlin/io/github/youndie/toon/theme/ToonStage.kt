@@ -23,14 +23,15 @@ import org.jetbrains.compose.resources.DrawableResource
 import org.jetbrains.compose.resources.imageResource
 
 // B-13: the stage the components stand on. The Screens page paints it as the theme's `bg` with the
-// gouache tile over it at 256 px (`background-size: 256px 256px`, the 512 px tile at 2×), light by
-// day and night by night; Bright Cel's backdrop is flat (`tex: 'data:,'`). The tiles are the owner's
-// copies, vendored under reference/design-system/assets/textures and bundled byte for byte (research
-// §1.1, H6). The paper tiles ship beside them, as the design keeps them, and nothing draws them yet.
+// gouache tile over it at 2× (`background-size: 256px 256px` for its 512 px tile), light by day and
+// night by night; Bright Cel's backdrop is flat (`tex: 'data:,'`). The design's tiles, vendored under
+// reference/design-system/assets/textures, do not wrap cleanly; the bundled ones are made seamless
+// from them by `make tiles` (B-59, a departure), 448 px, so the stage repeats every 224 dp. The paper
+// tiles ship beside them, as the design keeps them, and nothing draws them yet.
 
 /**
  * The theme's stage behind [content]: its background colour and, in Ink & Gouache, the gouache
- * texture tiled at 256 dp.
+ * texture tiled at 2 px a dp, every 224 dp.
  */
 @Composable
 public fun ToonStage(
@@ -51,17 +52,17 @@ internal fun toonStageTexture(tokens: ToonTokens): DrawableResource? =
         else -> null
     }
 
-/** The stage's tile, 512 px drawn at 256 dp. */
-internal const val STAGE_TILE_DP = 256f
+/** The stage's tile is drawn at 2 px a dp, as the design draws its own: 448 px every 224 dp (B-59). */
+internal const val STAGE_TILE_PX_PER_DP = 2f
 
-/** The background colour, then [tile] repeated over it at [STAGE_TILE_DP], as the page's CSS layers them. */
+/** The background colour, then [tile] repeated over it at [STAGE_TILE_PX_PER_DP], as the page's CSS layers them. */
 internal fun DrawScope.drawToonStage(
     tokens: ToonTokens,
     tile: ImageBitmap?,
 ) {
     drawRect(tokens.colors.stage)
     if (tile == null) return
-    val k = STAGE_TILE_DP * density / tile.width
+    val k = density / STAGE_TILE_PX_PER_DP
     scale(k, k, Offset.Zero) {
         drawRect(
             ShaderBrush(ImageShader(tile, TileMode.Repeated, TileMode.Repeated)),

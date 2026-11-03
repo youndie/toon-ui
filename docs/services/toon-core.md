@@ -40,7 +40,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `gradle.properties` | the coordinates and licence sborka reads (`sborka.*`) |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/ComposeSmokeTest.kt` | the smoke test the visual suite stands on |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the two families per theme, and the weights asked of the variable body faces |
-| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonStage.kt` | `ToonStage` (B-13): the theme's stage colour with the gouache tile at 256 dp in Ink & Gouache, flat in Bright Cel |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonStage.kt` | `ToonStage` (B-13): the theme's stage colour with the gouache tile every 224 dp in Ink & Gouache, seamless from the design's (B-59), flat in Bright Cel |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonTypography.kt` | `ToonTypeSpec.textStyle` (B-29): a step of the type scale in the theme's faces, for a screen's own text |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/ScreensFixtures.kt` | the Screens page's nine phone screens and its desktop layout, against the page rendered by the design's runtime (B-29) |
 | `toon-core/src/commonMain/composeResources/drawable` | the four texture tiles, byte for byte the vendored ones in `reference/design-system/assets/textures` |

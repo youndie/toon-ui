@@ -4,14 +4,15 @@ import java.io.File
 import javax.imageio.ImageIO
 import kotlin.math.abs
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 /**
- * B-13: the vendored tiles wrap. A wrap's mean channel difference (last column against the first,
- * last row against the first) is held to the inner neighbours' times a factor measured once, on
- * 2026-11-02: every horizontal wrap and the paper tiles' vertical ones within 7 % of the inner
- * difference, the gouache tiles' vertical wrap at 1.91 times it (2.29 against 1.20 levels), which
- * the 2 × 2 stage golden shows (`Stage_Tiled_*`).
+ * B-59: the tiles wrap without a seam. The design's tiles (B-13) did not: the gouache tiles' last
+ * row stood 1.91 times the inner difference from the first (2.29 against 1.20 levels), a line in
+ * the stage every 256 dp, and paper night's columns 1.1 times. The bundled tiles are healed from
+ * them: the wrap is a pair of the design tile's own neighbours, and no column or row anywhere, the
+ * wraps included, stands out from the median of its neighbours.
  */
 class ToonStageSeamTest {
     private val tiles = File("src/commonMain/composeResources/drawable")
@@ -21,6 +22,8 @@ class ToonStageSeamTest {
         val innerX: Double,
         val y: Double,
         val innerY: Double,
+        val columns: List<Double>,
+        val rows: List<Double>,
     )
 
     private fun seams(name: String): Seams {
@@ -46,29 +49,46 @@ class ToonStageSeamTest {
             cols(w - 1, 0),
             (1 until w).map { cols(it - 1, it) }.average(),
             rows(h - 1, 0),
-            (1 until h)
-                .map {
-                    rows(it - 1, it)
-                }.average(),
+            (1 until h).map { rows(it - 1, it) }.average(),
+            (0 until w).map { cols(it, (it + 1) % w) },
+            (0 until h).map { rows(it, (it + 1) % h) },
         )
     }
 
     @Test
-    fun `every tile wraps within its measured factor of the inner difference`() {
-        for ((name, vertical) in listOf(
-            "gouache_light" to 2.0,
-            "gouache_night" to 2.0,
-            "paper_light" to 1.1,
-            "paper_night" to 1.1,
-        )) {
+    fun `no line of any tile stands out, the wraps included`() {
+        for (name in listOf("gouache_light", "gouache_night", "paper_light", "paper_night")) {
             val s = seams(name)
-            println(
-                "$name: x wrap ${"%.2f".format(
-                    s.x,
-                )} inner ${"%.2f".format(s.innerX)}; y wrap ${"%.2f".format(s.y)} inner ${"%.2f".format(s.innerY)}",
-            )
-            assertTrue(s.x <= 1.1 * s.innerX, "$name: horizontal wrap ${s.x} against ${s.innerX}")
-            assertTrue(s.y <= vertical * s.innerY, "$name: vertical wrap ${s.y} against ${s.innerY}")
+            println("$name: x wrap %.2f inner %.2f; y wrap %.2f inner %.2f".format(s.x, s.innerX, s.y, s.innerY))
+            for ((axis, lines) in listOf("column" to s.columns, "row" to s.rows)) {
+                val median = lines.sorted()[lines.size / 2]
+                val worst = lines.indices.maxBy { lines[it] }
+                assertTrue(
+                    lines[worst] <= LINE * median,
+                    "$name: $axis $worst against its neighbour ${lines[worst]}, the median $median",
+                )
+            }
         }
+    }
+
+    @Test
+    fun `every tile keeps the design tile's paint and is made from it`() {
+        // B-59: the heal cuts and never mixes, so the posterised colours stay the design's own.
+        val design = File("../reference/design-system/assets/textures")
+        for (name in listOf("gouache_light", "gouache_night", "paper_light", "paper_night")) {
+            fun colours(f: File) =
+                ImageIO.read(f).let { img ->
+                    (0 until img.width * img.height).map { img.getRGB(it % img.width, it / img.width) }.toSet()
+                }
+            val ours = colours(File(tiles, "$name.png"))
+            val theirs = colours(File(design, "${name.replace('_', '-')}.png"))
+            assertTrue(ours.isNotEmpty() && theirs.containsAll(ours), "$name: colours not in the design's tile")
+            assertEquals(448, ImageIO.read(File(tiles, "$name.png")).width, "$name: 512 px less the 64 folded")
+        }
+    }
+
+    private companion object {
+        /** The healed tiles' worst line is 1.51 times the median; the design's gouache seam was 1.93. */
+        const val LINE = 1.6
     }
 }
