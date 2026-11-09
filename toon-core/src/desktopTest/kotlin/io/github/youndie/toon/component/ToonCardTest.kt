@@ -238,7 +238,23 @@ class ToonCardTest {
             state.press(171f, 342f)
             state.drag(drag)
             state.step(1000, 16f)
-            fun frame() = toonCardFrame(tokens, 1, 342f, "Bike to the lake", "Check the tyre pump", "11:30", 1.5f, state, 0, false, false, false, false).scene
+
+            fun frame() =
+                toonCardFrame(
+                    tokens,
+                    1,
+                    342f,
+                    "Bike to the lake",
+                    "Check the tyre pump",
+                    "11:30",
+                    1.5f,
+                    state,
+                    0,
+                    false,
+                    false,
+                    false,
+                    false,
+                ).scene
             val held = frame()
             state.release(true)
             state.step(1000, 0f)
@@ -248,7 +264,12 @@ class ToonCardTest {
             assertEquals(a.size, b.size, "drag $drag: layers")
             for ((x, y) in a.zip(b)) {
                 assertEquals(x.alpha, y.alpha, 1e-4f, "drag $drag: opacity")
-                for ((p, q) in listOf(x.outer.a to y.outer.a, x.outer.b to y.outer.b, x.outer.e to y.outer.e, x.outer.f to y.outer.f)) {
+                for ((p, q) in listOf(
+                    x.outer.a to y.outer.a,
+                    x.outer.b to y.outer.b,
+                    x.outer.e to y.outer.e,
+                    x.outer.f to y.outer.f,
+                )) {
                     assertEquals(p, q, 1e-3f, "drag $drag: placement")
                 }
             }
