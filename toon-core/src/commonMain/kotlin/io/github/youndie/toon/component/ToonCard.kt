@@ -125,6 +125,7 @@ internal fun ToonCard(
     dismissible: Boolean,
     onDismiss: () -> Unit,
     onClick: () -> Unit,
+    hole: Boolean = true,
 ) {
     val tokens = Toon.tokens
     val reduce = Toon.reduceMotion
@@ -148,7 +149,7 @@ internal fun ToonCard(
     }
     LaunchedEffect(state.dismissStarts) {
         if (state.dismissStarts == 0) return@LaunchedEffect
-        if (fx !== NoToonFxHost && !reduce) {
+        if (hole && fx !== NoToonFxHost && !reduce) {
             // A host draws the hole above everything; the card leaves it to the host.
             fx.emit(ToonFxEvent.CardGone(bounds, cardRadii(tokens)))
         }
@@ -159,7 +160,8 @@ internal fun ToonCard(
         dismissed()
     }
 
-    val holeLocal = fx === NoToonFxHost
+    // In a list the cards below close up over the slot at once, so a hole there is only covered up (B-66).
+    val holeLocal = hole && fx === NoToonFxHost
     Canvas(
         modifier
             .size(width, CARD_H.dp)
@@ -389,7 +391,11 @@ internal fun toonCardFrame(
             return ToonCardMoment(card.placed(0f, 0f, 1f, rot0, w / 2, CARD_H / 2), max(0f, 1 - td / REDUCED_FADE_MS))
         }
         val d = toonCardDismiss(td)
-        val dx = state.dragAtDismiss * max(0f, 1 - td / 70) + state.dir * max(0f, d.dx)
+        // Thrown by a swipe, the card flies on from where the finger let go, in the swipe's direction:
+        // the engine's fling from its first frame, without the 70 ms back to the middle that the kit
+        // plays (B-66). Thrown with no drag — by a reader's action — it plays the design's throw.
+        val fling = if (state.dragAtDismiss != 0f) toonCardDismiss(td + FLING_FROM_MS) else d
+        val dx = toonCardThrowDx(td, state.dragAtDismiss, state.dir)
         val hu = (td - 170) / 300
         var scene = ToonScene.Empty
         if (holeLocal && hu >= 0 && hu < 1) {
@@ -405,16 +411,16 @@ internal fun toonCardFrame(
                     5,
                 ).placed(0f, 0f, 1f, rot0, w / 2, CARD_H / 2)
         }
-        if (d.lu >= 0 && d.lu < 1) {
-            val lines = toonSpeedScene(c, d.lu, min(abs(dx), w), 0f, CARD_H)
+        if (fling.lu >= 0 && fling.lu < 1) {
+            val lines = toonSpeedScene(c, fling.lu, min(abs(dx), w), 0f, CARD_H)
             // A leftward throw mirrors the lines about the card.
             scene += if (state.dir > 0) lines else lines.scaledAbout(w / 2, 0f, -1f, 1f)
         }
-        if (d.op > .01f) {
+        if (fling.op > .01f) {
             val card =
                 toonCardScene(tokens, i, w, title, meta, time, ToonCardLook(selected = selected, disabled = disabled))
             val placed = card.placed(dx, 0f, 1f, rot0, w / 2, CARD_H / 2)
-            scene += ToonScene(placed.scaledAbout(w / 2 + dx, CARD_H / 2, d.sx, d.sy).layers, placed.labels)
+            scene += ToonScene(placed.scaledAbout(w / 2 + dx, CARD_H / 2, fling.sx, fling.sy).layers, placed.labels)
         }
         return ToonCardMoment(scene, null)
     }
@@ -581,3 +587,22 @@ internal fun toonCardScene(
         )
     return ToonScene(layers, labels)
 }
+
+/** A swiped card skips the engine's 70 ms wind-up and starts its throw at the fling (B-66). */
+private const val FLING_FROM_MS = 70f
+
+/**
+ * How far a thrown card stands from its slot [td] ms into the throw, let go [dragAtDismiss] dp out
+ * and thrown toward [dir]: on from the finger at the engine's fling (B-66), or, thrown with no drag,
+ * the kit's throw from the slot.
+ */
+internal fun toonCardThrowDx(
+    td: Float,
+    dragAtDismiss: Float,
+    dir: Float,
+): Float =
+    if (dragAtDismiss != 0f) {
+        dragAtDismiss + dir * (toonCardDismiss(td + FLING_FROM_MS).dx - toonCardDismiss(FLING_FROM_MS).dx)
+    } else {
+        dir * max(0f, toonCardDismiss(td).dx)
+    }

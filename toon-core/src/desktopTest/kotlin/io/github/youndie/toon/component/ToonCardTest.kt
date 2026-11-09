@@ -191,4 +191,56 @@ class ToonCardTest {
         val live = toonCardFrame(tokens, 0, 342f, "T", "", "", 0f, state, 0, false, false, false, true)
         assertEquals(null, live.fade)
     }
+
+    @Test
+    fun `a swiped card flies on from where the finger let go, never back toward its slot`() {
+        // B-66, the owner: "the animation of an item disappearing from a list is crooked". The kit
+        // brings a swiped card back to its slot over 70 ms and then throws it from there, so a long
+        // swipe left came back across the row before it flew.
+        for ((drag, dir) in listOf(-150f to -1f, 120f to 1f, -85f to -1f)) {
+            assertEquals(drag, toonCardThrowDx(0f, drag, dir), 1e-3f, "starts at the finger, $drag")
+            var last = drag
+            for (t in 1..200) {
+                val dx = toonCardThrowDx(t.toFloat(), drag, dir)
+                assertTrue((dx - last) * dir >= -1e-3f, "drag $drag: back toward the slot at $t ms ($last then $dx)")
+                // Drawn until the fling ends, 100 ms in; then the card is gone and only stands aside.
+                if (t < 100) assertTrue(abs(dx - last) < 15f, "drag $drag: a jump of ${dx - last} dp at $t ms")
+                last = dx
+            }
+            assertTrue(abs(last) > 342f, "drag $drag: off the row by 200 ms, at $last")
+        }
+        // Thrown with no drag, by a reader's action, it is the kit's throw.
+        for (t in listOf(0f, 70f, 140f, 190f)) {
+            assertEquals(kotlin.math.max(0f, toonCardDismiss(t).dx), toonCardThrowDx(t, 0f, 1f), 1e-3f)
+        }
+    }
+
+    @Test
+    fun `a card thrown from a list punches no hole, a card on its own does`() {
+        // B-66: in a list the cards below close up over the slot at once, so the hole was covered by
+        // the next card a few frames after it was punched: a black slab under a sliding card.
+        for (inList in listOf(false, true)) {
+            runComposeUiTest {
+                val heard = mutableListOf<String>()
+                setContent {
+                    ToonTheme {
+                        ToonFxHost(onEvent = { heard += it.name }) {
+                            if (inList) {
+                                ToonCardList(
+                                    listOf(ToonCardListItem(0, "Pancake breakfast", "Kitchen, bring syrup", "9:00")),
+                                    Modifier.testTag("card"),
+                                    dismissible = true,
+                                )
+                            } else {
+                                ToonCard("Pancake breakfast", Modifier.testTag("card"), dismissible = true)
+                            }
+                        }
+                    }
+                }
+                onNodeWithTag("card").performTouchInput { swipeLeft() }
+                waitForIdle()
+                assertEquals(if (inList) emptyList() else listOf("card.gone"), heard, "in a list: $inList")
+            }
+        }
+    }
 }

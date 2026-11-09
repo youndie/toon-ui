@@ -89,10 +89,14 @@ internal object CardFrames {
         return parts + over
     }
 
-    /** `cardStack(T, t, 'dismiss')`: three cards, the middle one thrown, the one below closing up. */
+    /**
+     * `cardStack(T, t, 'dismiss')`: three cards, the middle one thrown, the one below closing up; without
+     * the [hole] it punches into the paper, as a `ToonCardList` throws (B-66).
+     */
     fun dismiss(
         tokens: ToonTokens,
         t: Float,
+        hole: Boolean = true,
     ): ToonScene {
         val d = toonCardDismiss(t)
         var under = ToonScene.Empty
@@ -113,7 +117,7 @@ internal object CardFrames {
                 op = d.op
                 under += toonSpeedScene(tokens.colors, d.lu, min(dx, 342f), base, 84f)
                 val hu = (t - 170) / 300
-                if (hu >= 0 && hu < 1) {
+                if (hole && hu >= 0 && hu < 1) {
                     under +=
                         toonHoleScene(
                             tokens.colors,
