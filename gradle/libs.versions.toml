@@ -1,9 +1,9 @@
 [versions]
 # The shared build conventions. The compiler, AGP and Compose Multiplatform are NOT here: they come
 # from `wip`, the catalog a sborka release publishes. The same build oldge-ui runs on.
-sborka = "0.4.0.111"
+sborka = "0.5.0.135"
 # Screenshots and design parity (B-06), the release on Maven Central.
-viddik = "0.7.0"
+viddik = "0.7.1.59"
 # 37 is forced by the AndroidX Compose 1.12 AAR metadata (kvadrant-ui measured 36 failing).
 android-compileSdk = "37"
 android-minSdk = "24"
