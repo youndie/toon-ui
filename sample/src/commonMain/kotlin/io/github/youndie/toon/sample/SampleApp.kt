@@ -26,7 +26,8 @@ import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.component.ToonButton
 import io.github.youndie.toon.component.ToonButtonVariant
-import io.github.youndie.toon.component.ToonCard
+import io.github.youndie.toon.component.ToonCardList
+import io.github.youndie.toon.component.ToonCardListItem
 import io.github.youndie.toon.component.ToonCheckbox
 import io.github.youndie.toon.component.ToonChip
 import io.github.youndie.toon.component.ToonDivider
@@ -173,28 +174,19 @@ private fun PlanList(onNavigate: (Int) -> Unit) {
         ToonChip("Indoors")
         ToonChip("With kids", tilt = 1f)
     }
-    Column(Modifier.offset(24.dp, 258.dp), verticalArrangement = Arrangement.spacedBy(18.dp)) {
-        plans.take(4).forEachIndexed { j, i ->
-            val (title, meta, time) = PLANS[i]
-            androidx.compose.runtime.key(i) {
-                ToonCard(
-                    title,
-                    Modifier.testTag("card-$i"),
-                    meta = meta,
-                    time = time,
-                    index = j % 3,
-                    appear = true,
-                    delay = j * 40,
-                    dismissible = true,
-                    onDismiss = {
-                        plans.remove(i)
-                        removed = i
-                        snack = true
-                    },
-                )
-            }
-        }
-    }
+    // B-66: a card list, so the cards below close up over a thrown one and keep their colours.
+    ToonCardList(
+        plans.take(4).map { i -> PLANS[i].let { (title, meta, time) -> ToonCardListItem(i, title, meta, time) } },
+        Modifier.offset(24.dp, 258.dp).testTag("plans"),
+        appear = true,
+        dismissible = true,
+        onDismiss = {
+            val i = it.key as Int
+            plans.remove(i)
+            removed = i
+            snack = true
+        },
+    )
     Box(Modifier.fillMaxWidth().padding(end = 24.dp).offset(y = 676.dp), contentAlignment = Alignment.TopEnd) {
         ToonFab({}, label = "New plan", delay = 300)
     }
