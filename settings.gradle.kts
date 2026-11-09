@@ -23,7 +23,7 @@ pluginManagement {
 plugins {
     // Repositories with their filters, the `wip` catalog (the compiler, KSP, AGP and Compose
     // Multiplatform come from it, so a compiler bump is a sborka bump), and the `.editorconfig` check.
-    id("io.github.youndie.sborka.settings") version "0.4.0.111"
+    id("io.github.youndie.sborka.settings") version "0.5.0.135"
 }
 
 rootProject.name = "toon-ui"
