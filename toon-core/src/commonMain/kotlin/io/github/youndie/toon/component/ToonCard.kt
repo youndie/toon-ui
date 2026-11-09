@@ -56,11 +56,14 @@ import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
 import kotlin.math.PI
 import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.exp
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
 import kotlin.math.sign
 import kotlin.math.sin
+import kotlin.math.sqrt
 
 // A port of the engine's `card`, `cardAppear` and `cardDismiss` and the kit's `C.card` (B-21): a sheet
 // of paper tilted ±1–2° with a hard shadow and a time sticker. It drops in with a squash and dust at
@@ -149,13 +152,19 @@ internal fun ToonCard(
     }
     LaunchedEffect(state.dismissStarts) {
         if (state.dismissStarts == 0) return@LaunchedEffect
-        if (hole && fx !== NoToonFxHost && !reduce) {
-            // A host draws the hole above everything; the card leaves it to the host.
-            fx.emit(ToonFxEvent.CardGone(bounds, cardRadii(tokens)))
-        }
+        // A swiped card first springs back to its slot (B-67): the throw, and the hole, start that much later.
+        val lead = state.throwShift.toLong()
+        var told = false
         var waited = 0L
         val start = withFrameMillis { it }
-        while (!reduce && waited < GONE_AFTER_MS) waited = withFrameMillis { it } - start
+        while (!reduce && waited < GONE_AFTER_MS + lead) {
+            if (!told && waited >= lead) {
+                told = true
+                // A host draws the hole above everything; the card leaves it to the host.
+                if (hole && fx !== NoToonFxHost) fx.emit(ToonFxEvent.CardGone(bounds, cardRadii(tokens)))
+            }
+            waited = withFrameMillis { it } - start
+        }
         state.gone = true
         dismissed()
     }
@@ -181,10 +190,7 @@ internal fun ToonCard(
                     customActions =
                         listOf(
                             CustomAccessibilityAction("Dismiss") {
-                                if (!state.gone && !state.dismissing) {
-                                    state.drag(DISMISS_PAST + 1)
-                                    state.release(true)
-                                }
+                                if (!state.gone && !state.dismissing) state.throwAway()
                                 true
                             },
                         )
@@ -313,6 +319,24 @@ internal class ToonCardState(
         return false
     }
 
+    /** Thrown with no drag, by a reader's action: the design's throw to the right, from the slot. */
+    fun throwAway() {
+        held = false
+        target = 0f
+        drag = 0f
+        dir = 1f
+        dragAtDismiss = 0f
+        dismissAt = PENDING_START
+        dismissStarts++
+        starts++
+    }
+
+    /**
+     * How much later than the design's a swiped card's throw runs: it springs back to its slot first,
+     * [RETURN_MS], in place of the engine's 70 ms wind-up (B-67). A reader's throw runs on time.
+     */
+    val throwShift: Float get() = if (dragAtDismiss != 0f) RETURN_MS - WIND_UP_MS else 0f
+
     /** The kit's `step`: the press eases toward its target; a let-go drag springs back (ω 30, ζ 0.55). */
     fun step(
         now: Long,
@@ -323,8 +347,8 @@ internal class ToonCardState(
         if (dismissAt == PENDING_START) dismissAt = now
         press += (target - press) * min(1f, ms / 35)
         if (!held && drag != 0f) {
-            val w = 30f
-            val z = .55f
+            val w = SPRING_W
+            val z = SPRING_Z
             val h = ms / 1000
             dragV += (-w * w * drag - 2 * z * w * dragV) * h
             drag += dragV * h
@@ -340,7 +364,7 @@ internal class ToonCardState(
     fun running(delayMs: Int): Boolean =
         abs(target - press) > .01f || drag != 0f || held ||
             (age(appearAt)?.let { it < APPEAR_MS + delayMs } ?: false) ||
-            (age(dismissAt)?.let { it < DISMISS_MS } ?: false)
+            (age(dismissAt)?.let { it - throwShift < DISMISS_MS } ?: false)
 
     /**
      * How far the cards below have closed up over this one, in card steps: the engine's `cardDismiss`
@@ -348,13 +372,13 @@ internal class ToonCardState(
      * moves nothing; the list takes the slot away when the fade is over.
      */
     fun closeUp(reduceMotion: Boolean): Float =
-        if (reduceMotion || !dismissing) 0f else age(dismissAt)?.let { toonCardDismiss(it).n } ?: 0f
+        if (reduceMotion || !dismissing) 0f else age(dismissAt)?.let { toonCardDismiss(it - throwShift).n } ?: 0f
 
     /** True once the throw has played out — 520 ms, or the 120 ms fade under reduce motion — and the slot can go. */
     fun closedUp(reduceMotion: Boolean): Boolean =
         // A card not thrown reads no time, so a list is not recomposed on every frame of a press.
         dismissing &&
-            age(dismissAt)?.let { it >= if (reduceMotion) REDUCED_FADE_MS else DISMISS_MS } ?: false
+            age(dismissAt)?.let { if (reduceMotion) it >= REDUCED_FADE_MS else it - throwShift >= DISMISS_MS } ?: false
 }
 
 private const val PENDING_START = -1L
@@ -390,13 +414,12 @@ internal fun toonCardFrame(
                 toonCardScene(tokens, i, w, title, meta, time, ToonCardLook(selected = selected, disabled = disabled))
             return ToonCardMoment(card.placed(0f, 0f, 1f, rot0, w / 2, CARD_H / 2), max(0f, 1 - td / REDUCED_FADE_MS))
         }
-        val d = toonCardDismiss(td)
-        // Thrown by a swipe, the card flies on from where the finger let go, in the swipe's direction:
-        // the engine's fling from its first frame, without the 70 ms back to the middle that the kit
-        // plays (B-66). Thrown with no drag — by a reader's action — it plays the design's throw.
-        val fling = if (state.dragAtDismiss != 0f) toonCardDismiss(td + FLING_FROM_MS) else d
+        // A swiped card springs back to its slot, past it by the spring's overshoot, and is thrown from
+        // there (B-67): the engine's throw, [throwShift] ms late. A reader's throw is the design's.
+        val swiped = state.dragAtDismiss != 0f
+        val d = toonCardDismiss(td - state.throwShift)
         val dx = toonCardThrowDx(td, state.dragAtDismiss, state.dir)
-        val hu = (td - 170) / 300
+        val hu = (td - state.throwShift - 170) / 300
         var scene = ToonScene.Empty
         if (holeLocal && hu >= 0 && hu < 1) {
             scene +=
@@ -411,16 +434,28 @@ internal fun toonCardFrame(
                     5,
                 ).placed(0f, 0f, 1f, rot0, w / 2, CARD_H / 2)
         }
-        if (fling.lu >= 0 && fling.lu < 1) {
-            val lines = toonSpeedScene(c, fling.lu, min(abs(dx), w), 0f, CARD_H)
+        if (d.lu >= 0 && d.lu < 1) {
+            val lines = toonSpeedScene(c, d.lu, min(abs(dx), w), 0f, CARD_H)
             // A leftward throw mirrors the lines about the card.
             scene += if (state.dir > 0) lines else lines.scaledAbout(w / 2, 0f, -1f, 1f)
         }
-        if (fling.op > .01f) {
+        if (d.op > .01f) {
             val card =
                 toonCardScene(tokens, i, w, title, meta, time, ToonCardLook(selected = selected, disabled = disabled))
-            val placed = card.placed(dx, 0f, 1f, rot0, w / 2, CARD_H / 2)
-            scene += ToonScene(placed.scaledAbout(w / 2 + dx, CARD_H / 2, fling.sx, fling.sy).layers, placed.labels)
+            scene +=
+                if (swiped && td < RETURN_MS) {
+                    // On its way back it is the card being dragged, its lift and turn let go as it nears the end.
+                    val k = 1 - toonSmoothstep(td / RETURN_MS)
+                    toonCardDragged(card, w, dx, 0f, 1f, rot0, k)
+                } else {
+                    val placed = card.placed(dx, 0f, 1f, rot0, w / 2, CARD_H / 2)
+                    val smeared = placed.scaledAbout(w / 2 + dx, CARD_H / 2, d.sx, d.sy)
+                    // A swiped card's words keep to their places on the smeared sheet, the time on its sticker.
+                    ToonScene(
+                        smeared.layers,
+                        if (swiped) placed.labelsScaled(w / 2 + dx, CARD_H / 2, d.sx, d.sy) else placed.labels,
+                    )
+                }
         }
         return ToonCardMoment(scene, null)
     }
@@ -441,10 +476,9 @@ internal fun toonCardFrame(
             time,
             ToonCardLook(sx = a.sx, sy = a.sy, press = state.press, selected = selected, disabled = disabled),
         )
-    val drag = state.drag
-    val rot = a.rot + state.press * 1.6f * (state.lean ?: -.6f) + drag * .035f
+    val rot = a.rot + state.press * 1.6f * (state.lean ?: -.6f)
     val scene =
-        card.placed(drag, a.dy, a.op * (1 - min(.35f, abs(drag) / 400)), rot, w / 2 + drag, CARD_H / 2) +
+        toonCardDragged(card, w, state.drag, a.dy, a.op, rot, 1f) +
             toonDustScene(c, a.du, 34f, 86f, 36f) +
             toonDustScene(c, a.du, w - 34, 86f, 36f)
     val fade = if (reduceMotion && ta != null) min(1f, ta / REDUCED_FADE_MS) else null
@@ -588,21 +622,99 @@ internal fun toonCardScene(
     return ToonScene(layers, labels)
 }
 
-/** A swiped card skips the engine's 70 ms wind-up and starts its throw at the fling (B-66). */
-private const val FLING_FROM_MS = 70f
+/** The kit's drag spring: ω 30, ζ 0.55. */
+private const val SPRING_W = 30f
+private const val SPRING_Z = .55f
+private val SPRING_WD = SPRING_W * sqrt(1 - SPRING_Z * SPRING_Z)
+
+/** The engine's wind-up, the 70 ms before its fling, which a swiped card's spring back stands in for. */
+private const val WIND_UP_MS = 70f
+
+/**
+ * A swiped card's way back (B-67): the drag spring let go from rest, to the far end of its first
+ * overshoot, where it stands still for an instant — 125 ms, and 12.6 % of the drag past the slot.
+ */
+internal val RETURN_MS: Float = (PI / SPRING_WD * 1000).toFloat()
+
+/** Where the drag spring, let go [dragAtDismiss] dp out at rest, has the card [t] ms later. */
+internal fun toonCardSpringBack(
+    t: Float,
+    dragAtDismiss: Float,
+): Float {
+    val s = t / 1000
+    val ratio = SPRING_Z / sqrt(1 - SPRING_Z * SPRING_Z)
+    return dragAtDismiss * exp(-SPRING_Z * SPRING_W * s) * (cos(SPRING_WD * s) + ratio * sin(SPRING_WD * s))
+}
 
 /**
  * How far a thrown card stands from its slot [td] ms into the throw, let go [dragAtDismiss] dp out
- * and thrown toward [dir]: on from the finger at the engine's fling (B-66), or, thrown with no drag,
- * the kit's throw from the slot.
+ * and thrown toward [dir]. Swiped, it springs back past its slot for [RETURN_MS] and flies from
+ * where it stopped, at the engine's fling (B-67); thrown with no drag, it is the kit's throw.
  */
 internal fun toonCardThrowDx(
     td: Float,
     dragAtDismiss: Float,
     dir: Float,
-): Float =
-    if (dragAtDismiss != 0f) {
-        dragAtDismiss + dir * (toonCardDismiss(td + FLING_FROM_MS).dx - toonCardDismiss(FLING_FROM_MS).dx)
-    } else {
-        dir * max(0f, toonCardDismiss(td).dx)
+): Float {
+    if (dragAtDismiss == 0f) return dir * max(0f, toonCardDismiss(td).dx)
+    if (td < RETURN_MS) return toonCardSpringBack(td, dragAtDismiss)
+    val wound = toonCardSpringBack(RETURN_MS, dragAtDismiss)
+    val te = td - RETURN_MS + WIND_UP_MS
+    return wound + dir * (toonCardDismiss(te).dx - toonCardDismiss(WIND_UP_MS).dx)
+}
+
+internal fun toonSmoothstep(u: Float): Float = min(1f, max(0f, u)).let { it * it * (3 - 2 * it) }
+
+/** How much a drag turns the card: the kit's 0.035° a dp. */
+private const val DRAG_TURN = .035f
+
+/**
+ * The card [dx] dp off its slot as a drag holds it: lifted off the paper and turned toward the drag,
+ * by [k] of the drag's look (1 while dragged). Its words go where the turn takes their places and
+ * stay level; the design leaves them where they stood, so the time slid off its sticker (B-67).
+ */
+private fun toonCardDragged(
+    card: ToonScene,
+    w: Float,
+    dx: Float,
+    dy: Float,
+    op: Float,
+    rot: Float,
+    k: Float,
+): ToonScene {
+    val turn = dx * DRAG_TURN * k
+    val px = w / 2 + dx * k
+    val placed = card.placed(dx, dy, op * (1 - min(.35f, abs(dx) / 400) * k), rot + turn, px, CARD_H / 2)
+    return placed.labelsTurned(turn, px + dx, CARD_H / 2 + dy)
+}
+
+/** The labels' places turned [degrees] about ([cx], [cy]), the words themselves level. */
+private fun ToonScene.labelsTurned(
+    degrees: Float,
+    cx: Float,
+    cy: Float,
+): ToonScene {
+    if (degrees == 0f) return this
+    val r = degrees * PI.toFloat() / 180
+    val cs = cos(r)
+    val sn = sin(r)
+    return ToonScene(
+        layers,
+        labels.map {
+            val x = it.x - cx
+            val y = it.baseline - cy
+            ToonLabel(it.text, cx + cs * x - sn * y, cy + sn * x + cs * y, it.color, it.alpha, it.style, it.anchor)
+        },
+    )
+}
+
+/** The labels' places scaled about ([cx], [cy]), the words themselves unscaled. */
+private fun ToonScene.labelsScaled(
+    cx: Float,
+    cy: Float,
+    sx: Float,
+    sy: Float,
+): List<ToonLabel> =
+    labels.map {
+        ToonLabel(it.text, cx + (it.x - cx) * sx, cy + (it.baseline - cy) * sy, it.color, it.alpha, it.style, it.anchor)
     }

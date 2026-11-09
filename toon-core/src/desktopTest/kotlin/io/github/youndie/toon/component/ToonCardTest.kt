@@ -193,26 +193,131 @@ class ToonCardTest {
     }
 
     @Test
-    fun `a swiped card flies on from where the finger let go, never back toward its slot`() {
-        // B-66, the owner: "the animation of an item disappearing from a list is crooked". The kit
-        // brings a swiped card back to its slot over 70 ms and then throws it from there, so a long
-        // swipe left came back across the row before it flew.
+    fun `a swiped card springs back past its slot and flies off from where it stopped`() {
+        // B-67, the owner: "pulled far enough — the card came back to its place — ran away, even with a
+        // little wind-up the other way". B-66 had thrown it on from the finger.
+        val r = RETURN_MS
         for ((drag, dir) in listOf(-150f to -1f, 120f to 1f, -85f to -1f)) {
             assertEquals(drag, toonCardThrowDx(0f, drag, dir), 1e-3f, "starts at the finger, $drag")
             var last = drag
-            for (t in 1..200) {
-                val dx = toonCardThrowDx(t.toFloat(), drag, dir)
-                assertTrue((dx - last) * dir >= -1e-3f, "drag $drag: back toward the slot at $t ms ($last then $dx)")
-                // Drawn until the fling ends, 100 ms in; then the card is gone and only stands aside.
-                if (t < 100) assertTrue(abs(dx - last) < 15f, "drag $drag: a jump of ${dx - last} dp at $t ms")
+            var t = 1f
+            while (t <= r + 200) {
+                val dx = toonCardThrowDx(t, drag, dir)
+                val step = dx - last
+                if (t <= r) {
+                    assertTrue(step * dir <= 1e-3f, "drag $drag: out toward the throw on the way back at $t ms")
+                } else {
+                    assertTrue(step * dir >= -1e-3f, "drag $drag: back toward the slot in the throw at $t ms")
+                }
+                // Drawn until the fling ends, 100 ms after the way back; then it is gone.
+                if (t < r + 100) assertTrue(abs(step) < 15f, "drag $drag: a jump of $step dp at $t ms")
                 last = dx
+                t += 1f
             }
-            assertTrue(abs(last) > 342f, "drag $drag: off the row by 200 ms, at $last")
+            val wound = toonCardThrowDx(r, drag, dir)
+            assertTrue(wound * dir < 0, "drag $drag: past the slot the other way at the turn, at $wound")
+            assertTrue(abs(wound) in abs(drag) * .1f..abs(drag) * .15f, "drag $drag: the wind-up is $wound")
+            // It stands still at the turn: no step in its speed either side of it.
+            val before = wound - toonCardThrowDx(r - .5f, drag, dir)
+            val after = toonCardThrowDx(r + .5f, drag, dir) - wound
+            assertTrue(abs(before) < .05f && abs(after) < .05f, "drag $drag: moving at the turn, $before then $after")
+            assertTrue(abs(last) > 342f, "drag $drag: off the row by ${r + 200} ms, at $last")
         }
         // Thrown with no drag, by a reader's action, it is the kit's throw.
         for (t in listOf(0f, 70f, 140f, 190f)) {
             assertEquals(kotlin.math.max(0f, toonCardDismiss(t).dx), toonCardThrowDx(t, 0f, 1f), 1e-3f)
         }
+    }
+
+    @Test
+    fun `the swiped card's first frame after the release is its last frame under the finger`() {
+        // B-67: on release the card turned level and opaque in one frame.
+        val tokens = io.github.youndie.toon.tokens.inkGouacheLight
+        for (drag in listOf(-150f, 120f)) {
+            val state = ToonCardState(appear = false)
+            state.press(171f, 342f)
+            state.drag(drag)
+            state.step(1000, 16f)
+
+            fun frame() =
+                toonCardFrame(
+                    tokens,
+                    1,
+                    342f,
+                    "Bike to the lake",
+                    "Check the tyre pump",
+                    "11:30",
+                    1.5f,
+                    state,
+                    0,
+                    false,
+                    false,
+                    false,
+                    false,
+                ).scene
+            val held = frame()
+            state.release(true)
+            state.step(1000, 0f)
+            val let = frame()
+            val a = held.layers.filter { it.alpha > 0f }
+            val b = let.layers.filter { it.alpha > 0f }
+            assertEquals(a.size, b.size, "drag $drag: layers")
+            for ((x, y) in a.zip(b)) {
+                assertEquals(x.alpha, y.alpha, 1e-4f, "drag $drag: opacity")
+                for ((p, q) in listOf(
+                    x.outer.a to y.outer.a,
+                    x.outer.b to y.outer.b,
+                    x.outer.e to y.outer.e,
+                    x.outer.f to y.outer.f,
+                )) {
+                    assertEquals(p, q, 1e-3f, "drag $drag: placement")
+                }
+            }
+            for ((x, y) in held.labels.zip(let.labels)) {
+                assertEquals(x.x, y.x, 1e-3f, "drag $drag: ${x.text}")
+                assertEquals(x.baseline, y.baseline, 1e-3f, "drag $drag: ${x.text}")
+            }
+        }
+    }
+
+    @Test
+    fun `a dragged card's time stays on its sticker`() {
+        // B-67: the design turns the sheet and leaves its words where they stood, so a long drag slid the
+        // time a dozen dp off its sticker. The words now go where the turn takes their places.
+        val tokens = io.github.youndie.toon.tokens.inkGouacheLight
+        val still = ToonCardState(appear = false)
+        val dragged = ToonCardState(appear = false).apply { drag(-150f) }
+
+        fun time(s: ToonCardState) =
+            toonCardFrame(tokens, 1, 342f, "T", "m", "11:30", 0f, s, 0, false, false, false, false)
+                .scene.labels
+                .single { it.text == "11:30" }
+        val turn = -150f * .035f * kotlin.math.PI.toFloat() / 180
+        // The sticker's middle, 18 dp in from the right and 64 wide, turned about the dragged card's pivot.
+        val cx = 342f / 2 - 150f
+        val sx = 342f - 18 - 32 - cx
+        val sy = time(still).baseline - 84f / 2
+        val ex = cx + kotlin.math.cos(turn) * sx - kotlin.math.sin(turn) * sy - 150f
+        val ey = 84f / 2 + kotlin.math.sin(turn) * sx + kotlin.math.cos(turn) * sy
+        assertEquals(ex, time(dragged).x, .01f, "the time's x")
+        assertEquals(ey, time(dragged).baseline, .01f, "the time's baseline")
+    }
+
+    @Test
+    fun `the cards below close up only once a swiped card is off`() {
+        // B-67: the spring back delays the throw, and the close-up with it.
+        val state = ToonCardState(appear = false)
+        state.drag(-150f)
+        state.release(true)
+        state.step(1000, 0f)
+        var t = 0L
+        while (t < 700) {
+            state.step(1000 + t, 1f)
+            val d = toonCardDismiss(t - state.throwShift)
+            if (d.op > .01f) assertEquals(0f, state.closeUp(false), "closing up at $t ms while the card is drawn")
+            t++
+        }
+        assertTrue(state.closedUp(false))
     }
 
     @Test
