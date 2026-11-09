@@ -56,7 +56,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 No open tasks.
 
-## Closed (66)
+## Closed (67)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -122,6 +122,7 @@ No open tasks.
 - [B-64](docs/backlog/B-64-pull-to-refresh-holds-content.md) `[x]` - Pull-to-refresh pulls the content, not a band by its tip
 - [B-65](docs/backlog/B-65-list-item-check-animates.md) `[x]` - A list item's check plays the checkbox's toggle
 - [B-66](docs/backlog/B-66-list-dismiss-flies-on.md) `[x]` - A card thrown from a list flies on from the finger and leaves no hole
+- [B-67](docs/backlog/B-67-swipe-springs-back-then-flies.md) `[x]` - A swiped card springs back past its slot, then flies; its look and words follow
 
 **Nine phone fixtures and the desktop one within the floor; a sample app runs**
 

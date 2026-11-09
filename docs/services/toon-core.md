@@ -193,10 +193,15 @@ None at runtime.
   was first shown in, so nothing changes colour as the list closes up (B-46).
 - The list's cascade runs for the cards it is first shown with; a card added later drops in on its
   own, with no delay (B-46).
-- Before 170 ms a thrown card is the kit's throw, not the Core page's strip: it leaves from the finger
-  with no 10 dp pull-back, and its smear scales the placed card about its centre where the strip
-  rebuilds it squashed. `ToonCardListTest` holds the strip from 170 ms, when only the list's close-up
-  is left (B-46).
+- Before 170 ms a thrown card is the kit's throw, not the Core page's strip: thrown by the reader's
+  Dismiss action it leaves its slot with no 10 dp pull-back, and its smear scales the placed card
+  about its centre where the strip rebuilds it squashed. `ToonCardListTest` holds the strip from
+  170 ms, when only the list's close-up is left (B-46).
+- A swiped card is not thrown from the finger: it springs back on the drag spring past its slot, by
+  12.6 % of the drag, for 125 ms, and is thrown from there; everything after the wind-up — the lines,
+  the hole, the close-up, `onDismiss` — runs 55 ms later than for a reader's throw (`throwShift`).
+  Dragged and swiped, its words go where the sheet takes their places; the design leaves them where
+  they stood (B-67).
 - A dialog is a full-screen layer: the caller puts it over the content it dims (a `Box` with both),
   and it fills its box. Closed, it takes no input, so it can stay composed (B-24).
 - A dialog's pop hands its stars to a `ToonFxHost` 170 ms into the close (`dialog.pop`), which plays

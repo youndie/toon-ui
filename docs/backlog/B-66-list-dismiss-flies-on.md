@@ -31,6 +31,7 @@ four faults:
     covered it. A card on its own still does, and fires `card.gone` to a `ToonFxHost`.
   - The sample's plan screen is a `ToonCardList`, so its cards close up and keep their colours, and
     a plan that comes into view drops in.
+- Superseded in part by B-67 (2026-11-09): a swiped card springs back past its slot before it flies.
 - Rejected: shrinking or fading the hole faster in a list — any hole there is covered by the card
   closing up over it within 30 ms of its first frame.
 - AC: a swiped card never moves back toward its slot and leaves the row; a list's card punches no
