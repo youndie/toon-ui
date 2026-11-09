@@ -17,6 +17,8 @@ import kotlin.math.min
 // card drops in 40 ms after the one above it, and when one is thrown away the cards below slide up over
 // its slot with the engine's overshoot (`cardDismiss`'s `n`) instead of jumping. The design has no file
 // of its own for the list; the cards are `ToonCard`s, and only the cascade and the close-up are the list's.
+// A thrown card punches no hole into the paper here: the cards below close up over its slot at once and
+// only cover it (B-66).
 
 /** One card of a [ToonCardList]: its [key], unique in the list, and what the card shows. */
 public class ToonCardListItem(
@@ -71,6 +73,7 @@ public fun ToonCardList(
                     dismissible = dismissible,
                     onDismiss = { onDismiss(item) },
                     onClick = { onClick(item) },
+                    hole = false,
                 )
             }
         }

@@ -150,7 +150,7 @@ class ToonCardListTest {
         dismissing(false, ages.last(), heard) { age -> if (age in ages) live[age] = capture("cell") }
         assertEquals(listOf(1), heard)
         for (t in ages) {
-            val r = ratio(live.getValue(t), frame(CardFrames.dismiss(inkGouacheLight, t.toFloat())))
+            val r = ratio(live.getValue(t), frame(CardFrames.dismiss(inkGouacheLight, t.toFloat(), hole = false)))
             println("dismiss at $t ms: ${"%.2f".format(r * 100)} %")
             assertTrue(r <= InkRatio.shapes, "dismiss at $t ms: ${r * 100} % over the floor ${InkRatio.shapes * 100} %")
         }

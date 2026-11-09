@@ -6,6 +6,7 @@ import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.click
+import androidx.compose.ui.test.hasText
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
@@ -28,14 +29,14 @@ class SampleAppTest {
             mainClock.advanceTimeBy(1_000)
             onNodeWithTag("sign-in").performClick()
             mainClock.advanceTimeBy(1_000)
-            onNodeWithTag("card-0").assertExists()
-            onNodeWithTag("card-0").performTouchInput { swipeLeft() }
+            onNode(hasText("Pancake breakfast", substring = true)).assertExists()
+            onNode(hasText("Pancake breakfast", substring = true)).performTouchInput { swipeLeft() }
             mainClock.advanceTimeBy(1_000)
-            onNodeWithTag("card-0").assertDoesNotExist()
+            onNode(hasText("Pancake breakfast", substring = true)).assertDoesNotExist()
             // The snackbar's action is its last 110 dp.
             onNodeWithTag("snackbar").performTouchInput { click(Offset(width - 40f, height / 2f)) }
             mainClock.advanceTimeBy(1_000)
-            onNodeWithTag("card-0").assertExists()
+            onNode(hasText("Pancake breakfast", substring = true)).assertExists()
             onNodeWithTag("nav").performTouchInput { click(Offset(width * 7 / 8f, height / 2f)) }
             mainClock.advanceTimeBy(1_000)
             onNodeWithTag("look").assertExists()
