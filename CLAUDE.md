@@ -57,7 +57,8 @@ local only, and the loop merged into the local `main`.
 - The public API is pinned: `toon-core/api/` is the committed dump, and `check` fails on a change to
   it that was not recorded with `./gradlew :toon-core:updateKotlinAbi`.
 - **The sample in a browser** is `pages.yaml`: `:sample:wasmJsBrowserDistribution`, deployed to
-  https://youndie.github.io/toon-ui/ from `main`. The desktop sample is `./gradlew :sample:run`.
+  https://youndie.github.io/toon-ui/ from `main`, and `?scene=app` opens the phone screens alone, which
+  kotlin.website embeds. The desktop sample is `./gradlew :sample:run`.
 
 ## Gates
 

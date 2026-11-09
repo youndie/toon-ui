@@ -73,7 +73,7 @@ private val DESTINATIONS =
         ToonNavItem(ToonIcons.Person, "Profile"),
     )
 
-private val THEMES = listOf(ToonThemes.InkGouacheLight, ToonThemes.InkGouacheNight, ToonThemes.BrightCel)
+internal val THEMES = listOf(ToonThemes.InkGouacheLight, ToonThemes.InkGouacheNight, ToonThemes.BrightCel)
 
 private enum class Screen { SignIn, List, Settings }
 
