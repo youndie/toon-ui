@@ -16,7 +16,7 @@ on:
 
 jobs:
   publish:
-    uses: youndie/sborka/.github/workflows/publish-wip.yaml@v0.5.0.130
+    uses: youndie/sborka/.github/workflows/publish-wip.yaml@v0.5.0.135
     with:
       # macOS for two reasons. The check before the publish is the whole gate, and its goldens are a
       # claim about the Mac's rasteriser. And a multiplatform module publishes its root and every

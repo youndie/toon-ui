@@ -25,7 +25,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.130
+      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.135
 
       # Nothing here renders: the wasm build compiles and bundles, so no display server is needed.
       - run: ./gradlew --no-daemon :sample:wasmJsBrowserDistribution
