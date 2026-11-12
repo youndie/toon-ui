@@ -32,6 +32,9 @@ research §1.1 names. It is evidence, not a document this repository maintains.
    components. This checks that the components compose.
 5. **The library as a product** (stage 4): accessibility, the catalogue, publishing, the
    undesigned v1 components, re-importing the design.
+6. **The desktop set** (stage 5): nine components and one pointer rule a desktop app needs, designed
+   in a desktop app's project and imported from it ([B-68](docs/backlog/B-68-vendor-the-desktop-design.md)).
+   The rule comes before the components that hover, and the turn after the sticker it carries.
 
 The owner answered on 2026-11-02: Cyrillic is in scope ([B-35](docs/backlog/B-35-cyrillic-fonts.md)
 finds the faces), the destructive button's 4.38:1 is an accepted exception
@@ -49,12 +52,25 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | `stage-2-components` | Each MVP component matches its strips and cells in three themes |
 | `stage-3-screens` | Nine phone fixtures and the desktop one within the floor; a sample app runs |
 | `stage-4-product` | The owner's questions answered; the semantics and contrast tests pass |
+| `stage-5-desktop` | The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule |
 
 <!-- BEGIN INDEX -->
 
-## Open (0)
+## Open (11)
 
-No open tasks.
+| Task | | Priority | Size | Blocked by |
+|---|---|---|---|---|
+| [B-68](docs/backlog/B-68-vendor-the-desktop-design.md) `[?]` | Vendor the desktop components' design from the app project they were drawn in | P1 | M | - |
+| [B-69](docs/backlog/B-69-pointer-and-keyboard-rule.md) `[ ]` | One hover, focus and target rule for the whole kit | P1 | L | B-68 |
+| [B-70](docs/backlog/B-70-speaker-sticker.md) `[ ]` | ToonSpeakerSticker: a speaker told apart by shape, colour and letter | P1 | M | B-68 |
+| [B-71](docs/backlog/B-71-search-field.md) `[ ]` | ToonSearchField: a search box with a count and a key hint | P1 | M | B-68, B-69 |
+| [B-72](docs/backlog/B-72-scrollbar.md) `[ ]` | ToonScrollbar: an ink thumb that keeps clear of the window's edge | P1 | M | B-68, B-69 |
+| [B-74](docs/backlog/B-74-level-meter.md) `[ ]` | ToonLevelMeter: a channel's level, live, silent or clipping | P1 | M | B-68 |
+| [B-75](docs/backlog/B-75-record-button.md) `[ ]` | ToonRecordButton: start and stop, with the elapsed time | P1 | M | B-68, B-69 |
+| [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70 |
+| [B-73](docs/backlog/B-73-split-handle.md) `[ ]` | ToonSplitHandle: the grip between a sidebar and the content | P2 | S | B-68, B-69 |
+| [B-76](docs/backlog/B-76-title-bar.md) `[ ]` | ToonTitleBar: the window's title row and its action slot | P2 | M | B-68, B-75 |
+| [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
 
 ## Closed (67)
 
