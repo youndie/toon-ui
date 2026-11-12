@@ -60,7 +60,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-68](docs/backlog/B-68-vendor-the-desktop-design.md) `[?]` | Vendor the desktop components' design from the app project they were drawn in | P1 | M | - |
+| [B-68](docs/backlog/B-68-vendor-the-desktop-design.md) `[ ]` | Vendor the desktop components' design from the app project they were drawn in | P1 | M | - |
 | [B-69](docs/backlog/B-69-pointer-and-keyboard-rule.md) `[ ]` | One hover, focus and target rule for the whole kit | P1 | L | B-68 |
 | [B-70](docs/backlog/B-70-speaker-sticker.md) `[ ]` | ToonSpeakerSticker: a speaker told apart by shape, colour and letter | P1 | M | B-68 |
 | [B-71](docs/backlog/B-71-search-field.md) `[ ]` | ToonSearchField: a search box with a count and a key hint | P1 | M | B-68, B-69 |

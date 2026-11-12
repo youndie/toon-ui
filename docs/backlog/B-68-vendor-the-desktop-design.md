@@ -1,7 +1,7 @@
 ---
 id: B-68
 title: "Vendor the desktop components' design from the app project they were drawn in"
-status: question
+status: open
 priority: P1
 size: M
 stage: stage-5-desktop
@@ -48,3 +48,12 @@ enters this public repository. The owner decides before this item starts: vendor
 are, or rename them on the way in and record the mapping as the first departure of
 `reference/desktop/` (the content is otherwise unchanged).
 
+## Answer, 2026-11-12
+
+**Rename on the way in.** The app's working name is replaced by `desktop` wherever it stands in a
+file name, an identifier or a page title: the engine extension becomes `desktop-engine.js`, its token
+object `DESKTOP`, the pointer page `Desktop Pointer & Keyboard`. The content is otherwise unchanged,
+and the rename is the first departure recorded for `reference/desktop/`, described in those terms.
+
+- No file, identifier, comment, commit message or pull request of this repository carries the working
+  name; a search for it over the tree finds nothing before the item closes.
