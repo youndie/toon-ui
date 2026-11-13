@@ -1,7 +1,7 @@
 ---
 id: B-86
 title: "The textured stage draws the same pixels on every x86 machine, or can be drawn flat"
-status: open
+status: done
 priority: P2
 size: M
 stage: stage-4-product
@@ -30,3 +30,29 @@ goldens split by runner CPU vendor (Intel against AMD), and Skiko's `ImageShader
   in the findings with the two machines' CPU names and hashes. If it is "deterministic", a matrix
   job holds it.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/`, `.github/workflows/`.
+
+## Findings
+
+- **Step 1: the cause was not reproduced.** Hypothesis: Skiko samples the tile nearest, and at
+  1 px a dp (scale 0.5) every pixel's centre lands on the line between two texels, so a CPU's
+  rounding picks one. The stage now shifts the shader so each pixel samples a texel's centre at 1 and
+  2 px a dp. `ToonStageSamplingTest` checks that every pixel is exactly its texel, in both gouache
+  tiles at densities 1 and 2. It passed on:
+  - the Mac (Apple silicon, the gate's runner);
+  - `ubuntu-latest` on an AMD EPYC 9V45 with the shift;
+  - `ubuntu-latest` on an AMD EPYC 7763 **without** the shift (the experiment branch
+    `exp/b-86-no-shift`, run 43504092534).
+  So on these three CPUs the tie already went the same way, and the shift changes no pixel there: no
+  golden moved. The machine the issue names (WSL2 Ubuntu, the owner's box) was not tried, so whether
+  the shift fixes the issue's 5,350 pixels is **not measured**. The issue's difference may come from
+  elsewhere, for instance a density other than 1 or 2 in the consumer's fixture.
+- **Kept anyway:** the shift removes the tie by construction and moves nothing on the measured
+  machines. The new `stage-x86` job in `check.yaml` runs the sampling test on a Linux x86 runner on
+  every push and prints its CPU, so a runner that draws the stage differently now turns CI red
+  instead of a consumer's goldens.
+- **Step 2, the guarantee:** `ToonTheme(stageTexture = false)` (read as `Toon.stageTexture`) draws
+  `ToonStage` in the flat stage colour, as plakat-ui's `PlakatPrintSwitches(texture = false)` does.
+  `stageTexture false draws the stage in its flat colour` holds it. A consumer's goldens with the flat
+  stage are a claim about no texture at all.
+- Mutants: the switch ignored is caught. The shift removed is **not** caught on any machine tried,
+  for the reason above.

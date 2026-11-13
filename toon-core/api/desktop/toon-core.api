@@ -759,6 +759,7 @@ public final class io/github/youndie/toon/theme/Toon {
 	public final fun getIdleBudget (Landroidx/compose/runtime/Composer;I)Lio/github/youndie/toon/theme/ToonIdleBudget;
 	public final fun getReduceMotion (Landroidx/compose/runtime/Composer;I)Z
 	public final fun getShape (Landroidx/compose/runtime/Composer;I)Lio/github/youndie/toon/tokens/ToonShape;
+	public final fun getStageTexture (Landroidx/compose/runtime/Composer;I)Z
 	public final fun getTokens (Landroidx/compose/runtime/Composer;I)Lio/github/youndie/toon/tokens/ToonTokens;
 }
 
@@ -783,7 +784,7 @@ public final class io/github/youndie/toon/theme/ToonTextKt {
 }
 
 public final class io/github/youndie/toon/theme/ToonThemeKt {
-	public static final fun ToonTheme (Lio/github/youndie/toon/tokens/ToonTokens;Ljava/lang/Boolean;ILkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ToonTheme (Lio/github/youndie/toon/tokens/ToonTokens;Ljava/lang/Boolean;IZLkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/youndie/toon/theme/ToonThemes {

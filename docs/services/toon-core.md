@@ -266,6 +266,10 @@ None at runtime.
   that paragraph's line, which can stand a pixel off a paragraph set in the backing face alone.
 - The Cyrillic faces are held twice: by the `Cyrillic_Sheet_*` goldens, which fail when a backing's
   scale or weight moves, and by `ToonCyrillicMetricsTest`, which says which (B-35, corrected in B-29).
+- `ToonTheme(stageTexture = false)` draws the stage flat, for screenshots meant to match across
+  machines (B-86). The textured stage samples texel centres at 1 and 2 px a dp. `stage-x86` in CI holds
+  every pixel to its texel on a Linux x86 runner. It is not measured on the machine the consumer's
+  goldens disagreed on.
 - The stage's tile is chosen by the theme's stage colour (B-13): a theme of the caller's own, with
   another stage colour, gets a flat stage. The paper tiles ship with the gouache ones, as the design
   keeps them, and nothing draws them yet; the four add 0.5 MB.
