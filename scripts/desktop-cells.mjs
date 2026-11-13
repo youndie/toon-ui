@@ -63,8 +63,28 @@ const HOVER_CELLS = [
 // The card's focus ring, which the kit never drew (the page's last column): 6 dp out, its own seed.
 const FOCUS_CELLS = hoverCell('Card', 'Default', ringCard, { focus: true }).map(c => ({ ...c, group: 'Focus' }));
 
+// B-71: ToonSearchField.dc.html's `searchBox`, as its `paint()` calls it: the key hint's plate only
+// while the field is empty and unfocused (`kbdW` 34, else 0), focus thickening the ink with its ring,
+// hover filling it with `surface2` unless focused. Its texts are HTML over the drawing, so a cell has
+// none. A value with a count draws what an unfocused field with a value draws: no plate. At the
+// page's default width, and at both ends of its `width` editor.
+const SEARCH_LOOKS = [
+  ['Rest', { kbdW: 34 }],
+  ['Hover', { kbdW: 34, hv: 1 }],
+  ['Focus', { focus: 1, ring: true, kbdW: 0 }],
+  ['FocusHover', { focus: 1, ring: true, hv: 1, kbdW: 0 }],
+  ['Value', { kbdW: 0 }],
+];
+const SEARCH_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  [...SEARCH_LOOKS.map(([label, o]) => [label, { w: 276, ...o }]), ['Narrow', { w: 160, kbdW: 34 }], ['Wide', { w: 600, kbdW: 34 }]]
+    .map(([label, o]) => {
+      const opts = { focus: 0, ring: false, hv: 0, ...o };
+      return { group: 'SearchField', name: `${label}_${themeName}`, theme, themeName, opts, scene: `E.searchBox(T, ${JSON.stringify(opts)})` };
+    }));
+
 export const DESKTOP_CELLS = {
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
+  SearchField: SEARCH_CELLS,
   Hover: HOVER_CELLS,
   Focus: FOCUS_CELLS,
 };
