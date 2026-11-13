@@ -1,7 +1,7 @@
 ---
 id: B-83
 title: "The card fits a long time, title and meta"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-4-product
@@ -31,3 +31,21 @@ Issues [#32](https://github.com/youndie/toon-ui/issues/32) and the card half of
 - AC: at 358 dp, a 40-character title and meta end in an ellipsis before the badge. A long time sits
   inside its badge. The design's cards keep their cells and goldens.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCard.kt`.
+
+## Findings
+
+- The design's times measure 29 to 43 dp on desktop ("20:00" in Figtree 700 at 15 is the widest),
+  so a 10 dp pad keeps the design's 64 dp sticker for all of them. "12 ноября, 09:17" measures 115 and
+  gets a 135 dp sticker. The share cap is 45 % of the card (161 dp at 358), so the title keeps at
+  least about half the card.
+- The cut is a property of the frame's text: `ToonLabel.maxWidth`, which the renderer lays out on one
+  line with `TextOverflow.Ellipsis`. Every place that copies a label carries it: `placed`, the card's
+  turned and scaled words, the hover lift, and the dialog's test frames. Other components can now
+  cut a text the same way (the list item, B-84).
+- Held by `ToonCardTextsTest`:
+  - the sticker width over every time 0–500 dp;
+  - the widths the design's cards give their words;
+  - the real card at 358 dp with a 60-character title, a long Russian meta and two long times. It reads
+    the sticker's paper as grown, and no title, meta or time ink between the words and the sticker.
+- The design's cards keep their cells and goldens: `check` and `viddikVerify` green with nothing
+  re-recorded.

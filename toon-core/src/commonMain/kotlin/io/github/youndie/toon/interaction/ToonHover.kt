@@ -240,7 +240,18 @@ internal fun ToonScene.hoverLifted(
         if (!labelsToo) {
             labels
         } else {
-            labels.map { ToonLabel(it.text, it.x - d, it.baseline - d, it.color, it.alpha, it.style, it.anchor) }
+            labels.map {
+                ToonLabel(
+                    it.text,
+                    it.x - d,
+                    it.baseline - d,
+                    it.color,
+                    it.alpha,
+                    it.style,
+                    it.anchor,
+                    it.maxWidth,
+                )
+            }
         },
     )
 }

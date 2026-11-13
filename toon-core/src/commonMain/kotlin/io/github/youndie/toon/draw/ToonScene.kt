@@ -28,6 +28,8 @@ import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.sp
 import io.github.youndie.toon.InternalToonApi
@@ -239,7 +241,11 @@ internal class ToonTextStyle(
 /** Where a text sits on its x, as the engine's `X` anchors: from its start, centred, or to its end. */
 internal enum class ToonAnchor { Start, Middle, End }
 
-/** One text of a frame, as the engine's `X`: [text] on [baseline], [anchor]ed at [x]. */
+/**
+ * One text of a frame, as the engine's `X`: [text] on [baseline], [anchor]ed at [x]. A finite
+ * [maxWidth] cuts a text wider than it to one line ending in an ellipsis (B-83); the engine's texts
+ * have no width, and the design's own words fit.
+ */
 internal class ToonLabel(
     val text: String,
     val x: Float,
@@ -248,6 +254,7 @@ internal class ToonLabel(
     val alpha: Float,
     val style: ToonTextStyle,
     val anchor: ToonAnchor = ToonAnchor.Middle,
+    val maxWidth: Float = Float.POSITIVE_INFINITY,
 )
 
 /** A frame: [layers] in order, then [labels] over them. */
@@ -294,6 +301,7 @@ internal class ToonScene(
                     it.alpha * opacity,
                     it.style,
                     it.anchor,
+                    it.maxWidth,
                 )
             },
         )
@@ -452,6 +460,7 @@ internal class ToonTextRenderer(
     fun measure(
         text: String,
         style: ToonTextStyle,
+        maxWidth: Float = Float.POSITIVE_INFINITY,
     ): TextLayoutResult =
         measurer.measure(
             withBacking(
@@ -468,6 +477,17 @@ internal class ToonTextRenderer(
             ),
             // Laid out in dp, as the frame is drawn ([inDp]); the user's font scale still applies.
             density = Density(1f, fontScale),
+            overflow = if (maxWidth.isFinite()) TextOverflow.Ellipsis else TextOverflow.Clip,
+            softWrap = !maxWidth.isFinite(),
+            maxLines = if (maxWidth.isFinite()) 1 else Int.MAX_VALUE,
+            constraints =
+                if (maxWidth.isFinite()) {
+                    Constraints(
+                        maxWidth = max(0, floor(maxWidth).toInt()),
+                    )
+                } else {
+                    Constraints()
+                },
         )
 }
 
@@ -523,7 +543,7 @@ internal fun DrawScope.drawScene(
     if (text == null) return
     for (x in scene.labels) {
         if (x.alpha <= .01f) continue
-        val layout = text.measure(x.text, x.style)
+        val layout = text.measure(x.text, x.style, x.maxWidth)
         val left =
             when (x.anchor) {
                 ToonAnchor.Start -> x.x

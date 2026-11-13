@@ -129,7 +129,7 @@ internal object DialogFrames {
         val labels =
             bg.labels
                 .filterNot { up && it.baseline > cy - hh && it.baseline < cy + hh + 16 }
-                .map { ToonLabel(it.text, it.x, it.baseline, it.color, it.alpha * k, it.style, it.anchor) }
+                .map { ToonLabel(it.text, it.x, it.baseline, it.color, it.alpha * k, it.style, it.anchor, it.maxWidth) }
         return ToonScene(bg.layers, labels) + toonDialogOverlay(tokens, 360f, 460f, cy, a.r, card, h, a)
     }
 }
