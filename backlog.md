@@ -56,9 +56,18 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (0)
+## Open (8)
 
-No open tasks.
+| Task | | Priority | Size | Blocked by |
+|---|---|---|---|---|
+| [B-81](docs/backlog/B-81-title-card-fits-a-long-title.md) `[ ]` | The title card fits a title wider than its plaque | P1 | S | - |
+| [B-82](docs/backlog/B-82-public-text-with-the-cyrillic-backing.md) `[ ]` | A consumer's own text gets the Cyrillic backing faces | P1 | M | - |
+| [B-83](docs/backlog/B-83-card-fits-long-texts.md) `[ ]` | The card fits a long time, title and meta | P1 | M | - |
+| [B-84](docs/backlog/B-84-list-item-wraps-its-title.md) `[ ]` | The list item wraps its title and cuts its sub before the trailing | P1 | M | - |
+| [B-88](docs/backlog/B-88-segmented-fits-its-labels.md) `[ ]` | The segmented control fits a label wider than its slot | P1 | S | - |
+| [B-85](docs/backlog/B-85-overlay-content-slot.md) `[ ]` | Dialog and bottom sheet take content, and their texts have no English defaults | P2 | M | - |
+| [B-86](docs/backlog/B-86-stage-same-on-every-x86.md) `[ ]` | The textured stage draws the same pixels on every x86 machine, or can be drawn flat | P2 | M | - |
+| [B-87](docs/backlog/B-87-list-item-selected.md) `[ ]` | The list item has a selected state for a master-detail list | P2 | S | - |
 
 ## Closed (80)
 
