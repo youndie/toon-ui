@@ -51,6 +51,17 @@ class ToonSvgArcsTest {
     }
 
     @Test
+    fun `radii far too short are scaled up until they reach, a half circle on the chord`() {
+        // Radius 2 between points 10 apart: the spec draws a half circle of radius 5.
+        val d = "M0 0 A2 2 0 0 1 10 0"
+        assertEquals(PI * 5, length(withSpecArcs(d)), .01)
+        val mid = arcCubics(0.0, 0.0, 2.0, 2.0, 0.0, false, true, 10.0, 0.0).first()
+        // The first quarter ends at the top of the circle about (5, 0).
+        assertEquals(5.0, mid[4], 1e-9)
+        assertEquals(-5.0, mid[5], 1e-9)
+    }
+
+    @Test
     fun `a quarter circle is the classic cubic`() {
         val c = arcCubics(12.0, 6.0, 6.0, 6.0, 0.0, false, true, 18.0, 12.0).single()
         val k = 4.0 / 3 * (sqrt(2.0) - 1) * 6
