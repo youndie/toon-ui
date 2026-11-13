@@ -24,6 +24,9 @@ import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
+import io.github.youndie.toon.draw.ToonTextRenderer
+import io.github.youndie.toon.draw.ToonTextStyle
+import io.github.youndie.toon.draw.rememberToonText
 import io.github.youndie.toon.theme.ToonTheme
 import io.github.youndie.toon.tokens.inkGouacheLight
 import kotlinx.serialization.json.booleanOrNull
@@ -212,6 +215,30 @@ class ToonRecordButtonTest {
         assertEquals(40 * .15f + 1.2f, pressed.drop, 1e-5f)
         assertEquals(0f, ToonRecordLook(ToonRecordState.Stopping, hv = 1f).lift, "saving does not lift")
     }
+
+    @Test
+    fun `the label stands 36 dp in and the time 10 dp after it, moved with the body`() =
+        runComposeUiTest {
+            var text: ToonTextRenderer? = null
+            setContent { ToonTheme(inkGouacheLight) { text = rememberToonText() } }
+            waitForIdle()
+            val t = text!!
+
+            fun labels(look: ToonRecordLook) =
+                toonRecordButtonLabels(inkGouacheLight, look, "Stop", "00:12:07", t).labels
+            val rest = labels(ToonRecordLook(ToonRecordState.Recording))
+            assertEquals(2, rest.size)
+            assertEquals(36f, rest[0].x)
+            assertEquals(36f + t.measure("Stop", ToonTextStyle(700, 15f)).size.width + 10f, rest[1].x)
+            assertEquals(inkGouacheLight.colors.onDanger, rest[0].color)
+            val lifted = labels(ToonRecordLook(ToonRecordState.Recording, hv = 1f))
+            assertEquals(rest[0].x - 2f, lifted[0].x, 1e-5f)
+            assertEquals(rest[0].baseline - 2f, lifted[0].baseline, 1e-5f)
+            val pressed = labels(ToonRecordLook(ToonRecordState.Recording, hv = 1f, p = 1f))
+            assertEquals(rest[0].x, pressed[0].x, 1e-5f)
+            assertEquals(rest[0].baseline + 7.2f, pressed[0].baseline, 1e-5f)
+            assertEquals(1, labels(ToonRecordLook(ToonRecordState.Idle)).size, "no time while idle")
+        }
 
     private fun BufferedImage.differs(o: BufferedImage): Int {
         var n = 0
