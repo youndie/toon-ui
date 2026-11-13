@@ -144,6 +144,12 @@ internal fun toonSpeakerBlobPoints(
     return out
 }
 
+/** The extension's wobble seed for a [shape], or for the capsule when it is null. */
+internal fun toonSpeakerSeed(
+    tokens: ToonTokens,
+    shape: Int?,
+): Int = tokens.shape.seed + 3000 + (shape?.let { it * 17 } ?: 200)
+
 /** The design's letter: the display face at weight 400. */
 private fun letterStyle(fs: Float) = ToonTextStyle(400, fs, display = true)
 
@@ -165,7 +171,7 @@ internal fun toonSpeakerStickerScene(
     val cx = s / 2
     val cy = s / 2
     val amp = sh.wobble * .4f * k
-    val seed = sh.seed + 3000 + (shp?.let { it * 17 } ?: 200)
+    val seed = toonSpeakerSeed(tokens, shp)
     val heavy = if (kind == ToonSpeakerKind.Me) 3.1f else 2.3f
     val inner = wobbleAlongNormals(toonSpeakerBlobPoints(shp, cx, cy - .75f * k, r - heavy * k), amp * .8f, seed + 7)
     val layers = mutableListOf<ToonLayer>()

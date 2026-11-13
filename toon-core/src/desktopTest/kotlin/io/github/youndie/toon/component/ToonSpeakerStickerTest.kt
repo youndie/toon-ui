@@ -1,7 +1,9 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.platform.testTag
@@ -15,7 +17,13 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
+import io.github.youndie.toon.draw.ToonScene
+import io.github.youndie.toon.draw.drawScene
+import io.github.youndie.toon.draw.inDp
+import io.github.youndie.toon.draw.smoothLayer
+import io.github.youndie.toon.draw.wobbleAlongNormals
 import io.github.youndie.toon.theme.ToonTheme
+import io.github.youndie.toon.tokens.ToonTokens
 import io.github.youndie.toon.tokens.brightCel
 import io.github.youndie.toon.tokens.inkGouacheLight
 import io.github.youndie.toon.tokens.inkGouacheNight
@@ -88,9 +96,36 @@ class ToonSpeakerStickerTest {
         assertEquals(plain.layers.map { it.color }, wrapped.layers.map { it.color })
     }
 
-    private fun BufferedImage.differs(o: BufferedImage): Int {
+    /** The circle's outline under [seedOf]'s wobble: what a shape would be if only its wobble told it apart. */
+    private fun circleWobbledAs(
+        tokens: ToonTokens,
+        seedOf: Int,
+    ): ToonScene {
+        val k = 24f / 32
+        val pts =
+            wobbleAlongNormals(
+                toonSpeakerBlobPoints(0, 12f, 12f, 11f),
+                tokens.shape.wobble * .4f * k,
+                toonSpeakerSeed(tokens, seedOf),
+            )
+        return ToonScene(
+            listOf(smoothLayer(pts, tokens.colors.ink, dx = 2 * k, dy = 2 * k), smoothLayer(pts, tokens.colors.ink)),
+            emptyList(),
+        )
+    }
+
+    /** Where the image is covered, at half coverage, so antialiasing along one edge is not a difference. */
+    private fun BufferedImage.outlineDiffers(o: BufferedImage): Int {
         var n = 0
-        for (y in 0 until height) for (x in 0 until width) if (getRGB(x, y) != o.getRGB(x, y)) n++
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                if (((getRGB(x, y) ushr 24) >= 128) !=
+                    ((o.getRGB(x, y) ushr 24) >= 128)
+                ) {
+                    n++
+                }
+            }
+        }
         return n
     }
 
@@ -113,6 +148,9 @@ class ToonSpeakerStickerTest {
                                             size = ToonSpeakerSize.Small,
                                         )
                                     }
+                                    Canvas(
+                                        Modifier.size(24.dp).testTag("w$t-$shape"),
+                                    ) { inDp { drawScene(circleWobbledAs(tokens, shape)) } }
                                 }
                             }
                         }
@@ -120,60 +158,55 @@ class ToonSpeakerStickerTest {
                 }
             }
             themes.indices.forEach { t ->
-                val shots =
-                    (0 until 8).flatMap { shape ->
-                        (0 until 3).map { color ->
-                            "$shape/$color" to onNodeWithTag("s$t-$shape-$color").captureToImage().toAwtImage()
-                        }
-                    }
-                val looks = shots.toMap()
-
-                // The outline: where the sticker covers the canvas, at half coverage, so antialiasing
-                // along one edge is not a difference. Each shape against each other, in one accent.
-                fun BufferedImage.covered(
-                    x: Int,
-                    y: Int,
-                ) = (getRGB(x, y) ushr 24) >= 128
-                var shapes = Int.MAX_VALUE to ""
-                for (a in 0 until 8) {
-                    for (b in a + 1 until 8) {
-                        val p = looks.getValue("$a/0")
-                        val q = looks.getValue("$b/0")
-                        var n = 0
-                        for (y in 0 until p.height) {
-                            for (x in 0 until p.width) {
-                                if (p.covered(x, y) !=
-                                    q.covered(x, y)
-                                ) {
-                                    n++
-                                }
+                fun shot(tag: String) = onNodeWithTag(tag).captureToImage().toAwtImage()
+                val looks = (0 until 8).associateWith { s -> (0 until 3).map { c -> shot("s$t-$s-$c") } }
+                val wobbled = (0 until 8).map { shot("w$t-$it") }
+                // The control: one circle under the eight shapes' wobbles. What the wobble alone changes
+                // in an outline, a shape must exceed to be told apart by its shape.
+                val wobble =
+                    (0 until 8)
+                        .flatMap { a ->
+                            (a + 1 until 8).map { b -> wobbled[a].outlineDiffers(wobbled[b]) }
+                        }.max()
+                val shapes =
+                    (0 until 8)
+                        .flatMap { a ->
+                            (a + 1 until 8).map { b ->
+                                Triple(a, b, looks.getValue(a)[0].outlineDiffers(looks.getValue(b)[0]))
                             }
-                        }
-                        if (n < shapes.first) shapes = n to "$a and $b"
-                    }
-                }
+                        }.minBy { it.third }
                 // The accent: the colour of the circle's body above its letter, below the rim's crescent.
-                var accents = Int.MAX_VALUE to ""
-                for (a in 0 until 3) {
-                    for (b in a + 1 until 3) {
-                        val p = looks.getValue("0/$a").getRGB(12, 5)
-                        val q = looks.getValue("0/$b").getRGB(12, 5)
-                        val d =
-                            listOf(16, 8, 0).sumOf { s ->
-                                val e = (p shr s and 0xFF) - (q shr s and 0xFF)
-                                e * e
+                val accents =
+                    (0 until 3)
+                        .flatMap { a ->
+                            (a + 1 until 3).map { b ->
+                                val p = looks.getValue(0)[a].getRGB(12, 5)
+                                val q = looks.getValue(0)[b].getRGB(12, 5)
+                                Triple(
+                                    a,
+                                    b,
+                                    listOf(16, 8, 0).sumOf { s ->
+                                        ((p shr s and 0xFF) - (q shr s and 0xFF)).let {
+                                            it *
+                                                it
+                                        }
+                                    },
+                                )
                             }
-                        if (d < accents.first) accents = d to "$a and $b"
-                    }
-                }
+                        }.minBy { it.third }
                 println(
-                    "theme $t: closest outlines, shapes ${shapes.second}, ${shapes.first} px; closest accents ${accents.second}, distance² ${accents.first}",
+                    "theme $t: wobble alone changes up to $wobble outline px; closest shapes ${shapes.first} and " +
+                        "${shapes.second}, ${shapes.third} px; closest accents ${accents.first} and ${accents.second}, distance² ${accents.third}",
                 )
-                // No two shapes share an outline. The closest pair is printed: the circle and the
-                // four-petal shape differ in about 20 pixels at this size (B-70's findings).
-                assertTrue(shapes.first > 0, "theme $t: shapes ${shapes.second} have one outline")
+                assertTrue(
+                    shapes.third > wobble,
+                    "theme $t: shapes ${shapes.first} and ${shapes.second} differ no more than the wobble does",
+                )
                 // Three hues, not three shades of one: at least 60 apart in RGB, a seventh of black to white.
-                assertTrue(accents.first >= MIN_ACCENT_DISTANCE_SQ, "theme $t: accents ${accents.second} are too close")
+                assertTrue(
+                    accents.third >= MIN_ACCENT_DISTANCE_SQ,
+                    "theme $t: accents ${accents.first} and ${accents.second} are too close",
+                )
             }
         }
 
