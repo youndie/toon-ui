@@ -1,7 +1,7 @@
 ---
 id: B-80
 title: "The desktop icons: the extension's 12 glyphs in ToonIcons"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-5-desktop
