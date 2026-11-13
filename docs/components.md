@@ -44,7 +44,7 @@ script; every name in it is checked against the sources.
 | [ToonTooltip](../reference/design-system/ToonTooltip.dc.html) | `ToonTooltip` | [ToonTooltip.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTooltip.kt) | `tooltip`, `tipInflate` | [B-40](backlog/B-40-tooltip.md) | 24 | 24 | 24 |
 | [ToonTopAppBar](../reference/design-system/ToonTopAppBar.dc.html) | `ToonTopAppBar` | [ToonTopAppBar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt) | `topBar` | [B-26](backlog/B-26-top-app-bar.md) | 39 | 39 | 39 |
 
-The desktop set, from reference/desktop (stage 5): 7 of 9 built. Its frames are in `desktop.json`; the project has no spec pages, so no Chrome references or goldens are drawn from it.
+The desktop set, from reference/desktop (stage 5): 8 of 9 built. Its frames are in `desktop.json`; the project has no spec pages, so no Chrome references or goldens are drawn from it.
 
 | Design file | Composable | Source | Extension | Item | Frame cells |
 |---|---|---|---|---|---|
@@ -52,7 +52,7 @@ The desktop set, from reference/desktop (stage 5): 7 of 9 built. Its frames are 
 | [ToonRecordButton](../reference/desktop/ToonRecordButton.dc.html) | `ToonRecordButton` | [ToonRecordButton.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonRecordButton.kt) | `recBtn`, `recPulse` | [B-75](backlog/B-75-record-button.md) | 39 |
 | [ToonScrollbar](../reference/desktop/ToonScrollbar.dc.html) | `ToonScrollbar` | [ToonScrollbar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonScrollbar.kt) | `scrollThumb` | [B-72](backlog/B-72-scrollbar.md) | 18 |
 | [ToonSearchField](../reference/desktop/ToonSearchField.dc.html) | `ToonSearchField` | [ToonSearchField.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSearchField.kt) | `searchBox` | [B-71](backlog/B-71-search-field.md) | 21 |
-| [ToonSidebar](../reference/desktop/ToonSidebar.dc.html) | — not built |  | `sheet`, `navPlate`, `liftBody` | [B-77](backlog/B-77-sidebar.md) |  |
+| [ToonSidebar](../reference/desktop/ToonSidebar.dc.html) | `ToonSidebar` | [ToonSidebar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSidebar.kt) | `sheet`, `navPlate`, `liftBody` | [B-77](backlog/B-77-sidebar.md) | 72 |
 | [ToonSpeakerSticker](../reference/desktop/ToonSpeakerSticker.dc.html) | `ToonSpeakerSticker` | [ToonSpeakerSticker.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSpeakerSticker.kt) | `sticker`, `blobPts`, `blobPath` | [B-70](backlog/B-70-speaker-sticker.md) | 48 |
 | [ToonSplitHandle](../reference/desktop/ToonSplitHandle.dc.html) | `ToonSplitHandle` | [ToonSplitHandle.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSplitHandle.kt) | `splitGrip` | [B-73](backlog/B-73-split-handle.md) | 27 |
 | [ToonTitleBar](../reference/desktop/ToonTitleBar.dc.html) | `ToonTitleBar` | [ToonTitleBar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTitleBar.kt) | `trafficSlots` | [B-76](backlog/B-76-title-bar.md) | 3 |

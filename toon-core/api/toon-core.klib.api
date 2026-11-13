@@ -281,6 +281,63 @@ final class io.github.youndie.toon.component/ToonSheetItem { // io.github.youndi
         final fun <get-label>(): kotlin/String // io.github.youndie.toon.component/ToonSheetItem.label.<get-label>|<get-label>(){}[0]
 }
 
+final class io.github.youndie.toon.component/ToonSidebarGroup { // io.github.youndie.toon.component/ToonSidebarGroup|null[0]
+    constructor <init>(kotlin/String, kotlin.collections/List<io.github.youndie.toon.component/ToonSidebarItem>) // io.github.youndie.toon.component/ToonSidebarGroup.<init>|<init>(kotlin.String;kotlin.collections.List<io.github.youndie.toon.component.ToonSidebarItem>){}[0]
+
+    final val items // io.github.youndie.toon.component/ToonSidebarGroup.items|{}items[0]
+        final fun <get-items>(): kotlin.collections/List<io.github.youndie.toon.component/ToonSidebarItem> // io.github.youndie.toon.component/ToonSidebarGroup.items.<get-items>|<get-items>(){}[0]
+    final val label // io.github.youndie.toon.component/ToonSidebarGroup.label|{}label[0]
+        final fun <get-label>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarGroup.label.<get-label>|<get-label>(){}[0]
+}
+
+final class io.github.youndie.toon.component/ToonSidebarItem { // io.github.youndie.toon.component/ToonSidebarItem|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String = ..., io.github.youndie.toon.component/ToonSidebarSnippet? = ...) // io.github.youndie.toon.component/ToonSidebarItem.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;io.github.youndie.toon.component.ToonSidebarSnippet?){}[0]
+
+    final val id // io.github.youndie.toon.component/ToonSidebarItem.id|{}id[0]
+        final fun <get-id>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarItem.id.<get-id>|<get-id>(){}[0]
+    final val meta // io.github.youndie.toon.component/ToonSidebarItem.meta|{}meta[0]
+        final fun <get-meta>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarItem.meta.<get-meta>|<get-meta>(){}[0]
+    final val snippet // io.github.youndie.toon.component/ToonSidebarItem.snippet|{}snippet[0]
+        final fun <get-snippet>(): io.github.youndie.toon.component/ToonSidebarSnippet? // io.github.youndie.toon.component/ToonSidebarItem.snippet.<get-snippet>|<get-snippet>(){}[0]
+    final val title // io.github.youndie.toon.component/ToonSidebarItem.title|{}title[0]
+        final fun <get-title>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarItem.title.<get-title>|<get-title>(){}[0]
+}
+
+final class io.github.youndie.toon.component/ToonSidebarNav { // io.github.youndie.toon.component/ToonSidebarNav|null[0]
+    constructor <init>(kotlin/String, kotlin/String, io.github.youndie.toon.icon/ToonIconGlyph) // io.github.youndie.toon.component/ToonSidebarNav.<init>|<init>(kotlin.String;kotlin.String;io.github.youndie.toon.icon.ToonIconGlyph){}[0]
+
+    final val icon // io.github.youndie.toon.component/ToonSidebarNav.icon|{}icon[0]
+        final fun <get-icon>(): io.github.youndie.toon.icon/ToonIconGlyph // io.github.youndie.toon.component/ToonSidebarNav.icon.<get-icon>|<get-icon>(){}[0]
+    final val id // io.github.youndie.toon.component/ToonSidebarNav.id|{}id[0]
+        final fun <get-id>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarNav.id.<get-id>|<get-id>(){}[0]
+    final val label // io.github.youndie.toon.component/ToonSidebarNav.label|{}label[0]
+        final fun <get-label>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarNav.label.<get-label>|<get-label>(){}[0]
+}
+
+final class io.github.youndie.toon.component/ToonSidebarRecording { // io.github.youndie.toon.component/ToonSidebarRecording|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String, kotlin/String = ...) // io.github.youndie.toon.component/ToonSidebarRecording.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;kotlin.String){}[0]
+
+    final val elapsed // io.github.youndie.toon.component/ToonSidebarRecording.elapsed|{}elapsed[0]
+        final fun <get-elapsed>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarRecording.elapsed.<get-elapsed>|<get-elapsed>(){}[0]
+    final val id // io.github.youndie.toon.component/ToonSidebarRecording.id|{}id[0]
+        final fun <get-id>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarRecording.id.<get-id>|<get-id>(){}[0]
+    final val source // io.github.youndie.toon.component/ToonSidebarRecording.source|{}source[0]
+        final fun <get-source>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarRecording.source.<get-source>|<get-source>(){}[0]
+    final val title // io.github.youndie.toon.component/ToonSidebarRecording.title|{}title[0]
+        final fun <get-title>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarRecording.title.<get-title>|<get-title>(){}[0]
+}
+
+final class io.github.youndie.toon.component/ToonSidebarSnippet { // io.github.youndie.toon.component/ToonSidebarSnippet|null[0]
+    constructor <init>(kotlin/String, kotlin/String, kotlin/String) // io.github.youndie.toon.component/ToonSidebarSnippet.<init>|<init>(kotlin.String;kotlin.String;kotlin.String){}[0]
+
+    final val after // io.github.youndie.toon.component/ToonSidebarSnippet.after|{}after[0]
+        final fun <get-after>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarSnippet.after.<get-after>|<get-after>(){}[0]
+    final val before // io.github.youndie.toon.component/ToonSidebarSnippet.before|{}before[0]
+        final fun <get-before>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarSnippet.before.<get-before>|<get-before>(){}[0]
+    final val hit // io.github.youndie.toon.component/ToonSidebarSnippet.hit|{}hit[0]
+        final fun <get-hit>(): kotlin/String // io.github.youndie.toon.component/ToonSidebarSnippet.hit.<get-hit>|<get-hit>(){}[0]
+}
+
 final class io.github.youndie.toon.component/ToonSnackbarHostState { // io.github.youndie.toon.component/ToonSnackbarHostState|null[0]
     constructor <init>() // io.github.youndie.toon.component/ToonSnackbarHostState.<init>|<init>(){}[0]
 
@@ -877,6 +934,11 @@ final val io.github.youndie.toon.component/io_github_youndie_toon_component_Toon
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Close$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Close$stableprop|#static{}io_github_youndie_toon_component_ToonSheetHit_Close$stableprop[0]
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Item$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Item$stableprop|#static{}io_github_youndie_toon_component_ToonSheetHit_Item$stableprop[0]
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetItem$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetItem$stableprop|#static{}io_github_youndie_toon_component_ToonSheetItem$stableprop[0]
+final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarGroup$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarGroup$stableprop|#static{}io_github_youndie_toon_component_ToonSidebarGroup$stableprop[0]
+final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarItem$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarItem$stableprop|#static{}io_github_youndie_toon_component_ToonSidebarItem$stableprop[0]
+final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarNav$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarNav$stableprop|#static{}io_github_youndie_toon_component_ToonSidebarNav$stableprop[0]
+final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarRecording$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarRecording$stableprop|#static{}io_github_youndie_toon_component_ToonSidebarRecording$stableprop[0]
+final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarSnippet$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarSnippet$stableprop|#static{}io_github_youndie_toon_component_ToonSidebarSnippet$stableprop[0]
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSnackbarHostState$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSnackbarHostState$stableprop|#static{}io_github_youndie_toon_component_ToonSnackbarHostState$stableprop[0]
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTabsState$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTabsState$stableprop|#static{}io_github_youndie_toon_component_ToonTabsState$stableprop[0]
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop|#static{}io_github_youndie_toon_component_ToonTopAppBarState$stableprop[0]
@@ -953,6 +1015,7 @@ final fun io.github.youndie.toon.component/ToonScrollbar(androidx.compose.founda
 final fun io.github.youndie.toon.component/ToonScrollbar(androidx.compose.foundation/ScrollState, androidx.compose.ui/Modifier?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonScrollbar|ToonScrollbar(androidx.compose.foundation.ScrollState;androidx.compose.ui.Modifier?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSearchField(kotlin/String, kotlin/Function1<kotlin/String, kotlin/Unit>, kotlin/String, androidx.compose.ui/Modifier?, kotlin/String?, kotlin/String?, kotlin/Function1<kotlin/Int, kotlin/Unit>?, androidx.compose.ui.unit/Dp, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSearchField|ToonSearchField(kotlin.String;kotlin.Function1<kotlin.String,kotlin.Unit>;kotlin.String;androidx.compose.ui.Modifier?;kotlin.String?;kotlin.String?;kotlin.Function1<kotlin.Int,kotlin.Unit>?;androidx.compose.ui.unit.Dp;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSegmented(kotlin.collections/List<kotlin/String>, androidx.compose.ui/Modifier?, kotlin/Int, androidx.compose.ui.unit/Dp, kotlin/Boolean, kotlin/Function1<kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSegmented|ToonSegmented(kotlin.collections.List<kotlin.String>;androidx.compose.ui.Modifier?;kotlin.Int;androidx.compose.ui.unit.Dp;kotlin.Boolean;kotlin.Function1<kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun io.github.youndie.toon.component/ToonSidebar(kotlin.collections/List<io.github.youndie.toon.component/ToonSidebarGroup>, kotlin/String?, kotlin/Function1<kotlin/String, kotlin/Unit>, kotlin/String, kotlin/Function1<kotlin/String, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin.collections/List<io.github.youndie.toon.component/ToonSidebarGroup>?, kotlin/String?, io.github.youndie.toon.component/ToonSidebarRecording?, kotlin.collections/List<io.github.youndie.toon.component/ToonSidebarNav>?, kotlin/String?, kotlin/Function1<kotlin/String, kotlin/Unit>?, kotlin/String?, kotlin/String?, kotlin/String?, kotlin/String?, androidx.compose.ui.unit/Dp, androidx.compose.foundation.lazy/LazyListState?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSidebar|ToonSidebar(kotlin.collections.List<io.github.youndie.toon.component.ToonSidebarGroup>;kotlin.String?;kotlin.Function1<kotlin.String,kotlin.Unit>;kotlin.String;kotlin.Function1<kotlin.String,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.collections.List<io.github.youndie.toon.component.ToonSidebarGroup>?;kotlin.String?;io.github.youndie.toon.component.ToonSidebarRecording?;kotlin.collections.List<io.github.youndie.toon.component.ToonSidebarNav>?;kotlin.String?;kotlin.Function1<kotlin.String,kotlin.Unit>?;kotlin.String?;kotlin.String?;kotlin.String?;kotlin.String?;androidx.compose.ui.unit.Dp;androidx.compose.foundation.lazy.LazyListState?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSlider(kotlin/Float, kotlin/Function1<kotlin/Float, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Int, androidx.compose.ui.unit/Dp, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSlider|ToonSlider(kotlin.Float;kotlin.Function1<kotlin.Float,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Int;androidx.compose.ui.unit.Dp;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSnackbar(kotlin/String, androidx.compose.ui/Modifier?, kotlin/String?, io.github.youndie.toon.component/ToonSnackbarType?, kotlin/Boolean, androidx.compose.ui.unit/Dp, kotlin/Function0<kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSnackbar|ToonSnackbar(kotlin.String;androidx.compose.ui.Modifier?;kotlin.String?;io.github.youndie.toon.component.ToonSnackbarType?;kotlin.Boolean;androidx.compose.ui.unit.Dp;kotlin.Function0<kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSnackbarHost(io.github.youndie.toon.component/ToonSnackbarHostState, androidx.compose.ui/Modifier?, androidx.compose.ui.unit/Dp, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSnackbarHost|ToonSnackbarHost(io.github.youndie.toon.component.ToonSnackbarHostState;androidx.compose.ui.Modifier?;androidx.compose.ui.unit.Dp;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
@@ -972,6 +1035,11 @@ final fun io.github.youndie.toon.component/io_github_youndie_toon_component_Toon
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Close$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Close$stableprop_getter|io_github_youndie_toon_component_ToonSheetHit_Close$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Item$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetHit_Item$stableprop_getter|io_github_youndie_toon_component_ToonSheetHit_Item$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetItem$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSheetItem$stableprop_getter|io_github_youndie_toon_component_ToonSheetItem$stableprop_getter(){}[0]
+final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarGroup$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarGroup$stableprop_getter|io_github_youndie_toon_component_ToonSidebarGroup$stableprop_getter(){}[0]
+final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarItem$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarItem$stableprop_getter|io_github_youndie_toon_component_ToonSidebarItem$stableprop_getter(){}[0]
+final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarNav$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarNav$stableprop_getter|io_github_youndie_toon_component_ToonSidebarNav$stableprop_getter(){}[0]
+final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarRecording$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarRecording$stableprop_getter|io_github_youndie_toon_component_ToonSidebarRecording$stableprop_getter(){}[0]
+final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarSnippet$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSidebarSnippet$stableprop_getter|io_github_youndie_toon_component_ToonSidebarSnippet$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSnackbarHostState$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonSnackbarHostState$stableprop_getter|io_github_youndie_toon_component_ToonSnackbarHostState$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTabsState$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTabsState$stableprop_getter|io_github_youndie_toon_component_ToonTabsState$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop_getter|io_github_youndie_toon_component_ToonTopAppBarState$stableprop_getter(){}[0]

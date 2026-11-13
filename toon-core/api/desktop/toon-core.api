@@ -219,6 +219,53 @@ public final class io/github/youndie/toon/component/ToonSheetItem {
 	public final fun getLabel ()Ljava/lang/String;
 }
 
+public final class io/github/youndie/toon/component/ToonSidebarGroup {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/util/List;)V
+	public final fun getItems ()Ljava/util/List;
+	public final fun getLabel ()Ljava/lang/String;
+}
+
+public final class io/github/youndie/toon/component/ToonSidebarItem {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/youndie/toon/component/ToonSidebarSnippet;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Lio/github/youndie/toon/component/ToonSidebarSnippet;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getId ()Ljava/lang/String;
+	public final fun getMeta ()Ljava/lang/String;
+	public final fun getSnippet ()Lio/github/youndie/toon/component/ToonSidebarSnippet;
+	public final fun getTitle ()Ljava/lang/String;
+}
+
+public final class io/github/youndie/toon/component/ToonSidebarKt {
+	public static final fun ToonSidebar-S1kTVRY (Ljava/util/List;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Ljava/util/List;Ljava/lang/String;Lio/github/youndie/toon/component/ToonSidebarRecording;Ljava/util/List;Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;FLandroidx/compose/foundation/lazy/LazyListState;Landroidx/compose/runtime/Composer;III)V
+}
+
+public final class io/github/youndie/toon/component/ToonSidebarNav {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Lio/github/youndie/toon/icon/ToonIconGlyph;)V
+	public final fun getIcon ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getLabel ()Ljava/lang/String;
+}
+
+public final class io/github/youndie/toon/component/ToonSidebarRecording {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getElapsed ()Ljava/lang/String;
+	public final fun getId ()Ljava/lang/String;
+	public final fun getSource ()Ljava/lang/String;
+	public final fun getTitle ()Ljava/lang/String;
+}
+
+public final class io/github/youndie/toon/component/ToonSidebarSnippet {
+	public static final field $stable I
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public final fun getAfter ()Ljava/lang/String;
+	public final fun getBefore ()Ljava/lang/String;
+	public final fun getHit ()Ljava/lang/String;
+}
+
 public final class io/github/youndie/toon/component/ToonSliderKt {
 	public static final fun ToonSlider-WH-ejsw (FLkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;IFZLandroidx/compose/runtime/Composer;II)V
 }

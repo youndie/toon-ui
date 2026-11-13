@@ -91,7 +91,7 @@ public fun ToonSpeakerSticker(
 }
 
 /** The extension's `accents`: Bright Cel's stickers are all paper, so its card colours stand in. */
-private fun accentsOf(tokens: ToonTokens): List<Color> {
+internal fun accentsOf(tokens: ToonTokens): List<Color> {
     val brightCel = tokens.name == "brightCel"
     return if (brightCel) tokens.colors.cardFills else tokens.colors.stickers
 }
