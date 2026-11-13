@@ -74,14 +74,50 @@ public class ToonTokens internal constructor(
     public val bodyFamily: String,
 )
 
-/** One step of the type scale: size and line height in sp, weight, and whether it is the display face. */
+/**
+ * One step of the type scale: size and line height in sp, weight, and whether it is the display face.
+ * The Core page's five are [ToonTypeScale]'s. A step of a consumer's own is made here, or by [copy] of
+ * one of them (`ToonTypeScale.Body.copy(weight = 500)`, B-91), and `ToonText`, `textStyle` and
+ * `backed` set it in the theme's faces as they set the scale's. The body faces are variable, Figtree
+ * from 300 to 900 and Fredoka from 300 to 700, and a weight past a face's range draws at its end; the
+ * display faces have one weight each.
+ *
+ * Two steps of the same values are equal. Throws [IllegalArgumentException] for a [size] or a
+ * [lineHeight] that is not positive, or a [weight] outside 1 to 1000, `FontWeight`'s own range.
+ */
 @Immutable
-public class ToonTypeSpec internal constructor(
+public class ToonTypeSpec(
     public val size: Float,
     public val lineHeight: Float,
     public val weight: Int,
     public val display: Boolean,
-)
+) {
+    init {
+        require(size > 0f && lineHeight > 0f) { "a type step of $size / $lineHeight sp" }
+        require(weight in 1..1000) { "a type step of weight $weight, outside 1..1000" }
+    }
+
+    /** This step with the values given changed. */
+    public fun copy(
+        size: Float = this.size,
+        lineHeight: Float = this.lineHeight,
+        weight: Int = this.weight,
+        display: Boolean = this.display,
+    ): ToonTypeSpec = ToonTypeSpec(size, lineHeight, weight, display)
+
+    override fun equals(other: Any?): Boolean =
+        other is ToonTypeSpec &&
+            other.size == size &&
+            other.lineHeight == lineHeight &&
+            other.weight == weight &&
+            other.display == display
+
+    override fun hashCode(): Int =
+        ((size.hashCode() * 31 + lineHeight.hashCode()) * 31 + weight) * 31 + display.hashCode()
+
+    override fun toString(): String =
+        "ToonTypeSpec($size / $lineHeight sp, $weight" + (if (display) ", display)" else ")")
+}
 
 /** The Core page's type scale. */
 public object ToonTypeScale {

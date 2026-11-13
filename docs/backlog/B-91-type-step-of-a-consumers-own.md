@@ -1,7 +1,7 @@
 ---
 id: B-91
 title: "A consumer can make a type step of its own"
-status: open
+status: done
 priority: P2
 size: XS
 stage: stage-4-product
@@ -32,3 +32,24 @@ closed.
   constructor and `copy`.
 - Anchors: `scripts/generate-tokens.mjs`, `toon-core/src/commonMain/kotlin/io/github/youndie/toon/tokens/ToonTokens.kt`,
   `toon-core/api/`.
+
+## Findings, 2026-11-14
+
+- **The API.** `ToonTypeSpec(size, lineHeight, weight, display)` is public, with `copy(size, lineHeight,
+  weight, display)`. Both are written by `scripts/generate-tokens.mjs`, so `make tokens` keeps them.
+- **Equal by value.** Two steps of the same values are equal, and hash alike. With the constructor
+  open, a consumer writes `ToonTypeSpec(…)` inline in a composable, and an identity-equal class would
+  give `ToonText` a new argument on every recomposition. `ToonTypeScale.Body.copy()` equals `Body`.
+- **Refused where it is made.** A size or line height that is not positive, or a weight outside
+  1–1000 (`FontWeight`'s own range), throws `IllegalArgumentException` from the constructor, in the
+  consumer's code, rather than from a `FontWeight` deep in a composition. No code of the kit computes
+  a type step, so this is the one place it can be wrong.
+- **Weights.** The body faces are variable (Figtree 300–900, Fredoka 300–700), and the backing faces
+  map a weight as they map the scale's (B-35, B-82). The display faces have one weight; the KDoc says so.
+- Held by `ToonTextTest`: `Body.copy(weight = 500)` equals `ToonTypeSpec(15f, 22f, 500, false)` and inks
+  more than 400 and less than 700, in Latin and in backed Cyrillic, in the three themes; four values
+  out of range and a `copy` out of range are refused.
+
+- [x] `ToonText("Вид", ToonTypeScale.Body.copy(weight = 500))` draws heavier than `Body` and lighter
+  than 700 at the same size, under a test.
+- [x] The ABI dump records the constructor, `copy`, `equals`, `hashCode` and `toString`.

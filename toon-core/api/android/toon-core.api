@@ -911,9 +911,15 @@ public final class io/github/youndie/toon/tokens/ToonTypeScale {
 
 public final class io/github/youndie/toon/tokens/ToonTypeSpec {
 	public static final field $stable I
+	public fun <init> (FFIZ)V
+	public final fun copy (FFIZ)Lio/github/youndie/toon/tokens/ToonTypeSpec;
+	public static synthetic fun copy$default (Lio/github/youndie/toon/tokens/ToonTypeSpec;FFIZILjava/lang/Object;)Lio/github/youndie/toon/tokens/ToonTypeSpec;
+	public fun equals (Ljava/lang/Object;)Z
 	public final fun getDisplay ()Z
 	public final fun getLineHeight ()F
 	public final fun getSize ()F
 	public final fun getWeight ()I
+	public fun hashCode ()I
+	public fun toString ()Ljava/lang/String;
 }
 

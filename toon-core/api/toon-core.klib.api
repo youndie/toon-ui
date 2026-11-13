@@ -577,6 +577,8 @@ final class io.github.youndie.toon.tokens/ToonTokens { // io.github.youndie.toon
 }
 
 final class io.github.youndie.toon.tokens/ToonTypeSpec { // io.github.youndie.toon.tokens/ToonTypeSpec|null[0]
+    constructor <init>(kotlin/Float, kotlin/Float, kotlin/Int, kotlin/Boolean) // io.github.youndie.toon.tokens/ToonTypeSpec.<init>|<init>(kotlin.Float;kotlin.Float;kotlin.Int;kotlin.Boolean){}[0]
+
     final val display // io.github.youndie.toon.tokens/ToonTypeSpec.display|{}display[0]
         final fun <get-display>(): kotlin/Boolean // io.github.youndie.toon.tokens/ToonTypeSpec.display.<get-display>|<get-display>(){}[0]
     final val lineHeight // io.github.youndie.toon.tokens/ToonTypeSpec.lineHeight|{}lineHeight[0]
@@ -585,6 +587,11 @@ final class io.github.youndie.toon.tokens/ToonTypeSpec { // io.github.youndie.to
         final fun <get-size>(): kotlin/Float // io.github.youndie.toon.tokens/ToonTypeSpec.size.<get-size>|<get-size>(){}[0]
     final val weight // io.github.youndie.toon.tokens/ToonTypeSpec.weight|{}weight[0]
         final fun <get-weight>(): kotlin/Int // io.github.youndie.toon.tokens/ToonTypeSpec.weight.<get-weight>|<get-weight>(){}[0]
+
+    final fun copy(kotlin/Float = ..., kotlin/Float = ..., kotlin/Int = ..., kotlin/Boolean = ...): io.github.youndie.toon.tokens/ToonTypeSpec // io.github.youndie.toon.tokens/ToonTypeSpec.copy|copy(kotlin.Float;kotlin.Float;kotlin.Int;kotlin.Boolean){}[0]
+    final fun equals(kotlin/Any?): kotlin/Boolean // io.github.youndie.toon.tokens/ToonTypeSpec.equals|equals(kotlin.Any?){}[0]
+    final fun hashCode(): kotlin/Int // io.github.youndie.toon.tokens/ToonTypeSpec.hashCode|hashCode(){}[0]
+    final fun toString(): kotlin/String // io.github.youndie.toon.tokens/ToonTypeSpec.toString|toString(){}[0]
 }
 
 sealed class io.github.youndie.toon.fx/ToonFxEvent { // io.github.youndie.toon.fx/ToonFxEvent|null[0]
