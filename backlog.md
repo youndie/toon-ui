@@ -56,14 +56,14 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (3)
+## Open (2)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-85](docs/backlog/B-85-overlay-content-slot.md) `[ ]` | Dialog and bottom sheet take content, and their texts have no English defaults | P2 | M | - |
 | [B-86](docs/backlog/B-86-stage-same-on-every-x86.md) `[ ]` | The textured stage draws the same pixels on every x86 machine, or can be drawn flat | P2 | M | - |
 
-## Closed (85)
+## Closed (86)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
