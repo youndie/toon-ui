@@ -28,6 +28,8 @@ public object ToonThemes {
 }
 
 internal val LocalToonTokens = staticCompositionLocalOf<ToonTokens> { error("Wrap the content in ToonTheme { }") }
+internal val LocalToonStageTexture = staticCompositionLocalOf { true }
+
 internal val LocalToonFonts = staticCompositionLocalOf<ToonFontFamilies> { error("Wrap the content in ToonTheme { }") }
 internal val LocalToonReduceMotion = staticCompositionLocalOf { false }
 internal val LocalToonIdleBudget = staticCompositionLocalOf { ToonIdleBudget(capacity = 0) }
@@ -45,6 +47,7 @@ public fun ToonTheme(
     tokens: ToonTokens = ToonThemes.InkGouacheLight,
     reduceMotion: Boolean? = null,
     idleBudget: Int = 2,
+    stageTexture: Boolean = true,
     content: @Composable () -> Unit,
 ) {
     val fonts =
@@ -62,6 +65,7 @@ public fun ToonTheme(
         LocalToonFonts provides fonts,
         LocalToonReduceMotion provides reduced,
         LocalToonIdleBudget provides budget,
+        LocalToonStageTexture provides stageTexture,
         content = content,
     )
 }
@@ -88,6 +92,14 @@ public object Toon {
     public val idleBudget: ToonIdleBudget
         @Composable @ReadOnlyComposable
         get() = LocalToonIdleBudget.current
+
+    /**
+     * Whether [ToonStage] draws its theme's texture, or only the flat stage colour: `ToonTheme`'s
+     * `stageTexture`, false for screenshots meant to match across machines (B-86).
+     */
+    public val stageTexture: Boolean
+        @Composable @ReadOnlyComposable
+        get() = LocalToonStageTexture.current
 
     internal val fonts: ToonFontFamilies
         @Composable @ReadOnlyComposable

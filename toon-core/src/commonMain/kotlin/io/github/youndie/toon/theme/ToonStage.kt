@@ -31,7 +31,7 @@ import org.jetbrains.compose.resources.imageResource
 
 /**
  * The theme's stage behind [content]: its background colour and, in Ink & Gouache, the gouache
- * texture tiled at 2 px a dp, every 224 dp.
+ * texture tiled at 2 px a dp, every 224 dp — flat under `ToonTheme(stageTexture = false)` (B-86).
  */
 @Composable
 public fun ToonStage(
@@ -39,7 +39,7 @@ public fun ToonStage(
     content: @Composable () -> Unit = {},
 ) {
     val tokens = Toon.tokens
-    val tile = toonStageTexture(tokens)?.let { imageResource(it) }
+    val tile = toonStageTexture(tokens)?.takeIf { Toon.stageTexture }?.let { imageResource(it) }
     Box(modifier.drawBehind { drawToonStage(tokens, tile) }) { content() }
 }
 
