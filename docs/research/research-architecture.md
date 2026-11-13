@@ -198,6 +198,40 @@ exception (B-24).
 | oldge-ui's build uses sborka's conventions (`io.github.youndie.sborka.settings`, `.kmp`, `.lint`), group `io.github.youndie`, packages `io.github.youndie.oldge.*`, and depends on no Material artefact. | `youndie/oldge-ui@618cef8b923d7e0e501752240e6a727eed51e48c!/settings.gradle.kts`; `youndie/oldge-ui@618cef8b923d7e0e501752240e6a727eed51e48c!/gradle.properties` |
 | oldge-ui's documentation and code are in English, by an explicit owner decision that departs from the portfolio's "docs in Russian" default. kvadrant-ui did the same before it. | `youndie/oldge-ui@618cef8b923d7e0e501752240e6a727eed51e48c!/CLAUDE.md` ("Language") |
 
+### 1.8 The desktop set: a second snapshot, from the project it was drawn in (B-68)
+
+A desktop app built on this kit had nine components and a pointer rule designed in its own Claude
+Design project, and the owner moved them here (stage 5). That project is not this kit's: it loads the
+kit's engine and runtime and extends them from a file of its own.
+
+| Fact | Where verified |
+|---|---|
+| The source is the owner's download of claude.ai/design project `fc2c88bc-3b5a-4dc2-a976-c589ef695d0b`, taken on 2026-11-13 and unpacked unchanged: 74 files. | the download's file list |
+| **Vendored, in `reference/desktop/`:** the engine extension `desktop-engine.js`, the nine `Toon*.dc.html` (`ToonTitleBar`, `ToonSidebar`, `ToonSplitHandle`, `ToonScrollbar`, `ToonTranscriptTurn`, `ToonSpeakerSticker`, `ToonLevelMeter`, `ToonRecordButton`, `ToonSearchField`), the page `Desktop Pointer & Keyboard.dc.html` and the project's `README.md`. They differ from the project's files only by the rename recorded as departure 1 in [`reference/desktop/DEPARTURES.md`](../../reference/desktop/DEPARTURES.md). | a segment-by-segment comparison of each pair, 2026-11-13 |
+| **Not vendored:** the app's own screens (their pages, the assemblies they are built from, a window-layout page, sample data and a page list), the brief and its addendum, `.thumbnail`, the project's base stylesheet (below) and its copies of the kit (next row). | the download's file list |
+| **The project's copies of the kit are this repository's bytes.** `toon-engine.js` (SHA-256 `49d00901…`), `toon-kit.js` (`47e12dd0…`), `support.js` (`8fe7df74…`), the four texture tiles and all 27 kit `Toon*.dc.html` are identical to `reference/design-system/`, byte for byte. The pages load them as `toon-engine.js?v=10` and `toon-kit.js?v=11`, the counters of this kit's second snapshot (§1.1), and the extension as `desktop-engine.js?v=1`. The designer could not make this check and said so in the project's README. | `cmp` of each pair; the `<script>` tags of the vendored pages |
+| The extension loads after `toon-engine.js` and `toon-kit.js` and does not edit either file. It adds 12 centerline icons to the engine's shared `ICONS` table (25 → 37, none renamed or replaced), a token object `DESKTOP` on the engine class's prototype (`layout`, `pointer`, `motion`, `sizes`, `themeNames`), 19 more members there — the renderers `sticker`, `liftBody`, `plate`, `hoverLift`, `iconBtn32`, `recBtn`, `searchBox`, `navPlate`, `splitGrip`, `scrollThumb`, `levelMeter`, `trafficSlots`, the curves `hoverRamp`, `recPulse`, `livelevel`, and `accents`, `tok`, `blobPts`, `blobPath` — and a runtime, `window.DesktopKit`, whose controller rides the kit's frame loop. | `reference/desktop/desktop-engine.js`; the engine and the extension run in Node, the prototype's names listed before and after |
+| **It also replaces one of the kit's renderers.** The bottom sheet's `sheet(T, o)` is overwritten on that prototype by a panel `sheet(T, w, h, o)`: a body with a deeper shadow, which the sidebar draws its own body with. In any page that loads the extension, the kit's bottom sheet is gone, and its scene called with the kit's options crashes inside `wob`. | the same Node run; `ToonSidebar.dc.html` `paint()` |
+| The project's base stylesheet holds eight `@font-face` rules, Golos Text, Lobster, Nunito and Rubik 800 added under the kit's four family names through `unicode-range`, and one `::selection` rule whose colours default to what the extension's `tok` names (`selBg` = `chipSel`, `selFg` = `ink`). The faces were the designer's choice without this repository; **the owner decided the kit's faces stand** (§1.4, B-35), so the file is not vendored and no token is lost with it. | the stylesheet, read 2026-11-13 |
+| A vendored page does not open on its own: it links the base stylesheet, the kit's engine, its runtime and Claude Design's `support.js` from beside itself, and only the extension is there. The harness loads the engine files from their paths and needs none of that. The pages have no `<title>`; the pointer page's name is its file name. | the vendored pages' `<head>` |
+
+**The harness.** `scripts/engine-goldens.mjs` loads `desktop-engine.js` after every kit golden has
+been taken, so the overwritten `sheet` reaches none of them, and writes the desktop renderers' frames
+to `engine-goldens/desktop.json`, shaped as `components.json` is, from the cells in
+`scripts/desktop-cells.mjs`. Since the project has no state sheets for the nine, a cell is one of a
+component's own prop values from its `.dc.html`. B-68 gives it the sticker's three kinds at its three
+sizes in three themes; each component's item adds its group. Every existing golden came out byte for
+byte as before; `manifest.json` gained the extension's path and hash. Two controls: the sticker's
+shadow moved from 2 to 3 dp makes `make check` report `desktop.json` stale, and the extension loaded
+before the kit's frames makes the harness die on the bottom sheet.
+
+**Consequence.** The desktop renderers are an oracle in the same way the kit's are, and the nine
+components are built against them as `ToonScene`s. The port does not carry the `sheet` collision: the
+sidebar's panel is a scene of its own beside the bottom sheet (B-77). Where the project is silent —
+no state sheets, no frames for its events, no icon page — the component departs, and `ToonDepartures`
+records it (D13). `reference/desktop/` is not re-imported either: like `reference/design-system/` it is
+a record, and a later design of the app's is read as proposals.
+
 ## 2. Decisions
 
 ### D1. `Toon` in every identifier, package `io.github.youndie.toon`
@@ -492,4 +526,8 @@ layer on top. Components come only after that. The order and the reasons are in
 | Design project | `reference/design-system/toon-ui FX.dc.html` | The eight effects, their events and durations |
 | Design project | `reference/design-system/toon-ui Principles.dc.html` | Seven rules and the recipe for a new component |
 | Brief | `reference/design-system/uploads/brief.md` | The owner's brief to the designer, in Russian |
+| Desktop design | `reference/desktop/desktop-engine.js` | The desktop set's extension of the engine: icons, `DESKTOP` tokens, renderers, curves (§1.8) |
+| Desktop design | `reference/desktop/Desktop Pointer & Keyboard.dc.html` | The hover, focus and target rule for every component (B-69) |
+| Desktop design | `reference/desktop/README.md` | The desktop project's own README, in Russian |
+| Desktop design | `reference/desktop/DEPARTURES.md` | How the vendored files differ from the project's |
 | Precedent | `youndie/oldge-ui@618cef8b923d7e0e501752240e6a727eed51e48c!/docs/research/research-architecture.md` | The sibling kit's research: reference rendering, parity floor, fonts |

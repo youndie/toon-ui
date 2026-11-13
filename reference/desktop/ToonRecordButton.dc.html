@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./desktop-base.css">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<script src="./desktop-engine.js?v=1"></script>
+</helmet>
+<div tabIndex="0" role="button" aria-label="{{ aria }}" onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" onPointerDown="{{ down }}" onPointerUp="{{ up }}" onFocus="{{ focus }}" onBlur="{{ blur }}" onKeyDown="{{ key }}" style="position:relative; display:inline-block; vertical-align:top; width:{{ w }}px; height:40px; cursor:{{ cursor }}; outline:none; user-select:none; font-family:{{ t.body }};">
+  <svg ref="{{ svgRef }}" width="{{ w }}" height="40" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+  <div ref="{{ labRef }}" style="position:absolute; left:36px; top:0; height:40px; display:flex; align-items:center; gap:10px; white-space:nowrap; pointer-events:none;">
+    <div style="font-weight:700; font-size:15px; color:{{ lc }};">{{ label }}</div>
+    <sc-if value="{{ hasTime }}" hint-placeholder-val="{{ false }}">
+      <div style="font-weight:700; font-size:15px; color:{{ lc }}; font-variant-numeric:tabular-nums;">{{ elapsed }}</div>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:240,&quot;height&quot;:90},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;recording&quot;,&quot;stopping&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;'idle'|'recording'|'stopping'&quot;},&quot;elapsed&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;00:12:07&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ru&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;'ru'|'en'&quot;},&quot;hover&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Spec frames&quot;},&quot;focus&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Spec frames&quot;},&quot;onClick&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(action: 'start'|'stop') =&gt; void&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { fc: false };
+  svgRef = e => { this.el = e; this.paint(); };
+  labRef = e => { this.lab = e; this.paint(); };
+  componentDidMount() {
+    const go = () => { const PK = window.DesktopKit; if (!PK || !PK.ready()) { this._w = setTimeout(go, 40); return; } this.k = PK.ctl(this, () => this.paint()); this.k.alive = () => this.st() !== 'idle' && !PK.reduce(); this.k.wake(); this.forceUpdate(); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => this.forceUpdate());
+  }
+  componentDidUpdate() { this.paint(); if (this.k) this.k.wake(); }
+  componentWillUnmount() { clearTimeout(this._w); this.k && this.k.detach(); }
+  st() { return this.props.state || 'idle'; }
+  L() { const en = this.props.lang === 'en'; return { idle: en ? 'Record' : 'Записать', recording: en ? 'Stop' : 'Стоп', stopping: en ? 'Saving' : 'Сохраняю' }; }
+  width() { const PK = window.DesktopKit, E = PK.E(), T = PK.T(this.props), st = this.st(), lw = E.tw(this.L()[st], T.body, 700, 15); return Math.ceil(36 + lw + (st === 'recording' ? 10 + E.tw('00:00:00', T.body, 700, 15) : 0) + 18); }
+  paint() {
+    const PK = window.DesktopKit; if (!this.el || !this.k) return; const p = this.props, T = PK.T(p), E = PK.E(), st = this.st(), now = PK.clock();
+    const hvk = p.hover ? 1 : this.k.hv('b'), sc = E.recBtn(T, { w: this.width(), state: st, hv: hvk, p: this.k.prv('b'), focus: this.state.fc || p.focus, pulse: PK.reduce() ? 1 : E.recPulse(now), spin: now });
+    PK.paint(this.el, sc);
+    if (this.lab) this.lab.style.transform = `translate(${-sc.lift}px, ${sc.ty - sc.lift}px)`;
+  }
+  renderVals() {
+    const PK = window.DesktopKit, ok = PK && PK.ready() && this.k, p = this.props, t = ok ? PK.tok(p) : {}, st = this.st(), L = this.L();
+    const fire = () => { if (st === 'stopping') return; p.onClick && p.onClick(st === 'idle' ? 'start' : 'stop'); };
+    return {
+      t, w: ok ? this.width() : 140, label: L[st], elapsed: p.elapsed || '00:00:00', hasTime: st === 'recording', aria: L[st],
+      lc: st === 'recording' ? t.onDanger : st === 'stopping' ? t.muted : t.text, cursor: st === 'stopping' ? 'default' : 'pointer',
+      svgRef: this.svgRef, labRef: this.labRef,
+      enter: () => this.k && this.k.hover('b', true), leave: () => { if (!this.k) return; this.k.hover('b', false); this.k.press('b', false); },
+      down: () => { if (this.k && st !== 'stopping') this.k.press('b', true); },
+      up: () => { if (!this.k) return; this.k.press('b', false); fire(); },
+      focus: () => this.setState({ fc: true }), blur: () => this.setState({ fc: false }),
+      key: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); fire(); } },
+    };
+  }
+}
+</script>
+</body>
+</html>

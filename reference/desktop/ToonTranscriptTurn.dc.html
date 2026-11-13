@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./desktop-base.css">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<script src="./desktop-engine.js?v=1"></script>
+</helmet>
+<div ref="{{ rootRef }}" tabIndex="0" onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" onFocus="{{ focus }}" onBlur="{{ blur }}" onKeyDown="{{ key }}" onContextMenu="{{ ctx }}" style="position:relative; display:grid; grid-template-columns:44px minmax(0, 1fr); padding:10px 12px 12px 12px; outline:none; font-family:{{ t.body }}; color:{{ t.text }}; z-index:{{ z }};">
+  <svg ref="{{ plateRef }}" width="10" height="10" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+  <div style="position:relative; width:32px; height:32px;">
+    <svg ref="{{ stRef }}" width="32" height="32" viewBox="0 0 32 32" style="display:block; overflow:visible;"></svg>
+  </div>
+  <div style="position:relative; min-width:0; display:flex; flex-direction:column; gap:4px;">
+    <div style="display:flex; align-items:center; gap:10px; min-height:32px; padding-right:{{ headPad }}px;">
+      <div style="font-weight:700; font-size:15px; line-height:1.2; color:{{ nameColor }};">{{ name }}</div>
+      <sc-if value="{{ isMe }}" hint-placeholder-val="{{ false }}">
+        <svg ref="{{ micRef }}" width="16" height="16" viewBox="0 0 16 16" style="display:block; overflow:visible; margin-left:-4px;"></svg>
+      </sc-if>
+      <sc-if value="{{ isPlaying }}" hint-placeholder-val="{{ false }}"><svg ref="{{ waveRef }}" width="18" height="18" viewBox="0 0 18 18" style="display:block; overflow:visible;"></svg></sc-if>
+      <div style="font-weight:{{ timeW }}; font-size:13px; line-height:1.2; color:{{ timeC }}; font-variant-numeric:tabular-nums;">{{ time }}</div>
+      <sc-if value="{{ isUnnamed }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ nameIt }}" style="font-weight:700; font-size:14px; line-height:1.2; color:{{ t.text }}; cursor:pointer; text-decoration-line:underline; text-decoration-style:wavy; text-decoration-color:{{ t.primary }}; text-decoration-thickness:2px; text-underline-offset:5px;">{{ nameLabel }}</div>
+      </sc-if>
+    </div>
+    <sc-for list="{{ paras }}" as="pp" hint-placeholder-count="1">
+      <p style="margin:0; max-width:{{ textMax }}px; font-weight:400; font-size:16px; line-height:1.6; color:{{ t.text }}; text-wrap:pretty;"><sc-for list="{{ pp }}" as="sg" hint-placeholder-count="1"><span style="background:{{ sg.bg }}; color:{{ sg.fg }}; border-radius:3px; box-shadow:{{ sg.sh }};">{{ sg.s }}</span></sc-for></p>
+    </sc-for>
+  </div>
+  <div style="position:absolute; top:10px; right:10px; display:flex; gap:6px; visibility:{{ actVis }};">
+    <sc-for list="{{ acts }}" as="a" hint-placeholder-count="0">
+      <div title="{{ a.title }}" onMouseEnter="{{ a.enter }}" onMouseLeave="{{ a.leave }}" onPointerDown="{{ a.down }}" onPointerUp="{{ a.up }}" style="position:relative; width:32px; height:32px; cursor:{{ a.cursor }};">
+        <svg ref="{{ a.ref }}" width="32" height="32" viewBox="0 0 32 32" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+      </div>
+    </sc-for>
+  </div>
+  <sc-if value="{{ menu }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute; right:4px; top:46px;">
+      <dc-import name="ToonMenu" open="{{ true }}" width="{{ menuW }}" items="{{ menuItems }}" theme="{{ theme }}" onSelect="{{ pick }}" hint-size="272px,215px"></dc-import>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:180},&quot;speaker&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Марина&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;letter&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;М&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;kind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;named&quot;,&quot;unnamed&quot;,&quot;me&quot;],&quot;default&quot;:&quot;named&quot;,&quot;tsType&quot;:&quot;'named'|'unnamed'|'me'&quot;},&quot;shape&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:0,&quot;max&quot;:7,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;color&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:0,&quot;max&quot;:2,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;time&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;12:04&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;text&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Тогда давайте так. Релиз не в четверг. Переносим на вторник, семнадцатое.&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;paras&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string[]&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;rest&quot;,&quot;hover&quot;,&quot;focus&quot;,&quot;menu&quot;,&quot;playing&quot;,&quot;found&quot;],&quot;default&quot;:&quot;rest&quot;,&quot;tsType&quot;:&quot;'rest'|'hover'|'focus'|'menu'&quot;},&quot;audio&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ru&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;'ru'|'en'&quot;},&quot;seed&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;mark&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cur&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;curMark&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;menuItems&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;menuWidth&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:272,&quot;tsType&quot;:&quot;number&quot;},&quot;onAction&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(action: 'play'|'copy'|'reassign'|'rename'|'name') =&gt; void&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { hv: false, fc: false, menu: false };
+  aEl = [];
+  rootRef = e => { this.root = e; };
+  plateRef = e => { this.pl = e; this.paint(); };
+  stRef = e => { this.st = e; this.paint(); };
+  micRef = e => { this.mic = e; this.paint(); };
+  waveRef = e => { this.wv = e; this.paint(); };
+  aRefs = [0, 1, 2].map(i => e => { this.aEl[i] = e; this.paint(); });
+  componentDidMount() {
+    const go = () => { const PK = window.DesktopKit; if (!PK || !PK.ready()) { this._w = setTimeout(go, 40); return; } this.k = PK.ctl(this, () => this.paint()); this.forceUpdate(); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => { if (this.st) this.st._ps = ''; this.paint(); });
+  }
+  componentDidUpdate() { this.paint(); }
+  componentWillUnmount() { clearTimeout(this._w); this.k && this.k.detach(); }
+  L() { const s = this.props.lang === 'en'; return s ? { play: 'Play from here', copy: 'Copy', more: 'More', name: 'Name this voice', reassign: 'Reassign turn', rename: 'Rename speaker' } : { play: 'Слушать отсюда', copy: 'Копировать', more: 'Ещё', name: 'Дать имя', reassign: 'Переназначить реплику', rename: 'Переименовать спикера' }; }
+  vis() { const s = this.props.state || 'rest', hv = s === 'hover' || s === 'playing' || s === 'found' || this.state.hv, fc = s === 'focus' || this.state.fc, m = this.state.menu || s === 'menu'; return { plate: hv || fc || m, focus: fc && !m, act: (hv || fc || m) && s !== 'playing' && s !== 'found' || this.state.hv, menu: m }; }
+  acts() { const L = this.L(), noAudio = this.props.audio === false; return [{ icon: 'play', title: L.play + ' · Space', dis: noAudio }, { icon: 'copy', title: L.copy + ' · ⌘C' }, { icon: 'more', title: L.more + ' · ⇧F10' }]; }
+  paint() {
+    const PK = window.DesktopKit; if (!this.k) return; const E = PK.E(), T = PK.T(this.props), p = this.props, v = this.vis();
+    if (this.st) PK.paint(this.st, E.sticker(T, { size: 32, kind: p.kind, shape: +p.shape || 0, color: +p.color || 0, letter: p.letter }));
+    if (this.mic) PK.paint(this.mic, { L: E.icon(T, 'mic', 0, 0, { size: 16, color: T.muted }), X: [] });
+    if (this.wv) PK.paint(this.wv, { L: E.icon(T, 'wave', 0, 0, { size: 18, color: T.text, bold: true }), X: [] });
+    if (this.pl && this.root) {
+      const w = this.root.offsetWidth, h = this.root.offsetHeight, L = [];
+      if (v.plate) L.push(E.plate(T, 0, 2, w, h - 4, { seed: (+p.seed || 0) % 5 }));
+      if (v.focus) L.push(E.ring(-5, -3, w + 10, h + 6, [16, 12, 18, 13], T, T.seed + 3520));
+      PK.paint(this.pl, { L, X: [] });
+    }
+    if (v.act) this.acts().forEach((a, i) => { const el = this.aEl[i]; if (el) PK.paint(el, E.iconBtn32(T, { icon: a.icon, hv: this.k.hv('a' + i), p: this.k.prv('a' + i), disabled: a.dis, seed: i })); });
+  }
+  renderVals() {
+    const PK = window.DesktopKit, ok = PK && PK.ready() && this.k, p = this.props, t = ok ? PK.tok(p) : {}, v = this.vis(), L = this.L();
+    const kind = p.kind || 'named', raw = Array.isArray(p.paras) ? p.paras : [p.text || ''], q = (p.mark || '').toLowerCase(), E = ok && PK.E(), T = ok && PK.T(p);
+    let mi = 0; const curI = +p.curMark || 0;
+    const paras = raw.map(tx => { if (!q || !ok) return [{ s: tx, bg: 'transparent', fg: 'inherit', sh: 'none' }]; const out = []; let i = 0, low = tx.toLowerCase(); while (true) { const j = low.indexOf(q, i); if (j < 0) break; const we = low.slice(j).search(/[^\p{L}\p{N}-]/u), end = we < 0 ? tx.length : j + we; if (j > i) out.push({ s: tx.slice(i, j), bg: 'transparent', fg: 'inherit', sh: 'none' }); const cur = p.cur && mi === curI, bg = cur ? T.primary : E.accents(T)[1]; out.push({ s: tx.slice(j, end), bg, fg: T.ink, sh: cur ? `0 0 0 2px ${bg}, 0 0 0 4px ${T.ink}` : `0 0 0 2px ${bg}` }); mi++; i = end; } if (i < tx.length) out.push({ s: tx.slice(i), bg: 'transparent', fg: 'inherit', sh: 'none' }); return out; });
+    const fire = n => { this.props.onAction && this.props.onAction(n); };
+    const acts = this.acts().map((a, i) => ({ ...a, ref: this.aRefs[i], cursor: a.dis ? 'default' : 'pointer',
+      enter: () => { this.k && this.k.hover('a' + i, true); }, leave: () => { if (!this.k) return; this.k.hover('a' + i, false); this.k.press('a' + i, false); },
+      down: e => { e.stopPropagation(); if (!a.dis && this.k) this.k.press('a' + i, true); },
+      up: () => { if (!this.k || a.dis) return; this.k.press('a' + i, false); if (i === 2) this.setState(s => ({ menu: !s.menu })); else fire(a.icon); } }));
+    return {
+      t, theme: p.theme, name: p.speaker || '', time: p.time || '', paras, textMax: (ok && PK.E().DESKTOP.layout.textMax) || 640,
+      nameColor: kind === 'unnamed' ? t.muted : t.text, isPlaying: p.state === 'playing', timeW: p.state === 'playing' ? 800 : 500, timeC: p.state === 'playing' ? t.text : t.muted, waveRef: this.waveRef, menuW: +p.menuWidth || 272, isMe: kind === 'me', isUnnamed: kind === 'unnamed', nameLabel: L.name, headPad: v.act ? 120 : 0,
+      actVis: v.act ? 'visible' : 'hidden', acts, menu: v.menu, z: v.menu ? 5 : 'auto',
+      menuItems: p.menuItems || `play:${L.play},copy:${L.copy},person:${L.reassign},edit:${L.rename}`,
+      rootRef: this.rootRef, plateRef: this.plateRef, stRef: this.stRef, micRef: this.micRef,
+      enter: () => this.setState({ hv: true }), leave: () => this.setState({ hv: false, menu: false }),
+      focus: e => { if (e.target === this.root) this.setState({ fc: true }); }, blur: e => { if (e.target === this.root) this.setState({ fc: false }); },
+      key: e => { if (e.target !== this.root) return; if (e.key === 'ContextMenu' || (e.shiftKey && e.key === 'F10')) { e.preventDefault(); this.setState({ menu: true }); } else if (e.key === 'Escape') this.setState({ menu: false }); else if (e.key === ' ') { e.preventDefault(); fire('play'); } else if (e.key === 'ArrowDown' || e.key === 'ArrowUp') { const w = this.root.closest('[data-i]'), sib = w && (e.key === 'ArrowDown' ? w.nextElementSibling : w.previousElementSibling), nx = sib && sib.querySelector('[tabindex="0"]'); if (nx) { e.preventDefault(); nx.focus(); } } else if (e.key === 'c' && (e.metaKey || e.ctrlKey)) fire('copy'); },
+      ctx: e => { e.preventDefault(); this.setState({ menu: true }); },
+      pick: i => { this.setState({ menu: false }); fire(['play', 'copy', 'reassign', 'rename'][i]); },
+      nameIt: () => fire('name'),
+    };
+  }
+}
+</script>
+</body>
+</html>

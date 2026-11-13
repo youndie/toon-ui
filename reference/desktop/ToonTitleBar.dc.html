@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./desktop-base.css">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<script src="./desktop-engine.js?v=1"></script>
+</helmet>
+<div style="position:relative; width:{{ w }}px; height:{{ h }}px; font-family:{{ t.body }}; user-select:none;">
+  <svg ref="{{ svgRef }}" width="80" height="{{ h }}" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none; visibility:{{ slotsVis }};"></svg>
+  <sc-if value="{{ hasTitle }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute; left:{{ titleL }}px; right:220px; top:0; height:{{ h }}px; display:flex; align-items:center; font-weight:700; font-size:14px; color:{{ t.muted }}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ title }}</div>
+  </sc-if>
+  <sc-if value="{{ showRec }}" hint-placeholder-val="{{ true }}"><div style="position:absolute; right:{{ right }}px; top:6px; display:flex; gap:10px; align-items:center;">
+    <dc-import name="ToonRecordButton" state="{{ record }}" elapsed="{{ elapsed }}" lang="{{ lang }}" theme="{{ theme }}" onClick="{{ onRecord }}" hint-size="140px,40px"></dc-import>
+  </div></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:70},&quot;width&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:600,&quot;max&quot;:2000,&quot;default&quot;:900,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;titleLeft&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:96,&quot;tsType&quot;:&quot;number&quot;},&quot;record&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;idle&quot;,&quot;recording&quot;,&quot;stopping&quot;],&quot;default&quot;:&quot;idle&quot;,&quot;tsType&quot;:&quot;'idle'|'recording'|'stopping'&quot;},&quot;elapsed&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;00:12:07&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;slots&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ru&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;'ru'|'en'&quot;},&quot;onRecord&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(action: 'start'|'stop') =&gt; void&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  svgRef = e => { this.el = e; this.paint(); };
+  componentDidMount() {
+    const go = () => { const PK = window.DesktopKit; if (!PK || !PK.ready()) { this._w = setTimeout(go, 40); return; } this.k = PK.ctl(this, () => this.paint()); this.forceUpdate(); };
+    go();
+  }
+  componentDidUpdate() { this.paint(); }
+  componentWillUnmount() { clearTimeout(this._w); this.k && this.k.detach(); }
+  paint() { const PK = window.DesktopKit; if (!this.el || !this.k) return; PK.paint(this.el, PK.E().trafficSlots(PK.T(this.props))); }
+  renderVals() {
+    const PK = window.DesktopKit, ok = PK && PK.ready() && this.k, p = this.props, t = ok ? PK.tok(p) : {}, Lt = ok ? PK.E().DESKTOP.layout : { titleH: 52, right: 20 };
+    return { t, w: +p.width || 1280, h: Lt.titleH, right: Lt.right, title: p.title || '', hasTitle: !!p.title, titleL: +p.titleLeft || 96, record: p.record || 'idle', elapsed: p.elapsed || '00:00:00', lang: p.lang, theme: p.theme,
+      onRecord: a => p.onRecord && p.onRecord(a), slotsVis: p.slots === false ? 'hidden' : 'visible', showRec: p.recordButton !== false, svgRef: this.svgRef };
+  }
+}
+</script>
+</body>
+</html>

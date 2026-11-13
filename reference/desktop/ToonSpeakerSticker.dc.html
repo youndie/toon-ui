@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./desktop-base.css">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<script src="./desktop-engine.js?v=1"></script>
+</helmet>
+<div style="position:relative; display:inline-block; vertical-align:top; width:{{ s }}px; height:{{ s }}px;">
+  <svg ref="{{ svgRef }}" width="{{ s }}" height="{{ s }}" viewBox="{{ vb }}" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:120,&quot;height&quot;:80},&quot;size&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[24,32,48],&quot;default&quot;:32,&quot;tsType&quot;:&quot;24|32|48&quot;},&quot;kind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;named&quot;,&quot;unnamed&quot;,&quot;me&quot;],&quot;default&quot;:&quot;named&quot;,&quot;tsType&quot;:&quot;'named'|'unnamed'|'me'&quot;},&quot;shape&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:0,&quot;max&quot;:7,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;color&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:0,&quot;max&quot;:2,&quot;default&quot;:0,&quot;tsType&quot;:&quot;number&quot;},&quot;letter&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;М&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  svgRef = e => { this.el = e; this.paint(); };
+  componentDidMount() {
+    const go = () => { const PK = window.DesktopKit; if (!PK || !PK.ready()) { this._w = setTimeout(go, 40); return; } this.k = PK.ctl(this, () => this.paint()); this.paint(); };
+    go();
+    if (document.fonts) document.fonts.ready.then(() => { if (this.el) this.el._ps = ''; this.paint(); });
+  }
+  componentDidUpdate() { this.paint(); }
+  componentWillUnmount() { clearTimeout(this._w); this.k && this.k.detach(); }
+  paint() {
+    const PK = window.DesktopKit; if (!this.el || !this.k) return; const p = this.props;
+    PK.paint(this.el, PK.E().sticker(PK.T(p), { size: +p.size || 32, kind: p.kind || 'named', shape: +p.shape || 0, color: +p.color || 0, letter: p.letter ?? (p.kind === 'me' ? 'Я' : p.kind === 'unnamed' ? '2' : 'М') }));
+  }
+  renderVals() { const s = +this.props.size || 32; return { s, vb: `0 0 ${s} ${s}`, svgRef: this.svgRef }; }
+}
+</script>
+</body>
+</html>

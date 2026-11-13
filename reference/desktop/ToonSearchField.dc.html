@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./desktop-base.css">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<script src="./desktop-engine.js?v=1"></script>
+</helmet>
+<div onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" style="position:relative; width:{{ w }}px; height:40px; font-family:{{ t.body }};">
+  <svg ref="{{ svgRef }}" width="{{ w }}" height="40" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+  <sc-if value="{{ showPh }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute; left:40px; top:0; height:40px; display:flex; align-items:center; font-weight:500; font-size:15px; color:{{ t.muted }}; pointer-events:none; white-space:nowrap;">{{ placeholder }}</div>
+  </sc-if>
+  <input ref="{{ inRef }}" value="{{ val }}" onChange="{{ input }}" onFocus="{{ focus }}" onBlur="{{ blur }}" onKeyDown="{{ key }}" aria-label="{{ placeholder }}" style="position:absolute; left:38px; top:0; height:40px; width:{{ iw }}px; border:0; outline:none; background:transparent; padding:0 2px; margin:0; font-family:{{ t.body }}; font-weight:500; font-size:15px; color:{{ t.text }};">
+  <sc-if value="{{ hasCount }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute; right:{{ countR }}px; top:0; height:40px; display:flex; align-items:center; font-weight:600; font-size:13px; color:{{ t.muted }}; font-variant-numeric:tabular-nums; white-space:nowrap;">{{ count }}</div>
+  </sc-if>
+  <sc-if value="{{ hasKbd }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute; right:9px; top:9px; width:{{ kbdW }}px; height:22px; display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px; color:{{ t.text }}; pointer-events:none;">{{ kbd }}</div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:320,&quot;height&quot;:80},&quot;width&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:160,&quot;max&quot;:600,&quot;default&quot;:276,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;placeholder&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Поиск по созвонам&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;value&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;count&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;kbd&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;⌘K&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;rest&quot;,&quot;hover&quot;,&quot;focus&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;'rest'|'hover'|'focus'|undefined&quot;},&quot;onChange&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(value: string) =&gt; void&quot;},&quot;onNext&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(dir: 1|-1) =&gt; void&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { val: null, fc: false, hv: false };
+  svgRef = e => { this.el = e; this.paint(); };
+  inRef = e => { this.inp = e; };
+  componentDidMount() {
+    const go = () => { const PK = window.DesktopKit; if (!PK || !PK.ready()) { this._w = setTimeout(go, 40); return; } this.k = PK.ctl(this, () => this.paint()); this.forceUpdate(); };
+    go();
+  }
+  componentDidUpdate() { this.paint(); }
+  componentWillUnmount() { clearTimeout(this._w); this.k && this.k.detach(); }
+  val() { return this.state.val ?? this.props.value ?? ''; }
+  fc() { return this.state.fc || this.props.state === 'focus'; }
+  paint() {
+    const PK = window.DesktopKit; if (!this.el || !this.k) return; const p = this.props, T = PK.T(p), w = +p.width || 276, fc = this.fc();
+    PK.paint(this.el, PK.E().searchBox(T, { w, focus: fc ? 1 : 0, ring: fc, hv: this.state.hv || p.state === 'hover' ? 1 : 0, kbdW: this.kbd() ? 34 : 0 }));
+  }
+  kbd() { const k = this.props.kbd ?? '⌘K'; return this.fc() || this.val() ? '' : k; }
+  renderVals() {
+    const PK = window.DesktopKit, ok = PK && PK.ready() && this.k, p = this.props, t = ok ? PK.tok(p) : {}, w = +p.width || 276, kbd = this.kbd(), count = p.count || '';
+    return {
+      t, w, val: this.val(), placeholder: p.placeholder || 'Поиск', showPh: !this.val(), kbd, hasKbd: !!kbd, kbdW: 34, count, hasCount: !!count && !!this.val(), countR: 12,
+      iw: w - 38 - (kbd ? 50 : count ? 84 : 12), svgRef: this.svgRef, inRef: this.inRef,
+      enter: () => this.setState({ hv: true }), leave: () => this.setState({ hv: false }),
+      focus: () => this.setState({ fc: true }), blur: () => this.setState({ fc: false }),
+      input: e => { this.setState({ val: e.target.value }); p.onChange && p.onChange(e.target.value); },
+      key: e => { if (e.key === 'Escape') { this.setState({ val: '' }); p.onChange && p.onChange(''); e.target.blur(); } else if (e.key === 'Enter') p.onNext && p.onNext(e.shiftKey ? -1 : 1); },
+    };
+  }
+}
+</script>
+</body>
+</html>

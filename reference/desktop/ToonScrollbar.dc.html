@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="./desktop-base.css">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<script src="./desktop-engine.js?v=1"></script>
+</helmet>
+<div ref="{{ rootRef }}" onMouseEnter="{{ enter }}" onMouseLeave="{{ leave }}" onPointerDown="{{ down }}" onPointerMove="{{ move }}" onPointerUp="{{ up }}" onPointerCancel="{{ up }}" style="position:relative; width:14px; height:{{ h }}px; visibility:{{ vis }}; touch-action:none; user-select:none;">
+  <svg ref="{{ svgRef }}" width="14" height="{{ h }}" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:60,&quot;height&quot;:260},&quot;target&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; HTMLElement | null&quot;},&quot;state&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;rest&quot;,&quot;hover&quot;,&quot;drag&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;'rest'|'hover'|'drag'|undefined&quot;},&quot;a&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.01,&quot;default&quot;:0.2,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Static (spec frames)&quot;},&quot;b&quot;:{&quot;editor&quot;:&quot;float&quot;,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.01,&quot;default&quot;:0.45,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Static (spec frames)&quot;},&quot;height&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:60,&quot;max&quot;:800,&quot;default&quot;:220,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Static (spec frames)&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { h: 200, fits: false, hv: false, drag: false };
+  a = 0; b = .3;
+  svgRef = e => { this.el = e; this.paint(); };
+  rootRef = e => { this.root = e; };
+  componentDidMount() {
+    const go = () => { const PK = window.DesktopKit; if (!PK || !PK.ready()) { this._w = setTimeout(go, 40); return; } this.k = PK.ctl(this, () => this.paint()); this.bind(); this.forceUpdate(); };
+    go();
+  }
+  componentDidUpdate() { this.paint(); }
+  componentWillUnmount() { clearTimeout(this._w); clearTimeout(this._b); this.k && this.k.detach(); if (this.tg && this.onS) this.tg.removeEventListener('scroll', this.onS); this.ro && this.ro.disconnect(); }
+  bind() {
+    if (this.props.a != null) return;
+    const tg = this.props.target && this.props.target(); if (!tg) { this._b = setTimeout(() => this.bind(), 80); return; }
+    this.tg = tg; this.onS = () => this.sync(); tg.addEventListener('scroll', this.onS, { passive: true });
+    this.ro = new ResizeObserver(this.onS); this.ro.observe(tg); [...tg.children].forEach(c => this.ro.observe(c)); this.sync();
+  }
+  inset() { return 8; }
+  sync() {
+    const tg = this.tg; if (!tg) return; const H = tg.clientHeight, S = tg.scrollHeight || 1, h = Math.max(40, H - 2 * this.inset());
+    this.a = tg.scrollTop / S; this.b = (tg.scrollTop + H) / S;
+    const fits = S <= H + 1; if (h !== this.state.h || fits !== this.state.fits) this.setState({ h, fits }); else this.paint();
+  }
+  st() { const s = this.props.state; if (s) return { rest: 0, hover: 1, drag: 2 }[s] || 0; return this.state.drag ? 2 : this.state.hv ? 1 : 0; }
+  paint() {
+    const PK = window.DesktopKit; if (!this.el || !this.k) return; const p = this.props, h = p.height || this.state.h;
+    const a = p.a ?? this.a, b = p.b ?? this.b;
+    PK.paint(this.el, PK.E().scrollThumb(PK.T(p), h, { a, b, st: this.st() }));
+  }
+  ly(e) { const r = this.root.getBoundingClientRect(), h = this.props.height || this.state.h; return (e.clientY - r.top) * h / (r.height || 1); }
+  renderVals() {
+    const p = this.props, h = p.height || this.state.h;
+    return {
+      h, vis: this.state.fits && p.a == null ? 'hidden' : 'visible', svgRef: this.svgRef, rootRef: this.rootRef,
+      enter: () => this.setState({ hv: true }), leave: () => { if (!this.state.drag) this.setState({ hv: false }); },
+      down: e => {
+        const tg = this.tg; if (!tg) return; const y = this.ly(e), y0 = this.a * h, y1 = Math.max(y0 + 28, this.b * h);
+        if (y >= y0 && y <= y1) { this.grab = y - y0; e.currentTarget.setPointerCapture(e.pointerId); this.setState({ drag: true }); }
+        else tg.scrollTop += (y < y0 ? -1 : 1) * tg.clientHeight * .9;
+      },
+      move: e => { if (!this.state.drag || !this.tg) return; const y = this.ly(e) - this.grab; this.tg.scrollTop = y / h * this.tg.scrollHeight; },
+      up: () => { if (this.state.drag) this.setState({ drag: false }); },
+    };
+  }
+}
+</script>
+</body>
+</html>
