@@ -316,6 +316,21 @@ const SIDEBAR_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     return { group: 'Sidebar', name: `${label}_${themeName}`, theme, themeName, opts, scene };
   }));
 
+// B-89: the extension's panel `sheet` as the design's screens call it, `E.sheet(T, w, h, { seed })`
+// with the renderer's defaults otherwise (radii 20, 14, 24, 16; the theme's shadow plus 2; paper), at a
+// window's content pane and at sizes and seeds either side of it. The sidebar's own call, with its
+// radii, shadow and seed, is the Sidebar group's `Panel` cells.
+export const PANEL_LOOKS = [
+  ['Pane', { w: 940, h: 716, seed: 2 }],
+  ['Default', { w: 640, h: 480, seed: 0 }],
+  ['Small', { w: 320, h: 180, seed: 7 }],
+  ['Tall', { w: 420, h: 1100, seed: 11 }],
+];
+export const PANEL_SCENE = (w, h, seed) => `E.sheet(T, ${w}, ${h}, { seed: ${seed} })`;
+const PANEL_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  PANEL_LOOKS.map(([label, opts]) =>
+    ({ group: 'Panel', name: `${label}_${themeName}`, theme, themeName, opts, scene: PANEL_SCENE(opts.w, opts.h, opts.seed) })));
+
 export const DESKTOP_CELLS = {
   TranscriptTurn: TURN_CELLS,
   LevelMeter: METER_CELLS,
@@ -323,6 +338,7 @@ export const DESKTOP_CELLS = {
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
   SearchField: SEARCH_CELLS,
   Sidebar: SIDEBAR_CELLS,
+  Panel: PANEL_CELLS,
   Scrollbar: SCROLL_CELLS,
   TitleBar: TITLE_CELLS,
   SplitHandle: SPLIT_CELLS,

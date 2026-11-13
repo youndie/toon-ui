@@ -310,7 +310,8 @@ internal fun toonSidebarRuleY(
 ): Float = h - NAV_BOTTOM - navRows * ToonPointerTarget.NAV_ROW - 8
 
 /**
- * The panel: the extension's `sheet` [w] by [h] dp — a paper body with the theme's shadow — and the
+ * The panel: the extension's `sheet` [w] by [h] dp as the sidebar calls it — the panel's scene (B-89)
+ * with radii of its own, the theme's shadow rather than the panel's deeper one, and seed 1 — and the
  * ink rule over the [navRows] navigation rows when there are any.
  */
 @OptIn(InternalToonApi::class)
@@ -322,21 +323,8 @@ internal fun toonSidebarPanelScene(
 ): ToonScene {
     val c = tokens.colors
     val sh = tokens.shape
-    val rs = sh.radiusScale
-    val r =
-        ToonRadii(
-            PANEL_RADII.topLeft * rs,
-            PANEL_RADII.topRight * rs,
-            PANEL_RADII.bottomRight * rs,
-            PANEL_RADII.bottomLeft * rs,
-        )
     val layers =
-        bodyLayers(
-            shapePoints(0f, 0f, w, h, r, sh.insets, sh.wobble, sh.seed + PANEL_SEED),
-            c.surface,
-            c,
-            shadow = sh.shadow,
-        ).toMutableList()
+        toonPanelScene(tokens, w, h, PANEL_SEED, PANEL_RADII, shadow = sh.shadow).layers.toMutableList()
     if (navRows > 0) {
         layers +=
             ToonLayer(
@@ -735,7 +723,7 @@ private val PLATE_RADII = ToonRadii(14f, 10f, 16f, 11f)
 private val RING_RADII = ToonRadii(16f, 12f, 18f, 13f)
 private val MARK_INSETS = ToonInsets(1.4f, 1.6f, 2.2f, 1.4f)
 private const val SELECTED_WOBBLE = 1.3f
-private const val PANEL_SEED = 3801
+private const val PANEL_SEED = 1
 private const val RULE_SEED = 3950
 private const val SELECTED_SEED = 3500
 private const val RING_SEED = 3510

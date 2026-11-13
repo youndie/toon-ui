@@ -20087,6 +20087,96 @@
         0
       ],
       "scene": "(() => { const a = E.splashAt(700), H = 520; return E.cat(E.titleCard(T, { W: 360, H, ...a, sub: 'Plans for the good part of the week' }), E.stars(T, a.stars || 0, 180, H * .42 - 60, 90)); })()"
+    },
+    {
+      "file": "Panel_Card_InkGouacheLight.png",
+      "theme": "il",
+      "w": 320,
+      "h": 200,
+      "pad": [
+        12,
+        16,
+        16,
+        12
+      ],
+      "scene": "E.sheet(T, 320, 200, { seed: 0 })",
+      "desktop": true,
+      "browser": "Chrome/157.0.8103.51"
+    },
+    {
+      "file": "Panel_Wide_InkGouacheLight.png",
+      "theme": "il",
+      "w": 480,
+      "h": 160,
+      "pad": [
+        12,
+        16,
+        16,
+        12
+      ],
+      "scene": "E.sheet(T, 480, 160, { seed: 5 })",
+      "desktop": true,
+      "browser": "Chrome/157.0.8103.51"
+    },
+    {
+      "file": "Panel_Card_InkGouacheNight.png",
+      "theme": "in",
+      "w": 320,
+      "h": 200,
+      "pad": [
+        12,
+        16,
+        16,
+        12
+      ],
+      "scene": "E.sheet(T, 320, 200, { seed: 0 })",
+      "desktop": true,
+      "browser": "Chrome/157.0.8103.51"
+    },
+    {
+      "file": "Panel_Wide_InkGouacheNight.png",
+      "theme": "in",
+      "w": 480,
+      "h": 160,
+      "pad": [
+        12,
+        16,
+        16,
+        12
+      ],
+      "scene": "E.sheet(T, 480, 160, { seed: 5 })",
+      "desktop": true,
+      "browser": "Chrome/157.0.8103.51"
+    },
+    {
+      "file": "Panel_Card_BrightCel.png",
+      "theme": "bc",
+      "w": 320,
+      "h": 200,
+      "pad": [
+        12,
+        16,
+        16,
+        12
+      ],
+      "scene": "E.sheet(T, 320, 200, { seed: 0 })",
+      "desktop": true,
+      "browser": "Chrome/157.0.8103.51"
+    },
+    {
+      "file": "Panel_Wide_BrightCel.png",
+      "theme": "bc",
+      "w": 480,
+      "h": 160,
+      "pad": [
+        12,
+        16,
+        16,
+        12
+      ],
+      "scene": "E.sheet(T, 480, 160, { seed: 5 })",
+      "desktop": true,
+      "browser": "Chrome/157.0.8103.51"
     }
   ],
   "screens": [

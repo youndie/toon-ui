@@ -71,6 +71,12 @@ const DESKTOP_MAP = {
   TitleBar: { composable: 'ToonTitleBar', engine: ['trafficSlots'], item: 'B-76', group: 'TitleBar' },
   TranscriptTurn: { composable: 'ToonTranscriptTurn', engine: ['plate', 'sticker', 'iconBtn32'], item: 'B-78', group: 'TranscriptTurn' },
 };
+// B-89: the desktop extension's renderers that a component of the set is drawn by and no design file of
+// it draws on its own: the app's screens draw them, and those screens were not vendored (research §1.8).
+// Held to Chrome's rendering of the renderer and to goldens too, as a kit component is.
+const DESKTOP_RENDERERS = {
+  ToonPanel: { engine: ['sheet'], item: 'B-89', group: 'Panel', what: 'the paper panel each content pane of a window lies on' },
+};
 // Public composables beyond a design file's own, under it.
 const ALSO = { Snackbar: ['ToonSnackbarHost'], Tabs: ['rememberToonTabsState'], BottomSheet: ['ToonBottomSheetBox'] };
 // The library's own public composables, which no design file draws, with the item that made each.
@@ -150,13 +156,27 @@ for (const d of Object.keys(DESKTOP_MAP).sort()) {
   } else if (it.status === 'done') problems.push(`${d}: ${e.item} is done, but no composable is mapped`);
   const cells = desktopFrames[e.group] ? Object.keys(desktopFrames[e.group]).length : 0;
   const src = e.composable && composables.get(e.composable) ? `[${composables.get(e.composable).split('/').pop()}](../${composables.get(e.composable)})` : '';
-  desktopRows.push(`| [Toon${d}](../reference/desktop/Toon${d}.dc.html) | ${e.composable ? `\`${e.composable}\`` : '— not built'} | ${src} | ${e.engine.map((f) => `\`${f}\``).join(', ')} | [${e.item}](backlog/${it.file}) | ${cells || ''} |`);
+  desktopRows.push(`| [Toon${d}](../reference/desktop/Toon${d}.dc.html) | ${e.composable ? `\`${e.composable}\`` : '— not built'} | ${src} | ${e.engine.map((f) => `\`${f}\``).join(', ')} | [${e.item}](backlog/${it.file}) | ${cells || ''} | ${count(join(SNAPSHOTS, 'design'), e.group) || ''} | ${count(SNAPSHOTS, e.group) || ''} |`);
+}
+for (const [name, e] of Object.entries(DESKTOP_RENDERERS)) {
+  for (const fn of e.engine) if (!new RegExp(`P\\.${fn} = function`).test(desktopEngine)) problems.push(`${name}: the desktop extension has no \`${fn}\``);
+  const it = item(e.item);
+  listed.add(name);
+  if (!composables.has(name)) problems.push(`${name}: not a public composable in toon-core`);
+  if (it.status && it.status !== 'done') problems.push(`${name}: built, but ${e.item} is ${it.status}`);
+  const cells = desktopFrames[e.group] ? Object.keys(desktopFrames[e.group]).length : 0;
+  const refs = count(join(SNAPSHOTS, 'design'), e.group);
+  const goldens = count(SNAPSHOTS, e.group);
+  if (!cells || !refs || !goldens) problems.push(`${name}: no frame cells, references or goldens in group ${e.group}`);
+  const src = `[${composables.get(name)?.split('/').pop() ?? ''}](../${composables.get(name) ?? ''})`;
+  desktopRows.push(`| — ${e.what} | \`${name}\` | ${src} | ${e.engine.map((f) => `\`${f}\``).join(', ')} | [${e.item}](backlog/${it.file}) | ${cells} | ${refs} | ${goldens} |`);
 }
 for (const [name] of composables) if (!listed.has(name)) problems.push(`\`${name}\` is a public composable the catalogue does not list`);
 
 const own = Object.entries(OWN).map(([name, [what, id]]) => `| \`${name}\` | [${composables.get(name)?.split('/').pop() ?? ''}](../${composables.get(name) ?? ''}) | ${what} | [${id}](backlog/${item(id).file}) |`);
 const built = Object.values(MAP).filter((e) => e.composable).length;
 const desktopBuilt = Object.values(DESKTOP_MAP).filter((e) => e.composable).length;
+const renderers = Object.keys(DESKTOP_RENDERERS).length;
 const block = [
   BEGIN,
   '',
@@ -166,10 +186,10 @@ const block = [
   '|---|---|---|---|---|---|---|---|',
   ...rows,
   '',
-  `The desktop set, from reference/desktop (stage 5): ${desktopBuilt} of ${Object.keys(DESKTOP_MAP).length} built. Its frames are in \`desktop.json\`; the project has no spec pages, so no Chrome references or goldens are drawn from it.`,
+  `The desktop set, from reference/desktop (stage 5): ${desktopBuilt} of ${Object.keys(DESKTOP_MAP).length} built, and ${renderers} drawn by the extension with no design file of its own. Its frames are in \`desktop.json\`. The project has no spec pages, so no Chrome references or goldens are drawn from its design files; a component with none is held to Chrome's rendering of its renderer as well.`,
   '',
-  '| Design file | Composable | Source | Extension | Item | Frame cells |',
-  '|---|---|---|---|---|---|',
+  '| Design file | Composable | Source | Extension | Item | Frame cells | References | Goldens |',
+  '|---|---|---|---|---|---|---|---|',
   ...desktopRows,
   '',
   'The library\'s own, which no design file draws:',

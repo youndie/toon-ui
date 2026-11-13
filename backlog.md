@@ -33,7 +33,8 @@ research §1.1 names. It is evidence, not a document this repository maintains.
 5. **The library as a product** (stage 4): accessibility, the catalogue, publishing, the
    undesigned v1 components, re-importing the design.
 6. **The desktop set** (stage 5): nine components and one pointer rule a desktop app needs, designed
-   in a desktop app's project and imported from it ([B-68](docs/backlog/B-68-vendor-the-desktop-design.md)).
+   in a desktop app's project and imported from it ([B-68](docs/backlog/B-68-vendor-the-desktop-design.md)),
+   and the panel its screens lay their content on ([B-89](docs/backlog/B-89-panel.md)).
    The rule comes before the components that hover, and the turn after the sticker it carries.
 
 The owner answered on 2026-11-02: Cyrillic is in scope ([B-35](docs/backlog/B-35-cyrillic-fonts.md)
@@ -56,11 +57,14 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (0)
+## Open (2)
 
-No open tasks.
+| Task | | Priority | Size | Blocked by |
+|---|---|---|---|---|
+| [B-90](docs/backlog/B-90-sidebar-empty-text-wraps-prettily.md) `[ ]` | The sidebar's empty text breaks its lines as the design's does | P2 | S | - |
+| [B-91](docs/backlog/B-91-type-step-of-a-consumers-own.md) `[ ]` | A consumer can make a type step of its own | P2 | XS | - |
 
-## Closed (88)
+## Closed (89)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -167,5 +171,6 @@ No open tasks.
 - [B-78](docs/backlog/B-78-transcript-turn.md) `[x]` - ToonTranscriptTurn: one turn of a transcript, calm to read
 - [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[x]` - The pointer rule on the pressable components the pointer page does not draw
 - [B-80](docs/backlog/B-80-desktop-icons.md) `[x]` - The desktop icons: the extension's 12 glyphs in ToonIcons
+- [B-89](docs/backlog/B-89-panel.md) `[x]` - ToonPanel: the paper panel a desktop window lays each content pane on
 
 <!-- END INDEX -->
