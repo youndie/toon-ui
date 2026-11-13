@@ -39,7 +39,11 @@ import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.smoothNumbers
 import io.github.youndie.toon.draw.wobblePoints
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.rememberToonPressState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.interaction.toonPressable
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.theme.Toon
@@ -81,12 +85,13 @@ public fun ToonSwitch(
     val w = if (width > 0.dp) width.value else (if (label.isEmpty()) 0f else ceil(labelWidth) + 16) + TRACK_W
     var on by remember(checked) { mutableStateOf(checked) }
     val press = rememberToonPressState()
+    val hover = rememberToonHoverState()
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val clock = remember { ToonToggleClock() }
     val change by rememberUpdatedState(onCheckedChange)
     LaunchedEffect(clock.starts) { while (clock.running(TOGGLE_MS)) withFrameMillis { clock.tick(it) } }
-    val look = toonSwitchFrameAt(on, clock.age(), press.progress, reduce)
+    val look = toonSwitchFrameAt(on, clock.age(), press.progress, reduce, hover.value)
 
     Canvas(
         modifier
@@ -98,7 +103,8 @@ public fun ToonSwitch(
                 on = !on
                 clock.start()
                 change(on)
-            }.focusable(enabled, interaction),
+            }.toonHoverable(hover, enabled)
+            .focusable(enabled, interaction),
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
 
@@ -166,19 +172,22 @@ internal fun toonSwAnim(
 
 /**
  * The kit's `C.switch.scene` at a moment: [on], the toggle [toggleAgeMs] ago (null before any), under
- * press [p]. Under reduce motion — the Core page's `instant` — the thumb is at its end at once.
+ * press [p] and the pointer's hover [hv]. Under reduce motion — the Core page's `instant` — the thumb
+ * is at its end at once. The lift fades as the press goes down, as the extension's `liftBody` does
+ * (B-79).
  */
 internal fun toonSwitchFrameAt(
     on: Boolean,
     toggleAgeMs: Float?,
     p: Float,
     reduceMotion: Boolean,
+    hv: Float = 0f,
 ): ToonSwitchLook {
-    if (!reduceMotion && toggleAgeMs != null && toggleAgeMs < ANIM_MS) {
-        return toonSwAnim(toggleAgeMs, if (on) 0 else 1, if (on) 1 else 0)
-    }
     val q = c01(p)
-    return ToonSwitchLook(on = on, sx = 1 + PRESS_SX * q, sy = 1 - PRESS_SY * q, pressed = q > 0)
+    if (!reduceMotion && toggleAgeMs != null && toggleAgeMs < ANIM_MS) {
+        return toonSwAnim(toggleAgeMs, if (on) 0 else 1, if (on) 1 else 0).copy(hv = hv * (1 - q))
+    }
+    return ToonSwitchLook(on = on, sx = 1 + PRESS_SX * q, sy = 1 - PRESS_SY * q, pressed = q > 0, hv = hv * (1 - q))
 }
 
 private fun c01(v: Float): Float = max(0f, min(1f, v))
@@ -196,6 +205,11 @@ internal data class ToonSwitchLook(
     val pressed: Boolean = false,
     val disabled: Boolean = false,
     val focus: Boolean = false,
+    /**
+     * The pointer's hover, 0 to 1 (B-79): the track is the body with a hard shadow, so the whole switch,
+     * thumb and all, lifts toward the light while the track's shadow stays.
+     */
+    val hv: Float = 0f,
 )
 
 private val TRACK_RADII = ToonRadii(17f, 15f, 17f, 14f)
@@ -323,5 +337,6 @@ internal fun toonSwitchScene(
             pivotX = ox,
             pivotY = oy,
         )
-    return ToonScene(layers, emptyList())
+    // The rule reads the track's shadow by its own offset, so the switch is lifted before the row places it.
+    return ToonScene(layers, emptyList()).hoverLifted(if (dis) 0f else HOVER_LIFT * o.hv, c.ink)
 }

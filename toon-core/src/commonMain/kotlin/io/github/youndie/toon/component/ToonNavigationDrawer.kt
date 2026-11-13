@@ -53,6 +53,9 @@ import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.icon.iconLayers
+import io.github.youndie.toon.interaction.rememberToonHoverStates
+import io.github.youndie.toon.interaction.toonSlotHoverable
+import io.github.youndie.toon.interaction.toonSlotPlate
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
@@ -100,12 +103,19 @@ public fun ToonNavigationDrawer(
     val select by rememberUpdatedState(onSelect)
     val close by rememberUpdatedState(onClose)
     val n = items.size
+    val hovers = rememberToonHoverStates(n)
     LaunchedEffect(open) { clock.changed(open) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
 
     Canvas(
         modifier
             .fillMaxSize()
+            // A closed drawer lets go of its hover, so a row does not open lit.
+            .toonSlotHoverable(
+                hovers,
+                clock.open,
+                n,
+            ) { x, y -> toonDrawerItemAt(toonDrawerWidth(size.width / density), n, x, y) }
             .then(
                 if (clock.open) {
                     Modifier
@@ -175,7 +185,7 @@ public fun ToonNavigationDrawer(
             val w = sizeDp.width
             val h = sizeDp.height
             val m = toonDrawerFrameAt(clock.open, clock.age(), reduce) ?: return@inDp
-            val look = ToonDrawerLook(m.motion, selected, pressed, focusOn.takeIf { focused })
+            val look = ToonDrawerLook(m.motion, selected, pressed, focusOn.takeIf { focused }, hovers.map { it.value })
             val scene = toonDrawerScene(tokens, toonDrawerWidth(w), h, w, title, items, look)
             drawScene(if (m.fade == 1f) scene else scene.placed(0f, 0f, m.fade), texts)
         }
@@ -301,6 +311,12 @@ internal data class ToonDrawerLook(
     val sel: Int = 0,
     val pressed: Int? = null,
     val focus: Int? = null,
+    /**
+     * Each destination's hover, 0 to 1 (B-79): a destination row is flat, so a hovered one gets the plate its press draws,
+     * in the pressed-surface colour at the hover's strength; the selected one, which a press leaves
+     * as it is, gets none.
+     */
+    val hovered: List<Float> = emptyList(),
 )
 
 private val DOOR_RADII = ToonRadii(0f, 18f, 22f, 0f)
@@ -364,9 +380,14 @@ internal fun toonDrawerScene(
             door +=
                 smoothLayer(wobblePoints(16f, iy - 8, w - 64, 42f, ROW_RADII, 1.4f, sh.seed + 1830, 4f), c.chipSelected)
         }
-        if (o.pressed == i && i != o.sel) {
+        val plate = toonSlotPlate(i == o.sel, o.pressed == i, false, o.hovered.getOrElse(i) { 0f })
+        if (plate > 0f) {
             door +=
-                smoothLayer(wobblePoints(16f, iy - 8, w - 64, 42f, ROW_RADII, 1f, sh.seed + 1831, 4f), c.surfacePressed)
+                smoothLayer(
+                    wobblePoints(16f, iy - 8, w - 64, 42f, ROW_RADII, 1f, sh.seed + 1831, 4f),
+                    c.surfacePressed,
+                    plate,
+                )
         }
         door += iconLayers(it.icon, 28f, iy + 1, if (i == o.sel) c.ink else c.text)
         // The engine draws no keyboard focus; the library rings the focused row as the list item does.

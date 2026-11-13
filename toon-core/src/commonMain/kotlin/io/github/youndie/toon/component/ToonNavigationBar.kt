@@ -51,6 +51,9 @@ import io.github.youndie.toon.fx.toonDustScene
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIconWeight
 import io.github.youndie.toon.icon.iconLayers
+import io.github.youndie.toon.interaction.rememberToonHoverStates
+import io.github.youndie.toon.interaction.toonSlotHoverable
+import io.github.youndie.toon.interaction.toonSlotPlate
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
@@ -96,6 +99,7 @@ public fun ToonNavigationBar(
     val change by rememberUpdatedState(onChange)
     val w = width.value
     val n = items.size
+    val hovers = rememberToonHoverStates(n)
     LaunchedEffect(selected) { clock.select(selected) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
 
@@ -135,6 +139,7 @@ public fun ToonNavigationBar(
                     }
                 }
             }.focusable(interactionSource = interaction)
+            .toonSlotHoverable(hovers, true, w) { x, _ -> toonNavSlot(w, n, x) }
             .pointerInput(n, w) {
                 awaitEachGesture {
                     val down = awaitFirstDown()
@@ -155,6 +160,7 @@ public fun ToonNavigationBar(
                     motion = motion,
                     pressed = pressed,
                     focus = focusOn.takeIf { focused },
+                    hovered = hovers.map { it.value },
                     badge = if (badgeIndex in items.indices) badgeIndex to ToonBadgeLook("", dot = true) else null,
                 )
             drawScene(toonNavBarScene(tokens, w, items, look), texts)
@@ -258,6 +264,12 @@ internal data class ToonNavLook(
     val focus: Int? = null,
     val disabled: Int? = null,
     val badge: Pair<Int, ToonBadgeLook>? = null,
+    /**
+     * Each destination's hover, 0 to 1 (B-79): a destination is flat, so a hovered one gets the plate its press draws,
+     * in the pressed-surface colour at the hover's strength; the selected one, which a press leaves
+     * as it is, gets none.
+     */
+    val hovered: List<Float> = emptyList(),
 )
 
 private val PAPER_RADII = ToonRadii(22f, 26f, 0f, 0f)
@@ -317,13 +329,13 @@ internal fun toonNavBarScene(
         val iy = 15 + (if (act) m.iy else 0f) + (if (pr) 2 else 0)
         val layers = mutableListOf<ToonLayer>()
         if (o.focus == i) layers += ringLayer(cx - 34, 4f, 68f, 72f, RING_RADII, c, sh.wobble, sh.seed + 805 + i)
-        if (pr &&
-            !act
-        ) {
+        val plate = toonSlotPlate(act, pr, o.disabled == i, o.hovered.getOrElse(i) { 0f })
+        if (plate > 0f) {
             layers +=
                 smoothLayer(
                     wobblePoints(cx - 28, 10f, 56f, 34f, PAINT_RADII, 1.2f, sh.seed + 806, 4f),
                     c.surfacePressed,
+                    plate,
                 )
         }
         if (act && m.du > 0 &&

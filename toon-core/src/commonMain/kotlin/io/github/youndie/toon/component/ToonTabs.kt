@@ -50,6 +50,9 @@ import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.wobblePoints
+import io.github.youndie.toon.interaction.rememberToonHoverStates
+import io.github.youndie.toon.interaction.toonSlotHoverable
+import io.github.youndie.toon.interaction.toonSlotPlate
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
@@ -127,6 +130,7 @@ public fun ToonTabs(
     val change by rememberUpdatedState(onChange)
     val w = width.value
     val n = labels.size
+    val hovers = rememberToonHoverStates(n)
     state.slot = w / n
     state.reduceMotion = reduce
     LaunchedEffect(selected) { state.select(selected) }
@@ -167,6 +171,7 @@ public fun ToonTabs(
                     }
                 }
             }.focusable(interactionSource = interaction)
+            .toonSlotHoverable(hovers, true, w) { x, _ -> toonNavSlot(w, n, x) }
             .pointerInput(n, w) {
                 awaitEachGesture {
                     val down = awaitFirstDown()
@@ -188,6 +193,7 @@ public fun ToonTabs(
                     ib = a.ib,
                     pressed = pressed,
                     focus = focusOn.takeIf { focused },
+                    hovered = hovers.map { it.value },
                 )
             drawScene(toonTabsScene(tokens, w, labels, look), texts)
         }
@@ -255,6 +261,12 @@ internal data class ToonTabsLook(
     val pressed: Int? = null,
     val focus: Int? = null,
     val disabled: Int? = null,
+    /**
+     * Each tab's hover, 0 to 1 (B-79): a tab is flat, so a hovered one gets the plate its press draws,
+     * in the pressed-surface colour at the hover's strength; the selected one, which a press leaves
+     * as it is, gets none.
+     */
+    val hovered: List<Float> = emptyList(),
 )
 
 private val MARK_RADII = ToonRadii(12f, 9f, 2f, 2f)
@@ -298,10 +310,9 @@ internal fun toonTabsScene(
     labels.forEachIndexed { i, lb ->
         val act = i == o.sel
         val pr = o.pressed == i
-        // A pressed tab's shade goes under everything, the bookmark included.
-        if (pr &&
-            !act
-        ) {
+        // A pressed tab's shade goes under everything, the bookmark included; so does a hovered one's.
+        val plate = toonSlotPlate(act, pr, o.disabled == i, o.hovered.getOrElse(i) { 0f })
+        if (plate > 0f) {
             layers.add(
                 0,
                 smoothLayer(

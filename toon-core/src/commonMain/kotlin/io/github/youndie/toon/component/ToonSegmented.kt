@@ -50,6 +50,9 @@ import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.wobblePoints
+import io.github.youndie.toon.interaction.rememberToonHoverStates
+import io.github.youndie.toon.interaction.toonSlotHoverable
+import io.github.youndie.toon.interaction.toonSlotPlate
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonSize
 import io.github.youndie.toon.tokens.ToonTokens
@@ -87,6 +90,7 @@ public fun ToonSegmented(
     val change by rememberUpdatedState(onChange)
     val w = width.value
     val n = labels.size
+    val hovers = rememberToonHoverStates(n)
     LaunchedEffect(selected) { clock.select(selected) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
 
@@ -107,7 +111,8 @@ public fun ToonSegmented(
                     customActions =
                         labels.mapIndexed { i, it -> CustomAccessibilityAction(it) { choose(i).let { true } } }
                 }
-            }.then(
+            }.toonSlotHoverable(hovers, enabled, w) { x, _ -> toonNavSlot(w, n, x) }
+            .then(
                 if (enabled) {
                     Modifier
                         .onKeyEvent {
@@ -161,6 +166,7 @@ public fun ToonSegmented(
                     pressed = pressed,
                     focus = focusOn.takeIf { focused && enabled },
                     disabled = !enabled,
+                    hovered = hovers.map { it.value },
                 )
             drawScene(toonSegmentedScene(tokens, w, labels, look).placed(0f, SEG_DROP), texts)
         }
@@ -252,6 +258,12 @@ internal data class ToonSegmentedLook(
     val pressed: Int? = null,
     val focus: Int? = null,
     val disabled: Boolean = false,
+    /**
+     * Each segment's hover, 0 to 1 (B-79): a segment is flat, so a hovered one gets the plate its press draws,
+     * in the pressed-surface colour at the hover's strength; the selected one, which a press leaves
+     * as it is, gets none.
+     */
+    val hovered: List<Float> = emptyList(),
 )
 
 private val OUTLINE_RADII = ToonRadii(14f, 10f, 16f, 11f)
@@ -313,11 +325,13 @@ internal fun toonSegmentedScene(
             )
     }
     labels.indices.forEach { i ->
-        if (o.pressed == i && i != o.sel) {
+        val plate = toonSlotPlate(i == o.sel, o.pressed == i, dis, o.hovered.getOrElse(i) { 0f })
+        if (plate > 0f) {
             layers +=
                 smoothLayer(
                     wobblePoints(slot * i + 6, 7f, slot - 12, h - 14, PRESS_RADII, .9f, sh.seed + 2005 + i, 4f),
                     c.surfacePressed,
+                    plate,
                 )
         }
     }

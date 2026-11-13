@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.test.ComposeUiTest
 import androidx.compose.ui.test.ExperimentalTestApi
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performMouseInput
@@ -25,7 +26,10 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
-/** B-69: the pointer rule's hover — its numbers, its ramp, the lift, and who may set it. */
+/**
+ * B-69: the pointer rule's hover — its numbers, its ramp, the lift, and who may set it; B-79: the
+ * same for a component whose slots share one canvas, and the plate a slot draws.
+ */
 @OptIn(ExperimentalTestApi::class)
 class ToonHoverTest {
     private val tokens =
@@ -159,5 +163,86 @@ class ToonHoverTest {
             onNodeWithTag("h").performMouseInput { moveTo(center) }
             mainClock.advanceTimeBy(200)
             assertEquals(0f, state.value)
+        }
+
+    @Test
+    fun `a label beside a control stays on the table while the control lifts`() {
+        val c = inkGouacheLight.colors
+        val pts = floatArrayOf(0f, 0f, 10f, 0f, 10f, 10f, 0f, 10f)
+        val scene =
+            ToonScene(
+                listOf(smoothLayer(pts, c.ink, dx = 2f, dy = 2f), smoothLayer(pts, c.ink)),
+                listOf(ToonLabel("A", 58f, 30f, c.text, 1f, ToonTextStyle(600, 16f))),
+            )
+        val lifted = scene.hoverLifted(2f, c.ink, labelsToo = false)
+        assertEquals(listOf(2f, -2f), lifted.layers.map { it.dx })
+        assertEquals(58f to 30f, lifted.labels.single().let { it.x to it.baseline })
+    }
+
+    @Test
+    fun `a slot draws its press plate whole when pressed, at the hover otherwise, and never when selected`() {
+        assertEquals(1f, toonSlotPlate(selected = false, pressed = true, disabled = false, hv = 0f))
+        assertEquals(1f, toonSlotPlate(selected = false, pressed = true, disabled = false, hv = .3f))
+        assertEquals(.3f, toonSlotPlate(selected = false, pressed = false, disabled = false, hv = .3f))
+        assertEquals(0f, toonSlotPlate(selected = true, pressed = false, disabled = false, hv = 1f))
+        assertEquals(0f, toonSlotPlate(selected = true, pressed = true, disabled = false, hv = 1f))
+        assertEquals(0f, toonSlotPlate(selected = false, pressed = false, disabled = true, hv = 1f))
+        assertEquals(0f, toonSlotPlate(selected = false, pressed = false, disabled = false, hv = 0f))
+    }
+
+    /** Two slots across 100 dp, the left half 0 and the right half 1, read after each step of [steps]. */
+    private fun slots(
+        enabled: Boolean,
+        steps: ComposeUiTest.(lit: () -> List<Float>) -> Unit,
+    ) = runComposeUiTest {
+        mainClock.autoAdvance = false
+        lateinit var states: List<ToonHoverState>
+        setContent {
+            ToonTheme {
+                states = rememberToonHoverStates(2)
+                Box(
+                    Modifier.size(100.dp).testTag("h").toonSlotHoverable(states, enabled, null) { x, _ ->
+                        if (x < 50f) 0 else 1
+                    },
+                )
+            }
+        }
+        steps { states.map { it.value } }
+    }
+
+    @Test
+    fun `a mouse lights the slot under it alone, moves the light with it, and takes it away on leaving`() =
+        slots(true) { lit ->
+            onNodeWithTag("h").performMouseInput { moveTo(Offset(20f, 50f)) }
+            mainClock.advanceTimeBy(200)
+            assertEquals(listOf(1f, 0f), lit())
+            onNodeWithTag("h").performMouseInput { moveTo(Offset(80f, 50f)) }
+            mainClock.advanceTimeBy(200)
+            assertEquals(listOf(0f, 1f), lit())
+            onNodeWithTag("h").performMouseInput { moveTo(Offset(-50f, -50f)) }
+            mainClock.advanceTimeBy(200)
+            assertEquals(listOf(0f, 0f), lit())
+        }
+
+    @Test
+    fun `a finger never lights a slot`() =
+        slots(true) { lit ->
+            onNodeWithTag("h").performTouchInput {
+                down(Offset(20f, 50f))
+                moveTo(Offset(80f, 50f))
+            }
+            mainClock.advanceTimeBy(200)
+            assertEquals(listOf(0f, 0f), lit(), "pressed and dragged by a finger")
+            onNodeWithTag("h").performTouchInput { up() }
+            mainClock.advanceTimeBy(200)
+            assertEquals(listOf(0f, 0f), lit(), "let go")
+        }
+
+    @Test
+    fun `a disabled component lights no slot`() =
+        slots(false) { lit ->
+            onNodeWithTag("h").performMouseInput { moveTo(Offset(20f, 50f)) }
+            mainClock.advanceTimeBy(200)
+            assertEquals(listOf(0f, 0f), lit())
         }
 }

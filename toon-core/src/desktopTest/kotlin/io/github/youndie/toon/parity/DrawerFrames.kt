@@ -44,6 +44,7 @@ internal object DrawerFrames {
         tokens: ToonTokens,
         a: ToonDrawerMotion,
         pressed: Int? = null,
+        hovered: List<Float> = emptyList(),
     ): ToonScene {
         var bg = ToonScene.Empty
         CARDS.forEachIndexed { i, (title, meta, time) ->
@@ -68,6 +69,15 @@ internal object DrawerFrames {
                     right > edge + 6 && it.x > edge + 6
                 },
             )
-        return bg + toonDrawerScene(tokens, 280f, 520f, 360f, "Saturday", items, ToonDrawerLook(a, pressed = pressed))
+        return bg +
+            toonDrawerScene(
+                tokens,
+                280f,
+                520f,
+                360f,
+                "Saturday",
+                items,
+                ToonDrawerLook(a, pressed = pressed, hovered = hovered),
+            )
     }
 }

@@ -545,9 +545,26 @@ their own renderers. The kit drew no hover before.
 
 *Rejected:* a hover parameter per component, which the item rejected — one rule drifts once each
 component carries its own switch. *Rejected:* `PointerEventType.Enter` from any pointer, which would
-leave a finger's press hovered on a touch screen. *Left to their own item* (B-79): the pressable
-components the page does not draw — checkbox, radio, switch, segmented, tabs, navigation bar,
-drawer, text field — whose hover needs a look the page does not give.
+leave a finger's press hovered on a touch screen.
+
+**The pressables the page does not draw (B-79)** take the same two rules, each look read off the
+component's own renderer, since the page gives none:
+
+- **Lift**, for a body with a hard shadow: the checkbox's box and the radio's ring, with the tick or
+  the dot on them, their label beside staying on the table (`hoverLifted(…, labelsToo = false)`);
+  the switch whole, its track being the body with the shadow, the thumb riding on it. The lift fades
+  under a press as the others' do, so a pressed control is its page's Pressed cell.
+- **Plate**, for a flat slot: a segment, a tab, a navigation bar destination and a drawer row each
+  get the plate their own press draws, in its place and layer order, at the hover's strength, and
+  nothing else of the press (no label drop, no icon squash). The selected slot, whose press the
+  renderer leaves undrawn, gets none; a disabled one none. The slots share one canvas, so one
+  `ToonHoverState` per slot is set by `toonSlotHoverable`, a mouse only, as the menu's items are.
+- **A field** is flat, but its paper hides anything under it: it fills with `surface2` under the
+  pointer unless focused, as the desktop design's own field (`searchBox`) does, eased by the hover
+  rather than switched at its middle.
+- Held by 48 more `Hover` cells, each one of the component's rest cells made in the engine's renderer
+  under the rule (`scripts/desktop-cells.mjs`), and by `ToonHoverFramesTest`'s pressed, focused,
+  selected and disabled checks against the kit's own cells.
 
 ## 3. Risks and open questions
 
