@@ -60,7 +60,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-71](docs/backlog/B-71-search-field.md) `[ ]` | ToonSearchField: a search box with a count and a key hint | P1 | M | B-68, B-69 |
+| [B-71](docs/backlog/B-71-search-field.md) `[~]` | ToonSearchField: a search box with a count and a key hint | P1 | M | B-68, B-69 |
 | [B-72](docs/backlog/B-72-scrollbar.md) `[ ]` | ToonScrollbar: an ink thumb that keeps clear of the window's edge | P1 | M | B-68, B-69 |
 | [B-74](docs/backlog/B-74-level-meter.md) `[ ]` | ToonLevelMeter: a channel's level, live, silent or clipping | P1 | M | B-68 |
 | [B-75](docs/backlog/B-75-record-button.md) `[ ]` | ToonRecordButton: start and stop, with the elapsed time | P1 | M | B-68, B-69 |
