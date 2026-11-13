@@ -15,6 +15,13 @@ const STICKER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     const opts = { size, kind, shape: 0, color: 0, letter };
     return { group: 'SpeakerSticker', name: `${label}${size}_${themeName}`, theme, themeName, opts, scene: `E.sticker(T, ${JSON.stringify(opts)})` };
   })));
+// B-70: the seven other shapes, at the smallest size, each in the accent its index wraps to, so every
+// radial function of `blobPts` and every accent has a frame.
+const SHAPE_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  [1, 2, 3, 4, 5, 6, 7].map(shape => {
+    const opts = { size: 24, kind: 'named', shape, color: shape % 3, letter: 'М' };
+    return { group: 'SpeakerSticker', name: `Shape${shape}_${themeName}`, theme, themeName, opts, scene: `E.sticker(T, ${JSON.stringify(opts)})` };
+  }));
 
 // B-69: the pointer rule (`Desktop Pointer & Keyboard.dc.html`, section 01) on the kit's components the
 // page draws: each hover cell is one of that component's own rest cells (component-cells.mjs), its
@@ -57,7 +64,7 @@ const HOVER_CELLS = [
 const FOCUS_CELLS = hoverCell('Card', 'Default', ringCard, { focus: true }).map(c => ({ ...c, group: 'Focus' }));
 
 export const DESKTOP_CELLS = {
-  SpeakerSticker: STICKER_CELLS,
+  SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
   Hover: HOVER_CELLS,
   Focus: FOCUS_CELLS,
 };

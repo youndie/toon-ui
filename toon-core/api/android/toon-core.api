@@ -218,6 +218,28 @@ public final class io/github/youndie/toon/component/ToonSnackbarType : java/lang
 	public static fun values ()[Lio/github/youndie/toon/component/ToonSnackbarType;
 }
 
+public final class io/github/youndie/toon/component/ToonSpeakerKind : java/lang/Enum {
+	public static final field Me Lio/github/youndie/toon/component/ToonSpeakerKind;
+	public static final field Named Lio/github/youndie/toon/component/ToonSpeakerKind;
+	public static final field Unnamed Lio/github/youndie/toon/component/ToonSpeakerKind;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/youndie/toon/component/ToonSpeakerKind;
+	public static fun values ()[Lio/github/youndie/toon/component/ToonSpeakerKind;
+}
+
+public final class io/github/youndie/toon/component/ToonSpeakerSize : java/lang/Enum {
+	public static final field Large Lio/github/youndie/toon/component/ToonSpeakerSize;
+	public static final field Medium Lio/github/youndie/toon/component/ToonSpeakerSize;
+	public static final field Small Lio/github/youndie/toon/component/ToonSpeakerSize;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/youndie/toon/component/ToonSpeakerSize;
+	public static fun values ()[Lio/github/youndie/toon/component/ToonSpeakerSize;
+}
+
+public final class io/github/youndie/toon/component/ToonSpeakerStickerKt {
+	public static final fun ToonSpeakerSticker (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/youndie/toon/component/ToonSpeakerKind;IILio/github/youndie/toon/component/ToonSpeakerSize;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class io/github/youndie/toon/component/ToonSwitchKt {
 	public static final fun ToonSwitch-WH-ejsw (ZLkotlin/jvm/functions/Function1;Ljava/lang/String;Landroidx/compose/ui/Modifier;FZLandroidx/compose/runtime/Composer;II)V
 }

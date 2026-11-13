@@ -1,7 +1,7 @@
 ---
 id: B-70
 title: "ToonSpeakerSticker: a speaker told apart by shape, colour and letter"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-5-desktop
@@ -21,3 +21,34 @@ me, `shape` 0–7, `color` 0–2, `letter`.
 - AC: every `kind` × the three sizes matches its renderer in three themes; the 24 shapes are distinct
   at 24 dp.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSpeakerSticker.kt`.
+
+## Findings, 2026-11-13
+
+- **The port** (`ToonSpeakerSticker`, `toonSpeakerStickerScene`): the extension's `sticker`, with its
+  `blobPts` (eight radial shapes and the capsule) and `blobPath`. `blobPath` moves each point along its
+  normal exactly as the kit's `wob` does, so the two now share `wobbleAlongNormals`; `wobblePoints` is
+  unchanged. The accents are the extension's: the theme's sticker colours, or Bright Cel's card colours,
+  since its sticker colours are all paper. `size` is the design's three, `ToonSpeakerSize`; `shape` and
+  `color` wrap, where the engine would draw no fill for a negative colour. A letter of two or more
+  characters is set smaller, as the renderer does.
+- **Still and cheap**: no clock and no idle; the scene is remembered per look, as the engine caches it.
+  It says nothing to a screen reader unless described, being decoration beside a name.
+- **Frames**: every kind at 24, 32 and 48 dp, and the seven other shapes at 24 dp in the accent their
+  index wraps to, in three themes — 48 cells in `desktop.json`, worst coordinate 0.050 dp, within the
+  engine's 0.1 dp rounding (`ToonSpeakerStickerTest`).
+- **Distinct at 24 dp**, read against a control: one circle drawn under the eight shapes' wobble seeds
+  changes up to 15 outline pixels of 576 in the Ink & Gouache themes and 12 in Bright Cel, so a shape
+  must differ from every other by more than that to be told apart by its shape, not its wobble. Every
+  pair does. **The closest is the circle (shape 0) against the four-petal shape (shape 4): 24 pixels,
+  and 19 in Bright Cel, about 1.6 times the wobble's worst;** every other pair differs in 33 or more.
+  On an enlarged sheet the four-petal reads as a softened octagon, told from the circle, but it is the
+  pair a reader confuses first, and with another letter or accent the two speakers still differ.
+  Recorded for the owner, not changed: the shapes are the design's. The three accents are three hues,
+  at least 79 apart in RGB (Ink & Gouache night's yellow against its pink).
+- **Not drawn**: the desktop project has no spec pages, so no Chrome reference or golden holds the
+  sticker's pixels; the frames hold its numbers. The component catalogue now lists the desktop set
+  beside the kit's.
+
+- [x] Every `kind` × the three sizes matches its renderer in three themes.
+- [x] The 24 shapes are distinct at 24 dp: every pair of shapes beyond the wobble's own difference, the
+  accents three hues (numbers above).

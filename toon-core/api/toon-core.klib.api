@@ -116,6 +116,30 @@ final enum class io.github.youndie.toon.component/ToonSnackbarType : kotlin/Enum
     final fun values(): kotlin/Array<io.github.youndie.toon.component/ToonSnackbarType> // io.github.youndie.toon.component/ToonSnackbarType.values|values#static(){}[0]
 }
 
+final enum class io.github.youndie.toon.component/ToonSpeakerKind : kotlin/Enum<io.github.youndie.toon.component/ToonSpeakerKind> { // io.github.youndie.toon.component/ToonSpeakerKind|null[0]
+    enum entry Me // io.github.youndie.toon.component/ToonSpeakerKind.Me|null[0]
+    enum entry Named // io.github.youndie.toon.component/ToonSpeakerKind.Named|null[0]
+    enum entry Unnamed // io.github.youndie.toon.component/ToonSpeakerKind.Unnamed|null[0]
+
+    final val entries // io.github.youndie.toon.component/ToonSpeakerKind.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.youndie.toon.component/ToonSpeakerKind> // io.github.youndie.toon.component/ToonSpeakerKind.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.youndie.toon.component/ToonSpeakerKind // io.github.youndie.toon.component/ToonSpeakerKind.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.youndie.toon.component/ToonSpeakerKind> // io.github.youndie.toon.component/ToonSpeakerKind.values|values#static(){}[0]
+}
+
+final enum class io.github.youndie.toon.component/ToonSpeakerSize : kotlin/Enum<io.github.youndie.toon.component/ToonSpeakerSize> { // io.github.youndie.toon.component/ToonSpeakerSize|null[0]
+    enum entry Large // io.github.youndie.toon.component/ToonSpeakerSize.Large|null[0]
+    enum entry Medium // io.github.youndie.toon.component/ToonSpeakerSize.Medium|null[0]
+    enum entry Small // io.github.youndie.toon.component/ToonSpeakerSize.Small|null[0]
+
+    final val entries // io.github.youndie.toon.component/ToonSpeakerSize.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.youndie.toon.component/ToonSpeakerSize> // io.github.youndie.toon.component/ToonSpeakerSize.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.youndie.toon.component/ToonSpeakerSize // io.github.youndie.toon.component/ToonSpeakerSize.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.youndie.toon.component/ToonSpeakerSize> // io.github.youndie.toon.component/ToonSpeakerSize.values|values#static(){}[0]
+}
+
 final enum class io.github.youndie.toon.component/ToonTitleCardVariant : kotlin/Enum<io.github.youndie.toon.component/ToonTitleCardVariant> { // io.github.youndie.toon.component/ToonTitleCardVariant|null[0]
     enum entry Empty // io.github.youndie.toon.component/ToonTitleCardVariant.Empty|null[0]
     enum entry Splash // io.github.youndie.toon.component/ToonTitleCardVariant.Splash|null[0]
@@ -879,6 +903,7 @@ final fun io.github.youndie.toon.component/ToonSegmented(kotlin.collections/List
 final fun io.github.youndie.toon.component/ToonSlider(kotlin/Float, kotlin/Function1<kotlin/Float, kotlin/Unit>, androidx.compose.ui/Modifier?, kotlin/Int, androidx.compose.ui.unit/Dp, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSlider|ToonSlider(kotlin.Float;kotlin.Function1<kotlin.Float,kotlin.Unit>;androidx.compose.ui.Modifier?;kotlin.Int;androidx.compose.ui.unit.Dp;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSnackbar(kotlin/String, androidx.compose.ui/Modifier?, kotlin/String?, io.github.youndie.toon.component/ToonSnackbarType?, kotlin/Boolean, androidx.compose.ui.unit/Dp, kotlin/Function0<kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSnackbar|ToonSnackbar(kotlin.String;androidx.compose.ui.Modifier?;kotlin.String?;io.github.youndie.toon.component.ToonSnackbarType?;kotlin.Boolean;androidx.compose.ui.unit.Dp;kotlin.Function0<kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSnackbarHost(io.github.youndie.toon.component/ToonSnackbarHostState, androidx.compose.ui/Modifier?, androidx.compose.ui.unit/Dp, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSnackbarHost|ToonSnackbarHost(io.github.youndie.toon.component.ToonSnackbarHostState;androidx.compose.ui.Modifier?;androidx.compose.ui.unit.Dp;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun io.github.youndie.toon.component/ToonSpeakerSticker(kotlin/String, androidx.compose.ui/Modifier?, io.github.youndie.toon.component/ToonSpeakerKind?, kotlin/Int, kotlin/Int, io.github.youndie.toon.component/ToonSpeakerSize?, kotlin/String?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSpeakerSticker|ToonSpeakerSticker(kotlin.String;androidx.compose.ui.Modifier?;io.github.youndie.toon.component.ToonSpeakerKind?;kotlin.Int;kotlin.Int;io.github.youndie.toon.component.ToonSpeakerSize?;kotlin.String?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonSwitch(kotlin/Boolean, kotlin/Function1<kotlin/Boolean, kotlin/Unit>, kotlin/String, androidx.compose.ui/Modifier?, androidx.compose.ui.unit/Dp, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonSwitch|ToonSwitch(kotlin.Boolean;kotlin.Function1<kotlin.Boolean,kotlin.Unit>;kotlin.String;androidx.compose.ui.Modifier?;androidx.compose.ui.unit.Dp;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonTabs(kotlin.collections/List<kotlin/String>, androidx.compose.ui/Modifier?, kotlin/Int, androidx.compose.ui.unit/Dp, io.github.youndie.toon.component/ToonTabsState?, kotlin/Function1<kotlin/Int, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonTabs|ToonTabs(kotlin.collections.List<kotlin.String>;androidx.compose.ui.Modifier?;kotlin.Int;androidx.compose.ui.unit.Dp;io.github.youndie.toon.component.ToonTabsState?;kotlin.Function1<kotlin.Int,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonTextField(kotlin/String, kotlin/Function1<kotlin/String, kotlin/Unit>, kotlin/String, androidx.compose.ui/Modifier?, kotlin/String?, kotlin/String?, androidx.compose.ui.unit/Dp, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonTextField|ToonTextField(kotlin.String;kotlin.Function1<kotlin.String,kotlin.Unit>;kotlin.String;androidx.compose.ui.Modifier?;kotlin.String?;kotlin.String?;androidx.compose.ui.unit.Dp;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]

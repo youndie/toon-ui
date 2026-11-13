@@ -44,6 +44,20 @@ script; every name in it is checked against the sources.
 | [ToonTooltip](../reference/design-system/ToonTooltip.dc.html) | `ToonTooltip` | [ToonTooltip.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTooltip.kt) | `tooltip`, `tipInflate` | [B-40](backlog/B-40-tooltip.md) | 24 | 24 | 24 |
 | [ToonTopAppBar](../reference/design-system/ToonTopAppBar.dc.html) | `ToonTopAppBar` | [ToonTopAppBar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt) | `topBar` | [B-26](backlog/B-26-top-app-bar.md) | 39 | 39 | 39 |
 
+The desktop set, from reference/desktop (stage 5): 1 of 9 built. Its frames are in `desktop.json`; the project has no spec pages, so no Chrome references or goldens are drawn from it.
+
+| Design file | Composable | Source | Extension | Item | Frame cells |
+|---|---|---|---|---|---|
+| [ToonLevelMeter](../reference/desktop/ToonLevelMeter.dc.html) | — not built |  | `levelMeter`, `livelevel` | [B-74](backlog/B-74-level-meter.md) |  |
+| [ToonRecordButton](../reference/desktop/ToonRecordButton.dc.html) | — not built |  | `recBtn`, `recPulse` | [B-75](backlog/B-75-record-button.md) |  |
+| [ToonScrollbar](../reference/desktop/ToonScrollbar.dc.html) | — not built |  | `scrollThumb` | [B-72](backlog/B-72-scrollbar.md) |  |
+| [ToonSearchField](../reference/desktop/ToonSearchField.dc.html) | — not built |  | `searchBox` | [B-71](backlog/B-71-search-field.md) |  |
+| [ToonSidebar](../reference/desktop/ToonSidebar.dc.html) | — not built |  | `sheet`, `navPlate`, `liftBody` | [B-77](backlog/B-77-sidebar.md) |  |
+| [ToonSpeakerSticker](../reference/desktop/ToonSpeakerSticker.dc.html) | `ToonSpeakerSticker` | [ToonSpeakerSticker.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSpeakerSticker.kt) | `sticker`, `blobPts`, `blobPath` | [B-70](backlog/B-70-speaker-sticker.md) | 48 |
+| [ToonSplitHandle](../reference/desktop/ToonSplitHandle.dc.html) | — not built |  | `splitGrip` | [B-73](backlog/B-73-split-handle.md) |  |
+| [ToonTitleBar](../reference/desktop/ToonTitleBar.dc.html) | — not built |  | `trafficSlots` | [B-76](backlog/B-76-title-bar.md) |  |
+| [ToonTranscriptTurn](../reference/desktop/ToonTranscriptTurn.dc.html) | — not built |  | `plate`, `iconBtn32` | [B-78](backlog/B-78-transcript-turn.md) |  |
+
 The library's own, which no design file draws:
 
 | Composable | Source | What it is | Item |
