@@ -56,7 +56,7 @@ The desktop set, from reference/desktop (stage 5): 8 of 9 built. Its frames are 
 | [ToonSpeakerSticker](../reference/desktop/ToonSpeakerSticker.dc.html) | `ToonSpeakerSticker` | [ToonSpeakerSticker.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSpeakerSticker.kt) | `sticker`, `blobPts`, `blobPath` | [B-70](backlog/B-70-speaker-sticker.md) | 48 |
 | [ToonSplitHandle](../reference/desktop/ToonSplitHandle.dc.html) | `ToonSplitHandle` | [ToonSplitHandle.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSplitHandle.kt) | `splitGrip` | [B-73](backlog/B-73-split-handle.md) | 27 |
 | [ToonTitleBar](../reference/desktop/ToonTitleBar.dc.html) | `ToonTitleBar` | [ToonTitleBar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTitleBar.kt) | `trafficSlots` | [B-76](backlog/B-76-title-bar.md) | 3 |
-| [ToonTranscriptTurn](../reference/desktop/ToonTranscriptTurn.dc.html) | — not built |  | `plate`, `iconBtn32` | [B-78](backlog/B-78-transcript-turn.md) |  |
+| [ToonTranscriptTurn](../reference/desktop/ToonTranscriptTurn.dc.html) | `ToonTranscriptTurn` | [ToonTranscriptTurn.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTranscriptTurn.kt) | `plate`, `sticker`, `iconBtn32` | [B-78](backlog/B-78-transcript-turn.md) | 48 |
 
 The library's own, which no design file draws:
 

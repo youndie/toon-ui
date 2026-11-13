@@ -69,7 +69,7 @@ const DESKTOP_MAP = {
   SpeakerSticker: { composable: 'ToonSpeakerSticker', engine: ['sticker', 'blobPts', 'blobPath'], item: 'B-70', group: 'SpeakerSticker' },
   SplitHandle: { composable: 'ToonSplitHandle', engine: ['splitGrip'], item: 'B-73', group: 'SplitHandle' },
   TitleBar: { composable: 'ToonTitleBar', engine: ['trafficSlots'], item: 'B-76', group: 'TitleBar' },
-  TranscriptTurn: { composable: 'ToonTranscriptTurn', engine: ['plate', 'ring', 'sticker', 'iconBtn32'], item: 'B-78', group: 'TranscriptTurn' },
+  TranscriptTurn: { composable: 'ToonTranscriptTurn', engine: ['plate', 'sticker', 'iconBtn32'], item: 'B-78', group: 'TranscriptTurn' },
 };
 // Public composables beyond a design file's own, under it.
 const ALSO = { Snackbar: ['ToonSnackbarHost'], Tabs: ['rememberToonTabsState'] };
