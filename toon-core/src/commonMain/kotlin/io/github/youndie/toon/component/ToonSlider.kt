@@ -42,6 +42,9 @@ import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.rememberToonHoverState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
@@ -78,6 +81,7 @@ public fun ToonSlider(
     val current by rememberUpdatedState(value)
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
+    val hover = rememberToonHoverState()
     val w = width.value
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
 
@@ -133,7 +137,7 @@ public fun ToonSlider(
                     }
                     clock.release()
                 }
-            },
+            }.toonHoverable(hover, enabled),
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
         inDp {
@@ -142,6 +146,7 @@ public fun ToonSlider(
                     grab = toonSliderFrameAt(clock.held, clock.age(), reduce),
                     focus = focused,
                     disabled = !enabled,
+                    hv = hover.value,
                 )
             drawScene(toonSliderScene(tokens, w, toonSliderSnap(value, steps), look))
         }
@@ -229,6 +234,8 @@ internal data class ToonSliderLook(
     val grab: Float = 0f,
     val focus: Boolean = false,
     val disabled: Boolean = false,
+    /** The pointer's hover, 0 to 1 (B-69): the ball lifts toward the light, its shadow stays. */
+    val hv: Float = 0f,
 )
 
 private val PEG_RADII = ToonRadii(4f, 4f, 4f, 4f)
@@ -348,7 +355,9 @@ internal fun toonSliderScene(
         )
     val d = 2 * (1 - max(0f, min(1f, q)))
     if (!dis) layers += smoothLayer(g.ink, c.ink, dx = d, dy = d)
-    layers += smoothLayer(g.ink, c.ink, if (dis) .4f else 1f)
-    layers += smoothLayer(g.fill, if (dis) c.disabled else c.thumb)
+    // The pointer page lifts only the ball, as far as the grab has not taken its shadow (B-69).
+    val lift = if (dis) 0f else -HOVER_LIFT * o.hv * (1 - max(0f, min(1f, q)))
+    layers += smoothLayer(g.ink, c.ink, if (dis) .4f else 1f, dx = lift, dy = lift)
+    layers += smoothLayer(g.fill, if (dis) c.disabled else c.thumb, dx = lift, dy = lift)
     return ToonScene(layers, emptyList())
 }

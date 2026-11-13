@@ -40,7 +40,11 @@ import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIconWeight
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.icon.iconLayers
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.rememberToonPressState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.interaction.toonPressable
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.motion.toonSquashOf
@@ -83,6 +87,7 @@ public fun ToonFab(
         remember(label, text) { if (label.isEmpty()) 0f else text.measure(label, FAB_LABEL).multiParagraph.width }
     val w = fabWidth(labelWidth, label.isNotEmpty())
     val press = rememberToonPressState()
+    val hover = rememberToonHoverState()
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val breathing by rememberToonIdleSlot(idle && enabled)
@@ -101,12 +106,13 @@ public fun ToonFab(
                 if (contentDescription != null) this.contentDescription = contentDescription
                 if (label.isNotEmpty()) this.text = AnnotatedString(label)
             }.toonPressable(press, enabled = enabled) { click() }
+            .toonHoverable(hover, enabled)
             .focusable(enabled, interaction),
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
 
         inDp {
-            val look = moment.look.copy(p = press.progress, disabled = !enabled, focus = focused)
+            val look = moment.look.copy(p = press.progress, disabled = !enabled, focus = focused, hv = hover.value)
             drawScene(toonFabLandScene(tokens, icon, label, labelWidth, look, moment.appear, w), text)
         }
     }
@@ -220,6 +226,8 @@ internal data class ToonFabLook(
     val seed: Int = 0,
     val disabled: Boolean = false,
     val focus: Boolean = false,
+    /** The pointer's hover, 0 to 1 (B-69): the body lifts toward the light, its shadow stays. */
+    val hv: Float = 0f,
 )
 
 /** The kit's landing frame: the FAB moved and faded by [appear], dust under its centre. */
@@ -349,7 +357,7 @@ internal fun toonFabScene(
                 ),
             )
         }
-    return ToonScene(layers, labels)
+    return ToonScene(layers, labels).hoverLifted(if (o.disabled) 0f else HOVER_LIFT * o.hv * (1 - c01(o.p)), c.ink)
 }
 
 /** The inner stitch: a dashed line 7 dp inside the outline. */

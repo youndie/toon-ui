@@ -60,7 +60,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-69](docs/backlog/B-69-pointer-and-keyboard-rule.md) `[~]` | One hover, focus and target rule for the whole kit | P1 | L | B-68 |
 | [B-70](docs/backlog/B-70-speaker-sticker.md) `[ ]` | ToonSpeakerSticker: a speaker told apart by shape, colour and letter | P1 | M | B-68 |
 | [B-71](docs/backlog/B-71-search-field.md) `[ ]` | ToonSearchField: a search box with a count and a key hint | P1 | M | B-68, B-69 |
 | [B-72](docs/backlog/B-72-scrollbar.md) `[ ]` | ToonScrollbar: an ink thumb that keeps clear of the window's edge | P1 | M | B-68, B-69 |
@@ -70,8 +69,9 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-73](docs/backlog/B-73-split-handle.md) `[ ]` | ToonSplitHandle: the grip between a sidebar and the content | P2 | S | B-68, B-69 |
 | [B-76](docs/backlog/B-76-title-bar.md) `[ ]` | ToonTitleBar: the window's title row and its action slot | P2 | M | B-68, B-75 |
 | [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
+| [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[ ]` | The pointer rule on the pressable components the pointer page does not draw | P2 | M | B-69 |
 
-## Closed (68)
+## Closed (69)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -158,5 +158,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 **The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
 
 - [B-68](docs/backlog/B-68-vendor-the-desktop-design.md) `[x]` - Vendor the desktop components' design from the app project they were drawn in
+- [B-69](docs/backlog/B-69-pointer-and-keyboard-rule.md) `[x]` - One hover, focus and target rule for the whole kit
 
 <!-- END INDEX -->

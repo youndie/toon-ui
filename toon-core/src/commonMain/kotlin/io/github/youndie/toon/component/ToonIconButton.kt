@@ -34,7 +34,11 @@ import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.fx.drawToonFlash
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.iconLayers
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.rememberToonPressState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.interaction.toonPressable
 import io.github.youndie.toon.motion.toonSquashOf
 import io.github.youndie.toon.theme.Toon
@@ -78,6 +82,7 @@ public fun ToonIconButton(
     val reduce = Toon.reduceMotion
     var sel by remember(selected) { mutableStateOf(selected) }
     val press = rememberToonPressState()
+    val hover = rememberToonHoverState()
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val clock = remember { ToonIconButtonClock() }
@@ -103,7 +108,8 @@ public fun ToonIconButton(
                     change(sel)
                 }
                 click()
-            }.focusable(enabled, interaction),
+            }.toonHoverable(hover, enabled)
+            .focusable(enabled, interaction),
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
 
@@ -120,6 +126,7 @@ public fun ToonIconButton(
                         selected = sel,
                         disabled = !enabled,
                         focus = focused,
+                        hv = hover.value,
                     ),
                 ),
             )
@@ -220,6 +227,8 @@ internal data class ToonIconButtonLook(
     val disabled: Boolean = false,
     val focus: Boolean = false,
     val seed: Int = 0,
+    /** The pointer's hover, 0 to 1 (B-69): the body lifts toward the light, its shadow stays. */
+    val hv: Float = 0f,
 )
 
 private fun c01(v: Float): Float = max(0f, min(1f, v))
@@ -286,5 +295,5 @@ internal fun toonIconButtonScene(
                 ),
             )
         }
-    return ToonScene(layers, emptyList())
+    return ToonScene(layers, emptyList()).hoverLifted(if (dis) 0f else HOVER_LIFT * o.hv * (1 - c01(p)), c.ink)
 }

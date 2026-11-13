@@ -3,6 +3,8 @@
 // components (its README says so under its known gaps), so a cell here is one of a component's own
 // prop values from its `Toon*.dc.html`, at the page's defaults otherwise. Each component's item adds
 // or widens its group; the frames land in engine-goldens/desktop.json, shaped as components.json is.
+import { COMPONENT_CELLS } from './component-cells.mjs';
+
 const THEMES = { il: 'InkGouacheLight', in: 'InkGouacheNight', bc: 'BrightCel' };
 
 // ToonSpeakerSticker.dc.html: `size` 24 | 32 | 48 and `kind` named | unnamed | me, at `shape` 0 and
@@ -14,6 +16,48 @@ const STICKER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     return { group: 'SpeakerSticker', name: `${label}${size}_${themeName}`, theme, themeName, opts, scene: `E.sticker(T, ${JSON.stringify(opts)})` };
   })));
 
+// B-69: the pointer rule (`Desktop Pointer & Keyboard.dc.html`, section 01) on the kit's components the
+// page draws: each hover cell is one of that component's own rest cells (component-cells.mjs), its
+// scene wrapped the way the page wraps it, and its options are the rest cell's, so the component's
+// frame test builds it as it builds that cell, hovered. A body with a hard shadow takes the extension's
+// `hoverLift`; the text button gets a `plate` where its press blob goes; the slider lifts only its
+// ball, by hand, as the page does; a menu item and a list row draw the selected shade. The page lifts
+// the chip and the card inside a `place`, whose `translate(0 0)` makes `hoverLift` take every ink
+// layer for a shadow, the outline included; the rule is the page's words, so here the bare renderer is
+// lifted, and the card placed after, as the kit's own card cells place it.
+const kitCell = (group, name, themeName) => {
+  const c = COMPONENT_CELLS[group].find(x => x.name === `${name}_${themeName}`);
+  if (!c) throw new Error(`no kit cell ${group}_${name}_${themeName}`);
+  return c;
+};
+const hoverCell = (group, name, wrap, opts = {}) => Object.entries(THEMES).map(([theme, themeName]) => {
+  const c = kitCell(group, name, themeName);
+  return { group: 'Hover', name: `${group}_${name}_${themeName}`, theme, themeName, opts: { ...c.opts, ...opts }, scene: wrap(c.scene, c.opts) };
+});
+const lift = s => `E.hoverLift(${s}, T)`;
+const liftCard = s => s.replace(/E\.card\(T, (\{[^}]*\})\)/, (_, o) => `E.hoverLift(E.card(T, ${o}), T)`);
+const ringCard = s => s.replace(/E\.card\(T, (\{[^}]*\})\)/, (_, o) => `E.cat({ L: [E.ring(-6, -6, 354, 96, [22, 16, 24, 18], T, T.seed + 31)], X: [] }, E.card(T, ${o}))`);
+const HOVER_CELLS = [
+  ...hoverCell('Button', 'Filled_Default', lift),
+  ...hoverCell('Button', 'Outlined_Default', lift),
+  ...hoverCell('Button', 'Filled_Focused', lift),
+  ...hoverCell('Button', 'Text_Default', s => `E.cat({ L: [E.plate(T, 8, 5, 134, 42)], X: [] }, ${s})`),
+  ...hoverCell('IconButton', 'Standard_Default', lift),
+  ...hoverCell('IconButton', 'Filled_Default', lift),
+  ...hoverCell('Fab', 'Default', lift),
+  ...hoverCell('Chip', 'Filter_Default', lift),
+  ...hoverCell('Chip', 'Filter_Selected', lift),
+  ...hoverCell('Chip', 'Assist', lift),
+  ...hoverCell('Card', 'Default', liftCard),
+  ...hoverCell('Slider', 'Default', s => `(s => ({ ...s, L: [...s.L.slice(0, -2), ...s.L.slice(-2).map(l => ({ ...l, tf: ('translate(-2 -2) ' + l.tf).trim() }))] }))(${s})`),
+  ...hoverCell('Menu', 'Open', s => s.replace(/, \{\}\)\)$/, ', { sel: 0 }))'), { hover: 0 }),
+  ...hoverCell('ListItem', 'Oneline_Chevron', (s, o) => `E.listItem(T, ${JSON.stringify({ ...o, sel: true })})`),
+].map(c => (c.scene.includes('hoverLift') || c.scene.includes('plate') || c.scene.includes('sel') || c.scene.includes('translate(-2 -2)') ? c : (() => { throw new Error(`hover cell ${c.name} was not wrapped`); })()));
+// The card's focus ring, which the kit never drew (the page's last column): 6 dp out, its own seed.
+const FOCUS_CELLS = hoverCell('Card', 'Default', ringCard, { focus: true }).map(c => ({ ...c, group: 'Focus' }));
+
 export const DESKTOP_CELLS = {
   SpeakerSticker: STICKER_CELLS,
+  Hover: HOVER_CELLS,
+  Focus: FOCUS_CELLS,
 };

@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -26,6 +27,8 @@ import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
+import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.PointerType
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.customActions
@@ -52,6 +55,7 @@ import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.iconLayers
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
@@ -98,6 +102,8 @@ public fun ToonMenu(
     val n = items.size
     LaunchedEffect(open) { clock.changed(open) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
+    // Each item comes and goes on its own ramp, as the extension's controller keeps one per name (B-69).
+    val hovers = List(n) { key(it) { rememberToonHoverState() } }
 
     Canvas(
         modifier
@@ -140,12 +146,46 @@ public fun ToonMenu(
                     pressed = null
                     if (up != null && clock.open && i != null) select(i)
                 }
+            }.pointerInput(n, open) {
+                awaitPointerEventScope {
+                    while (true) {
+                        val event = awaitPointerEvent()
+                        val mouse = event.changes.any { it.type == PointerType.Mouse }
+                        val over =
+                            when {
+                                !open || event.type == PointerEventType.Exit -> {
+                                    null
+                                }
+
+                                mouse -> {
+                                    toonMenuItemAt(
+                                        n,
+                                        event.changes
+                                            .first()
+                                            .position.y / density,
+                                    )
+                                }
+
+                                else -> {
+                                    continue
+                                }
+                            }
+                        hovers.forEachIndexed { i, h -> h.set(i == over) }
+                    }
+                }
             },
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
         inDp {
             val m = toonMenuFrameAt(clock.open, clock.age(), reduce) ?: return@inDp
-            val look = ToonMenuLook(u = m.u, pressed = pressed, selected = selected, focus = focusOn.takeIf { focused })
+            val look =
+                ToonMenuLook(
+                    u = m.u,
+                    pressed = pressed,
+                    selected = selected,
+                    focus = focusOn.takeIf { focused },
+                    hovered = hovers.map { it.value },
+                )
             val scene = toonMenuScene(tokens, w, items, look)
             drawScene(if (m.fade == 1f) scene else scene.placed(0f, 0f, m.fade), texts)
         }
@@ -245,6 +285,11 @@ internal data class ToonMenuLook(
     val selected: Int = -1,
     val focus: Int? = null,
     val disabled: Int? = null,
+    /**
+     * Each item's hover, 0 to 1 (B-69): an item is flat, and the pointer page draws its hover as the
+     * selected item's shade.
+     */
+    val hovered: List<Float> = emptyList(),
 )
 
 private val ROLL_RADII = ToonRadii(8f, 7f, 8f, 7f)
@@ -305,11 +350,13 @@ internal fun toonMenuScene(
         val iy = 14 + i * ih
         if (iy + ih * .7f > h) return@forEachIndexed
         val colour: Color = if (DANGER.containsMatchIn(it.label)) c.dangerText else c.text
-        if (o.selected == i || o.pressed == i) {
+        val hv = if (o.disabled == i) 0f else o.hovered.getOrElse(i) { 0f }
+        if (o.selected == i || o.pressed == i || hv > 0f) {
             layers +=
                 smoothLayer(
                     wobblePoints(14f, iy + 4, w - 28, ih - 8, SHADE_RADII, .8f, sh.seed + 1610 + i, 4f),
                     c.surfacePressed,
+                    if (o.selected == i || o.pressed == i) 1f else hv,
                 )
         }
         if (o.focus == i) layers += ringLayer(10f, iy + 1, w - 20, ih - 2, RING_RADII, c, sh.wobble, sh.seed + 1620 + i)

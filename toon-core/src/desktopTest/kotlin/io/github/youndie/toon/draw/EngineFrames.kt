@@ -24,10 +24,21 @@ import kotlin.test.assertEquals
  * scale, its path within the engine's 0.1 dp rounding; the same visible texts at the same places.
  */
 internal object EngineFrames {
+    private fun load(file: String): JsonObject =
+        Json.parseToJsonElement(checkNotNull(javaClass.getResource("/engine-goldens/$file")).readText()).jsonObject
+
+    /**
+     * The kit's frames and the desktop design's (`desktop.json`, B-68): the hover and focus of the
+     * pointer rule (B-69) and the desktop renderers, in groups of their own.
+     */
     private val all =
-        Json
-            .parseToJsonElement(checkNotNull(javaClass.getResource("/engine-goldens/components.json")).readText())
-            .jsonObject
+        load("components.json").let { kit ->
+            val desktop = load("desktop.json")
+            check(
+                kit.keys.intersect(desktop.keys).isEmpty(),
+            ) { "a group in both goldens: ${kit.keys.intersect(desktop.keys)}" }
+            JsonObject(kit + desktop)
+        }
 
     private val themes = mapOf("il" to inkGouacheLight, "in" to inkGouacheNight, "bc" to brightCel)
 

@@ -57,8 +57,14 @@ import io.github.youndie.toon.draw.spinnerPoints
 import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.fx.drawToonVibe
 import io.github.youndie.toon.fx.toonVibeOffset
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.rememberToonPressState
+import io.github.youndie.toon.interaction.toonHoverable
+import io.github.youndie.toon.interaction.toonPlateLayer
 import io.github.youndie.toon.interaction.toonPressable
+import io.github.youndie.toon.interaction.under
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.motion.toonSquashOf
 import io.github.youndie.toon.theme.Toon
@@ -115,6 +121,7 @@ public fun ToonButton(
             max(MIN_WIDTH, (labelWidth + LABEL_PADDING).roundToInt().toFloat())
         }
     val press = rememberToonPressState()
+    val hover = rememberToonHoverState()
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val breathing by rememberToonIdleSlot(idle && variant != ToonButtonVariant.Text && enabled)
@@ -139,6 +146,7 @@ public fun ToonButton(
             disabled = !enabled,
             focus = focused,
             reduceMotion = reduce,
+            hv = hover.value,
         )
     val look = frame.look
     val fade = frame.fade
@@ -151,6 +159,7 @@ public fun ToonButton(
                 this.text = AnnotatedString(label)
                 if (loading) progressBarRangeInfo = ProgressBarRangeInfo.Indeterminate
             }.toonPressable(press, enabled = enabled) { if (!loadingNow) click() }
+            .toonHoverable(hover, enabled)
             .pointerInput(enabled) {
                 if (enabled) return@pointerInput
                 awaitEachGesture {
@@ -231,6 +240,7 @@ internal fun toonButtonFrameAt(
     disabled: Boolean,
     focus: Boolean,
     reduceMotion: Boolean,
+    hv: Float = 0f,
 ): ToonButtonMoment =
     ToonButtonMoment(
         look =
@@ -242,6 +252,7 @@ internal fun toonButtonFrameAt(
                 focus = focus,
                 lt = loadAgeMs?.let { if (reduceMotion) SETTLED else it },
                 spin = nowMs.toFloat(),
+                hv = hv,
             ),
         fade = if (reduceMotion) loadAgeMs?.let { min(1f, it / REDUCED_FADE_MS) } else null,
         buzz = if (reduceMotion) null else buzzAgeMs?.takeIf { it < BUZZ_MS },
@@ -313,6 +324,8 @@ internal data class ToonButtonLook(
     val fill: Color? = null,
     /** The engine's `lc`: a label colour in place of the variant's. */
     val labelColor: Color? = null,
+    /** The pointer's hover, 0 to 1 (B-69): the body lifts, or the text variant gets a plate. */
+    val hv: Float = 0f,
 )
 
 /** The label's style: the Core page's Title step in the theme's body face. */
@@ -458,7 +471,15 @@ internal fun toonButtonScene(
         layers +=
             smoothLayer(spinnerPoints(w / 2, cy, BLOB_R, BLOB_R, ph, ssx, ssy), if (filled) c.surface else c.primary)
     }
-    return ToonScene(layers, labels)
+    val scene = ToonScene(layers, labels)
+    // The pointer rule (B-69): the text variant is flat and gets a plate where its press blob goes;
+    // the others lift, less as the press drops their shadow.
+    if (dis || o.hv <= 0f) return scene
+    return if (variant == ToonButtonVariant.Text) {
+        scene.under(toonPlateLayer(tokens, 8f, 5f, w - 16, h - 10, o.hv))
+    } else {
+        scene.hoverLifted(HOVER_LIFT * o.hv * (1 - c01(p)), c.ink)
+    }
 }
 
 /** One frame of the button without its interaction: what the fixtures and previews draw. */
