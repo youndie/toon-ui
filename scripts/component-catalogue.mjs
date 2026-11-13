@@ -65,7 +65,7 @@ const DESKTOP_MAP = {
   RecordButton: { composable: 'ToonRecordButton', engine: ['recBtn', 'recPulse'], item: 'B-75', group: 'RecordButton' },
   Scrollbar: { composable: 'ToonScrollbar', engine: ['scrollThumb'], item: 'B-72', group: 'Scrollbar' },
   SearchField: { composable: 'ToonSearchField', engine: ['searchBox'], item: 'B-71', group: 'SearchField' },
-  Sidebar: { composable: null, engine: ['sheet', 'navPlate', 'liftBody'], item: 'B-77', group: 'Sidebar' },
+  Sidebar: { composable: 'ToonSidebar', engine: ['sheet', 'navPlate', 'liftBody'], item: 'B-77', group: 'Sidebar' },
   SpeakerSticker: { composable: 'ToonSpeakerSticker', engine: ['sticker', 'blobPts', 'blobPath'], item: 'B-70', group: 'SpeakerSticker' },
   SplitHandle: { composable: 'ToonSplitHandle', engine: ['splitGrip'], item: 'B-73', group: 'SplitHandle' },
   TitleBar: { composable: 'ToonTitleBar', engine: ['trafficSlots'], item: 'B-76', group: 'TitleBar' },

@@ -210,11 +210,70 @@ const SPLIT_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     return { group: 'SplitHandle', name: `${label}_${themeName}`, theme, themeName, opts, scene: `E.cat(E.splitGrip(T, ${o.h}, ${o.st})${ring})` };
   }));
 
+// B-77: ToonSidebar.dc.html's own renderers as its `paint()` calls them, at the page's default width
+// (300: rows 274 wide, the recording and the navigation rows 288). The panel is the extension's
+// `sheet` — which overwrites the kit's bottom sheet in the design — with the rule over the two
+// navigation rows, at the default and at both ends of the `width` and `height` editors. A list row is
+// `navPlate`: nothing at rest, the hover's plate, a selected plate, the focus ring, a result's 80 dp
+// row. The recording is `liftBody` in `danger` with its mark at three points of `recPulse`, its ink
+// thicker when selected, and lifted under the pointer rule (B-69), which the page does not pass. A
+// navigation row is its `navPlate` and its 22 dp icon. The words are HTML over the drawing, so a cell
+// has none.
+const SIDEBAR_PANEL = (w, h) =>
+  `E.cat(E.sheet(T, ${w}, ${h}, { r: [18, 12, 22, 14], sh: T.sh, seed: 1 }), { L: [E.L(E.inkLine(14, ${w - 14}, ${h - 10 - 2 * 44 - 8}, 2.6, T.seed + 3950), T.ink)], X: [] })`;
+const SIDEBAR_ROW = (w, h, o) => `({ L: E.navPlate(T, ${w}, ${h}, ${JSON.stringify(o)}), X: [] })`;
+const SIDEBAR_REC = (w, o) => {
+  const lift = 2 * o.hv;
+  const mark = `(g => ({ L: [E.L(g.ink, T.ink), E.L(g.fill, T.paper)], X: [] }))(E.shape(20 - ${5 + 1.6 * o.pulse}, 30 - ${5 + 1.6 * o.pulse}, ${2 * (5 + 1.6 * o.pulse)}, ${2 * (5 + 1.6 * o.pulse)}, [${5 + 1.6 * o.pulse}, ${(5 + 1.6 * o.pulse) * .95}, ${5 + 1.6 * o.pulse}, ${(5 + 1.6 * o.pulse) * .9}], [1.4, 1.6, 2.2, 1.4], .35, T.seed + 3310, 2))`;
+  const body = `{ L: E.liftBody(T, 2, 3, ${w - 4}, 54, [14, 10, 16, 11], { seed: T.seed + 3530, fill: T.danger, sh: 3, noRim: true, insMul: ${o.thick ? 1.4 : 1}, hv: ${o.hv} }), X: [] }`;
+  return `E.cat(${body}, ${lift ? `E.place(${mark}, ${-lift}, ${-lift})` : mark})`;
+};
+const SIDEBAR_NAV = (w, icon, o) =>
+  `E.cat({ L: E.navPlate(T, ${w}, 44, ${JSON.stringify(o)}), X: [] }, { L: E.icon(T, '${icon}', 12, 11, { size: 22, color: ${o.sel ? 'T.ink' : 'T.text'}, fill: ${o.sel ? 'T.paper' : 'null'} }), X: [] })`;
+const SIDEBAR_LOOKS = [
+  ['PanelDefault', { part: 'panel', w: 300, h: 700 }],
+  ['PanelNarrow', { part: 'panel', w: 240, h: 400 }],
+  ['PanelWide', { part: 'panel', w: 360, h: 1200 }],
+  ['RowRest', { part: 'row', w: 274, h: 56, sel: false, hv: 0, focus: false, seed: 0 }],
+  ['RowHover', { part: 'row', w: 274, h: 56, sel: false, hv: 1, focus: false, seed: 0 }],
+  ['RowHoverHalf', { part: 'row', w: 274, h: 56, sel: false, hv: .5, focus: false, seed: 1 }],
+  ['RowSelected', { part: 'row', w: 274, h: 56, sel: true, hv: 0, focus: false, seed: 0 }],
+  ['RowSelectedSecond', { part: 'row', w: 274, h: 56, sel: true, hv: 1, focus: false, seed: 1 }],
+  ['RowFocus', { part: 'row', w: 274, h: 56, sel: false, hv: 0, focus: true, seed: 0 }],
+  ['RowHoverFocus', { part: 'row', w: 274, h: 56, sel: false, hv: 1, focus: true, seed: 2 }],
+  ['RowSelectedFocus', { part: 'row', w: 274, h: 56, sel: true, hv: 0, focus: true, seed: 0 }],
+  ['ResultSelected', { part: 'row', w: 274, h: 80, sel: true, hv: 0, focus: false, seed: 0 }],
+  ['ResultHover', { part: 'row', w: 274, h: 80, sel: false, hv: 1, focus: false, seed: 1 }],
+  ['RowNarrow', { part: 'row', w: 214, h: 56, sel: true, hv: 0, focus: true, seed: 0 }],
+  ['Recording', { part: 'rec', w: 288, pulse: 0, thick: false, hv: 0 }],
+  ['RecordingMid', { part: 'rec', w: 288, pulse: .5, thick: false, hv: 0 }],
+  ['RecordingFull', { part: 'rec', w: 288, pulse: 1, thick: false, hv: 0 }],
+  ['RecordingSelected', { part: 'rec', w: 288, pulse: 0, thick: true, hv: 0 }],
+  ['RecordingHover', { part: 'rec', w: 288, pulse: 1, thick: false, hv: 1 }],
+  ['NavRest', { part: 'nav', w: 288, icon: 'person', sel: false, hv: 0, focus: false, seed: 3 }],
+  ['NavSelected', { part: 'nav', w: 288, icon: 'person', sel: true, hv: 0, focus: false, seed: 3 }],
+  ['NavHover', { part: 'nav', w: 288, icon: 'settings', sel: false, hv: 1, focus: false, seed: 4 }],
+  ['NavFocus', { part: 'nav', w: 288, icon: 'settings', sel: false, hv: 0, focus: true, seed: 4 }],
+  ['NavSelectedFocus', { part: 'nav', w: 288, icon: 'settings', sel: true, hv: 0, focus: true, seed: 4 }],
+];
+const SIDEBAR_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  SIDEBAR_LOOKS.map(([label, opts]) => {
+    const { part, w } = opts;
+    const plate = { sel: opts.sel, hv: opts.hv, focus: opts.focus, seed: opts.seed };
+    const scene =
+      part === 'panel' ? SIDEBAR_PANEL(w, opts.h)
+        : part === 'row' ? SIDEBAR_ROW(w, opts.h, plate)
+          : part === 'rec' ? SIDEBAR_REC(w, opts)
+            : SIDEBAR_NAV(w, opts.icon, plate);
+    return { group: 'Sidebar', name: `${label}_${themeName}`, theme, themeName, opts, scene };
+  }));
+
 export const DESKTOP_CELLS = {
   LevelMeter: METER_CELLS,
   RecordButton: REC_CELLS,
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
   SearchField: SEARCH_CELLS,
+  Sidebar: SIDEBAR_CELLS,
   Scrollbar: SCROLL_CELLS,
   TitleBar: TITLE_CELLS,
   SplitHandle: SPLIT_CELLS,
