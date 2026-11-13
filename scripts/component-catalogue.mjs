@@ -64,7 +64,7 @@ const DESKTOP_MAP = {
   LevelMeter: { composable: null, engine: ['levelMeter', 'livelevel'], item: 'B-74', group: 'LevelMeter' },
   RecordButton: { composable: null, engine: ['recBtn', 'recPulse'], item: 'B-75', group: 'RecordButton' },
   Scrollbar: { composable: null, engine: ['scrollThumb'], item: 'B-72', group: 'Scrollbar' },
-  SearchField: { composable: null, engine: ['searchBox'], item: 'B-71', group: 'SearchField' },
+  SearchField: { composable: 'ToonSearchField', engine: ['searchBox'], item: 'B-71', group: 'SearchField' },
   Sidebar: { composable: null, engine: ['sheet', 'navPlate', 'liftBody'], item: 'B-77', group: 'Sidebar' },
   SpeakerSticker: { composable: 'ToonSpeakerSticker', engine: ['sticker', 'blobPts', 'blobPath'], item: 'B-70', group: 'SpeakerSticker' },
   SplitHandle: { composable: null, engine: ['splitGrip'], item: 'B-73', group: 'SplitHandle' },

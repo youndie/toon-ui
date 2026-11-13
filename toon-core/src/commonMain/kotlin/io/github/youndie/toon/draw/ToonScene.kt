@@ -232,6 +232,8 @@ internal class ToonTextStyle(
     val size: Float,
     /** The theme's display face (`T.display`) instead of its body face. */
     val display: Boolean = false,
+    /** Figures of one width (`font-variant-numeric: tabular-nums`), for a number that changes in place. */
+    val tabular: Boolean = false,
 )
 
 /** Where a text sits on its x, as the engine's `X` anchors: from its start, centred, or to its end. */
@@ -462,6 +464,7 @@ internal class ToonTextRenderer(
                 fontFamily = if (style.display) fonts.display else fonts.body,
                 fontWeight = FontWeight(style.weight),
                 fontSize = style.size.sp,
+                fontFeatureSettings = if (style.tabular) "tnum" else null,
             ),
             // Laid out in dp, as the frame is drawn ([inDp]); the user's font scale still applies.
             density = Density(1f, fontScale),

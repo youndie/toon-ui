@@ -232,6 +232,13 @@ no state sheets, no frames for its events, no icon page — the component depart
 records it (D13). `reference/desktop/` is not re-imported either: like `reference/design-system/` it is
 a record, and a later design of the app's is read as proposals.
 
+**Words over the drawing (B-71).** The desktop renderers draw shapes only: a component's words are
+HTML laid over its SVG in its `.dc.html`, and no frame holds them. The port draws them as the kit's
+labels at that HTML's numbers, a line centred on its box as a flex row centres it (the face's measured
+height, so its own ascent and descent place the baseline), and a test of the layout holds them: the
+search field's placeholder stands where its value is typed, to a pixel. A text input is a real
+`BasicTextField` with the design's caret colour.
+
 ## 2. Decisions
 
 ### D1. `Toon` in every identifier, package `io.github.youndie.toon`
