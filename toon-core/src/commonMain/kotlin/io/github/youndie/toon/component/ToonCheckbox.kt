@@ -40,7 +40,11 @@ import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.wobblePoints
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.rememberToonPressState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.interaction.toonPressable
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.theme.Toon
@@ -78,12 +82,13 @@ public fun ToonCheckbox(
         remember(label, text) { if (label.isEmpty()) 0f else text.measure(label, CHECK_LABEL).multiParagraph.width }
     var on by remember(checked) { mutableStateOf(checked) }
     val press = rememberToonPressState()
+    val hover = rememberToonHoverState()
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val clock = remember { ToonToggleClock() }
     val change by rememberUpdatedState(onCheckedChange)
     LaunchedEffect(clock.starts) { while (clock.running(TOGGLE_MS)) withFrameMillis { clock.tick(it) } }
-    val look = toonCheckboxFrameAt(on, clock.age(), press.progress, reduce)
+    val look = toonCheckboxFrameAt(on, clock.age(), press.progress, reduce, hover.value)
     val w = if (label.isEmpty()) ToonSize.TARGET_MIN else CHECK_LABEL_X + ceil(labelWidth) + 4
 
     Canvas(
@@ -96,7 +101,8 @@ public fun ToonCheckbox(
                 on = !on
                 clock.start()
                 change(on)
-            }.focusable(enabled, interaction),
+            }.toonHoverable(hover, enabled)
+            .focusable(enabled, interaction),
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
 
@@ -108,7 +114,7 @@ public fun ToonCheckbox(
                     toonCheckboxScene(
                         tokens,
                         label,
-                        ToonCheckboxLook(on = false, disabled = !enabled, error = error),
+                        ToonCheckboxLook(on = false, disabled = !enabled, error = error, hv = look.hv),
                     ).placed(
                         0f,
                         0f,
@@ -152,14 +158,16 @@ internal fun toonChkAnim(
 
 /**
  * The kit's `C.checkbox.scene` at a moment: [on], the toggle [toggleAgeMs] ago (null before any),
- * under press [p]. Under reduce motion — the Core page's words — a check is `fade 120` into the
- * checked box, an uncheck is `instant`.
+ * under press [p] and the pointer's hover [hv]. Under reduce motion — the Core page's words — a check
+ * is `fade 120` into the checked box, an uncheck is `instant`. The lift fades as the press goes down,
+ * as the extension's `liftBody` does (B-79), so a pressed box is the Core page's Pressed cell.
  */
 internal fun toonCheckboxFrameAt(
     on: Boolean,
     toggleAgeMs: Float?,
     p: Float,
     reduceMotion: Boolean,
+    hv: Float = 0f,
 ): ToonCheckboxLook {
     val base =
         when {
@@ -179,7 +187,7 @@ internal fun toonCheckboxFrameAt(
             }
         }
     val pressed = 1 - PRESS_SQUASH * c01(p)
-    return base.copy(sx = min(base.sx, pressed), sy = min(base.sy, pressed))
+    return base.copy(sx = min(base.sx, pressed), sy = min(base.sy, pressed), hv = hv * (1 - c01(p)))
 }
 
 private const val SETTLED_MS = 1e6f
@@ -222,6 +230,8 @@ internal data class ToonCheckboxLook(
     val focus: Boolean = false,
     val error: Boolean = false,
     val fade: Float? = null,
+    /** The pointer's hover, 0 to 1 (B-79): the box and its tick lift toward the light, the label stays. */
+    val hv: Float = 0f,
 )
 
 private val BOX_RADII = ToonRadii(8f, 5f, 9f, 6f)
@@ -325,5 +335,5 @@ internal fun toonCheckboxScene(
                 ),
             )
         }
-    return ToonScene(layers, labels)
+    return ToonScene(layers, labels).hoverLifted(if (dis) 0f else HOVER_LIFT * o.hv, c.ink, labelsToo = false)
 }

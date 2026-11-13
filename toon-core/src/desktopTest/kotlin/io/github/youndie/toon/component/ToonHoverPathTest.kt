@@ -2,6 +2,7 @@ package io.github.youndie.toon.component
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
@@ -25,7 +26,8 @@ import kotlin.test.assertTrue
 /**
  * B-69: the pointer rule through a component's own input, as an application gets it: a mouse over a
  * button, a card or a menu item changes what it draws, and leaving gives back the rest picture to the
- * pixel; a finger's press and release leave no hover behind.
+ * pixel; a finger's press and release leave no hover behind. B-79: the same for the pressables the
+ * pointer page does not draw. The box is padded 16 dp, so a slot's middle is 16 dp further in.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonHoverPathTest {
@@ -69,6 +71,56 @@ class ToonHoverPathTest {
                 items = listOf(ToonMenuItem("Edit", ToonIcons.Edit), ToonMenuItem("Share", ToonIcons.Share)),
             )
         }
+
+    @Test
+    fun `a checkbox lifts its box under the mouse and settles back`() =
+        hoverChanges { ToonCheckbox(checked = true, onCheckedChange = {}, label = "Bring snacks") }
+
+    @Test
+    fun `a radio lifts its ring under the mouse and settles back`() =
+        hoverChanges { ToonRadioGroup(listOf("Noon"), selected = 0, onSelectedChange = {}) }
+
+    @Test
+    fun `a switch lifts under the mouse and settles back`() =
+        hoverChanges { ToonSwitch(checked = false, onCheckedChange = {}, label = "Reminders") }
+
+    @Test
+    fun `a segment takes its press plate under the mouse and lets it go`() =
+        hoverChanges(at = { Offset(16f + 250f, it.y) }) { ToonSegmented(listOf("Day", "Week", "Month")) }
+
+    @Test
+    fun `a tab takes its press plate under the mouse and lets it go`() =
+        hoverChanges(at = { Offset(16f + 171f, it.y) }) { ToonTabs(listOf("Today", "Weekend", "Someday")) }
+
+    @Test
+    fun `a navigation bar slot takes its press plate under the mouse and lets it go`() =
+        hoverChanges(at = { Offset(16f + 97.5f * 2.5f, it.y) }) {
+            ToonNavigationBar(
+                listOf(
+                    ToonNavItem(ToonIcons.Home, "Home"),
+                    ToonNavItem(ToonIcons.Search, "Explore"),
+                    ToonNavItem(ToonIcons.Heart, "Saved"),
+                    ToonNavItem(ToonIcons.Person, "Profile"),
+                ),
+            )
+        }
+
+    @Test
+    fun `a drawer row takes its press plate under the mouse and lets it go`() =
+        hoverChanges(at = { Offset(16f + 120f, 16f + 120f + 56f + 12f) }) {
+            Box(Modifier.size(360.dp, 520.dp)) {
+                ToonNavigationDrawer(
+                    listOf(
+                        ToonDrawerItem("Home", ToonIcons.Home),
+                        ToonDrawerItem("Weekend", ToonIcons.Calendar),
+                    ),
+                )
+            }
+        }
+
+    @Test
+    fun `a field fills with the pressed surface under the mouse and gives it back`() =
+        hoverChanges { ToonTextField(value = "", onValueChange = {}, label = "Plan name") }
 
     @Test
     fun `a finger's press on a button leaves no hover`() =

@@ -44,6 +44,43 @@ const hoverCell = (group, name, wrap, opts = {}) => Object.entries(THEMES).map((
 const lift = s => `E.hoverLift(${s}, T)`;
 const liftCard = s => s.replace(/E\.card\(T, (\{[^}]*\})\)/, (_, o) => `E.hoverLift(E.card(T, ${o}), T)`);
 const ringCard = s => s.replace(/E\.card\(T, (\{[^}]*\})\)/, (_, o) => `E.cat({ L: [E.ring(-6, -6, 354, 96, [22, 16, 24, 18], T, T.seed + 31)], X: [] }, E.card(T, ${o}))`);
+// B-79: the rule on the kit's pressables the page does not draw, each look this repository's decision
+// read off the page's two rules and the component's own renderer. A body with a hard shadow lifts: the
+// checkbox's box and the radio's ring with what is on them, their label beside staying on the table;
+// the switch whole, the track being the body with the shadow. A flat slot gets the plate its own press
+// draws, at full strength, where the press puts it — the renderer's pressed frame's surface2 layer
+// spliced into the rest frame, with nothing else of the press (no label drop, no icon squash); the
+// selected slot, whose press the renderer leaves undrawn, gets none. A field fills with surface2, as the
+// desktop design's own field (`searchBox`) does, unless focused. Each hovers a slot its page's pressed
+// cell does not press.
+const liftBeside = s => `(s => ({ ...E.hoverLift(s, T), X: s.X }))(${s})`;
+const pressPlate = (pressedAs) => (s) => {
+  const p = pressedAs(s);
+  if (p === s) throw new Error(`no press in ${s}`);
+  return `((r, p) => { const k = p.L.findIndex((l, i) => JSON.stringify(l) !== JSON.stringify(r.L[i])); `
+    + `if (k < 0 || p.L[k].fill !== T.surface2 || p.L.length !== r.L.length + 1) throw new Error('no press plate'); `
+    + `return { ...r, L: [...r.L.slice(0, k), p.L[k], ...r.L.slice(k)] }; })(${s}, ${p})`;
+};
+const once = (s, from, to) => { if (s.split(from).length !== 2) throw new Error(`${from} is not once in ${s}`); return s.replace(from, to); };
+const fieldPlate = s => `(s => { const k = s.L.map(l => l.fill).lastIndexOf(T.field); return { ...s, L: s.L.map((l, i) => i === k ? { ...l, fill: T.surface2 } : l) }; })(${s})`;
+const UNDRAWN_HOVER_CELLS = [
+  ...hoverCell('Checkbox', 'Unchecked', liftBeside),
+  ...hoverCell('Checkbox', 'Checked', liftBeside),
+  ...hoverCell('Checkbox', 'Focused', liftBeside),
+  ...hoverCell('Radio', 'Unselected', liftBeside),
+  ...hoverCell('Radio', 'Selected', liftBeside),
+  ...hoverCell('Radio', 'Focused', liftBeside),
+  ...hoverCell('Switch', 'Off', lift),
+  ...hoverCell('Switch', 'On', lift),
+  ...hoverCell('Switch', 'Focused', lift),
+  ...hoverCell('Segmented', 'Day', pressPlate(s => once(s, '{"sel":0}', '{"sel":0,"pressed":1}')), { hover: 1 }),
+  ...hoverCell('Tabs', 'Today', pressPlate(s => once(s, '{"sel":0}', '{"sel":0,"pressed":1}')), { hover: 1 }),
+  ...hoverCell('NavigationBar', 'HomeSelected', pressPlate(s => once(s, '{"sel":0}', '{"sel":0,"pressed":2}')), { hover: 2 }),
+  ...hoverCell('NavigationDrawer', 'Open', pressPlate(s => once(s, '{"sx":1,"scrim":1,"textOp":1}', '{"sx":1,"scrim":1,"textOp":1,"pressed":1}')), { hover: 1 }),
+  ...hoverCell('TextField', 'Default', fieldPlate),
+  ...hoverCell('TextField', 'Filled', fieldPlate),
+  ...hoverCell('TextField', 'Error', fieldPlate),
+];
 const HOVER_CELLS = [
   ...hoverCell('Button', 'Filled_Default', lift),
   ...hoverCell('Button', 'Outlined_Default', lift),
@@ -59,7 +96,8 @@ const HOVER_CELLS = [
   ...hoverCell('Slider', 'Default', s => `(s => ({ ...s, L: [...s.L.slice(0, -2), ...s.L.slice(-2).map(l => ({ ...l, tf: ('translate(-2 -2) ' + l.tf).trim() }))] }))(${s})`),
   ...hoverCell('Menu', 'Open', s => s.replace(/, \{\}\)\)$/, ', { sel: 0 }))'), { hover: 0 }),
   ...hoverCell('ListItem', 'Oneline_Chevron', (s, o) => `E.listItem(T, ${JSON.stringify({ ...o, sel: true })})`),
-].map(c => (c.scene.includes('hoverLift') || c.scene.includes('plate') || c.scene.includes('sel') || c.scene.includes('translate(-2 -2)') ? c : (() => { throw new Error(`hover cell ${c.name} was not wrapped`); })()));
+  ...UNDRAWN_HOVER_CELLS,
+].map(c => (c.scene.includes('hoverLift') || c.scene.includes('plate') || c.scene.includes('sel') || c.scene.includes('translate(-2 -2)') || c.scene.includes('surface2') ? c : (() => { throw new Error(`hover cell ${c.name} was not wrapped`); })()));
 // The card's focus ring, which the kit never drew (the page's last column): 6 dp out, its own seed.
 const FOCUS_CELLS = hoverCell('Card', 'Default', ringCard, { focus: true }).map(c => ({ ...c, group: 'Focus' }));
 

@@ -23,6 +23,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalDensity
@@ -57,6 +58,8 @@ import io.github.youndie.toon.fx.NoToonFxHost
 import io.github.youndie.toon.fx.ToonFxEvent
 import io.github.youndie.toon.fx.toonShake
 import io.github.youndie.toon.fx.toonStarsScene
+import io.github.youndie.toon.interaction.rememberToonHoverState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
@@ -92,6 +95,7 @@ public fun ToonTextField(
     val fx = LocalToonFxEmitter.current
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
+    val hover = rememberToonHoverState()
     val clock = remember { ToonFieldClock() }
     var layout by remember { mutableStateOf<TextLayoutResult?>(null) }
     var bounds by remember { mutableStateOf(Rect.Zero) }
@@ -143,7 +147,8 @@ public fun ToonTextField(
     Box(
         modifier
             .size(width, FIELD_BOX.dp)
-            .onGloballyPositioned { bounds = it.boundsInRoot() },
+            .onGloballyPositioned { bounds = it.boundsInRoot() }
+            .toonHoverable(hover, enabled),
     ) {
         Canvas(Modifier.fillMaxSize()) {
             // The engine draws in dp (research D5); the canvas is pixels (B-47).
@@ -161,6 +166,7 @@ public fun ToonTextField(
                         error = hasError,
                         disabled = !enabled,
                         caretX = if (moment.caretOn) caretX else null,
+                        hv = hover.value,
                     )
                 var scene = toonFieldScene(tokens, w, look)
                 if (drawStars &&
@@ -339,9 +345,27 @@ internal data class ToonFieldLook(
     val error: Boolean = false,
     val disabled: Boolean = false,
     val caretX: Float? = null,
+    /**
+     * The pointer's hover, 0 to 1 (B-79). A field is flat, and the desktop design's own field, the
+     * search box, fills with the pressed-surface colour under the pointer unless it is focused: so does
+     * this one, eased by the hover instead of switched at its middle.
+     */
+    val hv: Float = 0f,
 )
 
 private val FIELD_RADII = ToonRadii(14f, 10f, 16f, 11f)
+
+/** The field's paper under hover [hv]: its own at 0, the pressed surface at 1, exactly. */
+private fun fieldFill(
+    field: Color,
+    pressed: Color,
+    hv: Float,
+): Color =
+    when {
+        hv <= 0f -> field
+        hv >= 1f -> pressed
+        else -> lerp(field, pressed, hv)
+    }
 
 /** The engine's caret `x` for a value: it guesses 8.6 dp a character, 2 after a 20 dp inset. */
 internal fun engineCaretX(value: String): Float = 20 + value.length * 8.6f + 2
@@ -376,7 +400,7 @@ internal fun toonFieldScene(
     layers +=
         bodyLayers(
             shapePoints(x, y, bw, bh, r, ins, sh.wobble, sh.seed + 101),
-            fill = if (dis) c.disabled else c.field,
+            fill = if (dis) c.disabled else fieldFill(c.field, c.surfacePressed, if (o.focus) 0f else o.hv),
             colors = c,
             shadow = 0f,
             inkAlpha = if (dis) .35f else 1f,

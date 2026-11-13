@@ -37,7 +37,11 @@ import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.draw.smoothLayer
 import io.github.youndie.toon.draw.wobblePoints
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.rememberToonPressState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.interaction.toonPressable
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.theme.Toon
@@ -83,9 +87,10 @@ public fun ToonRadioGroup(
     Column(modifier.semantics { selectableGroup() }) {
         options.forEachIndexed { i, option ->
             val press = rememberToonPressState()
+            val hover = rememberToonHoverState()
             val interaction = remember { MutableInteractionSource() }
             val focused by interaction.collectIsFocusedAsState()
-            val look = toonRadioFrameAt(i, sel, prev, clock.age(), press.progress, reduce)
+            val look = toonRadioFrameAt(i, sel, prev, clock.age(), press.progress, reduce, hover.value)
             Canvas(
                 Modifier
                     .size(width.dp, ROW_H.dp)
@@ -99,7 +104,8 @@ public fun ToonRadioGroup(
                             clock.start()
                             change(i)
                         }
-                    }.focusable(enabled, interaction),
+                    }.toonHoverable(hover, enabled)
+                    .focusable(enabled, interaction),
             ) {
                 // The engine draws in dp (research D5); the canvas is pixels (B-47).
                 inDp {
@@ -151,8 +157,9 @@ internal fun toonRadioSelect(t: Float): ToonRadioLook {
 
 /**
  * The kit's `C.radio.scene` for row [index] at a moment: [selectedIndex] chosen after [previousIndex],
- * [ageMs] ago (null before any), the row under press [p]. Under reduce motion — the MVP page's
- * `instant` — the new dot is in place and the old one gone at once.
+ * [ageMs] ago (null before any), the row under press [p] and the pointer's hover [hv]. Under reduce
+ * motion — the MVP page's `instant` — the new dot is in place and the old one gone at once. The lift
+ * fades as the press goes down, as the extension's `liftBody` does (B-79).
  */
 internal fun toonRadioFrameAt(
     index: Int,
@@ -161,6 +168,7 @@ internal fun toonRadioFrameAt(
     ageMs: Float?,
     p: Float,
     reduceMotion: Boolean,
+    hv: Float = 0f,
 ): ToonRadioLook {
     val t = if (reduceMotion) ageMs?.let { SETTLED_MS } else ageMs
     val base =
@@ -183,7 +191,7 @@ internal fun toonRadioFrameAt(
                 ToonRadioLook()
             }
         }
-    return base.copy(sq = 1 - PRESS_SQUASH * c01(p))
+    return base.copy(sq = 1 - PRESS_SQUASH * c01(p), hv = hv * (1 - c01(p)))
 }
 
 private const val SETTLED_MS = 1e6f
@@ -201,6 +209,8 @@ internal data class ToonRadioLook(
     val sq: Float = 1f,
     val disabled: Boolean = false,
     val focus: Boolean = false,
+    /** The pointer's hover, 0 to 1 (B-79): the ring and its dot lift toward the light, the label stays. */
+    val hv: Float = 0f,
 )
 
 private val RING_RADII = ToonRadii(14f, 13f, 14f, 12.5f)
@@ -280,7 +290,7 @@ internal fun toonRadioScene(
         } else {
             listOf(ToonLabel(label, ROW_LABEL_X, 30f, c.text, if (dis) .6f else 1f, CHECK_LABEL, ToonAnchor.Start))
         }
-    return ToonScene(layers, labels)
+    return ToonScene(layers, labels).hoverLifted(if (dis) 0f else HOVER_LIFT * o.hv, c.ink, labelsToo = false)
 }
 
 private val DOT_INSETS = ToonInsets(1.4f, 1.6f, 2.2f, 1.4f)

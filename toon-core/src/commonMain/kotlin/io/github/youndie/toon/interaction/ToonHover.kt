@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
@@ -12,6 +13,7 @@ import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.PointerEventType
+import androidx.compose.ui.input.pointer.PointerInputScope
 import androidx.compose.ui.input.pointer.PointerType
 import androidx.compose.ui.input.pointer.pointerInput
 import io.github.youndie.toon.InternalToonApi
@@ -150,6 +152,71 @@ internal fun Modifier.toonHoverable(
         }
     }
 
+/** One [ToonHoverState] per slot of a component drawn as one canvas, each on its own ramp. */
+@Composable
+internal fun rememberToonHoverStates(n: Int): List<ToonHoverState> = List(n) { key(it) { rememberToonHoverState() } }
+
+/**
+ * [toonHoverable] for a component whose slots share one canvas (B-79: the segmented button, the tabs,
+ * the navigation bar, the drawer): the slot [slotAt] names under a mouse, in dp, is hovered and every
+ * other is not, as the menu's items are (B-69). A finger sets none, and leaving or disabling sets none.
+ * [key] restarts it when what [slotAt] reads changes.
+ */
+internal fun Modifier.toonSlotHoverable(
+    states: List<ToonHoverState>,
+    enabled: Boolean,
+    key: Any?,
+    slotAt: PointerInputScope.(x: Float, y: Float) -> Int?,
+): Modifier =
+    pointerInput(states, enabled, key) {
+        if (!enabled) {
+            states.forEach { it.set(false) }
+            return@pointerInput
+        }
+        awaitPointerEventScope {
+            while (true) {
+                val event = awaitPointerEvent()
+                val change = event.changes.first()
+                val over =
+                    when {
+                        event.type == PointerEventType.Exit -> {
+                            null
+                        }
+
+                        change.type == PointerType.Mouse -> {
+                            slotAt(
+                                change.position.x / density,
+                                change.position.y / density,
+                            )
+                        }
+
+                        else -> {
+                            continue
+                        }
+                    }
+                states.forEachIndexed { i, h -> h.set(i == over) }
+            }
+        }
+    }
+
+/**
+ * How strongly a slot of a flat selector draws its press plate (B-79): whole under a press, as the
+ * engine draws it; at the hover's strength [hv] under a mouse; never on the [selected] slot, whose
+ * press the engine leaves undrawn, nor, unpressed, on a [disabled] one.
+ */
+internal fun toonSlotPlate(
+    selected: Boolean,
+    pressed: Boolean,
+    disabled: Boolean,
+    hv: Float,
+): Float =
+    when {
+        selected -> 0f
+        pressed -> 1f
+        disabled -> 0f
+        else -> hv
+    }
+
 /**
  * The extension's `hoverLift`: every layer and text moved [d] dp toward the top left, except the
  * body's hard shadows, which stay on the table, so a shadow 4 dp off reads 6.
@@ -158,15 +225,23 @@ internal fun Modifier.toonHoverable(
  * tells it by the start of the layer's `transform`, which a `place` in front of it changes: on the
  * pointer page the chip is placed at 0, 0, and its ink outline is then taken for a shadow too. The
  * rule is the page's words, so the port reads the layer's own offset.
+ *
+ * [labelsToo] false keeps the words where they are: a label set beside a control, not on its body —
+ * the checkbox's and the radio's (B-79) — stays on the table with the shadow.
  */
 internal fun ToonScene.hoverLifted(
     d: Float,
     ink: Color,
+    labelsToo: Boolean = true,
 ): ToonScene {
     if (d == 0f) return this
     return ToonScene(
         layers.map { if (it.isHardShadow(ink)) it else it.moved(-d, -d) },
-        labels.map { ToonLabel(it.text, it.x - d, it.baseline - d, it.color, it.alpha, it.style, it.anchor) },
+        if (!labelsToo) {
+            labels
+        } else {
+            labels.map { ToonLabel(it.text, it.x - d, it.baseline - d, it.color, it.alpha, it.style, it.anchor) }
+        },
     )
 }
 
