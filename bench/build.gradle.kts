@@ -57,3 +57,18 @@ val desktopBench by tasks.registering(JavaExec::class) {
             .asFile.path,
     )
 }
+
+// B-78: `./gradlew :bench:turnScrollBench`. 1,500 transcript turns scrolled frame by frame at the
+// design's 1280 × 800 window, density 2, each frame's render timed on the CPU raster.
+val turnScrollBench by tasks.registering(JavaExec::class) {
+    group = "verification"
+    description = "Times 1,500 ToonTranscriptTurns scrolled in a lazy list, frame by frame."
+    val main = kotlin.jvm("desktop").compilations.getByName("main")
+    classpath(main.output.allOutputs, main.runtimeDependencyFiles)
+    mainClass.set("io.github.youndie.toon.bench.TurnScrollBenchKt")
+    args(
+        rootProject.layout.projectDirectory
+            .file("docs/research/b-78/turn-scroll.csv")
+            .asFile.path,
+    )
+}

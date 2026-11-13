@@ -246,8 +246,9 @@ const files = {
   'manifest.json': {
     engine: 'reference/design-system/toon-engine.js', sha256: engineSha, decimals: 6, pathStep: 0.1, themes, scenes: Object.keys(scenes(E.THEMES.il)), curves: Object.keys(curves),
     desktopEngine: 'reference/desktop/desktop-engine.js', desktopSha256: sha256(desktopEnginePath), desktopGroups: Object.keys(DESKTOP_CELLS),
-    // The extension's pointer targets and hover motion, which the port's constants are held to (B-69).
-    desktopTokens: { pointer: E.DESKTOP.pointer, motion: E.DESKTOP.motion },
+    // The extension's pointer targets and hover motion, which the port's constants are held to (B-69),
+    // and its layout, whose text measure the transcript turn is held to (B-78).
+    desktopTokens: { pointer: E.DESKTOP.pointer, motion: E.DESKTOP.motion, layout: E.DESKTOP.layout },
   },
   ...Object.fromEntries(themes.map(k => [`geometry-${k}.json`, geometry[k]])),
   'curves.json': sampled,

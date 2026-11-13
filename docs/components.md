@@ -44,7 +44,7 @@ script; every name in it is checked against the sources.
 | [ToonTooltip](../reference/design-system/ToonTooltip.dc.html) | `ToonTooltip` | [ToonTooltip.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTooltip.kt) | `tooltip`, `tipInflate` | [B-40](backlog/B-40-tooltip.md) | 24 | 24 | 24 |
 | [ToonTopAppBar](../reference/design-system/ToonTopAppBar.dc.html) | `ToonTopAppBar` | [ToonTopAppBar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt) | `topBar` | [B-26](backlog/B-26-top-app-bar.md) | 39 | 39 | 39 |
 
-The desktop set, from reference/desktop (stage 5): 8 of 9 built. Its frames are in `desktop.json`; the project has no spec pages, so no Chrome references or goldens are drawn from it.
+The desktop set, from reference/desktop (stage 5): 9 of 9 built. Its frames are in `desktop.json`; the project has no spec pages, so no Chrome references or goldens are drawn from it.
 
 | Design file | Composable | Source | Extension | Item | Frame cells |
 |---|---|---|---|---|---|
@@ -56,7 +56,7 @@ The desktop set, from reference/desktop (stage 5): 8 of 9 built. Its frames are 
 | [ToonSpeakerSticker](../reference/desktop/ToonSpeakerSticker.dc.html) | `ToonSpeakerSticker` | [ToonSpeakerSticker.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSpeakerSticker.kt) | `sticker`, `blobPts`, `blobPath` | [B-70](backlog/B-70-speaker-sticker.md) | 48 |
 | [ToonSplitHandle](../reference/desktop/ToonSplitHandle.dc.html) | `ToonSplitHandle` | [ToonSplitHandle.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSplitHandle.kt) | `splitGrip` | [B-73](backlog/B-73-split-handle.md) | 27 |
 | [ToonTitleBar](../reference/desktop/ToonTitleBar.dc.html) | `ToonTitleBar` | [ToonTitleBar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTitleBar.kt) | `trafficSlots` | [B-76](backlog/B-76-title-bar.md) | 3 |
-| [ToonTranscriptTurn](../reference/desktop/ToonTranscriptTurn.dc.html) | — not built |  | `plate`, `iconBtn32` | [B-78](backlog/B-78-transcript-turn.md) |  |
+| [ToonTranscriptTurn](../reference/desktop/ToonTranscriptTurn.dc.html) | `ToonTranscriptTurn` | [ToonTranscriptTurn.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTranscriptTurn.kt) | `plate`, `sticker`, `iconBtn32` | [B-78](backlog/B-78-transcript-turn.md) | 48 |
 
 The library's own, which no design file draws:
 

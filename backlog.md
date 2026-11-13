@@ -56,18 +56,17 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (6)
+## Open (5)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70, B-80 |
 | [B-84](docs/backlog/B-84-list-item-wraps-its-title.md) `[ ]` | The list item wraps its title and cuts its sub before the trailing | P1 | M | - |
 | [B-88](docs/backlog/B-88-segmented-fits-its-labels.md) `[ ]` | The segmented control fits a label wider than its slot | P1 | S | - |
 | [B-85](docs/backlog/B-85-overlay-content-slot.md) `[ ]` | Dialog and bottom sheet take content, and their texts have no English defaults | P2 | M | - |
 | [B-86](docs/backlog/B-86-stage-same-on-every-x86.md) `[ ]` | The textured stage draws the same pixels on every x86 machine, or can be drawn flat | P2 | M | - |
 | [B-87](docs/backlog/B-87-list-item-selected.md) `[ ]` | The list item has a selected state for a master-detail list | P2 | S | - |
 
-## Closed (82)
+## Closed (83)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -166,6 +165,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-75](docs/backlog/B-75-record-button.md) `[x]` - ToonRecordButton: start and stop, with the elapsed time
 - [B-76](docs/backlog/B-76-title-bar.md) `[x]` - ToonTitleBar: the window's title row and its action slot
 - [B-77](docs/backlog/B-77-sidebar.md) `[x]` - ToonSidebar: a persistent side panel with search, groups and navigation
+- [B-78](docs/backlog/B-78-transcript-turn.md) `[x]` - ToonTranscriptTurn: one turn of a transcript, calm to read
 - [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[x]` - The pointer rule on the pressable components the pointer page does not draw
 - [B-80](docs/backlog/B-80-desktop-icons.md) `[x]` - The desktop icons: the extension's 12 glyphs in ToonIcons
 

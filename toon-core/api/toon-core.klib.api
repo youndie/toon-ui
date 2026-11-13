@@ -198,6 +198,20 @@ final enum class io.github.youndie.toon.component/ToonTransition : kotlin/Enum<i
     final fun values(): kotlin/Array<io.github.youndie.toon.component/ToonTransition> // io.github.youndie.toon.component/ToonTransition.values|values#static(){}[0]
 }
 
+final enum class io.github.youndie.toon.component/ToonTurnAction : kotlin/Enum<io.github.youndie.toon.component/ToonTurnAction> { // io.github.youndie.toon.component/ToonTurnAction|null[0]
+    enum entry Copy // io.github.youndie.toon.component/ToonTurnAction.Copy|null[0]
+    enum entry Name // io.github.youndie.toon.component/ToonTurnAction.Name|null[0]
+    enum entry Play // io.github.youndie.toon.component/ToonTurnAction.Play|null[0]
+    enum entry Reassign // io.github.youndie.toon.component/ToonTurnAction.Reassign|null[0]
+    enum entry Rename // io.github.youndie.toon.component/ToonTurnAction.Rename|null[0]
+
+    final val entries // io.github.youndie.toon.component/ToonTurnAction.entries|#static{}entries[0]
+        final fun <get-entries>(): kotlin.enums/EnumEntries<io.github.youndie.toon.component/ToonTurnAction> // io.github.youndie.toon.component/ToonTurnAction.entries.<get-entries>|<get-entries>#static(){}[0]
+
+    final fun valueOf(kotlin/String): io.github.youndie.toon.component/ToonTurnAction // io.github.youndie.toon.component/ToonTurnAction.valueOf|valueOf#static(kotlin.String){}[0]
+    final fun values(): kotlin/Array<io.github.youndie.toon.component/ToonTurnAction> // io.github.youndie.toon.component/ToonTurnAction.values|values#static(){}[0]
+}
+
 final enum class io.github.youndie.toon.fx/ToonFx : kotlin/Enum<io.github.youndie.toon.fx/ToonFx> { // io.github.youndie.toon.fx/ToonFx|null[0]
     enum entry Dust // io.github.youndie.toon.fx/ToonFx.Dust|null[0]
     enum entry Flash // io.github.youndie.toon.fx/ToonFx.Flash|null[0]
@@ -357,6 +371,23 @@ final class io.github.youndie.toon.component/ToonTopAppBarState { // io.github.y
         final fun <get-nestedScrollConnection>(): androidx.compose.ui.input.nestedscroll/NestedScrollConnection // io.github.youndie.toon.component/ToonTopAppBarState.nestedScrollConnection.<get-nestedScrollConnection>|<get-nestedScrollConnection>(){}[0]
 
     final fun kick() // io.github.youndie.toon.component/ToonTopAppBarState.kick|kick(){}[0]
+}
+
+final class io.github.youndie.toon.component/ToonTranscriptTurnLabels { // io.github.youndie.toon.component/ToonTranscriptTurnLabels|null[0]
+    constructor <init>(kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ..., kotlin/String = ...) // io.github.youndie.toon.component/ToonTranscriptTurnLabels.<init>|<init>(kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String;kotlin.String){}[0]
+
+    final val copy // io.github.youndie.toon.component/ToonTranscriptTurnLabels.copy|{}copy[0]
+        final fun <get-copy>(): kotlin/String // io.github.youndie.toon.component/ToonTranscriptTurnLabels.copy.<get-copy>|<get-copy>(){}[0]
+    final val more // io.github.youndie.toon.component/ToonTranscriptTurnLabels.more|{}more[0]
+        final fun <get-more>(): kotlin/String // io.github.youndie.toon.component/ToonTranscriptTurnLabels.more.<get-more>|<get-more>(){}[0]
+    final val nameVoice // io.github.youndie.toon.component/ToonTranscriptTurnLabels.nameVoice|{}nameVoice[0]
+        final fun <get-nameVoice>(): kotlin/String // io.github.youndie.toon.component/ToonTranscriptTurnLabels.nameVoice.<get-nameVoice>|<get-nameVoice>(){}[0]
+    final val play // io.github.youndie.toon.component/ToonTranscriptTurnLabels.play|{}play[0]
+        final fun <get-play>(): kotlin/String // io.github.youndie.toon.component/ToonTranscriptTurnLabels.play.<get-play>|<get-play>(){}[0]
+    final val reassign // io.github.youndie.toon.component/ToonTranscriptTurnLabels.reassign|{}reassign[0]
+        final fun <get-reassign>(): kotlin/String // io.github.youndie.toon.component/ToonTranscriptTurnLabels.reassign.<get-reassign>|<get-reassign>(){}[0]
+    final val rename // io.github.youndie.toon.component/ToonTranscriptTurnLabels.rename|{}rename[0]
+        final fun <get-rename>(): kotlin/String // io.github.youndie.toon.component/ToonTranscriptTurnLabels.rename.<get-rename>|<get-rename>(){}[0]
 }
 
 final class io.github.youndie.toon.draw/ToonInsets { // io.github.youndie.toon.draw/ToonInsets|null[0]
@@ -944,6 +975,7 @@ final val io.github.youndie.toon.component/io_github_youndie_toon_component_Toon
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop|#static{}io_github_youndie_toon_component_ToonTopAppBarState$stableprop[0]
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Action$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Action$stableprop|#static{}io_github_youndie_toon_component_ToonTopBarKey_Action$stableprop[0]
 final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Nav$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Nav$stableprop|#static{}io_github_youndie_toon_component_ToonTopBarKey_Nav$stableprop[0]
+final val io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTranscriptTurnLabels$stableprop // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTranscriptTurnLabels$stableprop|#static{}io_github_youndie_toon_component_ToonTranscriptTurnLabels$stableprop[0]
 final val io.github.youndie.toon.draw/io_github_youndie_toon_draw_ToonInsets$stableprop // io.github.youndie.toon.draw/io_github_youndie_toon_draw_ToonInsets$stableprop|#static{}io_github_youndie_toon_draw_ToonInsets$stableprop[0]
 final val io.github.youndie.toon.draw/io_github_youndie_toon_draw_ToonRadii$stableprop // io.github.youndie.toon.draw/io_github_youndie_toon_draw_ToonRadii$stableprop|#static{}io_github_youndie_toon_draw_ToonRadii$stableprop[0]
 final val io.github.youndie.toon.draw/io_github_youndie_toon_draw_ToonRandom$stableprop // io.github.youndie.toon.draw/io_github_youndie_toon_draw_ToonRandom$stableprop|#static{}io_github_youndie_toon_draw_ToonRandom$stableprop[0]
@@ -1029,6 +1061,7 @@ final fun io.github.youndie.toon.component/ToonTitleBar(kotlin/String, androidx.
 final fun io.github.youndie.toon.component/ToonTitleCard(androidx.compose.ui/Modifier?, io.github.youndie.toon.component/ToonTitleCardVariant?, kotlin/String?, kotlin/String?, androidx.compose.ui.unit/Dp, androidx.compose.ui.unit/Dp, kotlin/Boolean, kotlin/Function0<kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonTitleCard|ToonTitleCard(androidx.compose.ui.Modifier?;io.github.youndie.toon.component.ToonTitleCardVariant?;kotlin.String?;kotlin.String?;androidx.compose.ui.unit.Dp;androidx.compose.ui.unit.Dp;kotlin.Boolean;kotlin.Function0<kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonTooltip(kotlin/String, androidx.compose.ui/Modifier?, kotlin/Boolean, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonTooltip|ToonTooltip(kotlin.String;androidx.compose.ui.Modifier?;kotlin.Boolean;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/ToonTopAppBar(kotlin/String, androidx.compose.ui/Modifier?, io.github.youndie.toon.component/ToonTopAppBarVariant?, kotlin.collections/List<io.github.youndie.toon.icon/ToonIconGlyph>?, kotlin/Boolean, kotlin/Boolean, androidx.compose.ui.unit/Dp, io.github.youndie.toon.component/ToonTopAppBarState?, kotlin/Function0<kotlin/Unit>?, kotlin/Function1<io.github.youndie.toon.icon/ToonIconGlyph, kotlin/Unit>?, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonTopAppBar|ToonTopAppBar(kotlin.String;androidx.compose.ui.Modifier?;io.github.youndie.toon.component.ToonTopAppBarVariant?;kotlin.collections.List<io.github.youndie.toon.icon.ToonIconGlyph>?;kotlin.Boolean;kotlin.Boolean;androidx.compose.ui.unit.Dp;io.github.youndie.toon.component.ToonTopAppBarState?;kotlin.Function0<kotlin.Unit>?;kotlin.Function1<io.github.youndie.toon.icon.ToonIconGlyph,kotlin.Unit>?;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
+final fun io.github.youndie.toon.component/ToonTranscriptTurn(kotlin/String, kotlin.collections/List<kotlin/String>, androidx.compose.ui/Modifier?, kotlin/String?, io.github.youndie.toon.component/ToonSpeakerKind?, kotlin/Int, kotlin/Int, kotlin/String?, kotlin/Boolean, kotlin/Boolean, kotlin/String?, kotlin/Int, kotlin/Function1<io.github.youndie.toon.component/ToonTurnAction, kotlin/Unit>?, io.github.youndie.toon.component/ToonTranscriptTurnLabels?, kotlin/Int, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int, kotlin/Int) // io.github.youndie.toon.component/ToonTranscriptTurn|ToonTranscriptTurn(kotlin.String;kotlin.collections.List<kotlin.String>;androidx.compose.ui.Modifier?;kotlin.String?;io.github.youndie.toon.component.ToonSpeakerKind?;kotlin.Int;kotlin.Int;kotlin.String?;kotlin.Boolean;kotlin.Boolean;kotlin.String?;kotlin.Int;kotlin.Function1<io.github.youndie.toon.component.ToonTurnAction,kotlin.Unit>?;io.github.youndie.toon.component.ToonTranscriptTurnLabels?;kotlin.Int;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonCardListItem$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonCardListItem$stableprop_getter|io_github_youndie_toon_component_ToonCardListItem$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonDrawerItem$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonDrawerItem$stableprop_getter|io_github_youndie_toon_component_ToonDrawerItem$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonMenuItem$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonMenuItem$stableprop_getter|io_github_youndie_toon_component_ToonMenuItem$stableprop_getter(){}[0]
@@ -1046,6 +1079,7 @@ final fun io.github.youndie.toon.component/io_github_youndie_toon_component_Toon
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopAppBarState$stableprop_getter|io_github_youndie_toon_component_ToonTopAppBarState$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Action$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Action$stableprop_getter|io_github_youndie_toon_component_ToonTopBarKey_Action$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Nav$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTopBarKey_Nav$stableprop_getter|io_github_youndie_toon_component_ToonTopBarKey_Nav$stableprop_getter(){}[0]
+final fun io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTranscriptTurnLabels$stableprop_getter(): kotlin/Int // io.github.youndie.toon.component/io_github_youndie_toon_component_ToonTranscriptTurnLabels$stableprop_getter|io_github_youndie_toon_component_ToonTranscriptTurnLabels$stableprop_getter(){}[0]
 final fun io.github.youndie.toon.component/rememberToonTabsState(kotlin/Int, androidx.compose.runtime/Composer?, kotlin/Int, kotlin/Int): io.github.youndie.toon.component/ToonTabsState // io.github.youndie.toon.component/rememberToonTabsState|rememberToonTabsState(kotlin.Int;androidx.compose.runtime.Composer?;kotlin.Int;kotlin.Int){}[0]
 final fun io.github.youndie.toon.draw/burstPoints(kotlin/Float, kotlin/Float, kotlin/Int, kotlin/Int, kotlin/Float = ...): kotlin/FloatArray // io.github.youndie.toon.draw/burstPoints|burstPoints(kotlin.Float;kotlin.Float;kotlin.Int;kotlin.Int;kotlin.Float){}[0]
 final fun io.github.youndie.toon.draw/inkLinePoints(kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Float, kotlin/Int, kotlin/Float = ...): kotlin/FloatArray // io.github.youndie.toon.draw/inkLinePoints|inkLinePoints(kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Float;kotlin.Int;kotlin.Float){}[0]

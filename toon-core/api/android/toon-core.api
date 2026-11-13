@@ -395,6 +395,23 @@ public final class io/github/youndie/toon/component/ToonTopAppBarVariant : java/
 	public static fun values ()[Lio/github/youndie/toon/component/ToonTopAppBarVariant;
 }
 
+public final class io/github/youndie/toon/component/ToonTranscriptTurnKt {
+	public static final fun ToonTranscriptTurn (Ljava/lang/String;Ljava/util/List;Landroidx/compose/ui/Modifier;Ljava/lang/String;Lio/github/youndie/toon/component/ToonSpeakerKind;IILjava/lang/String;ZZLjava/lang/String;ILkotlin/jvm/functions/Function1;Lio/github/youndie/toon/component/ToonTranscriptTurnLabels;ILandroidx/compose/runtime/Composer;III)V
+}
+
+public final class io/github/youndie/toon/component/ToonTranscriptTurnLabels {
+	public static final field $stable I
+	public fun <init> ()V
+	public fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;)V
+	public synthetic fun <init> (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V
+	public final fun getCopy ()Ljava/lang/String;
+	public final fun getMore ()Ljava/lang/String;
+	public final fun getNameVoice ()Ljava/lang/String;
+	public final fun getPlay ()Ljava/lang/String;
+	public final fun getReassign ()Ljava/lang/String;
+	public final fun getRename ()Ljava/lang/String;
+}
+
 public final class io/github/youndie/toon/component/ToonTransition : java/lang/Enum {
 	public static final field Hole Lio/github/youndie/toon/component/ToonTransition;
 	public static final field Push Lio/github/youndie/toon/component/ToonTransition;
@@ -406,6 +423,17 @@ public final class io/github/youndie/toon/component/ToonTransition : java/lang/E
 
 public final class io/github/youndie/toon/component/ToonTransitionHostKt {
 	public static final fun ToonTransitionHost (Ljava/lang/Object;Landroidx/compose/ui/Modifier;Lio/github/youndie/toon/component/ToonTransition;Landroidx/compose/ui/geometry/Rect;Lkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/youndie/toon/component/ToonTurnAction : java/lang/Enum {
+	public static final field Copy Lio/github/youndie/toon/component/ToonTurnAction;
+	public static final field Name Lio/github/youndie/toon/component/ToonTurnAction;
+	public static final field Play Lio/github/youndie/toon/component/ToonTurnAction;
+	public static final field Reassign Lio/github/youndie/toon/component/ToonTurnAction;
+	public static final field Rename Lio/github/youndie/toon/component/ToonTurnAction;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/youndie/toon/component/ToonTurnAction;
+	public static fun values ()[Lio/github/youndie/toon/component/ToonTurnAction;
 }
 
 public final class io/github/youndie/toon/draw/ToonGeometryKt {

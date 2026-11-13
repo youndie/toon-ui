@@ -245,6 +245,11 @@ other. They meet in appframe's `actions` slot, which takes the kit's controls as
 `ToonTitleBar` is the whole bar for a window with no frame of its own. Its targets keep clear of an
 undecorated window's 8 dp resize strip, as the scrollbar's do (B-72).
 
+**The reading zone (B-78).** Words that are read, not labels, are real text: the transcript turn's
+paragraphs wrap and can be selected, in `chipSelected`, and a search's matches are drawn behind them
+from the text's own layout, each as tall as the face. The turn's plate is instant and a mouse's only,
+as the design's README asks of the reading zone; the controls over it keep the pointer rule's ramp.
+
 ## 2. Decisions
 
 ### D1. `Toon` in every identifier, package `io.github.youndie.toon`

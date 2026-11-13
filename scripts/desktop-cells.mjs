@@ -187,6 +187,54 @@ const METER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
 const TITLE_CELLS = Object.entries(THEMES).map(([theme, themeName]) => ({
   group: 'TitleBar', name: `Slots_${themeName}`, theme, themeName, opts: {}, scene: 'E.trafficSlots(T)',
 }));
+// B-78: ToonTranscriptTurn.dc.html's drawing as its `paint()` lays it out, each piece in the SVG the
+// page gives it: the hover plate `plate(T, 0, 2, w, h - 4)` and the focus `ring` in the turn's own
+// box; the 32 dp sticker in the grid's first column, 12 dp in and 10 down; the `me` turn's mic and
+// the playing turn's wave in the header row, at the x the words before them leave (an opt here, the
+// layout's in the port) and centred on its 32 dp; and the three `iconBtn32` actions 10 dp from the
+// top and the end, 6 apart. The words — name, time, the naming link, the paragraphs and a match's
+// highlight — are HTML, so a cell has none, and the menu is the kit's ToonMenu, held by its own
+// cells. Visibility follows `vis()`: the plate on hover, focus, an open menu, playing or the current
+// match; the ring on focus without a menu; the actions on hover, or on focus and a menu unless the
+// turn plays or holds the match. At the page's 760 dp preview, one line of text (84 dp) or two (110).
+const TURN_W = 760;
+const TURN_ICONS = ['play', 'copy', 'more'];
+const TURN_LOOKS = [
+  ['Rest', {}],
+  ['Hover', { plate: 1, acts: 1 }],
+  ['Focus', { plate: 1, ring: 1, acts: 1 }],
+  ['Menu', { plate: 1, acts: 1 }],
+  ['Playing', { plate: 1, waveX: 129 }],
+  ['PlayingHover', { plate: 1, acts: 1, waveX: 129 }],
+  ['Found', { plate: 1 }],
+  ['Me', { kind: 'me', letter: 'Я', micX: 99 }],
+  ['MePlaying', { kind: 'me', letter: 'Я', micX: 99, plate: 1, waveX: 125 }],
+  ['Unnamed', { kind: 'unnamed', letter: '2' }],
+  ['UnnamedHover', { kind: 'unnamed', letter: '2', plate: 1, acts: 1 }],
+  ['NoAudioHover', { plate: 1, acts: 1, audio: 0 }],
+  ['ActionHover', { plate: 1, acts: 1, hv: [0, 1, 0] }],
+  ['ActionHalfPressed', { plate: 1, acts: 1, hv: [1, 0, 0], p: [.5, 0, 0] }],
+  ['ActionPressed', { plate: 1, acts: 1, hv: [0, 0, 1], p: [0, 0, 1] }],
+  ['TallFocus', { h: 110, shape: 5, color: 2, seed: 3, plate: 1, ring: 1, acts: 1 }],
+];
+const turnScene = o => {
+  const f = n => JSON.stringify(n);
+  const back = [];
+  if (o.plate) back.push(`E.plate(T, 0, 2, ${o.w}, ${o.h - 4}, { seed: ${o.seed % 5} })`);
+  if (o.ring) back.push(`E.ring(-5, -3, ${o.w + 10}, ${o.h + 6}, [16, 12, 18, 13], T, T.seed + 3520)`);
+  const parts = [`{ L: [${back.join(', ')}], X: [] }`,
+    `E.place(E.sticker(T, ${f({ size: 32, kind: o.kind, shape: o.shape, color: o.color, letter: o.letter })}), 12, 10)`];
+  if (o.micX != null) parts.push(`E.place({ L: E.icon(T, 'mic', 0, 0, { size: 16, color: T.muted }), X: [] }, ${o.micX}, 18)`);
+  if (o.waveX != null) parts.push(`E.place({ L: E.icon(T, 'wave', 0, 0, { size: 18, color: T.text, bold: true }), X: [] }, ${o.waveX}, 17)`);
+  if (o.acts) TURN_ICONS.forEach((icon, i) => parts.push(
+    `E.place(E.iconBtn32(T, ${f({ icon, hv: o.hv[i], p: o.p[i], disabled: i === 0 && !o.audio, seed: i })}), ${o.w - 118 + 38 * i}, 10)`));
+  return `E.cat(${parts.join(', ')})`;
+};
+const TURN_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  TURN_LOOKS.map(([label, o]) => {
+    const opts = { w: TURN_W, h: 84, kind: 'named', shape: 0, color: 0, letter: 'М', seed: 0, plate: 0, ring: 0, acts: 0, audio: 1, hv: [0, 0, 0], p: [0, 0, 0], micX: null, waveX: null, ...o };
+    return { group: 'TranscriptTurn', name: `${label}_${themeName}`, theme, themeName, opts, scene: turnScene(opts) };
+  }));
 
 // B-73: ToonSplitHandle.dc.html's `splitGrip` as its `paint()` calls it: `st` 0 at rest, 1 under the
 // mouse, 2 held, and focus the page's ring pushed after it, 40 dp above the middle. The pointer page's
@@ -269,6 +317,7 @@ const SIDEBAR_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
   }));
 
 export const DESKTOP_CELLS = {
+  TranscriptTurn: TURN_CELLS,
   LevelMeter: METER_CELLS,
   RecordButton: REC_CELLS,
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
