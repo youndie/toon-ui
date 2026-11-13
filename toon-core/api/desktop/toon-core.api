@@ -599,25 +599,37 @@ public final class io/github/youndie/toon/icon/ToonIcons {
 	public final fun getCheck ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getChevron ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getClose ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getCopy ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getDelete ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getDownload ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getEdit ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getEye ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getFilter ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getFolder ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getHeart ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getHome ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getInfo ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getKey ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getLink ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getLock ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getMenu ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getMerge ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getMic ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getMore ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getPause ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getPerson ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getPlay ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getPlus ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getRec ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getRefresh ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getSearch ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getSettings ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getShare ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getStar ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getStop ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getTune ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 	public final fun getWarning ()Lio/github/youndie/toon/icon/ToonIconGlyph;
+	public final fun getWave ()Lio/github/youndie/toon/icon/ToonIconGlyph;
 }
 
 public final class io/github/youndie/toon/interaction/ToonPressKt {

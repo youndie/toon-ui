@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // B-06: render the pixel references from the vendored design engine in headless Chrome (research D3).
 //
-//   node scripts/design-references.mjs [--check] [--chrome <binary>]
+//   node scripts/design-references.mjs [--check] [--outlines] [--chrome <binary>]
 //
 // Each entry of REFERENCES is drawn by toon-engine.js itself, in a page that loads the engine
 // untouched and the repository's bundled fonts (B-02), so the reference and the Compose fixture draw
@@ -25,6 +25,7 @@ import { dirname, join, resolve } from 'node:path';
 import { setTimeout as sleep } from 'node:timers/promises';
 import { pathToFileURL } from 'node:url';
 import { ICONS, ICON_CELLS } from './icon-cells.mjs';
+import { desktopIcons } from './desktop-icons.mjs';
 import { FX_CELLS } from './fx-cells.mjs';
 import { COMPONENT_CELLS } from './component-cells.mjs';
 
@@ -63,7 +64,12 @@ REFERENCES.push(...Object.values(COMPONENT_CELLS).flat().map(({ group, name, the
 
 // B-11: the outlines themselves, which only a DOM can compute (`sampleSub` measures an SVG path), so
 // the numeric half of the icon parity is read here rather than in scripts/engine-goldens.mjs.
-const OUTLINE_EXPR = `JSON.stringify(Object.fromEntries(${JSON.stringify(Object.keys(ICONS))}.map(n => [n, { regular: E.iconOutline(n, 2.1), bold: E.iconOutline(n, 2.7) }])))`;
+// B-80: with the desktop extension's 12 after the kit's 25; only the outline page loads the extension
+// (and the kit's runtime it waits for), since it replaces the kit's `sheet` for any page it is in.
+const OUTLINE_ICONS = [...Object.keys(ICONS), ...Object.keys(desktopIcons(ICONS))];
+const OUTLINE_EXPR = `JSON.stringify(Object.fromEntries(${JSON.stringify(OUTLINE_ICONS)}.map(n => [n, { regular: E.iconOutline(n, 2.1), bold: E.iconOutline(n, 2.7) }])))`;
+const KIT = join(ROOT, 'reference/design-system/toon-kit.js');
+const DESKTOP_ENGINE = join(ROOT, 'reference/desktop/desktop-engine.js');
 
 const FACES = [
   ['Shrikhand', 'shrikhand_regular.ttf', '400'],
@@ -77,7 +83,8 @@ function page(ref) {
   const [t, r, b, l] = ref.pad;
   const W = ref.w + l + r, H = ref.h + t + b;
   return `<!doctype html><html><head><meta charset="utf-8"><style>${faces}html,body{margin:0;padding:0}</style>
-<script src="${pathToFileURL(ENGINE).href}"></script></head><body>
+<script src="${pathToFileURL(ENGINE).href}"></script>${ref.desktop ? `
+<script src="${pathToFileURL(KIT).href}"></script><script src="${pathToFileURL(DESKTOP_ENGINE).href}"></script>` : ''}</head><body>
 <svg id="s" width="${W}" height="${H}" viewBox="${-l} ${-t} ${W} ${H}" style="display:block"></svg>
 <script>
   // The engine measures text on a canvas (\`tw\`), so the faces load before the scene is built: a
@@ -212,6 +219,8 @@ async function renderScreens(cdp) {
 
 const argv = process.argv.slice(2);
 const check = argv.includes('--check');
+// B-80: --outlines takes only icon-outlines.json, so a newer Chrome does not rewrite every reference.
+const outlinesOnly = argv.includes('--outlines');
 const chrome = argv.includes('--chrome') ? argv[argv.indexOf('--chrome') + 1] : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const work = mkdtempSync(join(tmpdir(), 'toon-refs-pages-'));
 const { cdp, version, close } = await launch(chrome);
@@ -219,17 +228,20 @@ const stale = [];
 let outlines;
 try {
   if (!check) mkdirSync(OUT, { recursive: true });
-  const blank = { group: 'Outlines', name: 'all', theme: 'il', w: 1, h: 1, pad: [0, 0, 0, 0], scene: '{ L: [], X: [] }' };
-  outlines = JSON.stringify({ browser: version, outlines: JSON.parse(await render(cdp, blank, work, OUTLINE_EXPR)) }, null, 2) + '\n';
+  const blank = { group: 'Outlines', name: 'all', theme: 'il', w: 1, h: 1, pad: [0, 0, 0, 0], scene: '{ L: [], X: [] }', desktop: true };
+  const drawn = JSON.parse(await render(cdp, blank, work, OUTLINE_EXPR));
+  const missing = OUTLINE_ICONS.filter((n) => !drawn[n]?.regular || !drawn[n]?.bold);
+  if (missing.length) throw new Error(`the outline page has no outline for ${missing.join(', ')}`);
+  outlines = JSON.stringify({ browser: version, outlines: drawn }, null, 2) + '\n';
   if (check) { if (!existsSync(OUTLINES) || readFileSync(OUTLINES, 'utf8') !== outlines) stale.push('icon-outlines.json'); }
-  for (const ref of REFERENCES) {
+  for (const ref of outlinesOnly ? [] : REFERENCES) {
     const png = await render(cdp, ref, work);
     const target = join(OUT, `${ref.group}_${ref.name}.png`);
     if (check) { if (!existsSync(target) || !readFileSync(target).equals(png)) stale.push(`${ref.group}_${ref.name}`); }
     else writeFileSync(target, png);
   }
-  const screens = await renderScreens(cdp);
-  for (const ref of SCREENS) {
+  const screens = outlinesOnly ? {} : await renderScreens(cdp);
+  for (const ref of outlinesOnly ? [] : SCREENS) {
     const key = `${ref.group}_${ref.name}`;
     if (!screens[key]) throw new Error(`the Screens page has no ${key}`);
     const target = join(OUT, `${key}.png`);
@@ -246,6 +258,9 @@ const manifest = { browser: version, engine: engineSha, scale: 1, references: RE
 if (check) {
   if (stale.length) { console.error(`design references differ from a fresh render in ${version}: ${stale.join(', ')}`); process.exit(1); }
   console.log(`${REFERENCES.length} design references match a fresh render in ${version}`);
+} else if (outlinesOnly) {
+  writeFileSync(OUTLINES, outlines);
+  console.log(`${OUTLINE_ICONS.length} icon outlines written with ${version}`);
 } else {
   writeFileSync(join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
   mkdirSync(dirname(OUTLINES), { recursive: true });
