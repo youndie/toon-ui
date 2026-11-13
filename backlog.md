@@ -56,11 +56,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (8)
+## Open (7)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-72](docs/backlog/B-72-scrollbar.md) `[ ]` | ToonScrollbar: an ink thumb that keeps clear of the window's edge | P1 | M | B-68, B-69 |
 | [B-74](docs/backlog/B-74-level-meter.md) `[ ]` | ToonLevelMeter: a channel's level, live, silent or clipping | P1 | M | B-68 |
 | [B-75](docs/backlog/B-75-record-button.md) `[ ]` | ToonRecordButton: start and stop, with the elapsed time | P1 | M | B-68, B-69 |
 | [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70 |
@@ -69,7 +68,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
 | [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[ ]` | The pointer rule on the pressable components the pointer page does not draw | P2 | M | B-69 |
 
-## Closed (71)
+## Closed (72)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -159,5 +158,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-69](docs/backlog/B-69-pointer-and-keyboard-rule.md) `[x]` - One hover, focus and target rule for the whole kit
 - [B-70](docs/backlog/B-70-speaker-sticker.md) `[x]` - ToonSpeakerSticker: a speaker told apart by shape, colour and letter
 - [B-71](docs/backlog/B-71-search-field.md) `[x]` - ToonSearchField: a search box with a count and a key hint
+- [B-72](docs/backlog/B-72-scrollbar.md) `[x]` - ToonScrollbar: an ink thumb that keeps clear of the window's edge
 
 <!-- END INDEX -->

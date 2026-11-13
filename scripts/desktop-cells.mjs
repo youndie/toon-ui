@@ -82,9 +82,26 @@ const SEARCH_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
       return { group: 'SearchField', name: `${label}_${themeName}`, theme, themeName, opts, scene: `E.searchBox(T, ${JSON.stringify(opts)})` };
     }));
 
+// B-72: ToonScrollbar.dc.html's `scrollThumb`: the pointer page's three states (rest, hover, drag)
+// at its 120 dp track; the page's own defaults (220 dp, 0.2–0.45); a visible fraction so small the
+// thumb stands at its 28 dp; and the end of a long list, where the thumb is held inside the track.
+const SCROLL_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  [
+    ['Rest', 120, { a: .2, b: .55, st: 0 }],
+    ['Hover', 120, { a: .2, b: .55, st: 1 }],
+    ['Drag', 120, { a: .2, b: .55, st: 2 }],
+    ['Default', 220, { a: .2, b: .45, st: 0 }],
+    ['Least', 220, { a: .5, b: .505, st: 0 }],
+    ['End', 220, { a: .97, b: .995, st: 1 }],
+  ].map(([label, h, o]) => {
+    const opts = { h, ...o };
+    return { group: 'Scrollbar', name: `${label}_${themeName}`, theme, themeName, opts, scene: `E.scrollThumb(T, ${h}, ${JSON.stringify(o)})` };
+  }));
+
 export const DESKTOP_CELLS = {
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
   SearchField: SEARCH_CELLS,
+  Scrollbar: SCROLL_CELLS,
   Hover: HOVER_CELLS,
   Focus: FOCUS_CELLS,
 };

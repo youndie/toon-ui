@@ -166,6 +166,11 @@ public final class io/github/youndie/toon/component/ToonRadioGroupKt {
 	public static final fun ToonRadioGroup (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
 }
 
+public final class io/github/youndie/toon/component/ToonScrollbarKt {
+	public static final fun ToonScrollbar (Landroidx/compose/foundation/ScrollState;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ToonScrollbar (Landroidx/compose/foundation/lazy/LazyListState;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class io/github/youndie/toon/component/ToonSearchFieldKt {
 	public static final fun ToonSearchField-egy_3UM (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Lkotlin/jvm/functions/Function1;FLandroidx/compose/runtime/Composer;II)V
 }
