@@ -39,6 +39,7 @@ import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonSegments
+import io.github.youndie.toon.draw.ToonTextRenderer
 import io.github.youndie.toon.draw.ToonTextStyle
 import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
@@ -78,6 +79,10 @@ public enum class ToonListTrailing {
  * The design's list item: [icon] on a sticker coloured by [index], [title] and [sub], and the
  * [trailing] control. A click calls [onClick]; with a switch or a check it also toggles [on] and
  * reports it to [onCheckedChange]. [last] leaves out the rule under the row.
+ *
+ * The title wraps onto up to [titleMaxLines] lines and the sub onto [subMaxLines], each cut with an
+ * ellipsis short of the trailing control; the row grows from the design's 72 dp by the lines added
+ * (B-84).
  */
 @Composable
 public fun ToonListItem(
@@ -91,6 +96,8 @@ public fun ToonListItem(
     last: Boolean = false,
     width: Dp = 342.dp,
     enabled: Boolean = true,
+    titleMaxLines: Int = 2,
+    subMaxLines: Int = 1,
     onCheckedChange: (Boolean) -> Unit = {},
     onClick: () -> Unit = {},
 ) {
@@ -117,9 +124,13 @@ public fun ToonListItem(
     }
 
     val w = width.value
+    // B-84: the words laid out in the room left of the trailing control; each line past the first grows the row.
+    val room = toonListTextRoom(w, trailing)
+    val titleExtra = remember(title, room, titleMaxLines, text) { text.extraLines(title, TITLE, room, titleMaxLines) }
+    val subExtra = remember(sub, room, subMaxLines, text) { text.extraLines(sub, SUB, room, subMaxLines) }
     Canvas(
         modifier
-            .size(width, ROW_H.dp)
+            .size(width, (ROW_H + titleExtra + subExtra).dp)
             .semantics {
                 this.text = AnnotatedString(if (sub.isEmpty()) title else "$title, $sub")
                 role = if (toggles) Role.Switch else Role.Button
@@ -153,7 +164,17 @@ public fun ToonListItem(
                     title,
                     sub,
                     trailing,
-                    look.copy(seed = index, last = last, disabled = !enabled, focus = focused, hv = hover.value),
+                    look.copy(
+                        seed = index,
+                        last = last,
+                        disabled = !enabled,
+                        focus = focused,
+                        hv = hover.value,
+                        titleMaxLines = titleMaxLines,
+                        subMaxLines = subMaxLines,
+                        titleExtra = titleExtra,
+                        subExtra = subExtra,
+                    ),
                 ),
                 text,
             )
@@ -162,6 +183,36 @@ public fun ToonListItem(
 }
 
 private const val ROW_H = 72f
+
+/** The words end this far short of the trailing control (B-84). */
+private const val TEXT_GAP = 8f
+
+/** Where the words start: right of the 40 dp sticker. */
+private const val TEXT_X = 56f
+
+/** The width the title and sub have on a row [w] wide with [trailing]: from the sticker to the control (B-84). */
+internal fun toonListTextRoom(
+    w: Float,
+    trailing: ToonListTrailing,
+): Float =
+    when (trailing) {
+        ToonListTrailing.Chevron -> w - 28
+        ToonListTrailing.Switch -> w - 60
+        ToonListTrailing.Check -> w - 48
+        ToonListTrailing.None -> w + TEXT_GAP
+    } - TEXT_GAP - TEXT_X
+
+/** How much taller than one line [text] stands laid out in [room] on up to [maxLines] lines: the lines added. */
+private fun ToonTextRenderer.extraLines(
+    text: String,
+    style: ToonTextStyle,
+    room: Float,
+    maxLines: Int,
+): Float {
+    if (text.isEmpty() || maxLines <= 1) return 0f
+    val layout = measure(text, style, room, maxLines)
+    return layout.getLineBaseline(layout.lineCount - 1) - layout.getLineBaseline(0)
+}
 
 /**
  * The kit runs a press for 200 ms, a release for 500 and the switch's toggle for 520, its curve 480; the
@@ -294,6 +345,11 @@ internal data class ToonListItemLook(
      * selected row's plate, which a press also draws.
      */
     val hv: Float = 0f,
+    /** The lines the title and sub may take, and how much their lines past the first add to the row (B-84). */
+    val titleMaxLines: Int = 1,
+    val subMaxLines: Int = 1,
+    val titleExtra: Float = 0f,
+    val subExtra: Float = 0f,
 )
 
 private val FOCUS_RADII = ToonRadii(16f, 12f, 18f, 13f)
@@ -315,9 +371,11 @@ internal fun toonListItemScene(
 ): ToonScene {
     val c = tokens.colors
     val sh = tokens.shape
-    val h = ROW_H
+    val h = ROW_H + o.titleExtra + o.subExtra
     val sag = o.sag
+    // The sticker and the trailing control stay in the middle of a grown row (B-84).
     val dy = 2 * max(0f, sag)
+    val my = dy + (h - ROW_H) / 2
     val dis = o.disabled
     val op = if (dis) .5f else 1f
     val sd = o.seed
@@ -339,27 +397,50 @@ internal fun toonListItemScene(
     val ins = sh.insets.let { ToonInsets(it.top * .75f, it.right * .75f, it.bottom * .75f, it.left * .75f) }
     layers +=
         bodyLayers(
-            shapePoints(0f, 16 + dy, 40f, 40f, STICKER_RADII, ins, sh.wobble, sh.seed + 910 + sd, 3f),
+            shapePoints(0f, 16 + my, 40f, 40f, STICKER_RADII, ins, sh.wobble, sh.seed + 910 + sd, 3f),
             fill = c.stickers[sd.mod(3)],
             colors = c,
             shadow = 0f,
             inkAlpha = if (dis) .4f else 1f,
             rim = null,
         )
-    layers += iconLayers(icon, 8f, 24 + dy, c.ink, alpha = op)
+    layers += iconLayers(icon, 8f, 24 + my, c.ink, alpha = op)
     val labels =
         mutableListOf(
-            ToonLabel(title, 56f, (if (sub.isNotEmpty()) 33f else 42f) + dy, c.text, op, TITLE, ToonAnchor.Start),
+            ToonLabel(
+                title,
+                TEXT_X,
+                (if (sub.isNotEmpty()) 33f else 42f) + dy,
+                c.text,
+                op,
+                TITLE,
+                ToonAnchor.Start,
+                toonListTextRoom(w, trailing),
+                o.titleMaxLines,
+            ),
         )
-    if (sub.isNotEmpty()) labels += ToonLabel(sub, 56f, 54 + dy, c.textMuted, op, SUB, ToonAnchor.Start)
+    if (sub.isNotEmpty()) {
+        labels +=
+            ToonLabel(
+                sub,
+                TEXT_X,
+                54 + dy + o.titleExtra,
+                c.textMuted,
+                op,
+                SUB,
+                ToonAnchor.Start,
+                toonListTextRoom(w, trailing),
+                o.subMaxLines,
+            )
+    }
     when (trailing) {
         ToonListTrailing.Chevron -> {
-            layers += iconLayers(ToonIcons.Chevron, w - 28, 24 + dy, c.text, alpha = op)
+            layers += iconLayers(ToonIcons.Chevron, w - 28, 24 + my, c.text, alpha = op)
         }
 
         ToonListTrailing.Switch -> {
             val sw = (o.switchLook ?: ToonSwitchLook(on = o.on)).copy(on = o.on, disabled = dis)
-            layers += toonSwitchScene(tokens, sw).placed(w - 60, 12 + dy).layers
+            layers += toonSwitchScene(tokens, sw).placed(w - 60, 12 + my).layers
         }
 
         ToonListTrailing.Check -> {
@@ -369,10 +450,10 @@ internal fun toonListItemScene(
                 // Reduce motion's `fade 120`, as the checkbox: the unchecked box fades into the checked one.
                 layers +=
                     toonCheckboxScene(tokens, "", ToonCheckboxLook(on = false, disabled = dis))
-                        .placed(w - 48, 12 + dy, 1 - fade)
+                        .placed(w - 48, 12 + my, 1 - fade)
                         .layers
             }
-            layers += toonCheckboxScene(tokens, "", look).placed(w - 48, 12 + dy, fade ?: 1f).layers
+            layers += toonCheckboxScene(tokens, "", look).placed(w - 48, 12 + my, fade ?: 1f).layers
         }
 
         // Nothing trails the text.

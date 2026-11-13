@@ -250,6 +250,7 @@ internal fun ToonScene.hoverLifted(
                     it.style,
                     it.anchor,
                     it.maxWidth,
+                    it.maxLines,
                 )
             }
         },

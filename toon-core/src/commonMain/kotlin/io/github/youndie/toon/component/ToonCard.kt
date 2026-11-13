@@ -812,6 +812,7 @@ private fun ToonScene.labelsTurned(
                 it.style,
                 it.anchor,
                 it.maxWidth,
+                it.maxLines,
             )
         },
     )
@@ -834,5 +835,6 @@ private fun ToonScene.labelsScaled(
             it.style,
             it.anchor,
             it.maxWidth,
+            it.maxLines,
         )
     }

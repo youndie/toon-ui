@@ -243,8 +243,9 @@ internal enum class ToonAnchor { Start, Middle, End }
 
 /**
  * One text of a frame, as the engine's `X`: [text] on [baseline], [anchor]ed at [x]. A finite
- * [maxWidth] cuts a text wider than it to one line ending in an ellipsis (B-83); the engine's texts
- * have no width, and the design's own words fit.
+ * [maxWidth] wraps a text wider than it onto up to [maxLines] lines, the last ending in an ellipsis
+ * (B-83, B-84), [baseline] being the first line's; the engine's texts have no width, and the design's
+ * own words fit.
  */
 internal class ToonLabel(
     val text: String,
@@ -255,6 +256,7 @@ internal class ToonLabel(
     val style: ToonTextStyle,
     val anchor: ToonAnchor = ToonAnchor.Middle,
     val maxWidth: Float = Float.POSITIVE_INFINITY,
+    val maxLines: Int = 1,
 )
 
 /** A frame: [layers] in order, then [labels] over them. */
@@ -302,6 +304,7 @@ internal class ToonScene(
                     it.style,
                     it.anchor,
                     it.maxWidth,
+                    it.maxLines,
                 )
             },
         )
@@ -461,6 +464,7 @@ internal class ToonTextRenderer(
         text: String,
         style: ToonTextStyle,
         maxWidth: Float = Float.POSITIVE_INFINITY,
+        maxLines: Int = 1,
     ): TextLayoutResult =
         measurer.measure(
             withBacking(
@@ -478,8 +482,8 @@ internal class ToonTextRenderer(
             // Laid out in dp, as the frame is drawn ([inDp]); the user's font scale still applies.
             density = Density(1f, fontScale),
             overflow = if (maxWidth.isFinite()) TextOverflow.Ellipsis else TextOverflow.Clip,
-            softWrap = !maxWidth.isFinite(),
-            maxLines = if (maxWidth.isFinite()) 1 else Int.MAX_VALUE,
+            softWrap = !maxWidth.isFinite() || maxLines > 1,
+            maxLines = if (maxWidth.isFinite()) maxLines else Int.MAX_VALUE,
             constraints =
                 if (maxWidth.isFinite()) {
                     Constraints(
@@ -543,7 +547,7 @@ internal fun DrawScope.drawScene(
     if (text == null) return
     for (x in scene.labels) {
         if (x.alpha <= .01f) continue
-        val layout = text.measure(x.text, x.style, x.maxWidth)
+        val layout = text.measure(x.text, x.style, x.maxWidth, x.maxLines)
         val left =
             when (x.anchor) {
                 ToonAnchor.Start -> x.x
