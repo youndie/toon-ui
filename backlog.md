@@ -56,18 +56,16 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (6)
+## Open (4)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70, B-80 |
-| [B-84](docs/backlog/B-84-list-item-wraps-its-title.md) `[ ]` | The list item wraps its title and cuts its sub before the trailing | P1 | M | - |
-| [B-88](docs/backlog/B-88-segmented-fits-its-labels.md) `[ ]` | The segmented control fits a label wider than its slot | P1 | S | - |
-| [B-85](docs/backlog/B-85-overlay-content-slot.md) `[ ]` | Dialog and bottom sheet take content, and their texts have no English defaults | P2 | M | - |
-| [B-86](docs/backlog/B-86-stage-same-on-every-x86.md) `[ ]` | The textured stage draws the same pixels on every x86 machine, or can be drawn flat | P2 | M | - |
-| [B-87](docs/backlog/B-87-list-item-selected.md) `[ ]` | The list item has a selected state for a master-detail list | P2 | S | - |
+| [B-78](docs/backlog/B-78-transcript-turn.md) `[~]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70, B-80 |
+| [B-73](docs/backlog/B-73-split-handle.md) `[ ]` | ToonSplitHandle: the grip between a sidebar and the content | P2 | S | B-68, B-69 |
+| [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
+| [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[ ]` | The pointer rule on the pressable components the pointer page does not draw | P2 | M | B-69 |
 
-## Closed (82)
+## Closed (76)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -150,9 +148,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[x]` - Menu: with three or more items the middle ones are 44 dp targets
 - [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[x]` - Check the two-effect clocks under a first composition
 - [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[x]` - The kit's theme and reduce motion reach the Screens app
-- [B-81](docs/backlog/B-81-title-card-fits-a-long-title.md) `[x]` - The title card fits a title wider than its plaque
-- [B-82](docs/backlog/B-82-public-text-with-the-cyrillic-backing.md) `[x]` - A consumer's own text gets the Cyrillic backing faces
-- [B-83](docs/backlog/B-83-card-fits-long-texts.md) `[x]` - The card fits a long time, title and meta
 
 **The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
 
@@ -161,12 +156,9 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-70](docs/backlog/B-70-speaker-sticker.md) `[x]` - ToonSpeakerSticker: a speaker told apart by shape, colour and letter
 - [B-71](docs/backlog/B-71-search-field.md) `[x]` - ToonSearchField: a search box with a count and a key hint
 - [B-72](docs/backlog/B-72-scrollbar.md) `[x]` - ToonScrollbar: an ink thumb that keeps clear of the window's edge
-- [B-73](docs/backlog/B-73-split-handle.md) `[x]` - ToonSplitHandle: the grip between a sidebar and the content
 - [B-74](docs/backlog/B-74-level-meter.md) `[x]` - ToonLevelMeter: a channel's level, live, silent or clipping
 - [B-75](docs/backlog/B-75-record-button.md) `[x]` - ToonRecordButton: start and stop, with the elapsed time
 - [B-76](docs/backlog/B-76-title-bar.md) `[x]` - ToonTitleBar: the window's title row and its action slot
-- [B-77](docs/backlog/B-77-sidebar.md) `[x]` - ToonSidebar: a persistent side panel with search, groups and navigation
-- [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[x]` - The pointer rule on the pressable components the pointer page does not draw
 - [B-80](docs/backlog/B-80-desktop-icons.md) `[x]` - The desktop icons: the extension's 12 glyphs in ToonIcons
 
 <!-- END INDEX -->

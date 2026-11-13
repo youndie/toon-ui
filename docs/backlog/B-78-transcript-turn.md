@@ -1,7 +1,7 @@
 ---
 id: B-78
 title: "ToonTranscriptTurn: one turn of a transcript, calm to read"
-status: open
+status: wip
 priority: P1
 size: L
 stage: stage-5-desktop
