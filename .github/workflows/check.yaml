@@ -69,6 +69,22 @@ jobs:
           retention-days: 7
           if-no-files-found: ignore
 
+  # B-86: the textured stage on x86. The gate's Mac decides a nearest-sampling tie one way every
+  # time, so it cannot see a stage that two x86 CPUs drew differently; this job runs the stage's
+  # sampling test on a Linux x86 runner and names its CPU, as a consumer's CI would. Only that test:
+  # the goldens are a claim about the Mac's rasteriser.
+  stage-x86:
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: youndie/sborka/.github/actions/setup-kotlin@v0.5.0.135
+
+      - run: grep -m1 'model name' /proc/cpuinfo
+
+      - run: ./gradlew :toon-core:desktopTest --tests '*ToonStageSamplingTest*' --no-daemon
+
   # Separate from the gate, and on a schedule rather than on a pull request, because an anchor rots
   # when somebody refactors a **different** repository. A pull request here is the least likely
   # moment for one to break, and running it there trains people to ignore a red build they did not
