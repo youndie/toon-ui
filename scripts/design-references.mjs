@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // B-06: render the pixel references from the vendored design engine in headless Chrome (research D3).
 //
-//   node scripts/design-references.mjs [--check] [--outlines] [--chrome <binary>]
+//   node scripts/design-references.mjs [--check] [--outlines] [--only <group,…>] [--chrome <binary>]
 //
 // Each entry of REFERENCES is drawn by toon-engine.js itself, in a page that loads the engine
 // untouched and the repository's bundled fonts (B-02), so the reference and the Compose fixture draw
@@ -28,6 +28,7 @@ import { ICONS, ICON_CELLS } from './icon-cells.mjs';
 import { desktopIcons } from './desktop-icons.mjs';
 import { FX_CELLS } from './fx-cells.mjs';
 import { COMPONENT_CELLS } from './component-cells.mjs';
+import { PANEL_SCENE } from './desktop-cells.mjs';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const ENGINE = join(ROOT, 'reference/design-system/toon-engine.js');
@@ -61,6 +62,13 @@ REFERENCES.push(...FX_CELLS.map(({ group, name, theme, w, h, pad, scene }) => ({
 
 // B-14 on: each component's cells on the spec pages (scripts/component-cells.mjs).
 REFERENCES.push(...Object.values(COMPONENT_CELLS).flat().map(({ group, name, theme, w, h, pad, scene }) => ({ group, name, theme, w, h, pad, scene })));
+
+// B-89: the desktop extension's panel `sheet` at two sizes and seeds, as the design's screens call it.
+// The page loads the extension (and the kit's runtime it waits for), which replaces the kit's bottom
+// sheet in that page alone.
+const PANEL_REFS = [['Card', 320, 200, 0], ['Wide', 480, 160, 5]];
+REFERENCES.push(...Object.entries(THEMES).flatMap(([key, theme]) => PANEL_REFS.map(([label, w, h, seed]) => (
+  { group: 'Panel', name: `${label}_${theme}`, theme: key, w, h, pad: [12, 16, 16, 12], scene: PANEL_SCENE(w, h, seed), desktop: true }))));
 
 // B-11: the outlines themselves, which only a DOM can compute (`sampleSub` measures an SVG path), so
 // the numeric half of the icon parity is read here rather than in scripts/engine-goldens.mjs.
@@ -221,6 +229,13 @@ const argv = process.argv.slice(2);
 const check = argv.includes('--check');
 // B-80: --outlines takes only icon-outlines.json, so a newer Chrome does not rewrite every reference.
 const outlinesOnly = argv.includes('--outlines');
+// B-89: --only renders the references of the groups it names and nothing else: a group added while the
+// rest were rendered by an older Chrome is drawn without rewriting them. Each entry it writes records
+// its browser in the manifest where it differs from the one the manifest names.
+const only = argv.includes('--only') ? argv[argv.indexOf('--only') + 1].split(',') : null;
+if (only && (check || outlinesOnly)) throw new Error('--only takes neither --check nor --outlines');
+const unknown = (only ?? []).filter((g) => !REFERENCES.some((r) => r.group === g));
+if (unknown.length) throw new Error(`no references in ${unknown.join(', ')}`);
 const chrome = argv.includes('--chrome') ? argv[argv.indexOf('--chrome') + 1] : '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
 const work = mkdtempSync(join(tmpdir(), 'toon-refs-pages-'));
 const { cdp, version, close } = await launch(chrome);
@@ -234,14 +249,14 @@ try {
   if (missing.length) throw new Error(`the outline page has no outline for ${missing.join(', ')}`);
   outlines = JSON.stringify({ browser: version, outlines: drawn }, null, 2) + '\n';
   if (check) { if (!existsSync(OUTLINES) || readFileSync(OUTLINES, 'utf8') !== outlines) stale.push('icon-outlines.json'); }
-  for (const ref of outlinesOnly ? [] : REFERENCES) {
+  for (const ref of outlinesOnly ? [] : REFERENCES.filter((r) => !only || only.includes(r.group))) {
     const png = await render(cdp, ref, work);
     const target = join(OUT, `${ref.group}_${ref.name}.png`);
     if (check) { if (!existsSync(target) || !readFileSync(target).equals(png)) stale.push(`${ref.group}_${ref.name}`); }
     else writeFileSync(target, png);
   }
-  const screens = outlinesOnly ? {} : await renderScreens(cdp);
-  for (const ref of outlinesOnly ? [] : SCREENS) {
+  const screens = outlinesOnly || only ? {} : await renderScreens(cdp);
+  for (const ref of outlinesOnly || only ? [] : SCREENS) {
     const key = `${ref.group}_${ref.name}`;
     if (!screens[key]) throw new Error(`the Screens page has no ${key}`);
     const target = join(OUT, `${key}.png`);
@@ -253,11 +268,25 @@ try {
   rmSync(work, { recursive: true, force: true });
 }
 const engineSha = createHash('sha256').update(readFileSync(ENGINE)).digest('hex');
-const manifest = { browser: version, engine: engineSha, scale: 1, references: REFERENCES.map(({ group, name, theme, w, h, pad, scene }) => ({ file: `${group}_${name}.png`, theme, w, h, pad, scene })),
+const previous = only ? JSON.parse(readFileSync(join(OUT, 'manifest.json'), 'utf8')) : null;
+const browserOf = (group, file) => {
+  if (!previous) return version;
+  if (only.includes(group)) return version;
+  return previous.references.find((r) => r.file === file)?.browser ?? previous.browser;
+};
+const top = previous?.browser ?? version;
+const manifest = { browser: top, engine: engineSha, scale: 1, references: REFERENCES.map(({ group, name, theme, w, h, pad, scene, desktop }) => {
+  const file = `${group}_${name}.png`;
+  const browser = browserOf(group, file);
+  return { file, theme, w, h, pad, scene, ...(desktop ? { desktop } : {}), ...(browser !== top ? { browser } : {}) };
+}),
   screens: SCREENS.map(({ group, name, w, h }) => ({ file: `${group}_${name}.png`, page: 'toon-ui Screens.dc.html', w, h, reducedMotion: true })) };
 if (check) {
   if (stale.length) { console.error(`design references differ from a fresh render in ${version}: ${stale.join(', ')}`); process.exit(1); }
   console.log(`${REFERENCES.length} design references match a fresh render in ${version}`);
+} else if (only) {
+  writeFileSync(join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
+  console.log(`${REFERENCES.filter((r) => only.includes(r.group)).length} design references of ${only.join(', ')} written with ${version}`);
 } else if (outlinesOnly) {
   writeFileSync(OUTLINES, outlines);
   console.log(`${OUTLINE_ICONS.length} icon outlines written with ${version}`);

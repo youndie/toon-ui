@@ -165,6 +165,10 @@ public final class io/github/youndie/toon/component/ToonNavigationDrawerKt {
 	public static final fun ToonNavigationDrawer (Ljava/util/List;Landroidx/compose/ui/Modifier;ZLjava/lang/String;ILkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class io/github/youndie/toon/component/ToonPanelKt {
+	public static final fun ToonPanel (Landroidx/compose/ui/Modifier;ILkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class io/github/youndie/toon/component/ToonProgressKind : java/lang/Enum {
 	public static final field Circular Lio/github/youndie/toon/component/ToonProgressKind;
 	public static final field Linear Lio/github/youndie/toon/component/ToonProgressKind;

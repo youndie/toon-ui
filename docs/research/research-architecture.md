@@ -245,6 +245,13 @@ other. They meet in appframe's `actions` slot, which takes the kit's controls as
 `ToonTitleBar` is the whole bar for a window with no frame of its own. Its targets keep clear of an
 undecorated window's 8 dp resize strip, as the scrollbar's do (B-72).
 
+**The content panel (B-89).** The app's screens lay each content pane on the extension's `sheet`,
+called with a seed and the renderer's defaults otherwise, and they were not vendored; no design file of
+the set draws that call. `ToonPanel` is it, as big as its layout makes it, with the content over it in
+its own box and no padding of the panel's, since each view pads its pane its own way. The sidebar's
+panel is the same scene with the sidebar's radii, shadow and seed. With no spec page to draw it, the
+panel is held as the B-09 body is: Chrome's rendering of the renderer itself, beside the frames.
+
 **The reading zone (B-78).** Words that are read, not labels, are real text: the transcript turn's
 paragraphs wrap and can be selected, in `chipSelected`, and a search's matches are drawn behind them
 from the text's own layout, each as tall as the face. The turn's plate is instant and a mouse's only,
