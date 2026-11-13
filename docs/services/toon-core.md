@@ -203,6 +203,11 @@ None at runtime.
   the hole, the close-up, `onDismiss` — runs 55 ms later than for a reader's throw (`throwShift`).
   Dragged and swiped, its words go where the sheet takes their places; the design leaves them where
   they stood (B-67).
+- A card's time sticker grows with its time past the design's 64 dp, up to 45 % of the card; a
+  longer time ends in an ellipsis on it (B-83). The title and meta are one line each, cut with an
+  ellipsis 10 dp short of the sticker; the card stays 84 dp tall, since its throw, hole and the
+  list's close-up are built on that height. A frame's text with a finite `ToonLabel.maxWidth` is laid
+  out on one line with an ellipsis; the engine's texts have none.
 - A dialog is a full-screen layer: the caller puts it over the content it dims (a `Box` with both),
   and it fills its box. Closed, it takes no input, so it can stay composed (B-24).
 - A dialog's pop hands its stars to a `ToonFxHost` 170 ms into the close (`dialog.pop`), which plays

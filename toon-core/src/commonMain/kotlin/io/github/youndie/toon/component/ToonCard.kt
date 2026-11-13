@@ -147,6 +147,8 @@ internal fun ToonCard(
     val tokens = Toon.tokens
     val reduce = Toon.reduceMotion
     val text = rememberToonText()
+    // B-83: the time measured, so its sticker can grow to hold it.
+    val timeWidth = remember(time, text) { if (time.isEmpty()) 0f else text.measure(time, TIME).multiParagraph.width }
     val fx = LocalToonFxEmitter.current
     val w = width.value
     val i = index.mod(3)
@@ -265,6 +267,7 @@ internal fun ToonCard(
                     holeLocal,
                     focus = focused,
                     hv = hover.value,
+                    timeWidth = timeWidth,
                 )
             if (scene.fade != null) {
                 // Reduce motion's `fade 120`: the card fades in on appear and out on dismiss.
@@ -439,6 +442,7 @@ internal fun toonCardFrame(
     holeLocal: Boolean,
     focus: Boolean = false,
     hv: Float = 0f,
+    timeWidth: Float = 0f,
 ): ToonCardMoment {
     val c = tokens.colors
     val ta = state.age(state.appearAt)
@@ -446,7 +450,16 @@ internal fun toonCardFrame(
     if (td != null) {
         if (reduceMotion) {
             val card =
-                toonCardScene(tokens, i, w, title, meta, time, ToonCardLook(selected = selected, disabled = disabled))
+                toonCardScene(
+                    tokens,
+                    i,
+                    w,
+                    title,
+                    meta,
+                    time,
+                    ToonCardLook(selected = selected, disabled = disabled),
+                    timeWidth,
+                )
             return ToonCardMoment(card.placed(0f, 0f, 1f, rot0, w / 2, CARD_H / 2), max(0f, 1 - td / REDUCED_FADE_MS))
         }
         // A swiped card springs back to its slot, past it by the spring's overshoot, and is thrown from
@@ -476,7 +489,16 @@ internal fun toonCardFrame(
         }
         if (d.op > .01f) {
             val card =
-                toonCardScene(tokens, i, w, title, meta, time, ToonCardLook(selected = selected, disabled = disabled))
+                toonCardScene(
+                    tokens,
+                    i,
+                    w,
+                    title,
+                    meta,
+                    time,
+                    ToonCardLook(selected = selected, disabled = disabled),
+                    timeWidth,
+                )
             scene +=
                 if (swiped && td < RETURN_MS) {
                     // On its way back it is the card being dragged, its lift and turn let go as it nears the end.
@@ -518,6 +540,7 @@ internal fun toonCardFrame(
                 focus = focus,
                 hv = hv,
             ),
+            timeWidth,
         )
     val rot = a.rot + state.press * 1.6f * (state.lean ?: -.6f)
     val scene =
@@ -607,9 +630,31 @@ internal data class ToonCardLook(
 private val TITLE = ToonTextStyle(700, 18f)
 private val META = ToonTextStyle(500, 14f)
 private val TIME = ToonTextStyle(700, 15f)
+
+/** The design's time sticker: 64 dp, which holds its widest time, "20:00" at 43 dp, 10 dp in from each side. */
+private const val STICKER_W = 64f
+private const val STICKER_PAD = 10f
+
+/** A sticker grows to hold a longer time up to this share of the card; a time longer still is cut (B-83). */
+private const val STICKER_MAX = .45f
+
+/** The title and meta end this far short of the sticker. */
+private const val TEXT_GAP = 10f
+
+/** The sticker's width on a card [w] wide for a time measured [timeWidth] wide (B-83). */
+internal fun toonCardStickerWidth(
+    w: Float,
+    timeWidth: Float,
+): Float = max(STICKER_W, min(w * STICKER_MAX, timeWidth + 2 * STICKER_PAD))
+
 private val STICKER_RADII = ToonRadii(14f, 9f, 15f, 10f)
 
-/** The engine's `card`: one frame [w] dp wide and 84 tall, from its top left. */
+/**
+ * The engine's `card`: one frame [w] dp wide and 84 tall, from its top left. [timeWidth] is the time
+ * measured: its sticker grows to hold it past the design's 64 dp, up to [STICKER_MAX] of the card, and
+ * the title and meta are cut with an ellipsis short of the sticker (B-83). Zero, the default, is the
+ * design's sticker, which holds the design's times.
+ */
 @OptIn(InternalToonApi::class)
 internal fun toonCardScene(
     tokens: ToonTokens,
@@ -619,6 +664,7 @@ internal fun toonCardScene(
     meta: String,
     time: String,
     o: ToonCardLook,
+    timeWidth: Float = 0f,
 ): ToonScene {
     val c = tokens.colors
     val sh = tokens.shape
@@ -646,7 +692,7 @@ internal fun toonCardScene(
             shadow = if (dis) 0f else sh.shadow * (1 - .7f * press),
             inkAlpha = if (dis) .4f else 1f,
         )
-    val stw = 64f
+    val stw = toonCardStickerWidth(w, timeWidth)
     val sth = 40f
     val stx = w - stw - 18
     val sty = (h - sth) / 2 - 2 + dy
@@ -664,9 +710,9 @@ internal fun toonCardScene(
     val bo = o.textOp
     val labels =
         listOf(
-            ToonLabel(title, 22f, 38 + dy, c.text, op * bo, TITLE, ToonAnchor.Start),
-            ToonLabel(meta, 22f, 60 + dy, c.textMuted, op * bo, META, ToonAnchor.Start),
-            ToonLabel(time, stx + stw / 2, sty + 25, c.ink, op * bo, TIME),
+            ToonLabel(title, 22f, 38 + dy, c.text, op * bo, TITLE, ToonAnchor.Start, stx - TEXT_GAP - 22f),
+            ToonLabel(meta, 22f, 60 + dy, c.textMuted, op * bo, META, ToonAnchor.Start, stx - TEXT_GAP - 22f),
+            ToonLabel(time, stx + stw / 2, sty + 25, c.ink, op * bo, TIME, ToonAnchor.Middle, stw - 2 * STICKER_PAD),
         )
     return ToonScene(layers, labels).hoverLifted(if (dis) 0f else HOVER_LIFT * o.hv * (1 - min(1f, press)), c.ink)
 }
@@ -757,7 +803,16 @@ private fun ToonScene.labelsTurned(
         labels.map {
             val x = it.x - cx
             val y = it.baseline - cy
-            ToonLabel(it.text, cx + cs * x - sn * y, cy + sn * x + cs * y, it.color, it.alpha, it.style, it.anchor)
+            ToonLabel(
+                it.text,
+                cx + cs * x - sn * y,
+                cy + sn * x + cs * y,
+                it.color,
+                it.alpha,
+                it.style,
+                it.anchor,
+                it.maxWidth,
+            )
         },
     )
 }
@@ -770,5 +825,14 @@ private fun ToonScene.labelsScaled(
     sy: Float,
 ): List<ToonLabel> =
     labels.map {
-        ToonLabel(it.text, cx + (it.x - cx) * sx, cy + (it.baseline - cy) * sy, it.color, it.alpha, it.style, it.anchor)
+        ToonLabel(
+            it.text,
+            cx + (it.x - cx) * sx,
+            cy + (it.baseline - cy) * sy,
+            it.color,
+            it.alpha,
+            it.style,
+            it.anchor,
+            it.maxWidth,
+        )
     }
