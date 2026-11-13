@@ -83,6 +83,7 @@ const OWN = {
   ToonCardList: ['a column of cards: the 40 ms cascade and the close-up after a dismiss, as the Core page\'s `cardStack`', 'B-46'],
   ToonTransitionHost: ['the screen transitions of the v1 page: push, scene change, hole in the wall', 'B-44'],
   ToonPullToRefreshBox: ['pull-to-refresh over content: the content pulled down, the band in the gap above it', 'B-64'],
+  ToonText: ['a consumer\'s own text in a step of the type scale, its Cyrillic in the theme\'s backing faces', 'B-82'],
 };
 
 const problems = [];
