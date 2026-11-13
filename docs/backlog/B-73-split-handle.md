@@ -1,7 +1,7 @@
 ---
 id: B-73
 title: "ToonSplitHandle: the grip between a sidebar and the content"
-status: open
+status: wip
 priority: P2
 size: S
 stage: stage-5-desktop
