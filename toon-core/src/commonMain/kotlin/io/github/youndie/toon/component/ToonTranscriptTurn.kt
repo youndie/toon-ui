@@ -190,7 +190,6 @@ public fun ToonTranscriptTurn(
     val focusManager = LocalFocusManager.current
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
-    val rootFocus = remember { FocusRequester() }
     val menuFocus = remember { FocusRequester() }
     var hovered by remember { mutableStateOf(false) }
     var menu by remember { mutableStateOf(false) }
@@ -215,8 +214,6 @@ public fun ToonTranscriptTurn(
         if (menu) {
             menuShown = true
         } else if (menuShown) {
-            // Focus comes back to the turn the keys opened the menu from.
-            if (menuByKeys) rootFocus.requestFocus()
             // The kit's menu rolls up in 160 ms before it goes.
             if (!reduce) delay(MENU_ROLL_UP_MS)
             menuShown = false
@@ -384,8 +381,7 @@ public fun ToonTranscriptTurn(
                                 false
                             }
                         }
-                    }.focusRequester(rootFocus)
-                    .focusable(interactionSource = interaction),
+                    }.focusable(interactionSource = interaction),
         ) { measurables, constraints ->
             val byId = measurables.associateBy { it.layoutId }
             val w =

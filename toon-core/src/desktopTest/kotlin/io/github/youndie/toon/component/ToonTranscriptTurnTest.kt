@@ -267,7 +267,11 @@ class ToonTranscriptTurnTest {
             }
             mainClock.advanceTimeBy(100)
             val turn = onNodeWithTag("turn")
-            turn.performTouchInput { down(Offset(300f, 60f)) }
+            // A finger that lands and drags across the turn hovers nothing.
+            turn.performTouchInput {
+                down(Offset(300f, 60f))
+                moveBy(Offset(40f, 0f))
+            }
             mainClock.advanceTimeBy(100)
             onNodeWithContentDescription("Copy").assertDoesNotExist()
             turn.performTouchInput { up() }
