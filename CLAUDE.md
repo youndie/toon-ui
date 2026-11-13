@@ -76,7 +76,8 @@ line in `.github/workflows/check.yaml` pins. The first `make check` fetches that
 index and [docs/components.md](docs/components.md), the component catalogue (B-31): which composable is
 which design file, its engine renderer, item, cells, references and goldens — start there to find a
 component. `make references` re-renders the Chrome design references
-(`scripts/design-references.mjs`, B-06; needs Google Chrome, so it is not in the gate), and
+(`scripts/design-references.mjs`, B-06; needs Google Chrome, so it is not in the gate; its `--outlines`
+re-takes only the icon outlines, B-80), and
 `./gradlew :toon-core:viddikDesignParity` reports each fixture against its reference. A
 component's parity is read against the floor measured on the Divider (research D3), not against
 viddik's default 5 % — and, as a share of the inked pixels, by `InkParityTest` in `check` (B-12).

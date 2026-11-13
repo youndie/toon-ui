@@ -160,7 +160,8 @@ private const val GRID = 24f
 /** The engine's sampling step along a centerline, in dp. */
 private const val STEP = 0.3
 
-private fun parsePath(d: String): Path = PathParser().parsePathString(d).toPath()
+/** A glyph path for Compose, its arcs converted as Chrome converts them ([withSpecArcs], B-80). */
+private fun parsePath(d: String): Path = PathParser().parsePathString(withSpecArcs(d)).toPath()
 
 private fun c01(v: Double): Double = max(0.0, min(1.0, v))
 

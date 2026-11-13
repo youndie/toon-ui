@@ -64,8 +64,9 @@ class IconOutlineGoldensTest {
     private companion object {
         /**
          * The goldens are written to two decimals (±0.005), and the rest is the two arc conversions:
-         * Compose's path parser turns an SVG arc into cubics, Chrome into conics. Measured worst
-         * 0.0149 dp on 2026-11-02, a seventieth of a pixel at 24 dp.
+         * the port turns an SVG arc into cubics by the spec ([withSpecArcs]), Chrome into conics.
+         * Measured worst 0.0149 dp on 2026-11-02 with Compose's own arcs, 0.0060 with the spec's and
+         * the desktop's 12 glyphs on 2026-11-13 (B-80).
          */
         const val TOLERANCE = 0.02
     }

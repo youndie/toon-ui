@@ -464,6 +464,19 @@ search lens measured 43.1 dp against the 43.54 its arcs integrate to), so a cent
 enlarged 1024 times. The outline is computed in `Double` there, because it is sampled once per glyph
 and weight, not per frame.
 
+*Amended in B-80:* the desktop extension's 12 glyphs (§1.8) are generated after the kit's 25, and their
+outlines are taken from the engine in Chrome with the extension loaded (`scripts/design-references.mjs
+--outlines`, which takes only the outlines, so a newer Chrome does not rewrite every reference; the
+kit's 25 came out byte for byte the same in Chrome 157 as in 156). One of them showed that Compose's
+parser does not draw every arc as the SVG spec does: an arc whose radii fall short of its end point is
+scaled by the chord over 1.99999, not 2, which leaves its centre a hair off the chord, and the large arc
+long. The `rec` glyph measured 39.04 dp against the 38.96 its arcs integrate to, one sample more per
+edge than Chrome takes. A glyph's arcs are now converted by the spec in `Double` (`withSpecArcs`) before
+Compose parses the path; the worst outline point fell to 0.0060 dp. Four of the kit's glyphs have such
+arcs (`person`, `settings`, `share`, `eye`): `settings` and `share` moved at 48 dp, closer to Chrome's
+reference in each of their 12 cells (the summed channel difference against the references fell from
+4,808 to 3,533), and those 12 goldens were re-recorded — a correction toward the design, not a departure.
+
 *Rejected:* `Double` geometry to chase the sketch's "bit-for-bit" claim. It costs a conversion at every path operation
 and buys a precision nobody can see.
 
