@@ -56,11 +56,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (7)
+## Open (6)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-82](docs/backlog/B-82-public-text-with-the-cyrillic-backing.md) `[ ]` | A consumer's own text gets the Cyrillic backing faces | P1 | M | - |
 | [B-83](docs/backlog/B-83-card-fits-long-texts.md) `[ ]` | The card fits a long time, title and meta | P1 | M | - |
 | [B-84](docs/backlog/B-84-list-item-wraps-its-title.md) `[ ]` | The list item wraps its title and cuts its sub before the trailing | P1 | M | - |
 | [B-88](docs/backlog/B-88-segmented-fits-its-labels.md) `[ ]` | The segmented control fits a label wider than its slot | P1 | S | - |
@@ -68,7 +67,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-86](docs/backlog/B-86-stage-same-on-every-x86.md) `[ ]` | The textured stage draws the same pixels on every x86 machine, or can be drawn flat | P2 | M | - |
 | [B-87](docs/backlog/B-87-list-item-selected.md) `[ ]` | The list item has a selected state for a master-detail list | P2 | S | - |
 
-## Closed (81)
+## Closed (82)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -152,6 +151,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[x]` - Check the two-effect clocks under a first composition
 - [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[x]` - The kit's theme and reduce motion reach the Screens app
 - [B-81](docs/backlog/B-81-title-card-fits-a-long-title.md) `[x]` - The title card fits a title wider than its plaque
+- [B-82](docs/backlog/B-82-public-text-with-the-cyrillic-backing.md) `[x]` - A consumer's own text gets the Cyrillic backing faces
 
 **The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
 
