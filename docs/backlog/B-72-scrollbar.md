@@ -1,7 +1,7 @@
 ---
 id: B-72
 title: "ToonScrollbar: an ink thumb that keeps clear of the window's edge"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-5-desktop
