@@ -1,7 +1,7 @@
 ---
 id: B-68
 title: "Vendor the desktop components' design from the app project they were drawn in"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-5-desktop
