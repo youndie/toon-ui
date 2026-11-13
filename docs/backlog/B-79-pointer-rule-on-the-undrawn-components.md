@@ -1,7 +1,7 @@
 ---
 id: B-79
 title: "The pointer rule on the pressable components the pointer page does not draw"
-status: open
+status: wip
 priority: P2
 size: M
 stage: stage-5-desktop
