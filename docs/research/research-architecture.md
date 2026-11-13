@@ -239,6 +239,12 @@ height, so its own ascent and descent place the baseline), and a test of the lay
 search field's placeholder stands where its value is typed, to a pixel. A text input is a real
 `BasicTextField` with the design's caret colour.
 
+**The window's frame (B-76).** appframe's title bar is a Material `Surface` with its own window
+controls, and the core depends on no Material artefact (D2), so neither bar can be drawn inside the
+other. They meet in appframe's `actions` slot, which takes the kit's controls as they are; the kit's
+`ToonTitleBar` is the whole bar for a window with no frame of its own. Its targets keep clear of an
+undecorated window's 8 dp resize strip, as the scrollbar's do (B-72).
+
 ## 2. Decisions
 
 ### D1. `Toon` in every identifier, package `io.github.youndie.toon`

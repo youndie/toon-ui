@@ -7,6 +7,12 @@ public final class io/github/youndie/toon/component/ComposableSingletons$ToonSea
 	public final fun getLambda$-738749767$io_github_youndie_toon_core ()Lkotlin/jvm/functions/Function3;
 }
 
+public final class io/github/youndie/toon/component/ComposableSingletons$ToonTitleBarKt {
+	public static final field INSTANCE Lio/github/youndie/toon/component/ComposableSingletons$ToonTitleBarKt;
+	public fun <init> ()V
+	public final fun getLambda$417355476$io_github_youndie_toon_core ()Lkotlin/jvm/functions/Function3;
+}
+
 public final class io/github/youndie/toon/component/ToonBadgeKt {
 	public static final fun ToonBadge (ILandroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
 }
@@ -297,6 +303,10 @@ public final class io/github/youndie/toon/component/ToonTabsState {
 
 public final class io/github/youndie/toon/component/ToonTextFieldKt {
 	public static final fun ToonTextField-0vH8DBg (Ljava/lang/String;Lkotlin/jvm/functions/Function1;Ljava/lang/String;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;FZLandroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/youndie/toon/component/ToonTitleBarKt {
+	public static final fun ToonTitleBar-TN_CM5M (Ljava/lang/String;Landroidx/compose/ui/Modifier;FZLkotlin/jvm/functions/Function3;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/youndie/toon/component/ToonTitleCardKt {

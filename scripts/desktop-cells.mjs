@@ -143,12 +143,20 @@ const METER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     scene: `E.levelMeter(T, ${o.w}, ${JSON.stringify({ state: o.state, level: o.level })})`,
   })));
 
+// B-76: ToonTitleBar.dc.html's `trafficSlots`, the only thing its `paint()` draws: the three dashed
+// places of the window's controls. The renderer takes no width, title or record state (those are HTML
+// over it), so a theme is the whole of a cell; the bar's 1280 and 960 dp layouts are the words' test.
+const TITLE_CELLS = Object.entries(THEMES).map(([theme, themeName]) => ({
+  group: 'TitleBar', name: `Slots_${themeName}`, theme, themeName, opts: {}, scene: 'E.trafficSlots(T)',
+}));
+
 export const DESKTOP_CELLS = {
   LevelMeter: METER_CELLS,
   RecordButton: REC_CELLS,
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
   SearchField: SEARCH_CELLS,
   Scrollbar: SCROLL_CELLS,
+  TitleBar: TITLE_CELLS,
   Hover: HOVER_CELLS,
   Focus: FOCUS_CELLS,
 };
