@@ -42,6 +42,7 @@ No public API yet. Packages are `io.github.youndie.toon.*` (research D1).
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/ToonFontFamilies.kt` | the two families per theme, and the weights asked of the variable body faces |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonStage.kt` | `ToonStage` (B-13): the theme's stage colour with the gouache tile every 224 dp in Ink & Gouache, seamless from the design's (B-59), flat in Bright Cel |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonTypography.kt` | `ToonTypeSpec.textStyle` (B-29): a step of the type scale in the theme's faces, for a screen's own text |
+| `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonText.kt` | `ToonText` and `ToonTypeSpec.backed` (B-82): a consumer's own text with its Cyrillic in the backing faces |
 | `toon-core/src/desktopTest/kotlin/io/github/youndie/toon/parity/ScreensFixtures.kt` | the Screens page's nine phone screens and its desktop layout, against the page rendered by the design's runtime (B-29) |
 | `toon-core/src/commonMain/composeResources/drawable` | the four texture tiles, byte for byte the vendored ones in `reference/design-system/assets/textures` |
 | `toon-core/src/commonMain/kotlin/io/github/youndie/toon/draw/ToonGeometry.kt` | the engine's shape functions ported (B-04): `ToonRandom`, `roundRectPoints`, `wobblePoints`, `shapePoints`, `inkLinePoints`, `starPoints`, `burstPoints` |
@@ -239,6 +240,10 @@ None at runtime.
   text renderer and the text field's visual transformation build; Compose has no per-glyph fallback
   between bundled families. A label in another script the design's faces lack (Greek, say) still
   falls to the platform's face.
+- `textStyle` alone sets a consumer's Russian in the platform's fallback font, since it names only
+  the design face; `ToonText(text, spec)` and `spec.backed(text)` put the Cyrillic in the backing
+  face as the components do (B-82). A run of backing face in a paragraph of the design face sits on
+  that paragraph's line, which can stand a pixel off a paragraph set in the backing face alone.
 - The Cyrillic faces are held twice: by the `Cyrillic_Sheet_*` goldens, which fail when a backing's
   scale or weight moves, and by `ToonCyrillicMetricsTest`, which says which (B-35, corrected in B-29).
 - The stage's tile is chosen by the theme's stage colour (B-13): a theme of the caller's own, with

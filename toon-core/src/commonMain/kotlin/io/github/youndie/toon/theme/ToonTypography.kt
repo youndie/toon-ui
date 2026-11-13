@@ -10,7 +10,9 @@ import io.github.youndie.toon.tokens.ToonTypeSpec
 /**
  * This step of the type scale as a [TextStyle] in the nearest [ToonTheme]'s faces — the display face
  * when [ToonTypeSpec.display], the body face otherwise — in the theme's text colour (B-29). Text set
- * with it outside a component, a screen's heading say, matches the components' own.
+ * with it outside a component, a screen's heading say, matches the components' own — in Latin. The
+ * design faces hold no Cyrillic: Russian text goes through [ToonText], or [backed] for a string laid
+ * out by hand, which draw it in the theme's backing faces (B-82).
  */
 public val ToonTypeSpec.textStyle: TextStyle
     @Composable @ReadOnlyComposable
