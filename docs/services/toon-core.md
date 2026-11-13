@@ -212,6 +212,8 @@ None at runtime.
   an ellipsis 8 dp short of the trailing control, and the row grows from 72 dp by the lines added: the
   sticker and the control stay in its middle, the title starts where a one-line row's does (B-84). A
   `ToonLabel` with `maxLines` above 1 wraps, its baseline being the first line's.
+- `ToonListItem(selected = true)` draws the engine's own selected plate (`listItem`'s `sel`), the
+  one a press draws at full strength, and marks the row selected for a reader (B-87).
 - A dialog is a full-screen layer: the caller puts it over the content it dims (a `Box` with both),
   and it fills its box. Closed, it takes no input, so it can stay composed (B-24).
 - A dialog's pop hands its stars to a `ToonFxHost` 170 ms into the close (`dialog.pop`), which plays
