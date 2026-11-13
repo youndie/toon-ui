@@ -488,6 +488,41 @@ owner asks.
 *Rejected:* editing the vendored engine to match the code, so that the frame checks pass again. It
 would keep a ruler that measures the code against itself, and lose the record of the design.
 
+### D14. One pointer rule for the whole kit (B-69)
+
+The desktop design's pointer page (`reference/desktop/Desktop Pointer & Keyboard.dc.html`, §1.8) fixes
+one hover, focus and target rule for every component, and draws it on the kit's own components with
+their own renderers. The kit drew no hover before.
+
+- **Hover is one value, 0 to 1, per element**, set by a mouse over it and never by a finger
+  (`Modifier.toonHoverable`, `interaction/ToonHover.kt`). It eases in over 80 ms and out over 120 on
+  the kit's press curve, from wherever it is, and is instant under reduce motion: the extension's
+  `hoverRamp` and its controller. A disabled element shows none.
+- **A body with a hard shadow lifts** 2 dp toward the top left while its shadow stays on the table
+  (the extension's `hoverLift`), less as a press drops the shadow, so a pressed body is the kit's
+  pressed body: the extension's own `liftBody` has that factor, and `hoverLift` has none. Button
+  (filled, outlined), icon button, FAB, chip and card lift whole; the slider lifts its ball only.
+  **A flat element gets a plate** of the pressed-surface colour: the text button's where its press
+  blob goes, and the list row and the menu item draw the selected shade, as the page draws them. A
+  menu item ramps on its own, as the controller keeps one per name.
+- **A shadow is the layer's own offset**, an ink fill moved down and right by the same amount. The
+  engine tells it by the start of the layer's transform, which a `place` in front changes: the page's
+  chip and card rows are placed at 0, 0, and `hoverLift` then keeps their ink outline with the
+  shadow. The rule is the page's words, so the goldens lift the bare renderer and place it after.
+- **Focus** is the kit's dashed ring, which every pressable already drew except the card; it now takes
+  keyboard focus and draws the page's ring, 6 dp out.
+- **Targets**: the kit's components keep their 48–52 dp, as the page's rule 4 leaves them; its pointer
+  sizes (28, 32, 40, 56, 44) are `ToonPointerTarget`, for the desktop components of stage 5.
+- Held by the engine's frames: `engine-goldens/desktop.json` groups `Hover` and `Focus`, each cell one
+  of the component's own rest cells under the rule, against `ToonHoverFramesTest`; the numbers against
+  the extension's `DESKTOP` in `manifest.json`.
+
+*Rejected:* a hover parameter per component, which the item rejected — one rule drifts once each
+component carries its own switch. *Rejected:* `PointerEventType.Enter` from any pointer, which would
+leave a finger's press hovered on a touch screen. *Left to their own item* (B-79): the pressable
+components the page does not draw — checkbox, radio, switch, segmented, tabs, navigation bar,
+drawer, text field — whose hover needs a look the page does not give.
+
 ## 3. Risks and open questions
 
 | # | Hypothesis or risk | Mitigation, and where it is settled |

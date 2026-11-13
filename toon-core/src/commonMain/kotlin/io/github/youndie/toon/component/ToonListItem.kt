@@ -52,6 +52,8 @@ import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.icon.iconLayers
+import io.github.youndie.toon.interaction.rememberToonHoverState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
@@ -98,6 +100,7 @@ public fun ToonListItem(
     var checked by remember(on) { mutableStateOf(on) }
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
+    val hover = rememberToonHoverState()
     val clock = remember { ToonListClock() }
     val click by rememberUpdatedState(onClick)
     val change by rememberUpdatedState(onCheckedChange)
@@ -135,7 +138,8 @@ public fun ToonListItem(
                     clock.released()
                     if (up != null) activate()
                 }
-            }.focusable(enabled, interaction),
+            }.toonHoverable(hover, enabled)
+            .focusable(enabled, interaction),
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
         inDp {
@@ -149,7 +153,7 @@ public fun ToonListItem(
                     title,
                     sub,
                     trailing,
-                    look.copy(seed = index, last = last, disabled = !enabled, focus = focused),
+                    look.copy(seed = index, last = last, disabled = !enabled, focus = focused, hv = hover.value),
                 ),
                 text,
             )
@@ -285,6 +289,11 @@ internal data class ToonListItemLook(
     val last: Boolean = false,
     val disabled: Boolean = false,
     val focus: Boolean = false,
+    /**
+     * The pointer's hover, 0 to 1 (B-69): the row is flat, and the pointer page draws its hover as the
+     * selected row's plate, which a press also draws.
+     */
+    val hv: Float = 0f,
 )
 
 private val FOCUS_RADII = ToonRadii(16f, 12f, 18f, 13f)
@@ -314,7 +323,8 @@ internal fun toonListItemScene(
     val sd = o.seed
     val layers = mutableListOf<ToonLayer>()
     if (o.focus) layers += ringLayer(-10f, 1f, w + 20, h - 2, FOCUS_RADII, c, sh.wobble, sh.seed + 905 + sd)
-    if (o.selected || sag > .01f) {
+    val hv = if (dis) 0f else o.hv
+    if (o.selected || sag > .01f || hv > 0f) {
         layers +=
             smoothLayer(
                 wobblePoints(-8f, 3f, w + 16, h - 6, PRESS_RADII, sh.wobble, sh.seed + 900 + sd),
@@ -322,7 +332,7 @@ internal fun toonListItemScene(
                 if (o.selected) {
                     1f
                 } else {
-                    c01(sag * 1.4f)
+                    max(hv, c01(sag * 1.4f))
                 },
             )
     }

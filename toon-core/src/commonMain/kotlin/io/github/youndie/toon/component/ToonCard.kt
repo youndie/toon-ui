@@ -1,8 +1,11 @@
 package io.github.youndie.toon.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsFocusedAsState
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -17,6 +20,11 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
@@ -36,6 +44,7 @@ import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.draw.ToonAnchor
 import io.github.youndie.toon.draw.ToonInsets
 import io.github.youndie.toon.draw.ToonLabel
+import io.github.youndie.toon.draw.ToonLayer
 import io.github.youndie.toon.draw.ToonRadii
 import io.github.youndie.toon.draw.ToonScene
 import io.github.youndie.toon.draw.ToonTextStyle
@@ -43,6 +52,7 @@ import io.github.youndie.toon.draw.bodyLayers
 import io.github.youndie.toon.draw.drawScene
 import io.github.youndie.toon.draw.inDp
 import io.github.youndie.toon.draw.rememberToonText
+import io.github.youndie.toon.draw.ringLayer
 import io.github.youndie.toon.draw.shapePoints
 import io.github.youndie.toon.fx.LocalToonFxEmitter
 import io.github.youndie.toon.fx.NoToonFxHost
@@ -50,6 +60,10 @@ import io.github.youndie.toon.fx.ToonFxEvent
 import io.github.youndie.toon.fx.toonDustScene
 import io.github.youndie.toon.fx.toonHoleScene
 import io.github.youndie.toon.fx.toonSpeedScene
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
@@ -140,6 +154,9 @@ internal fun ToonCard(
     var bounds by remember { mutableStateOf(Rect.Zero) }
     val click by rememberUpdatedState(onClick)
     val dismissed by rememberUpdatedState(onDismiss)
+    val hover = rememberToonHoverState()
+    val interaction = remember { MutableInteractionSource() }
+    val focused by interaction.collectIsFocusedAsState()
 
     LaunchedEffect(state.starts) {
         var last = -1L
@@ -216,6 +233,17 @@ internal fun ToonCard(
                     if (state.release(dismissible)) return@awaitEachGesture
                     if (!moved) click()
                 }
+            }.toonHoverable(hover, enabled)
+            .focusable(enabled, interaction)
+            .onPreviewKeyEvent { e ->
+                // The pointer page's rule 3: the card takes keyboard focus, and Enter or Space presses it
+                // at its middle as a tap there does (B-69).
+                if (!enabled || e.key !in ACTIVATE || state.gone || state.dismissing) return@onPreviewKeyEvent false
+                when (e.type) {
+                    KeyEventType.KeyDown -> if (!state.held) state.press(w / 2, w)
+                    KeyEventType.KeyUp -> if (state.held && !state.release(false)) click()
+                }
+                true
             },
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
@@ -235,6 +263,8 @@ internal fun ToonCard(
                     selected,
                     !enabled,
                     holeLocal,
+                    focus = focused,
+                    hv = hover.value,
                 )
             if (scene.fade != null) {
                 // Reduce motion's `fade 120`: the card fades in on appear and out on dismiss.
@@ -280,7 +310,10 @@ internal class ToonCardState(
     var lean: Float? = null
     var drag by mutableFloatStateOf(0f)
     private var dragV = 0f
-    private var held = false
+
+    /** A press is down: a key's release clicks only after its press (B-69). */
+    var held = false
+        private set
     var gone by mutableStateOf(false)
     var dir = 1f
     var dragAtDismiss = 0f
@@ -404,6 +437,8 @@ internal fun toonCardFrame(
     selected: Boolean,
     disabled: Boolean,
     holeLocal: Boolean,
+    focus: Boolean = false,
+    hv: Float = 0f,
 ): ToonCardMoment {
     val c = tokens.colors
     val ta = state.age(state.appearAt)
@@ -474,7 +509,15 @@ internal fun toonCardFrame(
             title,
             meta,
             time,
-            ToonCardLook(sx = a.sx, sy = a.sy, press = state.press, selected = selected, disabled = disabled),
+            ToonCardLook(
+                sx = a.sx,
+                sy = a.sy,
+                press = state.press,
+                selected = selected,
+                disabled = disabled,
+                focus = focus,
+                hv = hv,
+            ),
         )
     val rot = a.rot + state.press * 1.6f * (state.lean ?: -.6f)
     val scene =
@@ -555,6 +598,10 @@ internal data class ToonCardLook(
     val selected: Boolean = false,
     val disabled: Boolean = false,
     val textOp: Float = 1f,
+    /** The pointer page's focus ring, 6 dp out (B-69): the kit drew none on the card. */
+    val focus: Boolean = false,
+    /** The pointer's hover, 0 to 1 (B-69): the sheet lifts toward the light, its shadow stays. */
+    val hv: Float = 0f,
 )
 
 private val TITLE = ToonTextStyle(700, 18f)
@@ -589,14 +636,16 @@ internal fun toonCardScene(
     val dis = o.disabled
     val k = if (o.selected) 1.6f else 1f
     val ins = sh.insets.let { ToonInsets(it.top * k, it.right * k, it.bottom * k, it.left * k) }
-    val layers =
+    val layers = mutableListOf<ToonLayer>()
+    if (o.focus) layers += ringLayer(-6f, -6f, w + 12, h + 12, FOCUS_RADII, c, sh.wobble, sh.seed + 31)
+    layers +=
         bodyLayers(
             shapePoints(x, y, bw, bh, r, ins, sh.wobble, sh.seed + i * 13),
             fill = c.cardFills[i],
             colors = c,
             shadow = if (dis) 0f else sh.shadow * (1 - .7f * press),
             inkAlpha = if (dis) .4f else 1f,
-        ).toMutableList()
+        )
     val stw = 64f
     val sth = 40f
     val stx = w - stw - 18
@@ -619,8 +668,13 @@ internal fun toonCardScene(
             ToonLabel(meta, 22f, 60 + dy, c.textMuted, op * bo, META, ToonAnchor.Start),
             ToonLabel(time, stx + stw / 2, sty + 25, c.ink, op * bo, TIME),
         )
-    return ToonScene(layers, labels)
+    return ToonScene(layers, labels).hoverLifted(if (dis) 0f else HOVER_LIFT * o.hv * (1 - min(1f, press)), c.ink)
 }
+
+/** The ring's radii on the pointer page, 6 dp out from the sheet. */
+private val FOCUS_RADII = ToonRadii(22f, 16f, 24f, 18f)
+
+private val ACTIVATE = setOf(Key.Enter, Key.NumPadEnter, Key.Spacebar)
 
 /** The kit's drag spring: ω 30, ζ 0.55. */
 private const val SPRING_W = 30f

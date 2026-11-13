@@ -42,7 +42,11 @@ import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.icon.ToonIconGlyph
 import io.github.youndie.toon.icon.ToonIcons
 import io.github.youndie.toon.icon.iconLayers
+import io.github.youndie.toon.interaction.HOVER_LIFT
+import io.github.youndie.toon.interaction.hoverLifted
+import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.rememberToonPressState
+import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.interaction.toonPressable
 import io.github.youndie.toon.motion.toonOscillation
 import io.github.youndie.toon.theme.Toon
@@ -89,6 +93,7 @@ public fun ToonChip(
     val labelWidth = remember(label, text) { text.measure(label, CHIP_LABEL).multiParagraph.width }
     var sel by remember(selected) { mutableStateOf(selected) }
     val press = rememberToonPressState()
+    val hover = rememberToonHoverState()
     val interaction = remember { MutableInteractionSource() }
     val focused by interaction.collectIsFocusedAsState()
     val clock = remember { ToonToggleClock() }
@@ -123,13 +128,21 @@ public fun ToonChip(
                     change(sel)
                 }
                 click()
-            }.focusable(enabled, interaction),
+            }.toonHoverable(hover, enabled)
+            .focusable(enabled, interaction),
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
 
         inDp {
             val scene =
-                toonChipScene(tokens, variant, label, labelWidth, icon, look.copy(disabled = !enabled, focus = focused))
+                toonChipScene(
+                    tokens,
+                    variant,
+                    label,
+                    labelWidth,
+                    icon,
+                    look.copy(disabled = !enabled, focus = focused, hv = hover.value),
+                )
             translate(0f, CHIP_TOP) {
                 // The kit's place: the shape turns about its centre; the label keeps level.
                 rotate(tilt, Offset(w / 2, CHIP_H / 2)) { drawScene(ToonScene(scene.layers, emptyList())) }
@@ -241,6 +254,8 @@ internal data class ToonChipLook(
     val p: Float = 0f,
     val focus: Boolean = false,
     val disabled: Boolean = false,
+    /** The pointer's hover, 0 to 1 (B-69): the body lifts toward the light, its shadow stays. */
+    val hv: Float = 0f,
 )
 
 private val CHIP_RADII = ToonRadii(9f, 15f, 8f, 14f)
@@ -327,5 +342,5 @@ internal fun toonChipScene(
         layers +=
             iconLayers(ToonIcons.Close, tx + labelWidth + 6, cy - 8, tc, size = 16f, alpha = op)
     }
-    return ToonScene(layers, labels)
+    return ToonScene(layers, labels).hoverLifted(if (o.disabled) 0f else HOVER_LIFT * o.hv * (1 - c01(o.p)), c.ink)
 }

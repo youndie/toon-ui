@@ -26,6 +26,9 @@ internal object ToonDepartures {
             "Menu_RollUp_60ms_" to "B-61",
             "Menu_RollUp_120ms_" to "B-61",
             "MenuProbe_" to "B-61",
+            // The pointer rule's hover over those two (B-69) is drawn on the departed component.
+            "Hover_Slider_" to "B-58",
+            "Hover_Menu_" to "B-61",
         )
 
     /** The item a cell departed in, or null when it is still the design's. */

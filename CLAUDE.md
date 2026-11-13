@@ -129,6 +129,10 @@ every kit golden is taken and writes its frames to `engine-goldens/desktop.json`
 - **Curves are functions of elapsed ms**, ported from the engine (D7), so tests can read them at the
   spec's frame timestamps. No `spring()`/`Animatable` for the spec's motion.
 - **Touch target ≥ 48 dp even where the design draws smaller** (the Chip, research §1.6).
+- **Hover is the pointer rule's, and a mouse's only** (B-69, research D14): a pressable takes
+  `toonHoverable`, carries `hv` in its look, and at the end of its scene either lifts
+  (`hoverLifted`, a body with a hard shadow) or lays a plate under itself (`toonPlateLayer`, a flat
+  one). No hover parameter per component.
 - **Reduce motion follows the spec's word per animation** (D8), not the kit's "everything instant".
 - **Never edit the vendored engine, a golden or a reference to make parity pass**, and never raise
   a tolerance to get green. A gap is a number in the commit body with its cause. A golden is
