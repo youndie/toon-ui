@@ -17,7 +17,7 @@ script; every name in it is checked against the sources.
 | Design file | Composable | Source | Engine | Item | Frame cells | References | Goldens |
 |---|---|---|---|---|---|---|---|
 | [ToonBadge](../reference/design-system/ToonBadge.dc.html) | `ToonBadge` | [ToonBadge.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonBadge.kt) | `badge` | [B-15](backlog/B-15-icon-button-and-badge.md) | 45 | 45 | 45 |
-| [ToonBottomSheet](../reference/design-system/ToonBottomSheet.dc.html) | `ToonBottomSheet` | [ToonBottomSheet.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonBottomSheet.kt) | `sheet`, `sheetMove` | [B-38](backlog/B-38-bottom-sheet.md) | 21 | 21 | 21 |
+| [ToonBottomSheet](../reference/design-system/ToonBottomSheet.dc.html) | `ToonBottomSheet`, `ToonBottomSheetBox` | [ToonBottomSheet.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonBottomSheet.kt) | `sheet`, `sheetMove` | [B-38](backlog/B-38-bottom-sheet.md) | 21 | 21 | 21 |
 | [ToonButton](../reference/design-system/ToonButton.dc.html) | `ToonButton` | [ToonButton.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonButton.kt) | `btn` | [B-14](backlog/B-14-button.md) | 93 | 93 | 93 |
 | [ToonCard](../reference/design-system/ToonCard.dc.html) | `ToonCard` | [ToonCard.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCard.kt) | `card` | [B-21](backlog/B-21-card.md) | 54 | 54 | 54 |
 | [ToonCheckbox](../reference/design-system/ToonCheckbox.dc.html) | `ToonCheckbox` | [ToonCheckbox.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonCheckbox.kt) | `check` | [B-17](backlog/B-17-checkbox-and-radio.md) | 51 | 51 | 51 |

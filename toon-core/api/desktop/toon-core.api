@@ -18,7 +18,8 @@ public final class io/github/youndie/toon/component/ToonBadgeKt {
 }
 
 public final class io/github/youndie/toon/component/ToonBottomSheetKt {
-	public static final fun ToonBottomSheet (Ljava/util/List;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Lkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ToonBottomSheet (Ljava/util/List;Ljava/lang/String;Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function1;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ToonBottomSheetBox (Ljava/lang/String;Landroidx/compose/ui/Modifier;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/youndie/toon/component/ToonButtonKt {
@@ -70,7 +71,7 @@ public final class io/github/youndie/toon/component/ToonChipVariant : java/lang/
 }
 
 public final class io/github/youndie/toon/component/ToonDialogKt {
-	public static final fun ToonDialog (Ljava/lang/String;Landroidx/compose/ui/Modifier;ZLjava/lang/String;Ljava/lang/String;Ljava/lang/String;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/runtime/Composer;II)V
+	public static final fun ToonDialog (Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/ui/Modifier;ZLjava/lang/String;ZLkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
 public final class io/github/youndie/toon/component/ToonDividerKt {

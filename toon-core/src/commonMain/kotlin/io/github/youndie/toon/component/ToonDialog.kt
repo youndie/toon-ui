@@ -1,17 +1,20 @@
 package io.github.youndie.toon.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -19,7 +22,12 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusProperties
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.geometry.Rect
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
@@ -27,12 +35,17 @@ import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.layout
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.dialog
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.zIndex
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.draw.ToonAnchor
 import io.github.youndie.toon.draw.ToonLabel
@@ -58,6 +71,7 @@ import kotlin.math.hypot
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.pow
+import kotlin.math.roundToInt
 
 // A port of the engine's `dialog`, `dialogOpen`, `dialogClose` and `iris`, and the kit's `C.dialog`
 // (B-24): a full-screen layer. Darkness closes in from the edges as an iris and stops as a spotlight
@@ -72,18 +86,24 @@ internal enum class ToonDialogFocus { Confirm, Cancel }
  * two buttons, [cancel] and [confirm] — the latter drawn `onDanger` on `danger` when [destructive]. A
  * tap on [confirm] calls [onConfirm]; on [cancel] or outside the dialog, [onCancel]. It irises in when
  * [open] turns true and pops out when it turns false; closed, it takes no input.
+ *
+ * [content], when given, stands between the body and the buttons, 252 dp wide, and the dialog grows to
+ * hold it; it pops with the card, and Tab walks it and then the buttons (B-85). It is composed only
+ * while the dialog is open, so it leaves at once when the close begins. The words have no defaults:
+ * a dialog the caller forgot to word would show the kit's English.
  */
 @Composable
 public fun ToonDialog(
     title: String,
+    confirm: String,
+    cancel: String,
     modifier: Modifier = Modifier,
     open: Boolean = true,
     body: String = "",
-    confirm: String = "OK",
-    cancel: String = "Cancel",
     destructive: Boolean = true,
     onConfirm: () -> Unit = {},
     onCancel: () -> Unit = {},
+    content: (@Composable () -> Unit)? = null,
 ) {
     val tokens = Toon.tokens
     val reduce = Toon.reduceMotion
@@ -98,9 +118,24 @@ public fun ToonDialog(
     var bounds by remember { mutableStateOf(Rect.Zero) }
     val lines = remember(body, texts) { toonDialogLines(body) { texts.measure(it, DIALOG_BODY).multiParagraph.width } }
     val cancelWidth = remember(cancel, texts) { texts.measure(cancel, BUTTON_LABEL).multiParagraph.width }
+    // B-85: the slot's height, as its content last measured; the card grows to hold it.
+    var measuredSlot by remember { mutableFloatStateOf(0f) }
+    val slotH = if (content != null) measuredSlot else 0f
     val card =
-        toonDialogCardScene(tokens, title, lines, confirm, cancel, destructive, focusOn.takeIf { focused }, cancelWidth)
-    val cardH = toonDialogHeight(lines.size)
+        toonDialogCardScene(
+            tokens,
+            title,
+            lines,
+            confirm,
+            cancel,
+            destructive,
+            focusOn.takeIf { focused },
+            cancelWidth,
+            slotH,
+        )
+    val cardH = toonDialogHeight(lines.size, slotH)
+    val slotFocus = remember { FocusRequester() }
+    val dpPx = LocalDensity.current.density
 
     LaunchedEffect(open) { clock.changed(open) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
@@ -113,78 +148,145 @@ public fun ToonDialog(
     }
 
     val active = clock.open
-    Canvas(
+    val slotted = content != null && active
+    val canvas: @Composable (Modifier) -> Unit = {
+        Canvas(
+            it
+                .onFocusChanged { if (it.isFocused && slotted) focusOn = ToonDialogFocus.Confirm }
+                .then(
+                    if (active) {
+                        Modifier
+                            .semantics {
+                                paneTitle = title
+                                dialog()
+                                customActions =
+                                    listOf(
+                                        CustomAccessibilityAction(confirm) { ok().let { true } },
+                                        CustomAccessibilityAction(cancel) { no().let { true } },
+                                    )
+                            }.onKeyEvent {
+                                if (it.type != KeyEventType.KeyDown) return@onKeyEvent false
+                                when (it.key) {
+                                    Key.Tab, Key.DirectionLeft, Key.DirectionRight -> {
+                                        if (slotted && it.key == Key.Tab && focusOn == ToonDialogFocus.Cancel) {
+                                            // Past the last button, Tab goes round to the slot.
+                                            slotFocus.requestFocus()
+                                            return@onKeyEvent true
+                                        }
+                                        focusOn =
+                                            if (focusOn ==
+                                                ToonDialogFocus.Confirm
+                                            ) {
+                                                ToonDialogFocus.Cancel
+                                            } else {
+                                                ToonDialogFocus.Confirm
+                                            }
+                                        true
+                                    }
+
+                                    Key.Enter, Key.NumPadEnter, Key.Spacebar -> {
+                                        if (focusOn == ToonDialogFocus.Confirm) ok() else no()
+                                        true
+                                    }
+
+                                    Key.Escape -> {
+                                        no()
+                                        true
+                                    }
+
+                                    else -> {
+                                        false
+                                    }
+                                }
+                            }.focusable(interactionSource = interaction)
+                            .pointerInput(lines, cardH) {
+                                awaitEachGesture {
+                                    awaitFirstDown()
+                                    val up = waitForUpOrCancellation() ?: return@awaitEachGesture
+                                    // Coordinates are taken as dp, as every component draws them (B-47).
+                                    val w = size.width / density
+                                    val h = size.height / density
+                                    when (
+                                        toonDialogHit(
+                                            w,
+                                            h,
+                                            cardH,
+                                            up.position.x / density,
+                                            up.position.y / density,
+                                        )
+                                    ) {
+                                        ToonDialogHit.Confirm -> ok()
+                                        ToonDialogHit.Cancel -> no()
+                                        null -> Unit
+                                    }
+                                }
+                            }
+                    } else {
+                        Modifier
+                    },
+                ),
+        ) {
+            // The engine draws in dp (research D5); the canvas is pixels (B-47).
+            inDp {
+                val w = sizeDp.width
+                val h = sizeDp.height
+                val moment = toonDialogFrameAt(clock.open, clock.age(), reduce) ?: return@Canvas
+                val scene = toonDialogLayerScene(tokens, w, h, card, cardH, moment, stars = fx === NoToonFxHost)
+                drawScene(scene, texts)
+            }
+        }
+    }
+    if (content == null) {
+        canvas(modifier.fillMaxSize().onGloballyPositioned { bounds = it.boundsInRoot() })
+        return
+    }
+    Box(
         modifier
             .fillMaxSize()
             .onGloballyPositioned { bounds = it.boundsInRoot() }
             .then(
-                if (active) {
+                if (slotted) {
+                    // Tab walks the slot and the buttons and never leaves the dialog; Escape cancels from either.
                     Modifier
-                        .semantics {
-                            paneTitle = title
-                            dialog()
-                            customActions =
-                                listOf(
-                                    CustomAccessibilityAction(confirm) { ok().let { true } },
-                                    CustomAccessibilityAction(cancel) { no().let { true } },
-                                )
-                        }.onKeyEvent {
-                            if (it.type != KeyEventType.KeyDown) return@onKeyEvent false
-                            when (it.key) {
-                                Key.Tab, Key.DirectionLeft, Key.DirectionRight -> {
-                                    focusOn =
-                                        if (focusOn ==
-                                            ToonDialogFocus.Confirm
-                                        ) {
-                                            ToonDialogFocus.Cancel
-                                        } else {
-                                            ToonDialogFocus.Confirm
-                                        }
-                                    true
-                                }
-
-                                Key.Enter, Key.NumPadEnter, Key.Spacebar -> {
-                                    if (focusOn == ToonDialogFocus.Confirm) ok() else no()
-                                    true
-                                }
-
-                                Key.Escape -> {
-                                    no()
-                                    true
-                                }
-
-                                else -> {
-                                    false
-                                }
-                            }
-                        }.focusable(interactionSource = interaction)
-                        .pointerInput(lines, cardH) {
-                            awaitEachGesture {
-                                awaitFirstDown()
-                                val up = waitForUpOrCancellation() ?: return@awaitEachGesture
-                                // Coordinates are taken as dp, as every component draws them (B-47).
-                                val w = size.width / density
-                                val h = size.height / density
-                                when (toonDialogHit(w, h, cardH, up.position.x / density, up.position.y / density)) {
-                                    ToonDialogHit.Confirm -> ok()
-                                    ToonDialogHit.Cancel -> no()
-                                    null -> Unit
-                                }
-                            }
-                        }
+                        .onKeyEvent {
+                            if (it.type == KeyEventType.KeyDown && it.key == Key.Escape) no().let { true } else false
+                        }.focusProperties { onExit = { cancelFocusChange() } }
+                        .focusGroup()
                 } else {
                     Modifier
                 },
             ),
     ) {
-        // The engine draws in dp (research D5); the canvas is pixels (B-47).
-        inDp {
-            val w = sizeDp.width
-            val h = sizeDp.height
-            val moment = toonDialogFrameAt(clock.open, clock.age(), reduce) ?: return@Canvas
-            val scene = toonDialogLayerScene(tokens, w, h, card, cardH, moment, stars = fx === NoToonFxHost)
-            drawScene(scene, texts)
+        if (slotted) {
+            Box(
+                Modifier
+                    .zIndex(1f)
+                    .layout { m, c ->
+                        val p = m.measure(Constraints(maxWidth = (BODY_WRAP * density).roundToInt()))
+                        layout(c.maxWidth, c.maxHeight) {
+                            val w = c.maxWidth / density
+                            val h = c.maxHeight / density
+                            val x = (w - DIALOG_W) / 2 + 24
+                            val y = h / 2 - cardH / 2 + toonDialogSlotTop(lines.size)
+                            p.placeWithLayer((x * density).roundToInt(), (y * density).roundToInt()) {
+                                // The slot pops with the card, about the card's centre.
+                                val a = toonDialogFrameAt(clock.open, clock.age(), reduce) ?: DIALOG_AT_REST
+                                scaleX = a.s
+                                scaleY = a.s
+                                alpha = a.op * a.textOp * a.fade
+                                transformOrigin =
+                                    TransformOrigin(
+                                        if (p.width > 0) (w / 2 - x) * density / p.width else .5f,
+                                        if (p.height > 0) (h / 2 - y) * density / p.height else .5f,
+                                    )
+                            }
+                        }
+                    }.onSizeChanged { measuredSlot = it.height / dpPx }
+                    .focusRequester(slotFocus)
+                    .focusGroup(),
+            ) { content() }
         }
+        canvas(Modifier.matchParentSize())
     }
 }
 
@@ -227,8 +329,20 @@ internal fun toonDialogLines(
     return out
 }
 
-/** The engine's dialog height: title, body lines at 22 dp, buttons. */
-internal fun toonDialogHeight(lines: Int): Float = 24f + 30 + 10 + lines * 22 + 22 + 52 + 20
+/**
+ * The engine's dialog height: title, body lines at 22 dp, buttons — and a slot [slotH] tall with
+ * [SLOT_GAP] under it, when there is one (B-85).
+ */
+internal fun toonDialogHeight(
+    lines: Int,
+    slotH: Float = 0f,
+): Float = 24f + 30 + 10 + lines * 22 + 22 + 52 + 20 + (if (slotH > 0f) slotH + SLOT_GAP else 0f)
+
+/** The slot's top in the card: 6 dp under the body's last line, or under the title with no body. */
+internal fun toonDialogSlotTop(lines: Int): Float = 24f + 30 + 10 + lines * 22 + 6
+
+/** A slot adds its height and this much: it ends 28 dp above the buttons, as the body ends 22 + 6 above. */
+private const val SLOT_GAP = 12f
 
 /** One frame of the dialog's motion: the iris radius on the engine's scale, the pop, its fades, the stars. */
 internal data class ToonDialogMotion(
@@ -337,11 +451,12 @@ internal fun toonDialogCardScene(
     destructive: Boolean,
     focus: ToonDialogFocus?,
     cancelWidth: Float,
+    slotH: Float = 0f,
 ): ToonScene {
     val c = tokens.colors
     val sh = tokens.shape
     val w = DIALOG_W
-    val h = toonDialogHeight(lines.size)
+    val h = toonDialogHeight(lines.size, slotH)
     val rs = sh.radiusScale
     val r =
         ToonRadii(

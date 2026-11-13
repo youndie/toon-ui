@@ -170,10 +170,11 @@ class ToonDialogTest {
                 ToonTheme {
                     ToonDialog(
                         "Delete plan?",
+                        "Delete",
+                        "Cancel",
                         Modifier.size(390.dp, 700.dp).testTag("dialog"),
                         open = open,
                         body = "“Paint the fence” will be gone for good.",
-                        confirm = "Delete",
                         onConfirm = { confirms++ },
                         onCancel = { cancels++ },
                     )
@@ -214,7 +215,7 @@ class ToonDialogTest {
             setContent {
                 ToonTheme {
                     ToonFxHost(onEvent = { heard += it.name }) {
-                        ToonDialog("Delete plan?", Modifier.size(390.dp, 700.dp), open = open)
+                        ToonDialog("Delete plan?", "OK", "Cancel", Modifier.size(390.dp, 700.dp), open = open)
                     }
                 }
             }
@@ -255,6 +256,8 @@ class ToonDialogTest {
                 ToonTheme {
                     ToonDialog(
                         "Delete plan?",
+                        "OK",
+                        "Cancel",
                         Modifier.size(390.dp, 700.dp).testTag("dialog"),
                         onConfirm = { confirms++ },
                         onCancel = { cancels++ },

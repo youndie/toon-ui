@@ -72,7 +72,7 @@ const DESKTOP_MAP = {
   TranscriptTurn: { composable: 'ToonTranscriptTurn', engine: ['plate', 'sticker', 'iconBtn32'], item: 'B-78', group: 'TranscriptTurn' },
 };
 // Public composables beyond a design file's own, under it.
-const ALSO = { Snackbar: ['ToonSnackbarHost'], Tabs: ['rememberToonTabsState'] };
+const ALSO = { Snackbar: ['ToonSnackbarHost'], Tabs: ['rememberToonTabsState'], BottomSheet: ['ToonBottomSheetBox'] };
 // The library's own public composables, which no design file draws, with the item that made each.
 const OWN = {
   ToonTheme: ['the theme provider: tokens, fonts, reduce motion, the idle budget', 'B-08'],

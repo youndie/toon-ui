@@ -149,6 +149,8 @@ class ToonDensityTest {
                     ToonTheme {
                         ToonDialog(
                             "Delete plan?",
+                            "OK",
+                            "Cancel",
                             Modifier.size(300.dp, 360.dp).testTag("dialog"),
                             body = "“Paint the fence” will be gone for good.",
                             onConfirm = { confirms++ },

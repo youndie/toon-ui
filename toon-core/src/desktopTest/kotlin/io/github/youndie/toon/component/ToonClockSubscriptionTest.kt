@@ -70,9 +70,9 @@ class ToonClockSubscriptionTest {
     fun `an opened menu, tooltip, sheet, drawer and dialog come to rest as if shown open`() {
         assertComesToRest("menu") { ToonMenu(listOf(ToonMenuItem("Edit"), ToonMenuItem("Share")), open = it) }
         assertComesToRest("tooltip") { ToonTooltip("Tap to add a plan", show = it) }
-        assertComesToRest("sheet") { ToonBottomSheet(listOf(ToonSheetItem("Family")), open = it) }
+        assertComesToRest("sheet") { ToonBottomSheet(listOf(ToonSheetItem("Family")), "Share plan", open = it) }
         assertComesToRest("drawer") { ToonNavigationDrawer(listOf(ToonDrawerItem("Home")), open = it) }
-        assertComesToRest("dialog") { ToonDialog("Delete plan?", open = it) }
+        assertComesToRest("dialog") { ToonDialog("Delete plan?", "OK", "Cancel", open = it) }
         assertComesToRest("snackbar") { ToonSnackbar("Plan added", shown = it) }
     }
 

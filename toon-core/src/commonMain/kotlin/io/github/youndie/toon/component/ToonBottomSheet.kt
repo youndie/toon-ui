@@ -1,17 +1,20 @@
 package io.github.youndie.toon.component
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.focusGroup
 import androidx.compose.foundation.focusable
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.waitForUpOrCancellation
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsFocusedAsState
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -20,17 +23,23 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.withFrameMillis
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.focusProperties
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyEventType
 import androidx.compose.ui.input.key.key
 import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.layout.onSizeChanged
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.CustomAccessibilityAction
 import androidx.compose.ui.semantics.customActions
 import androidx.compose.ui.semantics.dismiss
 import androidx.compose.ui.semantics.paneTitle
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.zIndex
 import io.github.youndie.toon.InternalToonApi
 import io.github.youndie.toon.draw.ToonAnchor
 import io.github.youndie.toon.draw.ToonInsets
@@ -54,6 +63,7 @@ import io.github.youndie.toon.tokens.ToonTokens
 import kotlin.math.floor
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.math.roundToInt
 
 // A port of the engine's `sheet` and `sheetMove` and the kit's `C.sheet` (B-38): a paper sheet on a
 // tongue, over a scrim, with a list item per action; it slides up with an overshoot as the scrim
@@ -68,16 +78,48 @@ public class ToonSheetItem(
 /**
  * The design's bottom sheet over the whole of its box: [title] and a row per [items], on a sheet
  * that slides up when [open] turns true and falls when it turns false. A tap on a row reports it to
- * [onSelect]; above the sheet's tongue, [onClose]. Closed, it takes no input.
+ * [onSelect]; above the sheet's tongue, [onClose]. Closed, it takes no input. [title] has no default:
+ * a sheet the caller forgot to title would show the kit's English (B-85).
  */
 @Composable
 public fun ToonBottomSheet(
     items: List<ToonSheetItem>,
+    title: String,
     modifier: Modifier = Modifier,
     open: Boolean = true,
-    title: String = "Share plan",
     onSelect: (Int) -> Unit = {},
     onClose: () -> Unit = {},
+) {
+    ToonSheet(items, title, modifier, open, onSelect, onClose, null)
+}
+
+/**
+ * The design's bottom sheet with [content] of the caller's in place of the rows (B-85): under
+ * [title], as wide as the sheet less 24 dp either side, and the sheet as tall as it needs, leaving
+ * 80 dp of the screen above it. It slides with the sheet; it is composed only while the sheet is open,
+ * so it leaves at once when the fall begins. Escape, a reader's dismiss, or a tap above the tongue
+ * calls [onClose].
+ */
+@Composable
+public fun ToonBottomSheetBox(
+    title: String,
+    modifier: Modifier = Modifier,
+    open: Boolean = true,
+    onClose: () -> Unit = {},
+    content: @Composable () -> Unit,
+) {
+    ToonSheet(emptyList(), title, modifier, open, {}, onClose, content)
+}
+
+@Composable
+private fun ToonSheet(
+    items: List<ToonSheetItem>,
+    title: String,
+    modifier: Modifier,
+    open: Boolean,
+    onSelect: (Int) -> Unit,
+    onClose: () -> Unit,
+    content: (@Composable () -> Unit)?,
 ) {
     val tokens = Toon.tokens
     val reduce = Toon.reduceMotion
@@ -89,79 +131,127 @@ public fun ToonBottomSheet(
     val select by rememberUpdatedState(onSelect)
     val close by rememberUpdatedState(onClose)
     val n = items.size
+    // B-85: the slot's height, as its content last measured; the sheet grows to hold it.
+    var measuredSlot by remember { mutableFloatStateOf(0f) }
+    val slotH = if (content != null) measuredSlot else 0f
+    val dpPx = LocalDensity.current.density
     LaunchedEffect(open) { clock.changed(open) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
 
-    Canvas(
+    val slotted = content != null && clock.open
+    val canvas: @Composable (Modifier) -> Unit = {
+        Canvas(
+            it
+                .then(
+                    if (clock.open) {
+                        Modifier
+                            .semantics {
+                                paneTitle = title
+                                dismiss { close().let { true } }
+                                customActions =
+                                    items.mapIndexed {
+                                        i,
+                                        it,
+                                        ->
+                                        CustomAccessibilityAction(it.label) { select(i).let { true } }
+                                    }
+                            }.onKeyEvent {
+                                if (it.type != KeyEventType.KeyDown) return@onKeyEvent false
+                                when (it.key) {
+                                    Key.DirectionDown -> {
+                                        focusOn = min(n - 1, focusOn + 1)
+                                        true
+                                    }
+
+                                    Key.DirectionUp -> {
+                                        focusOn = max(0, focusOn - 1)
+                                        true
+                                    }
+
+                                    Key.Enter, Key.NumPadEnter, Key.Spacebar -> {
+                                        if (focusOn in items.indices) select(focusOn)
+                                        true
+                                    }
+
+                                    Key.Escape -> {
+                                        close()
+                                        true
+                                    }
+
+                                    else -> {
+                                        false
+                                    }
+                                }
+                            }.then(if (n > 0) Modifier.focusable(interactionSource = interaction) else Modifier)
+                            .pointerInput(n, slotH) {
+                                awaitEachGesture {
+                                    awaitFirstDown()
+                                    val up = waitForUpOrCancellation() ?: return@awaitEachGesture
+                                    // Coordinates are taken as dp, as every component draws them (B-47).
+                                    val h = size.height / density
+                                    when (val hit = toonSheetHit(h, n, up.position.y / density, slotH)) {
+                                        ToonSheetHit.Close -> close()
+                                        is ToonSheetHit.Item -> select(hit.index)
+                                        null -> Unit
+                                    }
+                                }
+                            }
+                    } else {
+                        Modifier
+                    },
+                ),
+        ) {
+            // The engine draws in dp (research D5); the canvas is pixels (B-47).
+            inDp {
+                val w = sizeDp.width
+                val h = sizeDp.height
+                val m = toonSheetFrameAt(clock.open, clock.age(), reduce, toonSheetHeight(h, n, slotH)) ?: return@inDp
+                val scene = toonSheetLayerScene(tokens, w, h, title, items, m, focusOn.takeIf { focused }, slotH)
+                drawScene(if (m.fade == 1f) scene else scene.placed(0f, 0f, m.fade), texts)
+            }
+        }
+    }
+    if (content == null) {
+        canvas(modifier.fillMaxSize())
+        return
+    }
+    Box(
         modifier
             .fillMaxSize()
             .then(
-                if (clock.open) {
+                if (slotted) {
                     Modifier
-                        .semantics {
-                            paneTitle = title
-                            dismiss { close().let { true } }
-                            customActions =
-                                items.mapIndexed {
-                                    i,
-                                    it,
-                                    ->
-                                    CustomAccessibilityAction(it.label) { select(i).let { true } }
-                                }
-                        }.onKeyEvent {
-                            if (it.type != KeyEventType.KeyDown) return@onKeyEvent false
-                            when (it.key) {
-                                Key.DirectionDown -> {
-                                    focusOn = min(n - 1, focusOn + 1)
-                                    true
-                                }
-
-                                Key.DirectionUp -> {
-                                    focusOn = max(0, focusOn - 1)
-                                    true
-                                }
-
-                                Key.Enter, Key.NumPadEnter, Key.Spacebar -> {
-                                    if (focusOn in items.indices) select(focusOn)
-                                    true
-                                }
-
-                                Key.Escape -> {
-                                    close()
-                                    true
-                                }
-
-                                else -> {
-                                    false
-                                }
-                            }
-                        }.focusable(interactionSource = interaction)
-                        .pointerInput(n) {
-                            awaitEachGesture {
-                                awaitFirstDown()
-                                val up = waitForUpOrCancellation() ?: return@awaitEachGesture
-                                // Coordinates are taken as dp, as every component draws them (B-47).
-                                val h = size.height / density
-                                when (val hit = toonSheetHit(h, n, up.position.y / density)) {
-                                    ToonSheetHit.Close -> close()
-                                    is ToonSheetHit.Item -> select(hit.index)
-                                    null -> Unit
-                                }
-                            }
-                        }
+                        .onKeyEvent {
+                            if (it.type == KeyEventType.KeyDown && it.key == Key.Escape) close().let { true } else false
+                        }.focusProperties { onExit = { cancelFocusChange() } }
+                        .focusGroup()
                 } else {
                     Modifier
                 },
             ),
     ) {
-        // The engine draws in dp (research D5); the canvas is pixels (B-47).
-        inDp {
-            val w = sizeDp.width
-            val h = sizeDp.height
-            val m = toonSheetFrameAt(clock.open, clock.age(), reduce, toonSheetHeight(h, n)) ?: return@inDp
-            val scene = toonSheetLayerScene(tokens, w, h, title, items, m, focusOn.takeIf { focused })
-            drawScene(if (m.fade == 1f) scene else scene.placed(0f, 0f, m.fade), texts)
+        if (slotted) {
+            Box(
+                Modifier
+                    .zIndex(1f)
+                    .layout { m, c ->
+                        val w = c.maxWidth / density
+                        val h = c.maxHeight / density
+                        val p = m.measure(Constraints(maxWidth = (max(0f, w - 48) * density).roundToInt()))
+                        layout(c.maxWidth, c.maxHeight) {
+                            val y = h - toonSheetHeight(h, 0, slotH) + ROWS_AT
+                            p.placeWithLayer((24 * density).roundToInt(), (y * density).roundToInt()) {
+                                // The slot rides the sheet up and down, and fades with it under reduce motion.
+                                val a = toonSheetFrameAt(clock.open, clock.age(), reduce, toonSheetHeight(h, 0, slotH))
+                                translationY = (a?.motion?.dy ?: 0f) * density
+                                alpha = a?.fade ?: 1f
+                            }
+                        }
+                    }.onSizeChanged { measuredSlot = it.height / dpPx }
+                    .focusGroup(),
+            ) { content() }
         }
+        canvas(Modifier.matchParentSize())
     }
 }
 
@@ -169,11 +259,15 @@ public fun ToonBottomSheet(
 private const val ROW_STEP = 72f
 private const val ROWS_AT = 70f
 
-/** The kit's `sh`: the sheet is tall enough for its rows, and leaves 80 dp of the screen above it. */
+/**
+ * The kit's `sh`: the sheet is tall enough for its rows — or for a slot [slotH] tall in their place
+ * (B-85) — and leaves 80 dp of the screen above it.
+ */
 internal fun toonSheetHeight(
     screenH: Float,
     n: Int,
-): Float = min(screenH - 80, 110 + n * ROW_STEP)
+    slotH: Float = 0f,
+): Float = min(screenH - 80, 110 + n * ROW_STEP + slotH)
 
 /** Where a release lands: on a row, above the tongue (which closes), or on the sheet between. */
 internal sealed interface ToonSheetHit {
@@ -189,8 +283,9 @@ internal fun toonSheetHit(
     screenH: Float,
     n: Int,
     y: Float,
+    slotH: Float = 0f,
 ): ToonSheetHit? {
-    val top = screenH - toonSheetHeight(screenH, n)
+    val top = screenH - toonSheetHeight(screenH, n, slotH)
     if (y < top - 16) return ToonSheetHit.Close
     val i = floor((y - top - ROWS_AT) / ROW_STEP).toInt()
     return if (i in 0 until n) ToonSheetHit.Item(i) else null
@@ -331,8 +426,9 @@ internal fun toonSheetLayerScene(
     items: List<ToonSheetItem>,
     m: ToonSheetMoment,
     focus: Int? = null,
+    slotH: Float = 0f,
 ): ToonScene {
-    val h = toonSheetHeight(screenH, items.size)
+    val h = toonSheetHeight(screenH, items.size, slotH)
     val y = screenH - h + m.motion.dy
     var scene = toonSheetScene(tokens, w, screenH, h, title, m.motion)
     items.forEachIndexed { i, it ->
