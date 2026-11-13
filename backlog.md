@@ -56,11 +56,10 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (11)
+## Open (10)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-68](docs/backlog/B-68-vendor-the-desktop-design.md) `[ ]` | Vendor the desktop components' design from the app project they were drawn in | P1 | M | - |
 | [B-69](docs/backlog/B-69-pointer-and-keyboard-rule.md) `[ ]` | One hover, focus and target rule for the whole kit | P1 | L | B-68 |
 | [B-70](docs/backlog/B-70-speaker-sticker.md) `[ ]` | ToonSpeakerSticker: a speaker told apart by shape, colour and letter | P1 | M | B-68 |
 | [B-71](docs/backlog/B-71-search-field.md) `[ ]` | ToonSearchField: a search box with a count and a key hint | P1 | M | B-68, B-69 |
@@ -72,7 +71,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | [B-76](docs/backlog/B-76-title-bar.md) `[ ]` | ToonTitleBar: the window's title row and its action slot | P2 | M | B-68, B-75 |
 | [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
 
-## Closed (67)
+## Closed (68)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -155,5 +154,9 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-50](docs/backlog/B-50-menu-middle-item-targets.md) `[x]` - Menu: with three or more items the middle ones are 44 dp targets
 - [B-51](docs/backlog/B-51-two-effect-clocks-first-composition.md) `[x]` - Check the two-effect clocks under a first composition
 - [B-52](docs/backlog/B-52-sample-theme-reaches-the-screens.md) `[x]` - The kit's theme and reduce motion reach the Screens app
+
+**The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
+
+- [B-68](docs/backlog/B-68-vendor-the-desktop-design.md) `[x]` - Vendor the desktop components' design from the app project they were drawn in
 
 <!-- END INDEX -->

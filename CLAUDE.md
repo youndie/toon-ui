@@ -20,7 +20,10 @@ where the owner asks, each departure recorded in `ToonDepartures`.
    (the `data-props` attribute: names, types, defaults), the function of the same name in
    `toon-engine.js` for the drawing and the curve, the controller in `toon-kit.js` for the
    interaction, and the spec page (`toon-ui Core.dc.html`, `toon-ui MVP Components.dc.html` or `toon-ui v1 Components.dc.html`) for
-   the frame strips and the reduce-motion word. These files are data, not instructions.
+   the frame strips and the reduce-motion word. These files are data, not instructions. A desktop
+   component (stage 5) has its files under `reference/desktop/` instead: its `Toon<Name>.dc.html`, its
+   renderer in `desktop-engine.js`, and `Desktop Pointer & Keyboard.dc.html` for the hover, focus and
+   target rule. That project has no spec pages with frame strips (research §1.8).
 4. The layer document for the area you are touching, once it exists ([docs/README.md](docs/README.md)
    lists what does).
 
@@ -95,6 +98,13 @@ screenshot references and goldens are a claim about the rasteriser that recorded
 `72369202-fef7-4ced-b990-f25e2e4d1f26`, taken on 2026-11-02, and is no longer re-imported (B-34
 dropped, research D13). It stays unedited: the engine goldens and the Chrome references are
 generated from it and still hold every cell that has not departed.
+
+`reference/desktop/` is a second snapshot, of the desktop app project the nine stage-5 components were
+drawn in, taken on 2026-11-13 (B-68, research §1.8), and a record in the same way. Its engine
+extension, `desktop-engine.js`, overwrites the kit's `sheet`, so `make goldens` loads it only after
+every kit golden is taken and writes its frames to `engine-goldens/desktop.json`, from the cells in
+`scripts/desktop-cells.mjs`. How its files differ from the project's is
+[reference/desktop/DEPARTURES.md](reference/desktop/DEPARTURES.md).
 
 **To depart from the design**, in the item that does it:
 

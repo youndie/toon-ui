@@ -14,6 +14,7 @@ import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { createRequire } from 'node:module';
 import { COMPONENT_CELLS, FRAME_PROBES } from './component-cells.mjs';
+import { DESKTOP_CELLS } from './desktop-cells.mjs';
 
 const root = join(dirname(fileURLToPath(import.meta.url)), '..');
 const enginePath = join(root, 'reference/design-system/toon-engine.js');
@@ -214,7 +215,7 @@ const FRAME_GROUPS = ['Button', 'IconButton', 'Badge', 'Fab', 'Checkbox', 'Radio
 const documentStub = globalThis.document;
 delete globalThis.document;
 const FRAME_CELLS = { ...COMPONENT_CELLS, ...FRAME_PROBES };
-const frames = Object.fromEntries([...FRAME_GROUPS, ...Object.keys(FRAME_PROBES)].map(group => [group, Object.fromEntries(FRAME_CELLS[group].map(c => {
+const framesOf = (cells, groups) => Object.fromEntries(groups.map(group => [group, Object.fromEntries(cells[group].map(c => {
   const sc = new Function('E', 'T', `return ${c.scene};`)(E, E.THEMES[c.theme]);
   return [c.name, {
     theme: c.theme,
@@ -224,11 +225,28 @@ const frames = Object.fromEntries([...FRAME_GROUPS, ...Object.keys(FRAME_PROBES)
     X: sc.X.map(x => ({ s: String(x.s), x: r6(x.x), y: r6(x.y), fill: x.fill, op: r6(x.op), anchor: x.anchor, fw: x.fw, fs: x.fs, ...(x.ff === E.THEMES[c.theme].display ? { face: 'display' } : {}) })),
   }];
 }))]));
+const frames = framesOf(FRAME_CELLS, [...FRAME_GROUPS, ...Object.keys(FRAME_PROBES)]);
+
+// ---- the desktop design's frames (B-68) ----
+// reference/desktop/desktop-engine.js extends this engine for a desktop app (research §1.8). It adds
+// its renderers to ToonEngine.prototype and twelve icons to the shared ICONS table, and it replaces
+// the kit's own `sheet`, the bottom sheet, with a panel of another signature. So it is loaded only
+// here, after every kit golden above has been taken: nothing above can see it. It waits for the
+// kit's runtime, which the press section loaded, and is taken without `document` as the kit's
+// frames are.
+const desktopEnginePath = join(root, 'reference/desktop/desktop-engine.js');
+createRequire(import.meta.url)(desktopEnginePath);
+if (!globalThis.window.DesktopKit?.ok) throw new Error('desktop-engine.js did not initialise: it needs ToonEngine and ToonKit on window');
+const desktopFrames = framesOf(DESKTOP_CELLS, Object.keys(DESKTOP_CELLS));
 globalThis.document = documentStub;
 
-const engineSha = createHash('sha256').update(readFileSync(enginePath)).digest('hex');
+const sha256 = path => createHash('sha256').update(readFileSync(path)).digest('hex');
+const engineSha = sha256(enginePath);
 const files = {
-  'manifest.json': { engine: 'reference/design-system/toon-engine.js', sha256: engineSha, decimals: 6, pathStep: 0.1, themes, scenes: Object.keys(scenes(E.THEMES.il)), curves: Object.keys(curves) },
+  'manifest.json': {
+    engine: 'reference/design-system/toon-engine.js', sha256: engineSha, decimals: 6, pathStep: 0.1, themes, scenes: Object.keys(scenes(E.THEMES.il)), curves: Object.keys(curves),
+    desktopEngine: 'reference/desktop/desktop-engine.js', desktopSha256: sha256(desktopEnginePath), desktopGroups: Object.keys(DESKTOP_CELLS),
+  },
   ...Object.fromEntries(themes.map(k => [`geometry-${k}.json`, geometry[k]])),
   'curves.json': sampled,
   // THEMES as the engine has it, for the token layer's test (B-07).
@@ -239,6 +257,8 @@ const files = {
   'fx.json': fx,
   // The components' frames on the spec pages' cells (B-14).
   'components.json': frames,
+  // The desktop design's components, drawn by its engine extension (B-68).
+  'desktop.json': desktopFrames,
 };
 
 const check = process.argv.includes('--check');

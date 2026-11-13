@@ -1,7 +1,7 @@
 ---
 id: B-68
 title: "Vendor the desktop components' design from the app project they were drawn in"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-5-desktop
@@ -57,3 +57,46 @@ and the rename is the first departure recorded for `reference/desktop/`, describ
 
 - No file, identifier, comment, commit message or pull request of this repository carries the working
   name; a search for it over the tree finds nothing before the item closes.
+
+## The second question, 2026-11-13
+
+Renamed, the project's README no longer names the app, but most of it is the app's own plan rather
+than the kit's: the list of its screens and the count of their states, a table of their artboards,
+the screen assemblies built from kit components, and decisions about those screens. The rest is what
+the kit is built from: what the project adds to it, the decisions on hover, focus, targets and the
+speaker sticker, and the departures from the brief. Vendor the README whole, or only its kit parts?
+
+## Answer, 2026-11-13
+
+**Only its kit parts.** `README.md` keeps what the project adds to the kit (without the line listing
+the screen assemblies), the hover, focus, target and speaker decisions, and the departures from the
+brief, each line as the project wrote it. The rest is cut, and the cut is the second departure of
+`reference/desktop/`, described in the kit's terms beside the rename.
+
+## Findings, 2026-11-13
+
+- **Vendored** from the owner's download of the project, taken on 2026-11-13 (74 files): the twelve
+  files above, in `reference/desktop/`, with the rename as departure 1 and the README's cut as
+  departure 2 ([`reference/desktop/DEPARTURES.md`](../../reference/desktop/DEPARTURES.md)). A
+  segment-by-segment comparison of each pair finds no other change, and every line the README keeps
+  is in the project's README as it stands there. Research §1.8 records the snapshot.
+- **The project's copies of the kit are this repository's bytes**: `toon-engine.js`, `toon-kit.js`,
+  `support.js`, the four tiles and all 27 kit component files. Nothing is written down as a
+  difference because there is none.
+- **The extension replaces one kit renderer.** It overwrites the engine's `sheet`, the bottom
+  sheet, with a panel of another signature that the sidebar draws its body with, and it adds its 12
+  icons to the kit's own `ICONS` table. The harness therefore loads it only after the kit's goldens;
+  loaded first, it makes the harness die in the bottom sheet's cells. The port keeps the two apart
+  (research §1.8, for B-77).
+- **The base stylesheet is not vendored at all.** Besides the Cyrillic faces it held one
+  `::selection` rule whose colours are the extension's own `tok` values, so nothing is lost.
+- **The golden.** `scripts/engine-goldens.mjs` writes `engine-goldens/desktop.json`: the sticker's
+  three kinds at sizes 24, 32 and 48 in three themes, 27 frames, from `scripts/desktop-cells.mjs`.
+  Every earlier golden is byte for byte what it was. Moving the sticker's shadow from 2 to 3 dp in the
+  extension makes `--check` fail on `desktop.json`.
+- **A vendored page does not open on its own** (it links the kit's files and the base stylesheet
+  beside itself); nothing here needs it to, since the harness loads the engine files by path.
+
+- [x] `reference/desktop/` holds the files above with their snapshot recorded (research §1.8).
+- [x] The engine copies are compared with `reference/design-system/`: identical.
+- [x] One golden from a new renderer (`sticker`) is emitted by the harness (`desktop.json`).

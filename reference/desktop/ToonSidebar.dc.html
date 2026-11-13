@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Figtree:wght@400;500;600;700;800&family=Titan+One&family=Fredoka:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="./desktop-base.css">
+<script src="./toon-engine.js?v=10"></script>
+<script src="./toon-kit.js?v=11"></script>
+<script src="./desktop-engine.js?v=1"></script>
+</helmet>
+<div style="position:relative; width:{{ w }}px; height:{{ h }}px; font-family:{{ t.body }}; user-select:none;">
+  <svg ref="{{ bodyRef }}" width="{{ w }}" height="{{ h }}" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+  <div style="position:absolute; left:12px; top:12px;">
+    <dc-import name="ToonSearchField" width="{{ fw }}" placeholder="{{ ph }}" value="{{ query }}" count="{{ count }}" theme="{{ theme }}" onChange="{{ onQuery }}" hint-size="276px,40px"></dc-import>
+  </div>
+  <sc-if value="{{ hasRec }}" hint-placeholder-val="{{ false }}">
+    <div tabIndex="0" onClick="{{ recPick }}" style="position:absolute; left:6px; right:6px; top:62px; height:60px; padding:0 12px 0 40px; display:flex; flex-direction:column; justify-content:center; gap:5px; cursor:pointer; outline:none;">
+      <svg ref="{{ recRef }}" width="{{ nw }}" height="60" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+      <div style="position:relative; font-weight:800; font-size:15px; line-height:1.2; color:{{ t.onDanger }}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ recTitle }}</div>
+      <div style="position:relative; font-weight:700; font-size:13px; line-height:1.2; color:{{ t.onDanger }}; font-variant-numeric:tabular-nums; white-space:nowrap;">{{ recMeta }}</div>
+    </div>
+  </sc-if>
+  <sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute; left:18px; right:18px; top:{{ listTop }}px; padding-top:22px; display:flex; flex-direction:column; gap:6px;">
+      <div style="font-weight:800; font-size:15px; color:{{ t.text }};">{{ emptyTitle }}</div>
+      <div style="font-weight:500; font-size:14px; line-height:1.45; color:{{ t.muted }}; text-wrap:pretty;">{{ emptySub }}</div>
+    </div>
+  </sc-if>
+  <div ref="{{ listRef }}" style="position:absolute; left:6px; right:20px; top:{{ listTop }}px; bottom:{{ footH }}px; overflow-y:auto; scrollbar-width:none;">
+    <div style="display:flex; flex-direction:column; padding-bottom:12px;">
+      <sc-for list="{{ groups }}" as="g" hint-placeholder-count="3">
+        <div style="padding:16px 12px 6px; font-weight:800; font-size:11px; line-height:1; letter-spacing:.12em; text-transform:uppercase; color:{{ t.muted }};">{{ g.label }}</div>
+        <sc-for list="{{ g.items }}" as="it" hint-placeholder-count="2">
+          <div tabIndex="0" onMouseEnter="{{ it.enter }}" onMouseLeave="{{ it.leave }}" onClick="{{ it.pick }}" onFocus="{{ it.focus }}" onBlur="{{ it.blur }}" onKeyDown="{{ it.key }}" style="position:relative; height:{{ it.h }}px; padding:0 12px; display:flex; flex-direction:column; justify-content:center; gap:5px; cursor:pointer; outline:none;">
+            <svg ref="{{ it.ref }}" width="{{ rw }}" height="{{ it.h }}" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+            <div style="position:relative; font-weight:700; font-size:15px; line-height:1.2; color:{{ it.tc }}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ it.title }}</div>
+            <div style="position:relative; font-weight:500; font-size:13px; line-height:1.2; color:{{ it.mc }}; font-variant-numeric:tabular-nums; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ it.meta }}</div>
+            <sc-if value="{{ it.hasSnip }}" hint-placeholder-val="{{ false }}">
+              <div style="position:relative; font-weight:500; font-size:13px; line-height:1.3; color:{{ it.tc }}; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">{{ it.pre }}<span style="background:{{ it.mbg }}; color:{{ t.ink }}; font-weight:700; border-radius:3px; box-shadow:0 0 0 2px {{ it.mbg }};">{{ it.hit }}</span>{{ it.post }}</div>
+            </sc-if>
+          </div>
+        </sc-for>
+      </sc-for>
+    </div>
+  </div>
+  <div style="position:absolute; right:4px; top:{{ sbTop }}px;">
+    <dc-import name="ToonScrollbar" target="{{ getList }}" theme="{{ theme }}" hint-size="14px,100px"></dc-import>
+  </div>
+  <div style="position:absolute; left:6px; right:6px; bottom:10px; display:flex; flex-direction:column;">
+    <sc-for list="{{ nav }}" as="n" hint-placeholder-count="2">
+      <div tabIndex="0" onMouseEnter="{{ n.enter }}" onMouseLeave="{{ n.leave }}" onClick="{{ n.pick }}" onFocus="{{ n.focus }}" onBlur="{{ n.blur }}" onKeyDown="{{ n.key }}" style="position:relative; height:{{ navH }}px; padding:0 12px; display:flex; align-items:center; gap:12px; cursor:pointer; outline:none;">
+        <svg ref="{{ n.ref }}" width="{{ nw }}" height="{{ navH }}" style="position:absolute; left:0; top:0; overflow:visible; pointer-events:none;"></svg>
+        <div style="position:relative; width:22px; height:22px;"><svg ref="{{ n.iref }}" width="22" height="22" style="display:block; overflow:visible;"></svg></div>
+        <div style="position:relative; font-weight:700; font-size:15px; color:{{ n.tc }};">{{ n.label }}</div>
+      </div>
+    </sc-for>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:340,&quot;height&quot;:720},&quot;width&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:240,&quot;max&quot;:360,&quot;default&quot;:300,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;height&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;min&quot;:400,&quot;max&quot;:1200,&quot;default&quot;:700,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;},&quot;groups&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;{ label: string; items: { id: string; title: string; meta: string }[] }[]&quot;},&quot;selected&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;nav&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;&quot;,&quot;speakers&quot;,&quot;settings&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;''|'speakers'|'settings'&quot;},&quot;recording&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;{ title: string; elapsed: string; source: string } | null&quot;},&quot;results&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;{ label: string; items: { id; title; meta; snip: [pre, hit, post] }[] }[]&quot;},&quot;emptyTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Созвонов пока нет&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;emptySub&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;query&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;count&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;hoverId&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Spec frames&quot;},&quot;lang&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;ru&quot;,&quot;en&quot;],&quot;default&quot;:&quot;ru&quot;,&quot;tsType&quot;:&quot;'ru'|'en'&quot;},&quot;onSelect&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id: string) =&gt; void&quot;},&quot;onNav&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(id: 'speakers'|'settings') =&gt; void&quot;},&quot;onQuery&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(q: string) =&gt; void&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;auto&quot;,&quot;light&quot;,&quot;night&quot;,&quot;cel&quot;],&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;'auto'|'light'|'night'|'cel'&quot;,&quot;section&quot;:&quot;Theme&quot;}}">
+class Component extends DCLogic {
+  state = { fc: null, q: null };
+  refs = {}; els = {};
+  bodyRef = e => { this.body = e; this.paint(); };
+  listRef = e => { this.list = e; };
+  getList = () => this.list;
+  ref(k) { return this.refs[k] || (this.refs[k] = e => { this.els[k] = e; this.paint(); }); }
+  componentDidMount() {
+    const go = () => { const PK = window.DesktopKit; if (!PK || !PK.ready()) { this._w = setTimeout(go, 40); return; } this.k = PK.ctl(this, () => this.paint()); this.k.alive = () => !!this.props.recording && !PK.reduce(); this.k.wake(); this.forceUpdate(); };
+    go();
+  }
+  componentDidUpdate() { this.paint(); }
+  componentWillUnmount() { clearTimeout(this._w); this.k && this.k.detach(); }
+  dims() { const PK = window.DesktopKit, P = PK.E().DESKTOP, w = +this.props.width || P.layout.sidebar.def; return { w, h: +this.props.height || 700, rowH: P.pointer.row, navH: P.pointer.navRow, rw: w - 26, nw: w - 12 }; }
+  navItems() { const en = this.props.lang === 'en'; return [{ id: 'speakers', icon: 'person', label: en ? 'Voices' : 'Голоса' }, { id: 'settings', icon: 'settings', label: en ? 'Settings' : 'Настройки' }]; }
+  paint() {
+    const PK = window.DesktopKit; if (!this.k) return; const E = PK.E(), T = PK.T(this.props), d = this.dims(), p = this.props;
+    const rr = this.els.rec; if (rr && p.recording) { const R = 5 + 1.6 * (PK.reduce() ? 1 : E.recPulse(PK.clock())), g = E.shape(20 - R, 30 - R, 2 * R, 2 * R, [R, R * .95, R, R * .9], [1.4, 1.6, 2.2, 1.4], .35, T.seed + 3310, 2); PK.paint(rr, { L: [...E.liftBody(T, 2, 3, d.nw - 4, 54, [14, 10, 16, 11], { seed: T.seed + 3530, fill: T.danger, sh: 3, noRim: true, insMul: p.nav || p.selected === 'rec' ? 1.4 : 1 }), E.L(g.ink, T.ink), E.L(g.fill, T.paper)], X: [] }); }
+    if (this.body) { const sc = E.sheet(T, d.w, d.h, { r: [18, 12, 22, 14], sh: T.sh, seed: 1 }), fy = d.h - 10 - 2 * d.navH - 8; sc.L.push(E.L(E.inkLine(14, d.w - 14, fy, 2.6, T.seed + 3950), T.ink)); PK.paint(this.body, sc); }
+    (p.results || p.groups || []).forEach(g => (g.items || []).forEach((it, j) => { const el = this.els['r' + it.id]; if (el) PK.paint(el, { L: E.navPlate(T, d.rw, it.snip ? 80 : d.rowH, { sel: it.id === p.selected && !p.nav, hv: p.hoverId === it.id ? 1 : this.k.hv('r' + it.id), focus: this.state.fc === 'r' + it.id, seed: j }), X: [] }); }));
+    this.navItems().forEach((n, j) => {
+      const el = this.els['n' + n.id], ic = this.els['i' + n.id], sel = p.nav === n.id;
+      if (el) PK.paint(el, { L: E.navPlate(T, d.nw, d.navH, { sel, hv: this.k.hv('n' + n.id), focus: this.state.fc === 'n' + n.id, seed: j + 3 }), X: [] });
+      if (ic) PK.paint(ic, { L: E.icon(T, n.icon, 0, 0, { size: 22, color: sel ? T.ink : T.text, fill: sel ? T.paper : null }), X: [] });
+    });
+  }
+  renderVals() {
+    const PK = window.DesktopKit, ok = PK && PK.ready() && this.k, p = this.props, t = ok ? PK.tok(p) : {};
+    if (!ok) return { t, w: +p.width || 300, h: +p.height || 700, groups: [], nav: [], listTop: 62, sbTop: 70, hasRec: false, isEmpty: false, fw: 276, footH: 120, rowH: 56, navH: 44, rw: 274, nw: 288, bodyRef: this.bodyRef, listRef: this.listRef, getList: this.getList };
+    const d = this.dims(), en = p.lang === 'en', K = this.k, E0 = PK.E(), T0 = PK.T(p), rec = p.recording, listTop = 62 + (rec ? 66 : 0);
+    const hand = (k, pick) => ({ enter: () => K.hover(k, true), leave: () => K.hover(k, false), focus: () => this.setState({ fc: k }), blur: () => this.setState({ fc: null }), pick, key: e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } } });
+    const mbg = E0.accents(T0)[1], groups = (p.results || p.groups || []).map(g => ({ label: g.label, items: (g.items || []).map(it => { const sel = it.id === p.selected && !p.nav; return { ...it, h: it.snip ? 80 : d.rowH, hasSnip: !!it.snip, pre: it.snip ? it.snip[0] : '', hit: it.snip ? it.snip[1] : '', post: it.snip ? it.snip[2] : '', mbg, ref: this.ref('r' + it.id), tc: sel ? t.ink : t.text, mc: sel ? t.ink : t.muted, ...hand('r' + it.id, () => p.onSelect && p.onSelect(it.id)) }; }) }));
+    const nav = this.navItems().map(n => ({ ...n, ref: this.ref('n' + n.id), iref: this.ref('i' + n.id), tc: p.nav === n.id ? t.ink : t.text, ...hand('n' + n.id, () => p.onNav && p.onNav(n.id)) }));
+    return { t, ...d, theme: p.theme, fw: d.w - 24, ph: en ? 'Search meetings' : 'Поиск по созвонам', query: p.query || '', count: p.count || '', onQuery: v => p.onQuery && p.onQuery(v),
+      groups, nav, hasRec: !!rec, recRef: this.ref('rec'), recTitle: rec ? rec.title : '', recMeta: rec ? `${rec.elapsed} · ${rec.source}` : '', recPick: () => p.onSelect && p.onSelect('rec'), listTop, sbTop: listTop + 8,
+      isEmpty: !(p.results || p.groups || []).length, emptyTitle: p.emptyTitle || 'Созвонов пока нет', emptySub: p.emptySub || 'Запись появится здесь, как только закончится.', footH: 10 + 2 * d.navH + 18, bodyRef: this.bodyRef, listRef: this.listRef, getList: this.getList };
+  }
+}
+</script>
+</body>
+</html>
