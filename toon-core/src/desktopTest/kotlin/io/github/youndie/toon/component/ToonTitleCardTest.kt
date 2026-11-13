@@ -1,14 +1,18 @@
 package io.github.youndie.toon.component
 
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.SemanticsActions
 import androidx.compose.ui.semantics.SemanticsProperties
 import androidx.compose.ui.semantics.getOrNull
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.v2.runComposeUiTest
+import androidx.compose.ui.unit.dp
 import io.github.youndie.toon.draw.EngineFrames
 import io.github.youndie.toon.draw.EngineFrames.f
 import io.github.youndie.toon.parity.TitleFrames
@@ -19,6 +23,7 @@ import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 import kotlin.math.abs
 import kotlin.math.hypot
+import kotlin.math.max
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull
@@ -241,5 +246,112 @@ class ToonTitleCardTest {
         assertTrue(widths.max() / widths.min() > 2.5, "the widths swell: ${widths.min()}..${widths.max()} dp")
         // Reduce motion holds them still.
         assertEquals(toonSplashAt(1e6f), toonTitleCardFrameAt(3000f, true, loop = true).motion)
+    }
+
+    @Test
+    fun `the plaque grows to hold long words, never past the card, and the design's words keep its plaque`() {
+        for (empty in listOf(false, true)) {
+            val least = if (empty) 260f else 280f
+            for (w in listOf(240f, 280f, 360f, 600f)) {
+                var last = 0f
+                for (i in 0..120) {
+                    val words = i * 10f
+                    for ((tw, sw) in listOf(words to 0f, 0f to words, words to words * .7f)) {
+                        val fit = toonTitlePlaqueFit(w, empty, tw, sw)
+                        assertTrue(fit.pw >= least, "$w $tw: plaque ${fit.pw} under the design's $least")
+                        assertTrue(fit.pw <= max(least, w - 32f), "$w $tw: plaque ${fit.pw} past the card")
+                        assertTrue(tw * fit.titleScale <= fit.pw - 48f + .01f, "$w $tw: title wider than its room")
+                        assertTrue(sw * fit.subScale <= fit.pw - 48f + .01f, "$w $sw: sub wider than its room")
+                        assertTrue(fit.titleScale in 0f..1f && fit.subScale in 0f..1f)
+                    }
+                    val pw = toonTitlePlaqueFit(w, empty, words, 0f).pw
+                    assertTrue(pw >= last, "$w: the plaque narrows as the title widens, $last then $pw")
+                    last = pw
+                }
+            }
+        }
+        // The kit's scene draws the fit: a 600-wide title on a 360 card is set smaller, the sub too.
+        val fit = toonTitlePlaqueFit(360f, false, 600f, 400f)
+        val kit =
+            toonTitleCardKitScene(
+                io.github.youndie.toon.tokens.inkGouacheLight,
+                360f,
+                520f,
+                false,
+                "T",
+                "S",
+                toonSplashAt(1e6f),
+                600f,
+                400f,
+            )
+        assertEquals(44f * fit.titleScale, kit.labels[0].style.size)
+        assertEquals(14f * fit.subScale, kit.labels[1].style.size)
+        // The design's words, measured on desktop, keep the design's plaque and sizes.
+        for ((empty, tw, sw) in listOf(Triple(false, 216f, 225f), Triple(true, 206f, 173f))) {
+            val fit = toonTitlePlaqueFit(360f, empty, tw, sw)
+            assertEquals(if (empty) 260f else 280f, fit.pw)
+            assertEquals(1f, fit.titleScale)
+            assertEquals(1f, fit.subScale)
+        }
+    }
+
+    @Test
+    fun `a title wider than the design's plaque is drawn inside the plaque`() {
+        val c =
+            io.github.youndie.toon.tokens.inkGouacheLight.colors
+
+        fun near(
+            a: Color,
+            b: Color,
+            by: Float,
+        ) = abs(a.red - b.red) <= by && abs(a.green - b.green) <= by && abs(a.blue - b.blue) <= by
+        for ((width, title, grows) in listOf(
+            Triple(360, "ПЯТИЛЕТКА", true),
+            Triple(280, "ПЯТИЛЕТКА", false),
+            Triple(360, "The quick brown fox jumps over lazy dogs", false),
+        )) {
+            runComposeUiTest {
+                mainClock.autoAdvance = false
+                setContent {
+                    ToonTheme {
+                        ToonTitleCard(Modifier.testTag("card"), title = title, sub = "", width = width.dp)
+                    }
+                }
+                mainClock.advanceTimeBy(3_000)
+                val image = onNodeWithTag("card").captureToImage().toPixelMap()
+                // The plaque at rest stands 158 to 278 (120 tall about 0.42 of 520); the row 247 is under
+                // the title's descenders, above the dashed frame, and over the bottom star.
+                val row = 247
+                val mid = width / 2
+                var left = mid
+                while (left > 0 && near(image[left - 1, row], c.surface, .05f)) left--
+                var right = mid
+                while (right < width - 1 && near(image[right + 1, row], c.surface, .05f)) right++
+                val plaque = right - left + 1
+                if (grows) assertTrue(plaque > 299 + 10, "$title at $width: the plaque is $plaque wide")
+
+                // The text is the ink of the plaque's outline, so a title past the plaque shows as more
+                // ink before the plaque's paper begins on a title row than on the row under the title.
+                fun inkBeforePaper(
+                    y: Int,
+                    xs: IntProgression,
+                ): Int {
+                    var ink = 0
+                    for (x in xs) {
+                        if (near(image[x, y], c.surface, .05f)) return ink
+                        if (near(image[x, y], c.text, .2f)) ink++
+                    }
+                    return ink
+                }
+                for (xs in listOf(0 until width, (width - 1) downTo 0)) {
+                    val edge = inkBeforePaper(row, xs)
+                    val worst = (175..240).maxOf { inkBeforePaper(it, xs) }
+                    assertTrue(
+                        worst <= edge + 3,
+                        "$title at $width: $worst ink before the paper on a title row, $edge at the edge",
+                    )
+                }
+            }
+        }
     }
 }
