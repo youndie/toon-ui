@@ -36,15 +36,19 @@ me, `shape` 0–7, `color` 0–2, `letter`.
 - **Frames**: every kind at 24, 32 and 48 dp, and the seven other shapes at 24 dp in the accent their
   index wraps to, in three themes — 48 cells in `desktop.json`, worst coordinate 0.050 dp, within the
   engine's 0.1 dp rounding (`ToonSpeakerStickerTest`).
-- **Distinct at 24 dp**: no two of the eight shapes share an outline, and the three accents are three
-  hues, at least 79 apart in RGB (Ink & Gouache night's yellow against its pink). **The closest outlines
-  are the circle (shape 0) and the four-petal shape (shape 4): 24 pixels of 576 differ in the two Ink &
-  Gouache themes, 19 in Bright Cel.** On an enlarged sheet the four-petal reads as a softened octagon,
-  told from the circle, but it is the pair a reader confuses first; with a different letter or accent
-  the two speakers still differ. Recorded for the owner, not changed: the shapes are the design's.
+- **Distinct at 24 dp**, read against a control: one circle drawn under the eight shapes' wobble seeds
+  changes up to 15 outline pixels of 576 in the Ink & Gouache themes and 12 in Bright Cel, so a shape
+  must differ from every other by more than that to be told apart by its shape, not its wobble. Every
+  pair does. **The closest is the circle (shape 0) against the four-petal shape (shape 4): 24 pixels,
+  and 19 in Bright Cel, about 1.6 times the wobble's worst;** every other pair differs in 33 or more.
+  On an enlarged sheet the four-petal reads as a softened octagon, told from the circle, but it is the
+  pair a reader confuses first, and with another letter or accent the two speakers still differ.
+  Recorded for the owner, not changed: the shapes are the design's. The three accents are three hues,
+  at least 79 apart in RGB (Ink & Gouache night's yellow against its pink).
 - **Not drawn**: the desktop project has no spec pages, so no Chrome reference or golden holds the
   sticker's pixels; the frames hold its numbers. The component catalogue now lists the desktop set
   beside the kit's.
 
 - [x] Every `kind` × the three sizes matches its renderer in three themes.
-- [x] The 24 shapes are distinct at 24 dp (outlines and accents, numbers above).
+- [x] The 24 shapes are distinct at 24 dp: every pair of shapes beyond the wobble's own difference, the
+  accents three hues (numbers above).
