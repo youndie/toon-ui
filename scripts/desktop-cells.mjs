@@ -98,7 +98,33 @@ const SCROLL_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     return { group: 'Scrollbar', name: `${label}_${themeName}`, theme, themeName, opts, scene: `E.scrollThumb(T, ${h}, ${JSON.stringify(o)})` };
   }));
 
+// B-75: ToonRecordButton.dc.html's `recBtn` as its `paint()` calls it: each state at a width its
+// label gives (`36 + label + [10 + time] + 18`), recording at three points of `recPulse`, stopping at
+// two turns of its spinner, and the pointer rule over it — hover, focus, a press half and all the way
+// down. Its words are HTML over the drawing, so a cell has none.
+const REC_LOOKS = [
+  ['Idle', { w: 128, state: 'idle' }],
+  ['Recording', { w: 186, state: 'recording', pulse: 0 }],
+  ['RecordingMid', { w: 186, state: 'recording', pulse: .5 }],
+  ['RecordingFull', { w: 186, state: 'recording', pulse: 1 }],
+  ['Stopping', { w: 132, state: 'stopping', spin: 0 }],
+  ['StoppingTurned', { w: 132, state: 'stopping', spin: 300 }],
+  ['IdleHover', { w: 128, state: 'idle', hv: 1 }],
+  ['RecordingHover', { w: 186, state: 'recording', hv: 1, pulse: 1 }],
+  ['StoppingHover', { w: 132, state: 'stopping', hv: 1, spin: 0 }],
+  ['IdleFocus', { w: 128, state: 'idle', focus: true }],
+  ['RecordingFocus', { w: 186, state: 'recording', focus: true, pulse: 0 }],
+  ['IdleHalfPressed', { w: 128, state: 'idle', hv: 1, p: .5 }],
+  ['IdlePressed', { w: 128, state: 'idle', hv: 1, p: 1 }],
+];
+const REC_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  REC_LOOKS.map(([label, o]) => {
+    const opts = { hv: 0, p: 0, focus: false, pulse: 0, spin: 0, ...o };
+    return { group: 'RecordButton', name: `${label}_${themeName}`, theme, themeName, opts, scene: `(s => ({ L: s.L, X: s.X }))(E.recBtn(T, ${JSON.stringify(opts)}))` };
+  }));
+
 export const DESKTOP_CELLS = {
+  RecordButton: REC_CELLS,
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
   SearchField: SEARCH_CELLS,
   Scrollbar: SCROLL_CELLS,

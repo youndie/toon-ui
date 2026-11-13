@@ -62,7 +62,7 @@ const MAP = {
 // renderers its extension adds (desktop-engine.js), their frames in engine-goldens/desktop.json.
 const DESKTOP_MAP = {
   LevelMeter: { composable: null, engine: ['levelMeter', 'livelevel'], item: 'B-74', group: 'LevelMeter' },
-  RecordButton: { composable: null, engine: ['recBtn', 'recPulse'], item: 'B-75', group: 'RecordButton' },
+  RecordButton: { composable: 'ToonRecordButton', engine: ['recBtn', 'recPulse'], item: 'B-75', group: 'RecordButton' },
   Scrollbar: { composable: 'ToonScrollbar', engine: ['scrollThumb'], item: 'B-72', group: 'Scrollbar' },
   SearchField: { composable: 'ToonSearchField', engine: ['searchBox'], item: 'B-71', group: 'SearchField' },
   Sidebar: { composable: null, engine: ['sheet', 'navPlate', 'liftBody'], item: 'B-77', group: 'Sidebar' },

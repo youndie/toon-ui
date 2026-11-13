@@ -166,6 +166,19 @@ public final class io/github/youndie/toon/component/ToonRadioGroupKt {
 	public static final fun ToonRadioGroup (Ljava/util/List;ILkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;ZLandroidx/compose/runtime/Composer;II)V
 }
 
+public final class io/github/youndie/toon/component/ToonRecordButtonKt {
+	public static final fun ToonRecordButton (Lio/github/youndie/toon/component/ToonRecordState;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Landroidx/compose/ui/Modifier;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+}
+
+public final class io/github/youndie/toon/component/ToonRecordState : java/lang/Enum {
+	public static final field Idle Lio/github/youndie/toon/component/ToonRecordState;
+	public static final field Recording Lio/github/youndie/toon/component/ToonRecordState;
+	public static final field Stopping Lio/github/youndie/toon/component/ToonRecordState;
+	public static fun getEntries ()Lkotlin/enums/EnumEntries;
+	public static fun valueOf (Ljava/lang/String;)Lio/github/youndie/toon/component/ToonRecordState;
+	public static fun values ()[Lio/github/youndie/toon/component/ToonRecordState;
+}
+
 public final class io/github/youndie/toon/component/ToonScrollbarKt {
 	public static final fun ToonScrollbar (Landroidx/compose/foundation/ScrollState;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
 	public static final fun ToonScrollbar (Landroidx/compose/foundation/lazy/LazyListState;Landroidx/compose/ui/Modifier;Landroidx/compose/runtime/Composer;II)V
