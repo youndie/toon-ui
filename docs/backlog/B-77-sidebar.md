@@ -1,7 +1,7 @@
 ---
 id: B-77
 title: "ToonSidebar: a persistent side panel with search, groups and navigation"
-status: open
+status: wip
 priority: P2
 size: L
 stage: stage-5-desktop

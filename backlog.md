@@ -61,7 +61,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70, B-80 |
-| [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
+| [B-77](docs/backlog/B-77-sidebar.md) `[~]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
 
 ## Closed (78)
 
