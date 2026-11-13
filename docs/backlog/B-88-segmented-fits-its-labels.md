@@ -1,7 +1,7 @@
 ---
 id: B-88
 title: "The segmented control fits a label wider than its slot"
-status: open
+status: done
 priority: P1
 size: S
 stage: stage-4-product
@@ -29,3 +29,25 @@ into the outer border.
   The thumb moves to the measured slot. The design's segmented controls keep their cells and
   goldens.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonSegmented.kt`.
+
+## Findings
+
+- The issue's labels, measured on desktop at 800: «Все» 26, «Красные» 63, «С PR» 33, «Ждут меня» 78.
+  At 328 dp they need 296 with 12 dp padding each side, so they fit at full size once the segments
+  follow them. Each segment then gets 8 dp of the spare.
+- **Changed from the item's decision.** Past the floor the item said "the widest is cut". A first
+  version scaled every segment to the width, and a contact sheet showed «Все» squeezed to «В…» by one
+  long neighbour. The segments past the floor are now max–min fair: the short ones are whole, and only
+  the long ones share the cap and are cut.
+- The drop's switch between unequal segments runs each end from its old edge to its new one on the
+  tabs' lead and trail springs. Its thinning is measured against the wider of the two segments. With
+  equal segments the design's `segSwitch` runs as before.
+- The labels are measured in the composable, so the design's labels ("Day", "Week", "Month") keep the
+  equal layout. The scene's equal path keeps the design's arithmetic, so its cells and goldens do not
+  move.
+- Held by `ToonSegmentedLabelsTest`:
+  - the equal layout for labels that fit;
+  - widths that fill the control, hold their labels and keep short labels whole past the floor;
+  - the drop's ends with no jump over 700 ms;
+  - the issue's control at 328 dp: no ink between «Ждут меня» and the outline (pixels), and a tap 4 dp
+    into the last segment choosing it.
