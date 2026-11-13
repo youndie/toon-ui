@@ -61,7 +61,7 @@ const MAP = {
 // The desktop set (B-68, research §1.8): the design files of reference/desktop, drawn by the
 // renderers its extension adds (desktop-engine.js), their frames in engine-goldens/desktop.json.
 const DESKTOP_MAP = {
-  LevelMeter: { composable: null, engine: ['levelMeter', 'livelevel'], item: 'B-74', group: 'LevelMeter' },
+  LevelMeter: { composable: 'ToonLevelMeter', engine: ['levelMeter', 'livelevel'], item: 'B-74', group: 'LevelMeter' },
   RecordButton: { composable: 'ToonRecordButton', engine: ['recBtn', 'recPulse'], item: 'B-75', group: 'RecordButton' },
   Scrollbar: { composable: 'ToonScrollbar', engine: ['scrollThumb'], item: 'B-72', group: 'Scrollbar' },
   SearchField: { composable: 'ToonSearchField', engine: ['searchBox'], item: 'B-71', group: 'SearchField' },

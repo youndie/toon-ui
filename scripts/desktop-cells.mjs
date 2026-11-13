@@ -123,7 +123,28 @@ const REC_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
     return { group: 'RecordButton', name: `${label}_${themeName}`, theme, themeName, opts, scene: `(s => ({ L: s.L, X: s.X }))(E.recBtn(T, ${JSON.stringify(opts)}))` };
   }));
 
+// B-74: ToonLevelMeter.dc.html's `levelMeter` as its `paint()` calls it: the strip `width` wide, or 24
+// less when clipping (the burst stands in that room), live at its defaults and at both ends of
+// `level`, silent and clipping, and the narrowest and widest strips of its `width` editor. The header
+// above the strip is HTML, so a cell has no words.
+const METER_LOOKS = [
+  ['Live', { w: 320, state: 'live', level: .6 }],
+  ['LiveEmpty', { w: 320, state: 'live', level: 0 }],
+  ['LiveFull', { w: 320, state: 'live', level: 1 }],
+  ['Silent', { w: 320, state: 'silent', level: .6 }],
+  ['Clip', { w: 296, state: 'clip', level: 1 }],
+  ['Narrow', { w: 160, state: 'live', level: .5 }],
+  ['Wide', { w: 600, state: 'live', level: .3 }],
+  ['NarrowSilent', { w: 160, state: 'silent', level: .5 }],
+];
+const METER_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  METER_LOOKS.map(([label, o]) => ({
+    group: 'LevelMeter', name: `${label}_${themeName}`, theme, themeName, opts: o,
+    scene: `E.levelMeter(T, ${o.w}, ${JSON.stringify({ state: o.state, level: o.level })})`,
+  })));
+
 export const DESKTOP_CELLS = {
+  LevelMeter: METER_CELLS,
   RecordButton: REC_CELLS,
   SpeakerSticker: [...STICKER_CELLS, ...SHAPE_CELLS],
   SearchField: SEARCH_CELLS,
