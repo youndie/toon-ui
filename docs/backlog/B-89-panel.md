@@ -79,6 +79,13 @@ should stand.
   machine has 157, which renders 1,555 of them byte for byte and one, `Screens_Settings_BrightCel`,
   differently. `scripts/design-references.mjs --only <group>` renders the named groups alone and records
   their browser per entry in the manifest, so the panel's six were added without rewriting the rest.
+- **Mutants**: 16, one line each, all killed by the test aimed at them, read in the JUnit XML: the
+  default radii, the `shadow/l` step, the seed, the theme's radius scale and the paper fill (frames);
+  the composable's seed, its size in pixels and its drawing outside `inDp` (the composable against its
+  scene); the theme fixed at the first (redraw); content forced to the panel's size; the drawing
+  clipped to the box; a size under 1 dp refused; the panel taking clicks; and the sidebar's shadow,
+  radii and seed (the sidebar's frames). The outline parity reads committed files, so no code mutant
+  reaches it; the goldens' own verification holds the composable.
 - **Not drawn here**: the rules and headers the design's views lay over their panels. A view composes
   them from the kit's parts over a `ToonPanel`.
 
