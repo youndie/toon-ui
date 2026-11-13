@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
@@ -82,33 +83,18 @@ public fun ToonSpeakerSticker(
         remember(tokens, size, kind, shape, color, letter) {
             toonSpeakerStickerScene(tokens, size.dp, kind, shape, color, letter)
         }
-    Canvas(
-        modifier
-            .size(size.dp.dp)
-            .then(
-                if (contentDescription !=
-                    null
-                ) {
-                    Modifier.semantics { this.contentDescription = contentDescription }
-                } else {
-                    Modifier
-                },
-            ),
-    ) {
+    val described = contentDescription?.let { d -> Modifier.semantics { this.contentDescription = d } } ?: Modifier
+    Canvas(modifier.size(size.dp.dp).then(described)) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
         inDp { drawScene(scene, text) }
     }
 }
 
 /** The extension's `accents`: Bright Cel's stickers are all paper, so its card colours stand in. */
-private fun accentsOf(tokens: ToonTokens) =
-    if (tokens.name ==
-        "brightCel"
-    ) {
-        tokens.colors.cardFills
-    } else {
-        tokens.colors.stickers
-    }
+private fun accentsOf(tokens: ToonTokens): List<Color> {
+    val brightCel = tokens.name == "brightCel"
+    return if (brightCel) tokens.colors.cardFills else tokens.colors.stickers
+}
 
 /**
  * The extension's `blobPts`: [n] points round ([cx], [cy]) at radius [r] shaped by one of eight radial
