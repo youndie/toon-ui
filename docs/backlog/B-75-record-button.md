@@ -1,7 +1,7 @@
 ---
 id: B-75
 title: "ToonRecordButton: start and stop, with the elapsed time"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-5-desktop
