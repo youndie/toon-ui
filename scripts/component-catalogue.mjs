@@ -68,7 +68,7 @@ const DESKTOP_MAP = {
   Sidebar: { composable: null, engine: ['sheet', 'navPlate', 'liftBody'], item: 'B-77', group: 'Sidebar' },
   SpeakerSticker: { composable: 'ToonSpeakerSticker', engine: ['sticker', 'blobPts', 'blobPath'], item: 'B-70', group: 'SpeakerSticker' },
   SplitHandle: { composable: null, engine: ['splitGrip'], item: 'B-73', group: 'SplitHandle' },
-  TitleBar: { composable: null, engine: ['trafficSlots'], item: 'B-76', group: 'TitleBar' },
+  TitleBar: { composable: 'ToonTitleBar', engine: ['trafficSlots'], item: 'B-76', group: 'TitleBar' },
   TranscriptTurn: { composable: null, engine: ['plate', 'iconBtn32'], item: 'B-78', group: 'TranscriptTurn' },
 };
 // Public composables beyond a design file's own, under it.
