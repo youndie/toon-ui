@@ -396,7 +396,10 @@ class ToonSidebarTest {
             // shadow none; the ink wobbles under a dp.
             assertTrue(bar.minOf { it.first } >= 300 - 18 + 4, "thumb from ${bar.minOf { it.first }}")
             assertTrue(bar.maxOf { it.first } <= 300 - 6 + 1, "thumb to ${bar.maxOf { it.first }}")
-            assertTrue(bar.maxOf { it.first } >= 300 - 6 - 1, "the thumb reaches 6 dp from the edge: ${bar.maxOf { it.first }}")
+            assertTrue(
+                bar.maxOf { it.first } >= 300 - 6 - 1,
+                "the thumb reaches 6 dp from the edge: ${bar.maxOf { it.first }}",
+            )
             // From 8 dp under the list's top.
             assertTrue(bar.minOf { it.second } >= 62 + 8 - 1, "thumb top ${bar.minOf { it.second }}")
         }
