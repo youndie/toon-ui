@@ -82,6 +82,12 @@ class ToonSegmentedLabelsTest {
             assertTrue(abs(m.ia!! - last.ia!!) < 6f && abs(m.ib!! - last.ib!!) < 6f, "a jump at $t ms")
             last = m
         }
+        // The kit's frame runs the same switch between the segments' own edges.
+        for (t in listOf(0f, 50f, 150f, 300f, 600f)) {
+            val m = toonSegmentedFrameAt(t, 0, 3, 82f, false, e)
+            assertEquals(toonSegSwitch(t, 0, 3, 82f, e).ia, m.ia, "the kit's frame at $t ms")
+            assertEquals(toonSegSwitch(t, 0, 3, 82f, e).ib, m.ib, "the kit's frame at $t ms")
+        }
         val rest =
             toonSegmentedScene(
                 inkGouacheLight,
