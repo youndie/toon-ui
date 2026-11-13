@@ -6,7 +6,7 @@ priority: P1
 size: M
 stage: stage-5-desktop
 epic: feature-components
-blocked_by: [B-68]
+blocked_by: [B-68, B-80]
 ---
 
 # B-74 — ToonLevelMeter: a channel's level, live, silent or clipping
@@ -20,3 +20,9 @@ mic | wave, `state` live | silent | clip, `level` 0–1, `animate`, `width` 160�
 - AC: the three states match their renderer in three themes; with `animate` the bar follows
   `livelevel` frame for frame; reduce motion stops it.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonLevelMeter.kt`.
+
+## Iteration 1, 2026-11-13
+
+The header draws the extension's `mic` or `wave` (`E.icon(T, p.icon || 'mic', …)`), and `ToonIcons` holds
+the kit's 25 glyphs only: the extension's 12 were never generated. Filed as B-80, which this item now
+waits for; nothing else was built.

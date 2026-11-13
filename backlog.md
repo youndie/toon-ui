@@ -56,13 +56,14 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (7)
+## Open (8)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-74](docs/backlog/B-74-level-meter.md) `[ ]` | ToonLevelMeter: a channel's level, live, silent or clipping | P1 | M | B-68 |
+| [B-74](docs/backlog/B-74-level-meter.md) `[ ]` | ToonLevelMeter: a channel's level, live, silent or clipping | P1 | M | B-68, B-80 |
 | [B-75](docs/backlog/B-75-record-button.md) `[ ]` | ToonRecordButton: start and stop, with the elapsed time | P1 | M | B-68, B-69 |
-| [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70 |
+| [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70, B-80 |
+| [B-80](docs/backlog/B-80-desktop-icons.md) `[ ]` | The desktop icons: the extension's 12 glyphs in ToonIcons | P1 | M | B-68 |
 | [B-73](docs/backlog/B-73-split-handle.md) `[ ]` | ToonSplitHandle: the grip between a sidebar and the content | P2 | S | B-68, B-69 |
 | [B-76](docs/backlog/B-76-title-bar.md) `[ ]` | ToonTitleBar: the window's title row and its action slot | P2 | M | B-68, B-75 |
 | [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |

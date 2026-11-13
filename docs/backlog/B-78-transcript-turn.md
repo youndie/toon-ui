@@ -6,7 +6,7 @@ priority: P1
 size: L
 stage: stage-5-desktop
 epic: feature-components
-blocked_by: [B-68, B-69, B-70]
+blocked_by: [B-68, B-69, B-70, B-80]
 ---
 
 # B-78 — ToonTranscriptTurn: one turn of a transcript, calm to read
