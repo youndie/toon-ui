@@ -180,6 +180,7 @@ class ToonBottomSheetTest {
                     Box(Modifier.size(360.dp, 520.dp)) {
                         ToonBottomSheet(
                             items,
+                            "Share plan",
                             Modifier.testTag("sheet"),
                             open = open,
                             onSelect = { heard += "select $it" },
@@ -206,10 +207,18 @@ class ToonBottomSheetTest {
             val heard = mutableListOf<String>()
             setContent {
                 ToonTheme {
-                    ToonBottomSheet(items, Modifier.testTag("sheet"), onSelect = { heard += "select $it" }, onClose = {
-                        heard +=
-                            "close"
-                    })
+                    ToonBottomSheet(
+                        items,
+                        "Share plan",
+                        Modifier.testTag(
+                            "sheet",
+                        ),
+                        onSelect = { heard += "select $it" },
+                        onClose = {
+                            heard +=
+                                "close"
+                        },
+                    )
                 }
             }
             val sheet = onNodeWithTag("sheet")

@@ -301,7 +301,7 @@ class ToonAccessibilityTest {
 
     @Test
     fun `dialog is a pane named by its title, its buttons targets`() {
-        with(node { ToonDialog("Delete plan?", it.size(390.dp, 700.dp), confirm = "Delete") }) {
+        with(node { ToonDialog("Delete plan?", "Delete", "Cancel", it.size(390.dp, 700.dp)) }) {
             assertEquals(listOf("Delete", "Cancel"), actions)
             assertEquals("Delete plan?", node.config.getOrNull(SemanticsProperties.PaneTitle))
         }
@@ -322,7 +322,7 @@ class ToonAccessibilityTest {
     @Test
     fun `bottom sheet is a pane named by its title that can be dismissed, its rows 72 dp targets`() {
         val items = listOf(ToonSheetItem("Family"), ToonSheetItem("Copy link"))
-        with(node { ToonBottomSheet(items, it.size(390.dp, 700.dp)) }) {
+        with(node { ToonBottomSheet(items, "Share plan", it.size(390.dp, 700.dp)) }) {
             assertEquals(listOf("Family", "Copy link"), actions)
             assertEquals("Share plan", node.config.getOrNull(SemanticsProperties.PaneTitle))
             assertTrue(node.config.contains(SemanticsActions.Dismiss))

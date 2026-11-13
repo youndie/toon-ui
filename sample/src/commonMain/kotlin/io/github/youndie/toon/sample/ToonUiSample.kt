@@ -136,11 +136,13 @@ fun ToonUiSample() {
                         open = overlay == Overlay.Dialog,
                         body = "Pancake breakfast will be gone for good.",
                         confirm = "Delete",
+                        cancel = "Cancel",
                         onConfirm = { overlay = Overlay.None },
                         onCancel = { overlay = Overlay.None },
                     )
                     ToonBottomSheet(
                         listOf(ToonSheetItem("Family", ToonIcons.Person), ToonSheetItem("Copy link", ToonIcons.Share)),
+                        title = "Share plan",
                         open = overlay == Overlay.Sheet,
                         onSelect = { overlay = Overlay.None },
                         onClose = { overlay = Overlay.None },

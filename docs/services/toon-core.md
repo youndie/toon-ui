@@ -216,6 +216,15 @@ None at runtime.
   one a press draws at full strength, and marks the row selected for a reader (B-87).
 - A dialog is a full-screen layer: the caller puts it over the content it dims (a `Box` with both),
   and it fills its box. Closed, it takes no input, so it can stay composed (B-24).
+- A dialog's `content` stands between the body and the buttons, 252 dp wide, and the card grows by
+  its height plus 12 dp; `ToonBottomSheetBox` puts `content` where the rows would be, the sheet as
+  tall as it needs (B-85). The slot is a composable over the drawn card, popped or slid with it by a
+  graphics layer. It is composed only while open, so it leaves at once as the close begins while the
+  card's own words fade over 60 ms. With a slot, Tab walks the dialog's two buttons, then the slot, and
+  comes round; focus does not leave the overlay, and Escape from the slot cancels or closes. The
+  overlays' words (`confirm`, `cancel`, the sheet's `title`) have no defaults. Without a slot the
+  dialog is the bare canvas it was, its `modifier` on the node that carries its semantics; with one,
+  the `modifier` goes on a box around the slot and the canvas.
 - A dialog's pop hands its stars to a `ToonFxHost` 170 ms into the close (`dialog.pop`), which plays
   them whole; without a host the dialog draws them itself, as the kit does, and the kit stops drawing
   the close at 320 ms, when the stars are 43 % through (B-24).
