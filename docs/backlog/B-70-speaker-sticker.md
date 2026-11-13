@@ -1,7 +1,7 @@
 ---
 id: B-70
 title: "ToonSpeakerSticker: a speaker told apart by shape, colour and letter"
-status: open
+status: wip
 priority: P1
 size: M
 stage: stage-5-desktop
