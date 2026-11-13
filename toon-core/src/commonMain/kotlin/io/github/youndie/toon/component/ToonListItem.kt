@@ -24,6 +24,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.text
 import androidx.compose.ui.semantics.toggleableState
@@ -78,7 +79,8 @@ public enum class ToonListTrailing {
 /**
  * The design's list item: [icon] on a sticker coloured by [index], [title] and [sub], and the
  * [trailing] control. A click calls [onClick]; with a switch or a check it also toggles [on] and
- * reports it to [onCheckedChange]. [last] leaves out the rule under the row.
+ * reports it to [onCheckedChange]. [last] leaves out the rule under the row. [selected] marks the
+ * chosen row of a master–detail list with the engine's selected plate, and tells a reader so (B-87).
  *
  * The title wraps onto up to [titleMaxLines] lines and the sub onto [subMaxLines], each cut with an
  * ellipsis short of the trailing control; the row grows from the design's 72 dp by the lines added
@@ -98,6 +100,7 @@ public fun ToonListItem(
     enabled: Boolean = true,
     titleMaxLines: Int = 2,
     subMaxLines: Int = 1,
+    selected: Boolean = false,
     onCheckedChange: (Boolean) -> Unit = {},
     onClick: () -> Unit = {},
 ) {
@@ -134,6 +137,7 @@ public fun ToonListItem(
             .semantics {
                 this.text = AnnotatedString(if (sub.isEmpty()) title else "$title, $sub")
                 role = if (toggles) Role.Switch else Role.Button
+                if (selected) this.selected = true
                 if (toggles) toggleableState = ToggleableState(checked)
                 if (!enabled) disabled()
                 onClick {
@@ -165,6 +169,7 @@ public fun ToonListItem(
                     sub,
                     trailing,
                     look.copy(
+                        selected = selected,
                         seed = index,
                         last = last,
                         disabled = !enabled,
