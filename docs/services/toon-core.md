@@ -278,6 +278,11 @@ None at runtime.
   `refreshing` back to false; a caller that never sets it leaves it spinning (B-42).
 - The title card's rings jump 14 dp at the end of the entrance, as the kit's do: it rests on
   `splashAt(10⁶)`, not on the entrance's last frame (B-43).
+- The title card's plaque grows with its words (B-81). The title and sub are measured at the design's
+  sizes, and the plaque holds them 24 dp from each side, never narrower than the design's 280/260.
+  Past the card's width less 16 dp each side, the words are set smaller instead. The design's own
+  words keep the design's plaque. The words are measured on the platform that draws them, so a font
+  that sets "Nothing yet" 3 dp wider than desktop does widens that plaque too.
 - A component's clock reads `nowMs` first in `age()`, before any pending or null check: a reader that
   sees a play waiting for its first frame must still subscribe to the time, or it is never redrawn
   (B-51). `ToonClockSubscriptionTest` holds a component switched after it is shown to its rest.

@@ -88,6 +88,11 @@ public fun ToonTitleCard(
     val t = title ?: if (empty) "Nothing yet" else "Saturday"
     val s = sub ?: if (empty) "Your weekend is wide open" else "Plans for the good part of the week"
     val looping = loop && !reduce
+    // B-81: the words measured at the design's sizes, so the plaque can grow to hold them.
+    val titleWidth =
+        remember(t, empty, texts) { texts.measure(t, toonTitleStyle(toonTitleSize(empty))).multiParagraph.width }
+    val subWidth =
+        remember(s, texts) { if (s.isEmpty()) 0f else texts.measure(s, toonTitleSubStyle()).multiParagraph.width }
     LaunchedEffect(clock.starts, looping) { while (clock.running(looping)) withFrameMillis { clock.tick(it) } }
 
     Canvas(
@@ -107,7 +112,7 @@ public fun ToonTitleCard(
             val w = width.value
             val h = height.value
             val m = toonTitleCardFrameAt(clock.age(looping), reduce, looping)
-            val scene = toonTitleCardKitScene(tokens, w, h, empty, t, s, m.motion)
+            val scene = toonTitleCardKitScene(tokens, w, h, empty, t, s, m.motion, titleWidth, subWidth)
             drawScene(if (m.fade == 1f) scene else scene.placed(0f, 0f, m.fade), texts)
         }
     }
@@ -261,12 +266,41 @@ internal data class ToonTitleLook(
     val textOp: Float = 1f,
     val warp: Float = 0f,
     val swirl: Float = 0f,
+    /** The sub line's size: the design's 14, smaller only for a line the widest plaque cannot hold (B-81). */
+    val subFs: Float = SUB_SIZE,
 )
 
 private val PLAQUE_RADII = ToonRadii(26f, 18f, 30f, 20f)
 private val DASH_RADII = ToonRadii(18f, 12f, 22f, 14f)
 private val DASH = floatArrayOf(2f, 5f)
-private val SUB_STYLE = ToonTextStyle(600, 14f)
+private const val SUB_SIZE = 14f
+private const val SUB_WEIGHT = 600
+
+/** The design's plaques: 280 × 120 for the splash, 260 × 110 for the empty state, and their title sizes. */
+private const val SPLASH_PLAQUE = 280f
+private const val EMPTY_PLAQUE = 260f
+private const val SPLASH_TITLE = 44f
+private const val EMPTY_TITLE = 34f
+
+/**
+ * B-81: a title or sub line wider than the design's plaque grows the plaque, its words this far from
+ * either side, past the dashed inner frame at 9. The design's own words stand 27 to 32 from the sides
+ * (measured on desktop: "Nothing yet" 206 at 34, "Saturday" 216 at 44, the splash's sub 225), so its
+ * plaques keep their width...
+ */
+private const val PLAQUE_MARGIN = 24f
+
+/** ...up to the card's width less this much on either side; past that the words get smaller instead. */
+private const val CARD_EDGE = 16f
+
+/** The title card's title style at [size], in the display face, as the scene draws it. */
+internal fun toonTitleStyle(size: Float): ToonTextStyle = ToonTextStyle(400, size, display = true)
+
+/** The sub line's style at [size]. */
+internal fun toonTitleSubStyle(size: Float = SUB_SIZE): ToonTextStyle = ToonTextStyle(SUB_WEIGHT, size)
+
+/** The design's title size for the [empty] state or the splash. */
+internal fun toonTitleSize(empty: Boolean): Float = if (empty) EMPTY_TITLE else SPLASH_TITLE
 
 /** The engine's `titleCard`: the rings over [w] × [h], then the plaque and its text. */
 @OptIn(InternalToonApi::class)
@@ -315,12 +349,12 @@ internal fun toonTitleCardScene(
             py + o.ph / 2 + (if (o.sub.isNotEmpty()) 4 else 15),
             c.text,
             top,
-            ToonTextStyle(400, o.fs, display = true),
+            toonTitleStyle(o.fs),
             ToonAnchor.Middle,
         )
     if (o.sub.isNotEmpty()) {
         labels +=
-            ToonLabel(o.sub, cx, py + o.ph / 2 + 32, c.textMuted, top, SUB_STYLE, ToonAnchor.Middle)
+            ToonLabel(o.sub, cx, py + o.ph / 2 + 32, c.textMuted, top, toonTitleSubStyle(o.subFs), ToonAnchor.Middle)
     }
     return ToonScene(layers, emptyList()) + ToonScene(plaque, emptyList()).scaledAbout(cx, cy + o.dy, o.s, o.s) +
         ToonScene(emptyList(), labels)
@@ -359,7 +393,12 @@ internal fun toonRingRadii(
     return rings
 }
 
-/** The kit's `scene`: the card at its variant's size, and the stars bursting over it during the entrance. */
+/**
+ * The kit's `scene`: the card at its variant's size, and the stars bursting over it during the entrance.
+ * [titleWidth] and [subWidth] are the words measured at the design's sizes; the plaque grows to hold
+ * them, and past the card's width they get smaller instead of running off it (B-81). Zero, the
+ * default, is the design's plaque, which holds the design's own words.
+ */
 internal fun toonTitleCardKitScene(
     tokens: ToonTokens,
     w: Float,
@@ -368,15 +407,19 @@ internal fun toonTitleCardKitScene(
     title: String,
     sub: String,
     a: ToonSplashMotion,
+    titleWidth: Float = 0f,
+    subWidth: Float = 0f,
 ): ToonScene {
+    val fit = toonTitlePlaqueFit(w, empty, titleWidth, subWidth)
     val look =
         ToonTitleLook(
             title = title,
             sub = sub,
             cy = if (empty) h * .4f else h * .42f,
-            pw = if (empty) 260f else 280f,
+            pw = fit.pw,
             ph = if (empty) 110f else 120f,
-            fs = if (empty) 34f else 44f,
+            fs = toonTitleSize(empty) * fit.titleScale,
+            subFs = SUB_SIZE * fit.subScale,
             s = a.s,
             phase = a.phase,
             textOp = a.textOp,
@@ -384,4 +427,32 @@ internal fun toonTitleCardKitScene(
             swirl = a.swirl,
         )
     return toonTitleCardScene(tokens, w, h, look) + toonStarsScene(tokens.colors, a.stars, w / 2, h * .42f - 60, 90f)
+}
+
+/** The plaque's width, and how much the title and the sub line are scaled to fit inside it (B-81). */
+internal class ToonTitlePlaqueFit(
+    val pw: Float,
+    val titleScale: Float,
+    val subScale: Float,
+)
+
+/**
+ * The plaque over a card [w] wide for words measured [titleWidth] and [subWidth] wide at the design's
+ * sizes: the design's width, wider by what the words need with [PLAQUE_MARGIN] either side, never
+ * wider than the card less [CARD_EDGE] either side; a word that still does not fit is scaled down to
+ * the room left.
+ */
+internal fun toonTitlePlaqueFit(
+    w: Float,
+    empty: Boolean,
+    titleWidth: Float,
+    subWidth: Float,
+): ToonTitlePlaqueFit {
+    val least = if (empty) EMPTY_PLAQUE else SPLASH_PLAQUE
+    val most = max(least, w - 2 * CARD_EDGE)
+    val pw = min(most, max(least, max(titleWidth, subWidth) + 2 * PLAQUE_MARGIN))
+    val room = pw - 2 * PLAQUE_MARGIN
+
+    fun scale(width: Float) = if (width > room) room / width else 1f
+    return ToonTitlePlaqueFit(pw, scale(titleWidth), scale(subWidth))
 }

@@ -1,7 +1,7 @@
 ---
 id: B-81
 title: "The title card fits a title wider than its plaque"
-status: open
+status: done
 priority: P1
 size: S
 stage: stage-4-product
@@ -28,3 +28,21 @@ in the Cyrillic backing face. A consumer cannot change it: the plaque size is no
   the default width and at 280 dp (pixels of the title's ink inside the plaque's bounds, by a test).
   The design's titles keep their cells and goldens.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTitleCard.kt`.
+
+## Findings
+
+- The design's words, measured on desktop at the design's sizes: "Saturday" 216 at 44, "Nothing yet"
+  206 at 34, the splash sub 225 and the empty sub 173 at 14. So the side margin is 24 dp, not the
+  stars' 27.5: at 28, "Nothing yet" would have widened the design's 260 plaque. The corner stars sit
+  above and below the words' rows, so the smaller margin does not put words under a star.
+- The sub line gets the same fit as the title. The issue names only the title, but a long sub ran off
+  the plaque the same way.
+- Held by `ToonTitleCardTest`:
+  - `the plaque grows to hold long words, never past the card, …` sweeps the fit over word widths 0 to
+    1,200 and cards 240 to 600 wide, and checks the kit scene sets the smaller sizes;
+  - `a title wider than the design's plaque is drawn inside the plaque` runs the real composable with
+    "ПЯТИЛЕТКА" at 360 and 280 and a 40-letter Latin title, and reads the pixels: the plaque's paper
+    run, and no more ink before the paper on a title row than on the row under it. The text is the
+    outline's colour, so the test cannot tell them apart by colour.
+- The cells and goldens of the design's cards did not move: `check` and `viddikVerify` are green with
+  no re-recording.
