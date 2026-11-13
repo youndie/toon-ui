@@ -1,7 +1,7 @@
 ---
 id: B-84
 title: "The list item wraps its title and cuts its sub before the trailing"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-4-product
@@ -30,3 +30,22 @@ or a board row's sub runs under the chevron and past the row's edge.
   the row's height follows it. A long sub ends in an ellipsis before the trailing. The design's rows
   keep their cells and goldens.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonListItem.kt`.
+
+## Findings
+
+- Built on B-83's `ToonLabel.maxWidth`, which now has `maxLines`: the renderer wraps a text with a
+  width onto that many lines, the last ending in an ellipsis. Every copy of a label carries both.
+- The room is from the words' start (56 dp) to 8 dp short of the control: the chevron at `w - 28`,
+  the switch at `w - 60`, the check at `w - 48`, or the row's edge with none.
+- The row grows by the distance from the first line's baseline to the last line's, measured in the
+  composable for the title and the sub. The scene takes it through `ToonListItemLook`, whose
+  defaults (one line, nothing added) are the design's row, so its cells and goldens do not move.
+- A grown row centres its sticker and its control. With a sub, the title keeps its first baseline at
+  33 and the sub moves down by the title's added lines; without one, the title's first baseline
+  stays at 42.
+- Held by `ToonListItemTextsTest`:
+  - the room per trailing control, and the scene's widths, lines and baselines;
+  - the design's rows at 72 dp, and a row with a two-line title at about 92 (bounds of the real
+    composable);
+  - no title or sub ink between the room's end and the control, with a chevron and with a check
+    (pixels).
