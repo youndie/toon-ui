@@ -1,5 +1,6 @@
 package io.github.youndie.toon.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.wrapContentWidth
@@ -137,6 +138,39 @@ class ToonLevelMeterTest {
                 List(10) { toonLevelLit(320f, ToonLevelState.Live, .7f) },
                 held,
                 "reduced motion holds the given level",
+            )
+        }
+
+    @Test
+    fun `a clipping strip leaves its last 24 dp to the burst`() =
+        runComposeUiTest {
+            mainClock.autoAdvance = false
+            setContent {
+                ToonTheme(brightCel) {
+                    Box(Modifier.background(brightCel.colors.stage)) {
+                        ToonLevelMeter("Mic", Modifier.testTag("meter"), state = ToonLevelState.Clip, width = 320.dp)
+                    }
+                }
+            }
+            mainClock.advanceTimeByFrame()
+            val shot = onNodeWithTag("meter").captureToImage().toAwtImage()
+            val strip = shot.getSubimage(0, shot.height - 20, shot.width, 20)
+            val stage = brightCel.colors.stage.toArgb()
+            // The strip ends at 296 dp and the burst starts near 300: between them, the stage.
+            for (x in 297..298) {
+                for (y in 13..16) {
+                    assertEquals(
+                        stage,
+                        strip.getRGB(x, y),
+                        "($x, $y) is between the strip and the burst",
+                    )
+                }
+            }
+            assertTrue(
+                (300 until 320).any {
+                    strip.getRGB(it, 10) == brightCel.colors.danger.toArgb()
+                },
+                "the burst is drawn in the room",
             )
         }
 
