@@ -56,16 +56,15 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (4)
+## Open (3)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70, B-80 |
-| [B-73](docs/backlog/B-73-split-handle.md) `[~]` | ToonSplitHandle: the grip between a sidebar and the content | P2 | S | B-68, B-69 |
 | [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
 | [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[ ]` | The pointer rule on the pressable components the pointer page does not draw | P2 | M | B-69 |
 
-## Closed (76)
+## Closed (77)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -156,6 +155,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-70](docs/backlog/B-70-speaker-sticker.md) `[x]` - ToonSpeakerSticker: a speaker told apart by shape, colour and letter
 - [B-71](docs/backlog/B-71-search-field.md) `[x]` - ToonSearchField: a search box with a count and a key hint
 - [B-72](docs/backlog/B-72-scrollbar.md) `[x]` - ToonScrollbar: an ink thumb that keeps clear of the window's edge
+- [B-73](docs/backlog/B-73-split-handle.md) `[x]` - ToonSplitHandle: the grip between a sidebar and the content
 - [B-74](docs/backlog/B-74-level-meter.md) `[x]` - ToonLevelMeter: a channel's level, live, silent or clipping
 - [B-75](docs/backlog/B-75-record-button.md) `[x]` - ToonRecordButton: start and stop, with the elapsed time
 - [B-76](docs/backlog/B-76-title-bar.md) `[x]` - ToonTitleBar: the window's title row and its action slot

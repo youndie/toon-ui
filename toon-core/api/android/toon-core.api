@@ -287,6 +287,10 @@ public final class io/github/youndie/toon/component/ToonSpeakerStickerKt {
 	public static final fun ToonSpeakerSticker (Ljava/lang/String;Landroidx/compose/ui/Modifier;Lio/github/youndie/toon/component/ToonSpeakerKind;IILio/github/youndie/toon/component/ToonSpeakerSize;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class io/github/youndie/toon/component/ToonSplitHandleKt {
+	public static final fun ToonSplitHandle (Lkotlin/jvm/functions/Function1;Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function0;Lkotlin/jvm/functions/Function0;Ljava/lang/String;Ljava/lang/String;Ljava/lang/String;Landroidx/compose/runtime/Composer;II)V
+}
+
 public final class io/github/youndie/toon/component/ToonSwitchKt {
 	public static final fun ToonSwitch-WH-ejsw (ZLkotlin/jvm/functions/Function1;Ljava/lang/String;Landroidx/compose/ui/Modifier;FZLandroidx/compose/runtime/Composer;II)V
 }

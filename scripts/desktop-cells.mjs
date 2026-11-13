@@ -150,6 +150,28 @@ const TITLE_CELLS = Object.entries(THEMES).map(([theme, themeName]) => ({
   group: 'TitleBar', name: `Slots_${themeName}`, theme, themeName, opts: {}, scene: 'E.trafficSlots(T)',
 }));
 
+// B-73: ToonSplitHandle.dc.html's `splitGrip` as its `paint()` calls it: `st` 0 at rest, 1 under the
+// mouse, 2 held, and focus the page's ring pushed after it, 40 dp above the middle. The pointer page's
+// four states at its 120 dp; focus under the mouse; the component's default height, and both ends of
+// its `height` editor.
+const SPLIT_LOOKS = [
+  ['Rest', { h: 120, st: 0 }],
+  ['Hover', { h: 120, st: 1 }],
+  ['Drag', { h: 120, st: 2 }],
+  ['Focus', { h: 120, st: 0, focus: true }],
+  ['FocusHover', { h: 120, st: 1, focus: true }],
+  ['FocusDrag', { h: 120, st: 2, focus: true }],
+  ['Default', { h: 200, st: 0 }],
+  ['Short', { h: 80, st: 1, focus: true }],
+  ['Tall', { h: 900, st: 2 }],
+];
+const SPLIT_CELLS = Object.entries(THEMES).flatMap(([theme, themeName]) =>
+  SPLIT_LOOKS.map(([label, o]) => {
+    const opts = { focus: false, ...o };
+    const ring = opts.focus ? `, { L: [E.ring(-2, ${o.h / 2 - 40}, 20, 80, [10, 8, 10, 8], T, T.seed + 3620)], X: [] }` : '';
+    return { group: 'SplitHandle', name: `${label}_${themeName}`, theme, themeName, opts, scene: `E.cat(E.splitGrip(T, ${o.h}, ${o.st})${ring})` };
+  }));
+
 export const DESKTOP_CELLS = {
   LevelMeter: METER_CELLS,
   RecordButton: REC_CELLS,
@@ -157,6 +179,7 @@ export const DESKTOP_CELLS = {
   SearchField: SEARCH_CELLS,
   Scrollbar: SCROLL_CELLS,
   TitleBar: TITLE_CELLS,
+  SplitHandle: SPLIT_CELLS,
   Hover: HOVER_CELLS,
   Focus: FOCUS_CELLS,
 };
