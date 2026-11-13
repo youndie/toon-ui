@@ -53,6 +53,7 @@ import io.github.youndie.toon.draw.wobblePoints
 import io.github.youndie.toon.interaction.rememberToonHoverStates
 import io.github.youndie.toon.interaction.toonSlotHoverable
 import io.github.youndie.toon.interaction.toonSlotPlate
+import io.github.youndie.toon.motion.toonSpring
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonSize
 import io.github.youndie.toon.tokens.ToonTokens
@@ -66,8 +67,9 @@ import kotlin.math.min
 // dp wider each end.
 
 /**
- * The design's segmented button: [labels] in equal segments across [width], the paint drop on
- * [selected]. A release on another segment moves the drop there and reports it to [onChange];
+ * The design's segmented button: [labels] in equal segments across [width] — or, when a label does not
+ * fit its equal share, segments sized by their labels, set smaller down to 0.8 and then cut (B-88) —
+ * the paint drop on [selected]. A release on another segment moves the drop there and reports it to [onChange];
  * disabled, it takes no input and greys.
  */
 @Composable
@@ -90,6 +92,11 @@ public fun ToonSegmented(
     val change by rememberUpdatedState(onChange)
     val w = width.value
     val n = labels.size
+    // B-88: the labels measured in their selected weight, the wider, so a segment holds either.
+    val layout =
+        remember(labels, w, texts) {
+            toonSegmentedLayout(w, labels.map { texts.measure(it, LABEL_SELECTED).multiParagraph.width })
+        }
     val hovers = rememberToonHoverStates(n)
     LaunchedEffect(selected) { clock.select(selected) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
@@ -111,7 +118,7 @@ public fun ToonSegmented(
                     customActions =
                         labels.mapIndexed { i, it -> CustomAccessibilityAction(it) { choose(i).let { true } } }
                 }
-            }.toonSlotHoverable(hovers, enabled, w) { x, _ -> toonNavSlot(w, n, x) }
+            }.toonSlotHoverable(hovers, enabled, w) { x, _ -> layout.slotAt(w, n, x) }
             .then(
                 if (enabled) {
                     Modifier
@@ -138,11 +145,11 @@ public fun ToonSegmented(
                                 }
                             }
                         }.focusable(interactionSource = interaction)
-                        .pointerInput(n, w) {
+                        .pointerInput(n, w, layout) {
                             awaitEachGesture {
                                 // Coordinates are taken as dp, as every component draws them (B-47).
                                 val down = awaitFirstDown()
-                                pressed = toonNavSlot(w, n, down.position.x / density)
+                                pressed = layout.slotAt(w, n, down.position.x / density)
                                 val up = waitForUpOrCancellation()
                                 val i = pressed
                                 pressed = null
@@ -156,7 +163,7 @@ public fun ToonSegmented(
     ) {
         // The engine draws in dp (research D5); the canvas is pixels (B-47).
         inDp {
-            val a = toonSegmentedFrameAt(clock.age(), clock.from, clock.sel, w / n, reduce)
+            val a = toonSegmentedFrameAt(clock.age(), clock.from, clock.sel, w / n, reduce, layout.edges)
             val look =
                 ToonSegmentedLook(
                     sel = a.sel ?: clock.sel,
@@ -168,7 +175,7 @@ public fun ToonSegmented(
                     disabled = !enabled,
                     hovered = hovers.map { it.value },
                 )
-            drawScene(toonSegmentedScene(tokens, w, labels, look).placed(0f, SEG_DROP), texts)
+            drawScene(toonSegmentedScene(tokens, w, labels, look, layout).placed(0f, SEG_DROP), texts)
         }
     }
 }
@@ -188,13 +195,42 @@ internal data class ToonSegmentedMotion(
     val sel: Int? = null,
 )
 
-/** The engine's `segSwitch` at [t] ms, from segment [from] to [to], [slot] dp wide. */
+/**
+ * The engine's `segSwitch` at [t] ms, from segment [from] to [to], [slot] dp wide — or, with [edges],
+ * between segments of their own widths (B-88): each end of the drop runs from its old place to its new
+ * one on the tabs' springs, the lead and the trail as the design's.
+ */
 internal fun toonSegSwitch(
     t: Float,
     from: Int,
     to: Int,
     slot: Float,
+    edges: List<Float>? = null,
 ): ToonSegmentedMotion {
+    if (edges != null) {
+        val a0 = edges[from] + 6
+        val a1 = edges[to] + 6
+        val b0 = edges[from + 1] - 6
+        val b1 = edges[to + 1] - 6
+        val dir = if (to >= from) 1f else -1f
+        val lead = 1 - toonSpring(t / 1000, .5f, 40f)
+        val trail = 1 - toonSpring(max(0f, t - 80) / 1000, .5f, 40f)
+        val ia = a0 + (a1 - a0) * (if (dir > 0) trail else lead)
+        val ib = b0 + (b1 - b0) * (if (dir > 0) lead else trail)
+        val base = max(b0 - a0, b1 - a1)
+        return ToonSegmentedMotion(
+            ia - 1,
+            ib + 1,
+            max(0f, min(1f, (ib - ia - base) / base)) * .8f,
+            if (t >
+                100
+            ) {
+                to
+            } else {
+                from
+            },
+        )
+    }
     val a = toonTabsSwitch(t, from, to, slot)
     val ia = a.ia!!
     val ib = a.ib!!
@@ -209,13 +245,14 @@ internal fun toonSegmentedFrameAt(
     to: Int,
     slot: Float,
     reduceMotion: Boolean,
+    edges: List<Float>? = null,
 ): ToonSegmentedMotion =
     if (reduceMotion || ageMs == null ||
         ageMs >= SWITCH_MS
     ) {
         ToonSegmentedMotion()
     } else {
-        toonSegSwitch(ageMs, from, to, slot)
+        toonSegSwitch(ageMs, from, to, slot, edges)
     }
 
 /** The kit's clock: the selection, where it came from, and when it moved. */
@@ -274,6 +311,90 @@ private val RING_RADII = ToonRadii(14f, 11f, 15f, 12f)
 private val LABEL = ToonTextStyle(600, 15f)
 private val LABEL_SELECTED = ToonTextStyle(800, 15f)
 
+/** A label keeps this far from its segment's sides: the drop's 6 dp inset and 6 dp of paint (B-88). */
+private const val LABEL_PAD = 12f
+
+/** Labels too wide for the control even in segments of their own are set smaller, no smaller than this. */
+private const val LABEL_FLOOR = .8f
+
+/**
+ * How the segments share the width (B-88): [edges], the n + 1 boundaries from 0 to the width, or null
+ * for the design's equal segments; and [labelScale], the size the labels are set at.
+ */
+internal class ToonSegmentedLayout(
+    val edges: List<Float>?,
+    val labelScale: Float,
+) {
+    /** The segment under [x] on a control [w] wide of [n]. */
+    fun slotAt(
+        w: Float,
+        n: Int,
+        x: Float,
+    ): Int = edges?.let { e -> (0 until n).lastOrNull { x >= e[it] } ?: 0 } ?: toonNavSlot(w, n, x)
+
+    /** Where segment [i] of [n] starts, and how wide it is, on a control [w] wide. */
+    fun start(
+        i: Int,
+        w: Float,
+        n: Int,
+    ): Float = edges?.get(i) ?: (w / n * i)
+
+    fun width(
+        i: Int,
+        w: Float,
+        n: Int,
+    ): Float = edges?.let { it[i + 1] - it[i] } ?: (w / n)
+
+    companion object {
+        val Equal: ToonSegmentedLayout = ToonSegmentedLayout(null, 1f)
+    }
+}
+
+/**
+ * The segments of a control [w] wide for labels measured [labelWidths] wide (B-88). Equal, the design's,
+ * while every label fits its equal share; else each segment holds its label with [LABEL_PAD] either
+ * side and the room left is shared equally; labels too wide for that are set smaller, down to
+ * [LABEL_FLOOR]. Past the floor the short labels keep their segments whole and the long ones share
+ * what is left, cut with an ellipsis: one long label does not squeeze «All» to «A…».
+ */
+internal fun toonSegmentedLayout(
+    w: Float,
+    labelWidths: List<Float>,
+): ToonSegmentedLayout {
+    val n = labelWidths.size
+    if (n == 0 || labelWidths.all { it + 2 * LABEL_PAD <= w / n }) return ToonSegmentedLayout.Equal
+    val pads = 2 * LABEL_PAD * n
+    val sum = labelWidths.sum()
+    val scale = if (sum + pads <= w) 1f else max(LABEL_FLOOR, (w - pads) / sum)
+    val need = labelWidths.map { it * scale + 2 * LABEL_PAD }
+    val total = need.sum()
+    val widths = if (total <= w) need.map { it + (w - total) / n } else fairShares(need, w)
+    val edges = mutableListOf(0f)
+    widths.forEach { edges += edges.last() + it }
+    edges[n] = w
+    return ToonSegmentedLayout(edges, scale)
+}
+
+/**
+ * [need] cut down to [w] in all, max–min fair: every need under the cap is met, and the needs over it
+ * get the cap, the one that makes the whole [w].
+ */
+private fun fairShares(
+    need: List<Float>,
+    w: Float,
+): List<Float> {
+    var left = w
+    var open = need.size
+    var cap = 0f
+    for (x in need.sorted()) {
+        cap = left / open
+        if (x > cap) break
+        left -= x
+        open--
+    }
+    return need.map { min(it, cap) }
+}
+
 /** The engine's `f`: a number as it writes it into a path, to a tenth. */
 private fun tenth(v: Float) = floor(v * 10 + .5f) / 10
 
@@ -284,12 +405,15 @@ internal fun toonSegmentedScene(
     w: Float,
     labels: List<String>,
     o: ToonSegmentedLook,
+    layout: ToonSegmentedLayout = ToonSegmentedLayout.Equal,
 ): ToonScene {
     val c = tokens.colors
     val sh = tokens.shape
     val h = SEG_H
     val n = labels.size
     val slot = w / n
+    val x0 = { i: Int -> if (layout.edges == null) slot * i else layout.start(i, w, n) }
+    val sw = { i: Int -> if (layout.edges == null) slot else layout.width(i, w, n) }
     val dis = o.disabled
     val g =
         shapePoints(
@@ -316,7 +440,7 @@ internal fun toonSegmentedScene(
     for (i in 1 until n) {
         layers +=
             ToonLayer(
-                floatArrayOf(tenth(slot * i), 9f, tenth(slot * i + .6f), h - 9),
+                floatArrayOf(tenth(x0(i)), 9f, tenth(x0(i) + .6f), h - 9),
                 ToonSegments.Line,
                 false,
                 c.ink,
@@ -329,14 +453,14 @@ internal fun toonSegmentedScene(
         if (plate > 0f) {
             layers +=
                 smoothLayer(
-                    wobblePoints(slot * i + 6, 7f, slot - 12, h - 14, PRESS_RADII, .9f, sh.seed + 2005 + i, 4f),
+                    wobblePoints(x0(i) + 6, 7f, sw(i) - 12, h - 14, PRESS_RADII, .9f, sh.seed + 2005 + i, 4f),
                     c.surfacePressed,
                     plate,
                 )
         }
     }
-    val ia = o.ia ?: (slot * o.sel + 5)
-    val ib = o.ib ?: (slot * (o.sel + 1) - 5)
+    val ia = o.ia ?: (if (layout.edges == null) slot * o.sel + 5 else x0(o.sel) + 5)
+    val ib = o.ib ?: (if (layout.edges == null) slot * (o.sel + 1) - 5 else x0(o.sel) + sw(o.sel) - 5)
     val sq = o.sq
     val drop =
         shapePoints(
@@ -358,17 +482,20 @@ internal fun toonSegmentedScene(
         if (o.focus ==
             i
         ) {
-            layers += ringLayer(slot * i + 1, -5f, slot - 2, h + 10, RING_RADII, c, sh.wobble, sh.seed + 2010 + i)
+            layers += ringLayer(x0(i) + 1, -5f, sw(i) - 2, h + 10, RING_RADII, c, sh.wobble, sh.seed + 2010 + i)
         }
         labelsOut +=
             ToonLabel(
                 lb,
-                slot * i + slot / 2,
+                x0(i) + sw(i) / 2,
                 h / 2 + 5.5f + (if (o.pressed == i) 1.5f else 0f),
                 if (act) c.ink else c.text,
                 if (dis) .5f else 1f,
-                if (act) LABEL_SELECTED else LABEL,
+                (if (act) LABEL_SELECTED else LABEL).let { st ->
+                    if (layout.labelScale == 1f) st else ToonTextStyle(st.weight, st.size * layout.labelScale)
+                },
                 ToonAnchor.Middle,
+                if (layout.edges == null) Float.POSITIVE_INFINITY else sw(i) - 2 * LABEL_PAD + 1,
             )
     }
     return ToonScene(layers, labelsOut)

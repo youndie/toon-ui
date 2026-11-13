@@ -288,6 +288,12 @@ None at runtime.
   it draws 17 dp above the box and 19 % of its width past either side, so a parent that clips cuts it
   (B-40).
 - The segmented button is laid out 48 dp tall and drawn 44, 2 dp down, for its targets (B-41).
+- The segmented button's segments are equal while every label, measured at the selected weight, fits
+  its share with 12 dp either side. Otherwise each segment holds its label and the rest of the width
+  is shared equally; labels too wide for that are set smaller, down to 0.8. Past that, the short
+  labels keep their segments whole and the long ones share what is left, cut with an ellipsis (B-88).
+  The drop's ends travel between the segments' own edges on the tabs' springs, and taps and hover
+  follow the edges.
 - Pull-to-refresh takes its own drag, with no nested scrolling, and spins until the caller turns
   `refreshing` back to false; a caller that never sets it leaves it spinning (B-42).
 - The title card's rings jump 14 dp at the end of the entrance, as the kit's do: it rests on
