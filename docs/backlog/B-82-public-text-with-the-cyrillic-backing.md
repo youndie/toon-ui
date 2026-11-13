@@ -1,7 +1,7 @@
 ---
 id: B-82
 title: "A consumer's own text gets the Cyrillic backing faces"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-4-product
@@ -29,3 +29,20 @@ thin system sans on Linux desktop, and nothing at all on wasm.
   run with the same word, by a test comparing the two captures. The KDoc of `textStyle` points at
   `ToonText` for Cyrillic.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/type/`, `toon-core/api/`.
+
+## Findings
+
+- **Deviation from the item.** The item proposed exposing the backing families on `ToonFontFamilies`.
+  The item ships `ToonTypeSpec.backed(text): AnnotatedString` instead. The families class and its
+  `ToonBackingFace` are internal, with a weight mapping and a size scale per role. A consumer laying
+  text out by hand needs the string those three produce, not the parts. One public function keeps
+  the mapping in the kit.
+- `ToonText` takes `BasicText`'s parameters (`maxLines`, `overflow`, `textAlign` and the rest), so a
+  consumer's ellipsized line works too. Its colour defaults to the theme's text, through `textStyle`.
+- Held by `ToonTextTest`, in all three themes:
+  - Russian set with `ToonText` has the same ink as the word set in the backing face by hand, and
+    differs from `textStyle` alone (the platform's fallback);
+  - Latin is unchanged;
+  - a mixed line backs only its Cyrillic run.
+  The comparison crops each render to its ink, because a backing run inside a design-face paragraph
+  can stand a pixel off a paragraph set in the backing face alone.

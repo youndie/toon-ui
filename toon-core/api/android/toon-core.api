@@ -748,6 +748,11 @@ public final class io/github/youndie/toon/theme/ToonStageKt {
 	public static final fun ToonStage (Landroidx/compose/ui/Modifier;Lkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
 
+public final class io/github/youndie/toon/theme/ToonTextKt {
+	public static final fun ToonText-OH0dnr4 (Ljava/lang/String;Lio/github/youndie/toon/tokens/ToonTypeSpec;Landroidx/compose/ui/Modifier;JLandroidx/compose/ui/text/style/TextAlign;IZIILkotlin/jvm/functions/Function1;Landroidx/compose/runtime/Composer;II)V
+	public static final fun backed (Lio/github/youndie/toon/tokens/ToonTypeSpec;Ljava/lang/String;Landroidx/compose/runtime/Composer;I)Landroidx/compose/ui/text/AnnotatedString;
+}
+
 public final class io/github/youndie/toon/theme/ToonThemeKt {
 	public static final fun ToonTheme (Lio/github/youndie/toon/tokens/ToonTokens;Ljava/lang/Boolean;ILkotlin/jvm/functions/Function2;Landroidx/compose/runtime/Composer;II)V
 }
