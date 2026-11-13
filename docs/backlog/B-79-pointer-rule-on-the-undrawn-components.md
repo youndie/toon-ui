@@ -1,7 +1,7 @@
 ---
 id: B-79
 title: "The pointer rule on the pressable components the pointer page does not draw"
-status: wip
+status: done
 priority: P2
 size: M
 stage: stage-5-desktop
@@ -75,3 +75,9 @@ navigation drawer's rows and the text field. Their hover is still none.
   lights no slot; `toonHoverable`'s finger test from B-69 holds the other four).
 - [x] Each look is stated above and held by frame cells in `desktop.json`'s `Hover` group in three
   themes: checkbox ×3, radio ×3, switch ×3, segmented, tabs, navigation bar, drawer, text field ×3.
+- [x] Each test kills a mutant (15, each one line, the aimed class's JUnit XML read): a finger
+  lighting a slot; the selected slot plated; a pressed slot at the hover's strength; a label lifting
+  with its control; the checkbox's lift kept under a full press; a disabled checkbox lifting; the
+  radio not lifting; the switch's track shadow lifting; the segmented button, the drawer, the field and
+  the checkbox losing their mouse input; a tab's hover dropped; a disabled destination plated; a
+  focused field filling.

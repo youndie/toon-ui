@@ -56,15 +56,14 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (3)
+## Open (2)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-78](docs/backlog/B-78-transcript-turn.md) `[ ]` | ToonTranscriptTurn: one turn of a transcript, calm to read | P1 | L | B-68, B-69, B-70, B-80 |
 | [B-77](docs/backlog/B-77-sidebar.md) `[ ]` | ToonSidebar: a persistent side panel with search, groups and navigation | P2 | L | B-68, B-69, B-71, B-72 |
-| [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[~]` | The pointer rule on the pressable components the pointer page does not draw | P2 | M | B-69 |
 
-## Closed (77)
+## Closed (78)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -159,6 +158,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-74](docs/backlog/B-74-level-meter.md) `[x]` - ToonLevelMeter: a channel's level, live, silent or clipping
 - [B-75](docs/backlog/B-75-record-button.md) `[x]` - ToonRecordButton: start and stop, with the elapsed time
 - [B-76](docs/backlog/B-76-title-bar.md) `[x]` - ToonTitleBar: the window's title row and its action slot
+- [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[x]` - The pointer rule on the pressable components the pointer page does not draw
 - [B-80](docs/backlog/B-80-desktop-icons.md) `[x]` - The desktop icons: the extension's 12 glyphs in ToonIcons
 
 <!-- END INDEX -->
