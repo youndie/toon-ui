@@ -123,6 +123,25 @@ class ToonHoverFramesTest {
     }
 
     @Test
+    fun `hovered and pressed all the way down, a body is the kit's pressed body`() {
+        // The lift fades as the press drops the shadow, the extension's `liftBody`: nothing of it is
+        // left at p = 1, so the pressed cells hold it.
+        EngineFrames.cells("Button").filter { it.name.startsWith("Filled_Pressed_") }.forEach { cell ->
+            EngineFrames.compare(
+                cell,
+                toonButtonScene(
+                    cell.tokens,
+                    ToonButtonVariant.Filled,
+                    150f,
+                    "Add plan",
+                    BUTTON_LABEL_WIDTH,
+                    ToonButtonLook(p = 1f, hv = 1f),
+                ),
+            )
+        }
+    }
+
+    @Test
     fun `the card's focus ring is the page's`() {
         val cells = EngineFrames.cells("Focus")
         val worst = cells.maxOf { EngineFrames.compare(it, scene(it.name, it.tokens, it.opts, hv = 0f)) }
