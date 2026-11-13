@@ -138,12 +138,21 @@ public fun wobblePoints(
     amp: Float,
     seed: Int,
     step: Float = 6f,
+): FloatArray = wobbleAlongNormals(roundRectPoints(x, y, w, h, r, step), amp, seed)
+
+/**
+ * The displacement `wob` gives a rounded rectangle and the desktop extension's `blobPath` gives any
+ * closed outline: each of [pts] moved along its normal by three sines of [amp], phased by [seed].
+ */
+internal fun wobbleAlongNormals(
+    pts: FloatArray,
+    amp: Float,
+    seed: Int,
 ): FloatArray {
     val rnd = ToonRandom(seed)
     val ph0 = (rnd.next() * 6.28).toFloat()
     val ph1 = (rnd.next() * 6.28).toFloat()
     val ph2 = (rnd.next() * 6.28).toFloat()
-    val pts = roundRectPoints(x, y, w, h, r, step)
     val n = pts.size / 2
     val out = FloatArray(pts.size)
     for (i in 0 until n) {
