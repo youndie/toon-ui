@@ -1,7 +1,7 @@
 ---
 id: B-69
 title: "One hover, focus and target rule for the whole kit"
-status: open
+status: wip
 priority: P1
 size: L
 stage: stage-5-desktop
