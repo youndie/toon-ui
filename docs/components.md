@@ -44,7 +44,7 @@ script; every name in it is checked against the sources.
 | [ToonTooltip](../reference/design-system/ToonTooltip.dc.html) | `ToonTooltip` | [ToonTooltip.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTooltip.kt) | `tooltip`, `tipInflate` | [B-40](backlog/B-40-tooltip.md) | 24 | 24 | 24 |
 | [ToonTopAppBar](../reference/design-system/ToonTopAppBar.dc.html) | `ToonTopAppBar` | [ToonTopAppBar.kt](../toon-core/src/commonMain/kotlin/io/github/youndie/toon/component/ToonTopAppBar.kt) | `topBar` | [B-26](backlog/B-26-top-app-bar.md) | 39 | 39 | 39 |
 
-The desktop set, from reference/desktop (stage 5): 8 of 9 built. Its frames are in `desktop.json`; the project has no spec pages, so no Chrome references or goldens are drawn from it.
+The desktop set, from reference/desktop (stage 5): 9 of 9 built. Its frames are in `desktop.json`; the project has no spec pages, so no Chrome references or goldens are drawn from it.
 
 | Design file | Composable | Source | Extension | Item | Frame cells |
 |---|---|---|---|---|---|
