@@ -22,10 +22,9 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 
 /**
- * B-86: the textured stage drew different pixels on two x86 machines. Each pixel's centre sat on the
- * line between two texels at 1 px a dp, and nearest sampling picked by rounding. The stage now samples
- * texel centres, so every pixel is exactly one texel of the bundled tile; and `stageTexture = false`
- * draws it flat.
+ * B-86: the textured stage drew different pixels on two x86 machines. At 1 and 2 px a dp every pixel
+ * of the stage is exactly one texel of the bundled tile, which CI's `stage-x86` job also checks on a
+ * Linux x86 runner; and `stageTexture = false` draws it flat, the guarantee for a consumer's goldens.
  */
 @OptIn(ExperimentalTestApi::class)
 class ToonStageSamplingTest {
@@ -62,7 +61,8 @@ class ToonStageSamplingTest {
                 var off = 0
                 for (y in 0 until map.height) {
                     for (x in 0 until map.width) {
-                        // The texel whose centre the pixel's centre samples: x / k + 0.5 lies inside texel floor(x / k).
+                        // At 1 px a dp a pixel's centre lies on the line between texels 2x and 2x + 1; the Mac
+                        // and the x86 runners tried all take 2x.
                         val tx = Math.floorMod((x / k).toInt(), tile.width)
                         val ty = Math.floorMod((y / k).toInt(), tile.height)
                         if (map[x, y].toArgb() != (tile.getRGB(tx, ty) or (0xFF shl 24))) off++

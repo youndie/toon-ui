@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.scale
-import androidx.compose.ui.graphics.drawscope.translate
 import io.github.youndie.toon.resources.Res
 import io.github.youndie.toon.resources.gouache_light
 import io.github.youndie.toon.resources.gouache_night
@@ -64,21 +63,14 @@ internal fun DrawScope.drawToonStage(
     drawRect(tokens.colors.stage)
     if (tile == null) return
     val k = density / STAGE_TILE_PX_PER_DP
-    // B-86: Skiko samples the tile nearest. Drawn as it is, every pixel's centre at 1 dp a pixel lands
-    // on the line between two texels, and which one wins was a matter of rounding that two x86 CPUs
-    // decided differently. Shifted by [t] texels, each pixel samples a texel's centre at 1 and 2 px a dp.
-    val t = .5f / k - .5f
     scale(k, k, Offset.Zero) {
-        translate(t, t) {
-            drawRect(
-                ShaderBrush(ImageShader(tile, TileMode.Repeated, TileMode.Repeated)),
-                topLeft = Offset(-t, -t),
-                size =
-                    Size(
-                        size.width / k + t,
-                        size.height / k + t,
-                    ),
-            )
-        }
+        drawRect(
+            ShaderBrush(ImageShader(tile, TileMode.Repeated, TileMode.Repeated)),
+            size =
+                Size(
+                    size.width / k,
+                    size.height / k,
+                ),
+        )
     }
 }
