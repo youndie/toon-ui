@@ -63,7 +63,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 |---|---|---|---|---|
 | [B-90](docs/backlog/B-90-sidebar-empty-text-wraps-prettily.md) `[ ]` | The sidebar's empty text breaks its lines as the design's does | P2 | S | - |
 
-## Closed (91)
+## Closed (92)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -173,5 +173,6 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-79](docs/backlog/B-79-pointer-rule-on-the-undrawn-components.md) `[x]` - The pointer rule on the pressable components the pointer page does not draw
 - [B-80](docs/backlog/B-80-desktop-icons.md) `[x]` - The desktop icons: the extension's 12 glyphs in ToonIcons
 - [B-89](docs/backlog/B-89-panel.md) `[x]` - ToonPanel: the paper panel a desktop window lays each content pane on
+- [B-93](docs/backlog/B-93-scrollbar-drags-a-lazy-list-by-position.md) `[x]` - The scrollbar's thumb stays under the pointer over a lazy list of uneven items
 
 <!-- END INDEX -->
