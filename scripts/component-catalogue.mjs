@@ -91,6 +91,11 @@ const OWN = {
   ToonPullToRefreshBox: ['pull-to-refresh over content: the content pulled down, the band in the gap above it', 'B-64'],
   ToonText: ['a consumer\'s own text in a step of the type scale, its Cyrillic in the theme\'s backing faces', 'B-82'],
 };
+// The library's public modifiers, for a consumer's own composables, with the item that made each.
+const MODIFIERS = {
+  toonPressable: ['the press machine\'s squash and spring, the click on the release, the 48 dp target', 'B-10'],
+  toonFadingEdges: ['a scrolled column or lazy list fades out at the edges it has scrolled past', 'B-92'],
+};
 
 const problems = [];
 const engine = readFileSync(join(DESIGN, 'toon-engine.js'), 'utf8');
@@ -105,9 +110,12 @@ const item = (id) => {
 // short or qualified, precedes among its annotations, on its line or the lines above.
 const kotlin = (dir) => readdirSync(dir, { withFileTypes: true }).flatMap((e) => e.isDirectory() ? kotlin(join(dir, e.name)) : e.name.endsWith('.kt') ? [join(dir, e.name)] : []);
 const composables = new Map();
+// Every public modifier: a top-level `public fun Modifier.name(`, its overloads one name.
+const modifiers = new Map();
 for (const file of kotlin(SOURCES)) {
   const text = readFileSync(file, 'utf8');
   for (const m of text.matchAll(/@(?:androidx\.compose\.runtime\.)?Composable\b(?:\s*@[^\n]*)*\s*public fun (?:<[^>]*>\s*)?(\w+)\s*\(/g)) composables.set(m[1], file.slice(ROOT.length + 1));
+  for (const m of text.matchAll(/^public fun (?:<[^>]*>\s*)?Modifier\.(\w+)\s*\(/gm)) modifiers.set(m[1], file.slice(ROOT.length + 1));
 }
 
 const designFiles = readdirSync(DESIGN).filter((f) => /^Toon\w+\.dc\.html$/.test(f)).map((f) => f.slice(4, -8));
@@ -172,8 +180,14 @@ for (const [name, e] of Object.entries(DESKTOP_RENDERERS)) {
   desktopRows.push(`| — ${e.what} | \`${name}\` | ${src} | ${e.engine.map((f) => `\`${f}\``).join(', ')} | [${e.item}](backlog/${it.file}) | ${cells} | ${refs} | ${goldens} |`);
 }
 for (const [name] of composables) if (!listed.has(name)) problems.push(`\`${name}\` is a public composable the catalogue does not list`);
+for (const [name, [, id]] of Object.entries(MODIFIERS)) {
+  if (!modifiers.has(name)) problems.push(`\`${name}\` is listed as a modifier, but is not a public one in toon-core`);
+  item(id);
+}
+for (const [name] of modifiers) if (!MODIFIERS[name]) problems.push(`\`Modifier.${name}\` is a public modifier the catalogue does not list`);
 
 const own = Object.entries(OWN).map(([name, [what, id]]) => `| \`${name}\` | [${composables.get(name)?.split('/').pop() ?? ''}](../${composables.get(name) ?? ''}) | ${what} | [${id}](backlog/${item(id).file}) |`);
+const mods = Object.entries(MODIFIERS).map(([name, [what, id]]) => `| \`Modifier.${name}\` | [${modifiers.get(name)?.split('/').pop() ?? ''}](../${modifiers.get(name) ?? ''}) | ${what} | [${id}](backlog/${item(id).file}) |`);
 const built = Object.values(MAP).filter((e) => e.composable).length;
 const desktopBuilt = Object.values(DESKTOP_MAP).filter((e) => e.composable).length;
 const renderers = Object.keys(DESKTOP_RENDERERS).length;
@@ -197,6 +211,12 @@ const block = [
   '| Composable | Source | What it is | Item |',
   '|---|---|---|---|',
   ...own,
+  '',
+  'Its modifiers, for a consumer\'s own composables:',
+  '',
+  '| Modifier | Source | What it does | Item |',
+  '|---|---|---|---|',
+  ...mods,
   '',
   END,
 ].join('\n');

@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -12,6 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
@@ -74,6 +77,7 @@ import io.github.youndie.toon.component.ToonTopAppBar
 import io.github.youndie.toon.component.ToonTopAppBarVariant
 import io.github.youndie.toon.component.ToonTransition
 import io.github.youndie.toon.component.ToonTransitionHost
+import io.github.youndie.toon.draw.toonFadingEdges
 import io.github.youndie.toon.fx.ToonFxHost
 import io.github.youndie.toon.icon.ToonIcon
 import io.github.youndie.toon.icon.ToonIconWeight
@@ -197,8 +201,14 @@ private fun Header(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun Kit(onOverlay: (Overlay) -> Unit) {
+    val scroll = rememberScrollState()
+    // The kit scrolls under the header: faded where it has scrolled past it, not cut at its line (B-92).
     Column(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()).padding(horizontal = 28.dp, vertical = 8.dp),
+        Modifier
+            .fillMaxSize()
+            .toonFadingEdges(scroll, length = 24.dp)
+            .verticalScroll(scroll)
+            .padding(horizontal = 28.dp, vertical = 8.dp),
         verticalArrangement = Arrangement.spacedBy(28.dp),
     ) {
         Section("Actions") {
@@ -325,6 +335,7 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
                     ToonDivider(Modifier.padding(top = 12.dp))
                 }
             }
+            Plate("Fading edges") { FadingList() }
             Plate("Progress") {
                 Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
                     ToonProgress(value = .62f)
@@ -521,6 +532,41 @@ private fun Kit(onOverlay: (Overlay) -> Unit) {
         Box(Modifier.height(40.dp))
     }
 }
+
+/**
+ * A lazy list in a box of its own, faded at the edges it has scrolled past (B-92). The switches' ink
+ * reaches past the rows' sides, so the fade's layer is 12 dp wider at each, and the list's padding
+ * keeps the first and last rows clear of the fade at rest.
+ */
+@Composable
+private fun FadingList() {
+    val list = rememberLazyListState()
+    LazyColumn(
+        Modifier.size(width = 342.dp, height = 240.dp).toonFadingEdges(list, length = 32.dp, slack = 12.dp),
+        list,
+        contentPadding = PaddingValues(vertical = 20.dp),
+    ) {
+        items(12) { i ->
+            val (title, icon, sub) = FADING_ROWS[i % FADING_ROWS.size]
+            ToonListItem(
+                title,
+                icon = icon,
+                sub = sub,
+                trailing = ToonListTrailing.Switch,
+                on = i % 2 == 0,
+                index = i,
+                last = i == 11,
+            )
+        }
+    }
+}
+
+private val FADING_ROWS =
+    listOf(
+        Triple("Weekend plans", ToonIcons.Calendar, "3 plans"),
+        Triple("Reminders", ToonIcons.Bell, "At noon"),
+        Triple("Share plans", ToonIcons.Person, "With family"),
+    )
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

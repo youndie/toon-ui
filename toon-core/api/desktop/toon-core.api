@@ -441,6 +441,13 @@ public final class io/github/youndie/toon/component/ToonTurnAction : java/lang/E
 	public static fun values ()[Lio/github/youndie/toon/component/ToonTurnAction;
 }
 
+public final class io/github/youndie/toon/draw/ToonFadingEdgesKt {
+	public static final fun toonFadingEdges-4j6BHR0 (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/ScrollState;FF)Landroidx/compose/ui/Modifier;
+	public static final fun toonFadingEdges-4j6BHR0 (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/lazy/LazyListState;FF)Landroidx/compose/ui/Modifier;
+	public static synthetic fun toonFadingEdges-4j6BHR0$default (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/ScrollState;FFILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+	public static synthetic fun toonFadingEdges-4j6BHR0$default (Landroidx/compose/ui/Modifier;Landroidx/compose/foundation/lazy/LazyListState;FFILjava/lang/Object;)Landroidx/compose/ui/Modifier;
+}
+
 public final class io/github/youndie/toon/draw/ToonGeometryKt {
 	public static final fun burstPoints (FFIIF)[F
 	public static synthetic fun burstPoints$default (FFIIFILjava/lang/Object;)[F
