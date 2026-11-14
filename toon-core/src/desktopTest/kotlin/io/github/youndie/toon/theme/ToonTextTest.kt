@@ -19,6 +19,7 @@ import io.github.youndie.toon.tokens.ToonTypeScale
 import io.github.youndie.toon.tokens.ToonTypeSpec
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import kotlin.test.assertTrue
 
 /**
@@ -115,6 +116,45 @@ class ToonTextTest {
                 assertEquals(0, differing(plain, kit), "${tokens.name}: Latin in ToonText moved")
             }
         }
+    }
+
+    @Test
+    fun `a step of a consumer's own sets its weight between the scale's, in Latin and backed Cyrillic`() {
+        // B-91: the desktop design sets words at 15 sp and 500, which the scale has no step for.
+        val medium = ToonTypeScale.Body.copy(weight = 500)
+        assertEquals(ToonTypeSpec(15f, 22f, 500, display = false), medium)
+        assertEquals(ToonTypeScale.Body, ToonTypeScale.Body.copy())
+        for (tokens in themes) {
+            for (word in listOf("Saturday", "Вид")) {
+                val (regular, mid, bold) =
+                    listOf(400, 500, 700).map { w ->
+                        ink(tokens) { ToonText(word, ToonTypeScale.Body.copy(weight = w)) }.sumOf { row ->
+                            row.count {
+                                it !=
+                                    0
+                            }
+                        }
+                    }
+                assertTrue(regular < mid && mid < bold, "${tokens.name} «$word»: inked pixels $regular, $mid, $bold")
+                val made = ink(tokens) { ToonText(word, ToonTypeSpec(15f, 22f, 500, display = false)) }
+                assertEquals(0, differing(ink(tokens) { ToonText(word, medium) }, made), "${tokens.name} «$word»")
+            }
+        }
+    }
+
+    @Test
+    fun `a step out of range is refused where it is made`() {
+        for ((size, line, weight) in listOf(
+            Triple(0f, 22f, 400),
+            Triple(15f, -1f, 400),
+            Triple(15f, 22f, 0),
+            Triple(15f, 22f, 1001),
+        )) {
+            assertFailsWith<IllegalArgumentException>("$size / $line, $weight") {
+                ToonTypeSpec(size, line, weight, display = false)
+            }
+        }
+        assertFailsWith<IllegalArgumentException> { ToonTypeScale.Body.copy(weight = 1200) }
     }
 
     @Test

@@ -57,14 +57,13 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (2)
+## Open (1)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-90](docs/backlog/B-90-sidebar-empty-text-wraps-prettily.md) `[ ]` | The sidebar's empty text breaks its lines as the design's does | P2 | S | - |
-| [B-91](docs/backlog/B-91-type-step-of-a-consumers-own.md) `[ ]` | A consumer can make a type step of its own | P2 | XS | - |
 
-## Closed (89)
+## Closed (90)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -155,6 +154,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-86](docs/backlog/B-86-stage-same-on-every-x86.md) `[x]` - The textured stage draws the same pixels on every x86 machine, or can be drawn flat
 - [B-87](docs/backlog/B-87-list-item-selected.md) `[x]` - The list item has a selected state for a master-detail list
 - [B-88](docs/backlog/B-88-segmented-fits-its-labels.md) `[x]` - The segmented control fits a label wider than its slot
+- [B-91](docs/backlog/B-91-type-step-of-a-consumers-own.md) `[x]` - A consumer can make a type step of its own
 
 **The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
 
