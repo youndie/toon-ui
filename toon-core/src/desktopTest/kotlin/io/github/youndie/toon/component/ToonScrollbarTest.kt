@@ -149,6 +149,86 @@ class ToonScrollbarTest {
         }
 
     @Test
+    fun `over items of very different heights the thumb stays under the pointer, down and back`() =
+        runComposeUiTest {
+            // B-93: 400 items alternating 20 and 300 dp, so the items in view are rarely their average.
+            val list = LazyListState()
+            setContent {
+                ToonTheme {
+                    Box(Modifier.size(400.dp, 600.dp)) {
+                        LazyColumn(Modifier.fillMaxSize(), list) {
+                            items(400) { Box(Modifier.fillMaxWidth().height(if (it % 2 == 0) 20.dp else 300.dp)) }
+                        }
+                        ToonScrollbar(list, Modifier.align(Alignment.TopEnd).testTag("bar"))
+                    }
+                }
+            }
+            val h = 584f
+            val span = toonScrollSpan(list)
+
+            // The thumb's top on its track, as the bar draws it.
+            fun thumbTop() =
+                runOnIdle {
+                    val (a, b) = span.fractions()
+                    toonScrollThumbSpan(h, a, b).first
+                }
+            val bar = onNodeWithTag("bar")
+            bar.performMouseInput {
+                moveTo(Offset(10f, 8f + 14f))
+                press()
+            }
+            waitForIdle()
+            val off = mutableListOf<Float>()
+            var travel = 0f
+            repeat(100) {
+                bar.performMouseInput { moveBy(Offset(0f, 5f)) }
+                travel += 5f
+                off += thumbTop() - travel
+            }
+            assertTrue(list.firstVisibleItemIndex > 300, "the drag went most of the way: ${list.firstVisibleItemIndex}")
+            repeat(100) {
+                bar.performMouseInput { moveBy(Offset(0f, -5f)) }
+                travel -= 5f
+                off += thumbTop() - travel
+            }
+            bar.performMouseInput { release() }
+            waitForIdle()
+            println("thumb off the pointer: ${off.min()}..${off.max()} dp")
+            assertTrue(
+                off.all { abs(it) <= 1f },
+                "the thumb's top within a dp of the pointer's travel: ${off.min()}..${off.max()}",
+            )
+            assertEquals(0, list.firstVisibleItemIndex, "back at the start")
+            assertEquals(0, list.firstVisibleItemScrollOffset, "back at the start")
+        }
+
+    @Test
+    fun `dragging the thumb of a scroll state moves its value by the pointer's share of the track`() =
+        runComposeUiTest {
+            val scroll = ScrollState(0)
+            setContent {
+                ToonTheme {
+                    Box(Modifier.size(400.dp, 600.dp)) {
+                        Column(Modifier.fillMaxSize().verticalScroll(scroll)) { Box(Modifier.size(10.dp, 3_000.dp)) }
+                        ToonScrollbar(scroll, Modifier.align(Alignment.TopEnd).testTag("bar"))
+                    }
+                }
+            }
+            val bar = onNodeWithTag("bar")
+            bar.performMouseInput {
+                moveTo(Offset(10f, 8f + 14f))
+                press()
+            }
+            repeat(50) {
+                bar.performMouseInput { moveBy(Offset(0f, 2f)) }
+                waitForIdle()
+                // 3,000 dp of content over 584 dp of track, a whole pixel at a time.
+                assertEquals((it + 1) * 2 * 3_000f / 584, scroll.value.toFloat(), .5f)
+            }
+            bar.performMouseInput { release() }
+        }
+
+    @Test
     fun `a press beside the thumb pages by nine tenths of the view`() =
         runComposeUiTest {
             val scroll = ScrollState(0)

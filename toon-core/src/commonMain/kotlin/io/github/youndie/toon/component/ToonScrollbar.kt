@@ -17,6 +17,7 @@ import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -37,6 +38,8 @@ import io.github.youndie.toon.interaction.rememberToonHoverState
 import io.github.youndie.toon.interaction.toonHoverable
 import io.github.youndie.toon.theme.Toon
 import io.github.youndie.toon.tokens.ToonTokens
+import kotlinx.coroutines.CoroutineStart
+import kotlinx.coroutines.launch
 import kotlin.math.max
 import kotlin.math.min
 import kotlin.math.roundToInt
@@ -66,8 +69,9 @@ public fun ToonScrollbar(
 /**
  * The design's scrollbar for a vertical lazy list's [state], as the other `ToonScrollbar`. A lazy list
  * knows only the items it laid out, so the content's length is read from their average size: exact for
- * items of one size, an estimate otherwise. A drag moves the list by the pointer's own distance, so it
- * never jumps, whatever the estimate.
+ * items of one size, an estimate otherwise. The thumb stands at the items above the view, and the share
+ * of the first one scrolled past, over all of them; a drag puts the view where the thumb is held, so the
+ * thumb stays under the pointer over items of any sizes.
  */
 @Composable
 public fun ToonScrollbar(
@@ -91,6 +95,9 @@ internal interface ToonScrollSpan {
 
     /** Scrolls by [px] at once, as the design sets `scrollTop`. */
     fun scrollBy(px: Float)
+
+    /** Scrolls so the view's top stands at [fraction] of the content, as [fractions] reads it back. */
+    suspend fun scrollTo(fraction: Float)
 }
 
 /** What the bar reads off a [ScrollState]. */
@@ -109,6 +116,10 @@ private class ScrollStateSpan(
 
     override fun scrollBy(px: Float) {
         state.dispatchRawDelta(px)
+    }
+
+    override suspend fun scrollTo(fraction: Float) {
+        state.scrollTo((fraction * contentPx).roundToInt())
     }
 }
 
@@ -135,15 +146,47 @@ private class LazyListSpan(
     override val viewportPx get() =
         state.layoutInfo.viewportSize.height
             .toFloat()
+
+    /**
+     * The items above the view, and the share of the first one it has scrolled past by that item's own
+     * size, at the average size: a function of the position alone, whichever items are laid out (B-93).
+     * The state's first item and its offset are counted from the content padding's end, as the items
+     * are, and the view from the padding's start.
+     */
     override val offsetPx: Float
         get() {
-            val first = state.layoutInfo.visibleItemsInfo.firstOrNull() ?: return 0f
-            // Item offsets start at the content padding's end, the view at the padding's start.
-            return first.index * line() - first.offset
+            val i = state.firstVisibleItemIndex
+            val size = sizeOf(i) ?: return 0f
+            return (i + state.firstVisibleItemScrollOffset / size) * line()
         }
+
+    /** The laid-out item [index] and the spacing after it, or null when it is not laid out. */
+    private fun sizeOf(index: Int): Float? {
+        val info = state.layoutInfo
+        val item = info.visibleItemsInfo.firstOrNull { it.index == index } ?: return null
+        return (item.size + info.mainAxisItemSpacing).toFloat().takeIf { it > 0f }
+    }
 
     override fun scrollBy(px: Float) {
         state.dispatchRawDelta(px)
+    }
+
+    /**
+     * [offsetPx] backwards: the fraction is an item and a share of it, and the list goes there by
+     * position, so the thumb then stands where it was asked to, however the items differ in size.
+     */
+    override suspend fun scrollTo(fraction: Float) {
+        val n = state.layoutInfo.totalItemsCount
+        val l = line()
+        if (n == 0 || l <= 0f) return
+        val t = (fraction * contentPx / l).coerceIn(0f, n.toFloat())
+        val i = min(t.toInt(), n - 1)
+        val share = t - i
+        // Into the item by its own size. One not laid out yet is reached at its top first: an offset
+        // by the average could pass a short item and leave the view in the next one.
+        val known = sizeOf(i)
+        state.scrollToItem(i, known?.let { (share * it).toInt() } ?: 0)
+        if (known == null) sizeOf(i)?.let { state.scrollToItem(i, (share * it).toInt()) }
     }
 }
 
@@ -160,6 +203,7 @@ private fun ToonScrollbarImpl(
 ) {
     val tokens = Toon.tokens
     val hover = rememberToonHoverState()
+    val scope = rememberCoroutineScope()
     var dragging by remember { mutableStateOf(false) }
     // Read in composition only when it changes: the scroll itself is read in the draw.
     val scrolls by remember(span) { derivedStateOf { span.scrolls } }
@@ -185,15 +229,16 @@ private fun ToonScrollbarImpl(
                             return@awaitEachGesture
                         }
                         dragging = true
-                        var last = down.position.y
                         try {
                             drag(down.id) { change ->
-                                // The thumb follows the pointer: its distance over the track is the
-                                // view's over the content. Moved by deltas, the list cannot jump where
-                                // the thumb is held inside the track.
-                                val dy = (change.position.y - last) / density
-                                last = change.position.y
-                                span.scrollBy(dy / h * span.contentPx)
+                                // The thumb follows the pointer: the view stands at the thumb's fraction
+                                // at the press plus the pointer's travel since over the track (B-93).
+                                // From the fraction the list had, not the pointer's place, so it cannot
+                                // jump where the thumb is held inside the track; by position, not by
+                                // pixels, so a lazy list's estimate cannot move the thumb off the pointer.
+                                val to = a + (change.position.y - down.position.y) / density / h
+                                // A newer scroll cancels the one before it, as a scroll does.
+                                scope.launch(start = CoroutineStart.UNDISPATCHED) { span.scrollTo(to) }
                                 change.consume()
                             }
                         } finally {

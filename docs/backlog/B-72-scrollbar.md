@@ -46,6 +46,9 @@ visible fraction `a`–`b`, at least 28 high; a press outside it pages by 90 %.
   thumb as drawn, and the move by deltas, so the list cannot jump; past the track's end the list waits
   at its end until the pointer is back. A lazy list moves by pixels, so its estimate never makes a drag
   jump either.
+  - Since [B-93](B-93-scrollbar-drags-a-lazy-list-by-position.md) the drag puts the view at the thumb's
+    fraction at the press plus the pointer's travel, by position: over items of uneven sizes the pixel
+    drag let the thumb run off the pointer.
 - **A press beside the thumb** pages by 90 % of the view at once, as the design sets `scrollTop`. The bar
   takes no focus: the pointer page leaves the keys to the scrolled area.
 - **Frames**: the pointer page's rest, hover and drag at 120 dp, the page's default (220 dp, 0.2–0.45),
