@@ -63,7 +63,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 |---|---|---|---|---|
 | [B-90](docs/backlog/B-90-sidebar-empty-text-wraps-prettily.md) `[ ]` | The sidebar's empty text breaks its lines as the design's does | P2 | S | - |
 
-## Closed (92)
+## Closed (93)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -156,6 +156,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-88](docs/backlog/B-88-segmented-fits-its-labels.md) `[x]` - The segmented control fits a label wider than its slot
 - [B-91](docs/backlog/B-91-type-step-of-a-consumers-own.md) `[x]` - A consumer can make a type step of its own
 - [B-92](docs/backlog/B-92-fading-edges.md) `[x]` - Scrolled content fades at the edges it has scrolled past
+- [B-94](docs/backlog/B-94-closed-drawer-swallows-clicks.md) `[x]` - A closed navigation drawer takes every click from the content under it
 
 **The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
 

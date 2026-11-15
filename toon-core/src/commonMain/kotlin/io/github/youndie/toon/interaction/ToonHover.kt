@@ -161,6 +161,9 @@ internal fun rememberToonHoverStates(n: Int): List<ToonHoverState> = List(n) { k
  * the navigation bar, the drawer): the slot [slotAt] names under a mouse, in dp, is hovered and every
  * other is not, as the menu's items are (B-69). A finger sets none, and leaving or disabling sets none.
  * [key] restarts it when what [slotAt] reads changes.
+ *
+ * Disabled, it still puts a pointer input node on the element, which takes presses from siblings under
+ * it: an overlay filling the window must leave it off while closed, not disable it (B-94).
  */
 internal fun Modifier.toonSlotHoverable(
     states: List<ToonHoverState>,
