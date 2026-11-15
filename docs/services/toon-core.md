@@ -216,6 +216,9 @@ None at runtime.
   one a press draws at full strength, and marks the row selected for a reader (B-87).
 - A dialog is a full-screen layer: the caller puts it over the content it dims (a `Box` with both),
   and it fills its box. Closed, it takes no input, so it can stay composed (B-24).
+- A closed overlay must have no pointer input node at all, not a disabled one: the topmost sibling with
+  one under a press takes it from everything beneath. The drawer's hover listener, on while closed,
+  took every click in the sample (B-94). `ToonClosedOverlayTest` clicks through each closed overlay.
 - A dialog's `content` stands between the body and the buttons, 252 dp wide, and the card grows by
   its height plus 12 dp; `ToonBottomSheetBox` puts `content` where the rows would be, the sheet as
   tall as it needs (B-85). The slot is a composable over the drawn card, popped or slid with it by a

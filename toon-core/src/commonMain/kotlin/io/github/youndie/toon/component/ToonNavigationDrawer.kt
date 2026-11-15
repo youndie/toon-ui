@@ -106,17 +106,23 @@ public fun ToonNavigationDrawer(
     val hovers = rememberToonHoverStates(n)
     LaunchedEffect(open) { clock.changed(open) }
     LaunchedEffect(clock.starts) { while (clock.running()) withFrameMillis { clock.tick(it) } }
+    // A closed drawer lets go of its hover, so a row does not open lit.
+    LaunchedEffect(clock.open) { if (!clock.open) hovers.forEach { it.set(false) } }
 
     Canvas(
         modifier
             .fillMaxSize()
-            // A closed drawer lets go of its hover, so a row does not open lit.
-            .toonSlotHoverable(
-                hovers,
-                clock.open,
-                n,
-            ) { x, y -> toonDrawerItemAt(toonDrawerWidth(size.width / density), n, x, y) }
+            // Only an open drawer listens for the pointer (B-94): a pointer input node on the closed one,
+            // filling the window, took every press from the content under it.
             .then(
+                if (clock.open) {
+                    Modifier.toonSlotHoverable(hovers, true, n) { x, y ->
+                        toonDrawerItemAt(toonDrawerWidth(size.width / density), n, x, y)
+                    }
+                } else {
+                    Modifier
+                },
+            ).then(
                 if (clock.open) {
                     Modifier
                         .semantics {
