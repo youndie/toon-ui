@@ -25,13 +25,13 @@ or withdrawn, so the release is the owner's to start, after the verdict of pyati
   rasteriser of `macos-latest`, macOS 26 now (research D9, CLAUDE.md "Gates"); `central.yaml` offers `macos-15` or Linux. The gate
   is the green `check.yaml` and `publish.yaml` on the tagged commit, read before the dispatch. A Mac host, because the
   snapshots are published from one; Linux would be the first publication of this tree from Linux, unrehearsed.
-- **What still blocks it.** pyatiletka's B-20 verdict (2026-11-25) says the kit is not ready, for three of its findings:
-  the stage that differs on Intel ([B-98](B-98-stage-sampled-off-texel-boundaries.md), #71), the title card's sub line
-  shrunk to specks ([B-99](B-99-title-card-sub-wraps.md), #72), and the dialog with no one-button form
-  ([B-97](B-97-dialog-one-button.md), #70), the last a public signature. A version cut before them would carry their
-  workarounds into every consumer, and the signature it ships with for good.
-- **The question.** Release 0.1.0 once B-97, B-98 and B-99 are done and the board has taken them? Who decides: the owner,
-  answering B-20's question in pyatiletka too.
+- **What it waited for.** pyatiletka's B-20 verdict (2026-11-25) said the kit was not ready, for three of its findings,
+  each now done: the dialog's one-button form ([B-97](B-97-dialog-one-button.md), #70, a public signature), the stage
+  that differed on Intel ([B-98](B-98-stage-sampled-off-texel-boundaries.md), #71), and the title card's sub line shrunk
+  to specks ([B-99](B-99-title-card-sub-wraps.md), #72). The board has yet to run on the snapshot that carries them and
+  drop its workarounds.
+- **The question.** Release 0.1.0 once the board runs on the snapshot carrying B-97, B-98 and B-99? Who decides: the
+  owner, answering B-20's question in pyatiletka too.
 
 - AC: every coordinate answers on `repo1.maven.org`; a consumer with only `mavenCentral()` and `google()` resolves
   `io.github.youndie:toon-core:0.1.0` and builds the README's snippet; the head is 0.1.1.
