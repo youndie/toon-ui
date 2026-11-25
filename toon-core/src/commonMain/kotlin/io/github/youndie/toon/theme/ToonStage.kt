@@ -62,7 +62,8 @@ internal const val STAGE_TILE_PX_PER_DP = 2f
  * the tie by the last bit of the arithmetic: under viddik's capture matrix, whose perspective term is 1e-9, Intel and AMD
  * runners broke it apart (#71). Shifted by an eighth, a centre stands at least 0.008 texel from a line at every density
  * from 1 to 4 in quarters and at 2.625 and 2.75, where a shift of a quarter or a half lands on one at some density (B-98).
- * At 1 and 2 px a dp it is the texel the Mac took before, so nothing drawn on it moved.
+ * At 1 and 2 px a dp it is the texel the Mac took for a plain canvas; under the capture matrix the Mac's own tie went the
+ * other way from about the 89th row down, so the kit's textured goldens moved once, by at most 8 a channel.
  */
 internal const val STAGE_TILE_SHIFT = 0.125f
 

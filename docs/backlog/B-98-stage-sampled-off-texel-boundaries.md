@@ -31,10 +31,16 @@ cannot see it.
 
 - **Built: the shift.** `drawToonStage` draws the tile an eighth of a texel off the canvas's origin
   (`STAGE_TILE_SHIFT`), so a pixel's centre samples `(x + ½) / k − ⅛` and never the line between two texels. Chosen over
-  baking the tile at the target density: one constant rather than a bitmap per density, and the same texel the Mac took
-  before at 1 and 2 px a dp, so **no golden of the kit moved** (`ToonStageSamplingTest`'s texel-per-pixel test, unchanged,
-  and `viddikVerify` both green). The bake would also stop nearest sampling from dropping three texels in four at 1 px a
-  dp; that is a look, not a determinism, and stays out.
+  baking the tile at the target density: one constant rather than a bitmap per density, and on a plain canvas the texel
+  the Mac took before at 1 and 2 px a dp (`ToonStageSamplingTest`'s texel-per-pixel test holds unchanged). The bake would
+  also stop nearest sampling from dropping three texels in four at 1 px a dp; that is a look, not a determinism, and
+  stays out.
+- **The kit's own goldens moved, once, as #71 asked.** Fifteen goldens on a textured stage — `Stage/Tiled_*`,
+  `FadingEdges/*` and the Ink & Gouache `Screens/*` — differ in the stage only, by at most 8 a channel: under viddik's
+  capture matrix the Mac's tie had gone to the other texel from about the 89th row down, so the old goldens were half
+  one sampling and half the other, the artefact itself. 8 is under the parity's channel slack of 16, so no cell departs
+  from its reference and `ToonDepartures` does not change. Re-recorded and looked at (a diff of `Screens/SignIn` shows
+  the stage alone).
 - **Why an eighth.** Over x up to 3,000 px at the densities 1 to 4 in quarters and at 2.625 and 2.75, a shift of a
   quarter or a half lands a centre on a line at some density; an eighth keeps every centre at least 0.008 texel off one,
   four orders above the perspective term's effect.
