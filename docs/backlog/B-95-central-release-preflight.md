@@ -48,6 +48,10 @@ owner.
 - **The version.** `0.1.0` is free: Central answers 404 for `io/github/youndie/toon-core`, and the repository has no tag.
   It sorts below the snapshots `0.1.0.<run>` already out, so a consumer pinned to one is not offered it by Renovate:
   moving the board to Central is a person's change.
+- **proba, both tiers** (its resolver with `--deep`, against a directory holding only the local 0.1.0 tree): 6 checks,
+  0 findings. Its positive control is the snapshot already out: `toon-core:0.1.0.44` is a DEFECT in `api-unreachable` — the
+  public API hands out Compose types a consumer of the kit alone
+  cannot name — which the `api` dependencies remove.
 - **The ABI guard fails when it should.** A line taken out of `toon-core/api/desktop/toon-core.api`, and one out of
   `toon-core.klib.api`, each turned `checkKotlinAbi` red; it runs inside `check`, on the macOS host that took the dumps.
 - **As a consumer** (a scratch project with the README's snippet, nothing of this build): desktop and wasm compile, and an
