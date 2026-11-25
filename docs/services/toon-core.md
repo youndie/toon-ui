@@ -24,7 +24,8 @@ body family, internal until the theme provider (B-08) exposes them.
 
 It deliberately does **not** depend on any Material artefact (research D2). It holds no sample app
 and no design references; those get modules or directories of their own when their items arrive.
-It is not published yet (B-32).
+It is published on every push to `main` as a snapshot (B-32); the first release on Maven Central is prepared
+(B-95) and waits for the owner (B-96).
 
 ## 2. API contracts
 
@@ -125,15 +126,18 @@ this once.
 
 | Kind | Name | What for |
 |---|---|---|
-| Library | Compose runtime, foundation, ui (from `wip`) | everything drawn |
+| Library | Compose runtime, foundation, ui (from `wip`), `api` | everything drawn; their types are in the public API (B-95) |
 | Library | compose-resources | the bundled fonts |
-| Build | sborka 0.4.0.111 | conventions and the `wip` catalog, the same build as oldge-ui |
+| Build | sborka 0.5.0.136 | conventions and the `wip` catalog, the same build as oldge-ui |
 | Test | Compose ui-test, `compose.desktop.currentOs` (desktopTest only) | off-screen composition on the host's Skia |
-| Test | viddik 0.7.0 (Maven Central) with KSP | goldens on `check`, and `viddikDesignParity` against the Chrome references |
+| Test | viddik 0.8.1.75 (the snapshot repository) with KSP | goldens on `check`, and `viddikDesignParity` against the Chrome references |
 
 ## 5. Infrastructure and deploy
 
-Nothing is published or deployed. Publishing is B-32.
+Every push to `main` publishes `io.github.youndie:toon-core:<head>.<run>` to the snapshot repository
+(`.github/workflows/publish.yaml`, B-32). The tree can publish to Maven Central (`sborka.central=true`, B-95): a
+release is a tag and a dispatch of sborka's `central.yaml`, never a publish from a machine, and there is none yet (B-96).
+The sample is deployed to GitHub Pages (`pages.yaml`).
 
 ## 6. Local setup
 

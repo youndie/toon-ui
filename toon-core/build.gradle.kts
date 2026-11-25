@@ -54,9 +54,11 @@ kotlin {
     // No Material artefact, ever (research D2).
     sourceSets {
         commonMain.dependencies {
-            implementation(wip.compose.runtime)
-            implementation(wip.compose.foundation)
-            implementation(wip.compose.ui)
+            // `api`: the public signatures hand out Compose's types (`Modifier`, `Color`, `Dp`, `TextStyle`), and a
+            // consumer compiling against toon-core alone has to be able to name them (B-95).
+            api(wip.compose.runtime)
+            api(wip.compose.foundation)
+            api(wip.compose.ui)
             // The bundled fonts (B-02). Not in `wip`, and the plugin's accessor is the one place its
             // version follows the Compose plugin's own (oldge-ui does the same).
             implementation(compose.components.resources)
