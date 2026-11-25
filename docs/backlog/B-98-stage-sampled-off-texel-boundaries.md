@@ -1,7 +1,7 @@
 ---
 id: B-98
 title: "ToonStage samples its tile on texel boundaries, so it differs on Intel under a perspective term"
-status: open
+status: done
 priority: P1
 size: M
 stage: stage-4-product
@@ -26,3 +26,29 @@ cannot see it.
   #71); the kit's test reaches the mechanism (it fails with the old sampling); the stage goldens re-recorded and looked at;
   #71 is closed by the pull request.
 - Anchors: `toon-core/src/commonMain/kotlin/io/github/youndie/toon/theme/ToonStage.kt`
+
+## Findings (2026-11-25)
+
+- **Built: the shift.** `drawToonStage` draws the tile an eighth of a texel off the canvas's origin
+  (`STAGE_TILE_SHIFT`), so a pixel's centre samples `(x + ½) / k − ⅛` and never the line between two texels. Chosen over
+  baking the tile at the target density: one constant rather than a bitmap per density, and on a plain canvas the texel
+  the Mac took before at 1 and 2 px a dp (`ToonStageSamplingTest`'s texel-per-pixel test holds unchanged). The bake would
+  also stop nearest sampling from dropping three texels in four at 1 px a dp; that is a look, not a determinism, and
+  stays out.
+- **The kit's own goldens moved, once, as #71 asked.** Fifteen goldens on a textured stage — `Stage/Tiled_*`,
+  `FadingEdges/*` and the Ink & Gouache `Screens/*` — differ in the stage only, by at most 8 a channel: under viddik's
+  capture matrix the Mac's tie had gone to the other texel from about the 89th row down, so the old goldens were half
+  one sampling and half the other, the artefact itself. 8 is under the parity's channel slack of 16, so no cell departs
+  from its reference and `ToonDepartures` does not change. Re-recorded and looked at (a diff of `Screens/SignIn` shows
+  the stage alone). After B-97 merged, its two `Dialog/OneButton_*` goldens on an Ink & Gouache stage moved the same
+  way (from row 89, at most 8) and were re-recorded here.
+- **Why an eighth.** Over x up to 3,000 px at the densities 1 to 4 in quarters and at 2.625 and 2.75, a shift of a
+  quarter or a half lands a centre on a line at some density; an eighth keeps every centre at least 0.008 texel off one,
+  four orders above the perspective term's effect.
+- **The tests now reach the mechanism**, on any CPU: a frame nudged a thousandth of a pixel either way must not change
+  (a centre on a line goes to the texels either side of it), at 1, 2 and 2.75 px a dp; and the consumer's frame — the
+  stage under a perspective term of 1e-9, as viddik captures — must equal the plain one at 1 and 2. **With the old
+  sampling both fail on this Mac too**, so #71's tie is reproduced without an Intel runner.
+- **Mutants**, each caught: no shift (the nudge, the capture matrix and the margin tests), a shift of a quarter (the
+  margin test), the shift's translation dropped (the nudge and the capture matrix).
+- `stageTexture = false` stays, as a consumer may still want a flat stage; it is no longer needed for determinism.
