@@ -57,12 +57,15 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (2)
+## Open (5)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
+| [B-97](docs/backlog/B-97-dialog-one-button.md) `[ ]` | ToonDialog: a one-button form for a choice that applies at once | P1 | S | B-24 |
+| [B-98](docs/backlog/B-98-stage-sampled-off-texel-boundaries.md) `[ ]` | ToonStage samples its tile on texel boundaries, so it differs on Intel under a perspective term | P1 | M | B-86 |
+| [B-99](docs/backlog/B-99-title-card-sub-wraps.md) `[ ]` | ToonTitleCard: a long sub line wraps, and is scaled only down to a floor | P1 | S | B-81 |
 | [B-90](docs/backlog/B-90-sidebar-empty-text-wraps-prettily.md) `[ ]` | The sidebar's empty text breaks its lines as the design's does | P2 | S | - |
-| [B-96](docs/backlog/B-96-release-0-1-0-on-central.md) `[?]` | Release toon-core 0.1.0 on Maven Central | P2 | XS | B-95 |
+| [B-96](docs/backlog/B-96-release-0-1-0-on-central.md) `[?]` | Release toon-core 0.1.0 on Maven Central | P2 | XS | B-95, B-97, B-98, B-99 |
 
 ## Closed (94)
 
