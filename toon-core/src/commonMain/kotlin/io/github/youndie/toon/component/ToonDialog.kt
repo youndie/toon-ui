@@ -87,6 +87,10 @@ internal enum class ToonDialogFocus { Confirm, Cancel }
  * tap on [confirm] calls [onConfirm]; on [cancel] or outside the dialog, [onCancel]. It irises in when
  * [open] turns true and pops out when it turns false; closed, it takes no input.
  *
+ * With [cancel] `null` the dialog has one button, [confirm], where it always stands: for a choice that applies at once,
+ * where there is nothing to cancel (B-97). A tap outside and Escape still call [onCancel], so the caller closes it either
+ * way; the place the cancel button had is part of the card and does nothing.
+ *
  * [content], when given, stands between the body and the buttons, 252 dp wide, and the dialog grows to
  * hold it; it pops with the card, and Tab walks it and then the buttons (B-85). It is composed only
  * while the dialog is open, so it leaves at once when the close begins. The words have no defaults:
@@ -96,7 +100,7 @@ internal enum class ToonDialogFocus { Confirm, Cancel }
 public fun ToonDialog(
     title: String,
     confirm: String,
-    cancel: String,
+    cancel: String?,
     modifier: Modifier = Modifier,
     open: Boolean = true,
     body: String = "",
@@ -117,7 +121,11 @@ public fun ToonDialog(
     var focusOn by remember { mutableStateOf(ToonDialogFocus.Confirm) }
     var bounds by remember { mutableStateOf(Rect.Zero) }
     val lines = remember(body, texts) { toonDialogLines(body) { texts.measure(it, DIALOG_BODY).multiParagraph.width } }
-    val cancelWidth = remember(cancel, texts) { texts.measure(cancel, BUTTON_LABEL).multiParagraph.width }
+    val cancelWidth =
+        remember(cancel, texts) {
+            cancel?.let { texts.measure(it, BUTTON_LABEL).multiParagraph.width }
+                ?: 0f
+        }
     // B-85: the slot's height, as its content last measured; the card grows to hold it.
     var measuredSlot by remember { mutableFloatStateOf(0f) }
     val slotH = if (content != null) measuredSlot else 0f
@@ -160,14 +168,19 @@ public fun ToonDialog(
                                 paneTitle = title
                                 dialog()
                                 customActions =
-                                    listOf(
+                                    listOfNotNull(
                                         CustomAccessibilityAction(confirm) { ok().let { true } },
-                                        CustomAccessibilityAction(cancel) { no().let { true } },
+                                        cancel?.let { CustomAccessibilityAction(it) { no().let { true } } },
                                     )
                             }.onKeyEvent {
                                 if (it.type != KeyEventType.KeyDown) return@onKeyEvent false
                                 when (it.key) {
                                     Key.Tab, Key.DirectionLeft, Key.DirectionRight -> {
+                                        // One button: the focus stays on it, and Tab goes round to the slot.
+                                        if (cancel == null) {
+                                            if (slotted && it.key == Key.Tab) slotFocus.requestFocus()
+                                            return@onKeyEvent true
+                                        }
                                         if (slotted && it.key == Key.Tab && focusOn == ToonDialogFocus.Cancel) {
                                             // Past the last button, Tab goes round to the slot.
                                             slotFocus.requestFocus()
@@ -199,7 +212,7 @@ public fun ToonDialog(
                                     }
                                 }
                             }.focusable(interactionSource = interaction)
-                            .pointerInput(lines, cardH) {
+                            .pointerInput(lines, cardH, cancel == null) {
                                 awaitEachGesture {
                                     awaitFirstDown()
                                     val up = waitForUpOrCancellation() ?: return@awaitEachGesture
@@ -213,6 +226,7 @@ public fun ToonDialog(
                                             cardH,
                                             up.position.x / density,
                                             up.position.y / density,
+                                            oneButton = cancel == null,
                                         )
                                     ) {
                                         ToonDialogHit.Confirm -> ok()
@@ -416,13 +430,17 @@ private fun c01(v: Float): Float = max(0f, min(1f, v))
 /** Where a release landed: on the confirm button, on cancel or outside the dialog, or inside it. */
 internal enum class ToonDialogHit { Confirm, Cancel }
 
-/** The kit's `up`: the hit for a release at ([x], [y]) in a [w] × [h] layer with a dialog [cardH] tall. */
+/**
+ * The kit's `up`: the hit for a release at ([x], [y]) in a [w] × [h] layer with a dialog [cardH] tall. With [oneButton]
+ * the cancel button's area is the card's, and does nothing (B-97).
+ */
 internal fun toonDialogHit(
     w: Float,
     h: Float,
     cardH: Float,
     x: Float,
     y: Float,
+    oneButton: Boolean = false,
 ): ToonDialogHit? {
     val x0 = (w - DIALOG_W) / 2
     val y0 = h / 2 - cardH / 2
@@ -430,7 +448,7 @@ internal fun toonDialogHit(
     val okX = x0 + DIALOG_W - 24 - OK_W
     val onRow = y >= by && y <= by + 52
     if (onRow && x >= okX && x <= okX + OK_W) return ToonDialogHit.Confirm
-    if ((onRow && x >= okX - 110 && x < okX) || x < x0 || x > x0 + DIALOG_W || y < y0 ||
+    if ((!oneButton && onRow && x >= okX - 110 && x < okX) || x < x0 || x > x0 + DIALOG_W || y < y0 ||
         y > y0 + cardH
     ) {
         return ToonDialogHit.Cancel
@@ -447,7 +465,7 @@ internal fun toonDialogCardScene(
     title: String,
     lines: List<String>,
     confirm: String,
-    cancel: String,
+    cancel: String?,
     destructive: Boolean,
     focus: ToonDialogFocus?,
     cancelWidth: Float,
@@ -479,17 +497,19 @@ internal fun toonDialogCardScene(
     }
     val by = h - 72
     val no =
-        toonButtonScene(
-            tokens,
-            ToonButtonVariant.Text,
-            CANCEL_W,
-            cancel,
-            cancelWidth,
-            ToonButtonLook(
-                focus =
-                    focus == ToonDialogFocus.Cancel,
-            ),
-        ).placed(w - 24 - OK_W - 6 - CANCEL_W, by)
+        cancel?.let {
+            toonButtonScene(
+                tokens,
+                ToonButtonVariant.Text,
+                CANCEL_W,
+                it,
+                cancelWidth,
+                ToonButtonLook(
+                    focus =
+                        focus == ToonDialogFocus.Cancel,
+                ),
+            ).placed(w - 24 - OK_W - 6 - CANCEL_W, by)
+        }
     val yes =
         toonButtonScene(
             tokens,
@@ -503,7 +523,7 @@ internal fun toonDialogCardScene(
                 labelColor = if (destructive) c.onDanger else null,
             ),
         ).placed(w - 24 - OK_W, by)
-    val buttons = no + yes
+    val buttons = no?.plus(yes) ?: yes
     return ToonScene(layers + buttons.layers, labels + buttons.labels)
 }
 
