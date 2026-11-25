@@ -57,15 +57,14 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (3)
+## Open (2)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
-| [B-99](docs/backlog/B-99-title-card-sub-wraps.md) `[ ]` | ToonTitleCard: a long sub line wraps, and is scaled only down to a floor | P1 | S | B-81 |
 | [B-90](docs/backlog/B-90-sidebar-empty-text-wraps-prettily.md) `[ ]` | The sidebar's empty text breaks its lines as the design's does | P2 | S | - |
 | [B-96](docs/backlog/B-96-release-0-1-0-on-central.md) `[?]` | Release toon-core 0.1.0 on Maven Central | P2 | XS | B-95, B-97, B-98, B-99 |
 
-## Closed (96)
+## Closed (97)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -162,6 +161,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-95](docs/backlog/B-95-central-release-preflight.md) `[x]` - The tree can publish toon-core to Maven Central: the pre-flight of the first release
 - [B-97](docs/backlog/B-97-dialog-one-button.md) `[x]` - ToonDialog: a one-button form for a choice that applies at once
 - [B-98](docs/backlog/B-98-stage-sampled-off-texel-boundaries.md) `[x]` - ToonStage samples its tile on texel boundaries, so it differs on Intel under a perspective term
+- [B-99](docs/backlog/B-99-title-card-sub-wraps.md) `[x]` - ToonTitleCard: a long sub line wraps, and is scaled only down to a floor
 
 **The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
 
