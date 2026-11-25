@@ -40,7 +40,8 @@ cannot see it.
   capture matrix the Mac's tie had gone to the other texel from about the 89th row down, so the old goldens were half
   one sampling and half the other, the artefact itself. 8 is under the parity's channel slack of 16, so no cell departs
   from its reference and `ToonDepartures` does not change. Re-recorded and looked at (a diff of `Screens/SignIn` shows
-  the stage alone).
+  the stage alone). After B-97 merged, its two `Dialog/OneButton_*` goldens on an Ink & Gouache stage moved the same
+  way (from row 89, at most 8) and were re-recorded here.
 - **Why an eighth.** Over x up to 3,000 px at the densities 1 to 4 in quarters and at 2.625 and 2.75, a shift of a
   quarter or a half lands a centre on a line at some density; an eighth keeps every centre at least 0.008 texel off one,
   four orders above the perspective term's effect.
