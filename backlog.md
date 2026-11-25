@@ -57,13 +57,14 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 
 <!-- BEGIN INDEX -->
 
-## Open (1)
+## Open (2)
 
 | Task | | Priority | Size | Blocked by |
 |---|---|---|---|---|
 | [B-90](docs/backlog/B-90-sidebar-empty-text-wraps-prettily.md) `[ ]` | The sidebar's empty text breaks its lines as the design's does | P2 | S | - |
+| [B-96](docs/backlog/B-96-release-0-1-0-on-central.md) `[?]` | Release toon-core 0.1.0 on Maven Central | P2 | XS | B-95 |
 
-## Closed (93)
+## Closed (94)
 
 **Goldens and references regenerate deterministically; the geometry matches within a measured tolerance; H1 has a measured verdict**
 
@@ -157,6 +158,7 @@ public ([B-32](docs/backlog/B-32-public-repository-and-publishing.md)).
 - [B-91](docs/backlog/B-91-type-step-of-a-consumers-own.md) `[x]` - A consumer can make a type step of its own
 - [B-92](docs/backlog/B-92-fading-edges.md) `[x]` - Scrolled content fades at the edges it has scrolled past
 - [B-94](docs/backlog/B-94-closed-drawer-swallows-clicks.md) `[x]` - A closed navigation drawer takes every click from the content under it
+- [B-95](docs/backlog/B-95-central-release-preflight.md) `[x]` - The tree can publish toon-core to Maven Central: the pre-flight of the first release
 
 **The nine desktop components match their renderers in three themes; hover, focus and targets follow one rule**
 
