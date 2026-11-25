@@ -93,6 +93,13 @@ public fun ToonTitleCard(
         remember(t, empty, texts) { texts.measure(t, toonTitleStyle(toonTitleSize(empty))).multiParagraph.width }
     val subWidth =
         remember(s, texts) { if (s.isEmpty()) 0f else texts.measure(s, toonTitleSubStyle()).multiParagraph.width }
+    // B-99: the room the widest plaque leaves its words; a sub wider than that wraps rather than shrinks.
+    val subFit =
+        remember(s, texts, width) {
+            toonTitleSubFit(s, toonTitleWordRoom(width.value, empty) - 2 * SUB_STAR_CLEAR) { line, size ->
+                texts.measure(line, toonTitleSubStyle(size)).multiParagraph.width
+            }
+        }
     LaunchedEffect(clock.starts, looping) { while (clock.running(looping)) withFrameMillis { clock.tick(it) } }
 
     Canvas(
@@ -112,7 +119,7 @@ public fun ToonTitleCard(
             val w = width.value
             val h = height.value
             val m = toonTitleCardFrameAt(clock.age(looping), reduce, looping)
-            val scene = toonTitleCardKitScene(tokens, w, h, empty, t, s, m.motion, titleWidth, subWidth)
+            val scene = toonTitleCardKitScene(tokens, w, h, empty, t, s, m.motion, titleWidth, subWidth, subFit)
             drawScene(if (m.fade == 1f) scene else scene.placed(0f, 0f, m.fade), texts)
         }
     }
@@ -268,6 +275,8 @@ internal data class ToonTitleLook(
     val swirl: Float = 0f,
     /** The sub line's size: the design's 14, smaller only for a line the widest plaque cannot hold (B-81). */
     val subFs: Float = SUB_SIZE,
+    /** The sub line wrapped (B-99): [sub] alone unless it is set, each line under the last, the plaque taller for each. */
+    val subLines: List<String>? = null,
 )
 
 private val PLAQUE_RADII = ToonRadii(26f, 18f, 30f, 20f)
@@ -292,6 +301,102 @@ private const val PLAQUE_MARGIN = 24f
 
 /** ...up to the card's width less this much on either side; past that the words get smaller instead. */
 private const val CARD_EDGE = 16f
+
+/**
+ * B-99: a sub line the widest plaque cannot hold on one line wraps onto at most [SUB_MAX_LINES], each [SUB_LINE] dp under
+ * the last, the plaque growing down by as much; only past three lines is it set smaller, to [SUB_FLOOR] at the least,
+ * and past that its last line ends in an ellipsis. The design's 14 at 1.3, and 12, the kit's smallest body size.
+ */
+private const val SUB_MAX_LINES = 3
+private const val SUB_LINE = 18f
+private const val SUB_FLOOR = 12f
+
+/**
+ * A wrapped sub's last line stands level with the plaque's lower star, whose points reach 27.5 dp in from the side, past
+ * the words' 24: wrapped lines keep this much more room either side, so they end short of it.
+ */
+private const val SUB_STAR_CLEAR = 8f
+private const val ELLIPSIS = "\u2026"
+
+/** The sub line set to fit: its lines and their size. */
+internal data class ToonTitleSub(
+    val lines: List<String>,
+    val size: Float,
+)
+
+/**
+ * [sub] wrapped into [room] dp, [measure] giving a string's width at a size: one line at the design's 14 if it fits, else
+ * up to three, and only then smaller in whole sizes down to 12, where a fourth line's words go into an ellipsis on the
+ * third. A word wider than [room] by itself is cut with an ellipsis. Never throws, and an empty [sub] is no line.
+ */
+internal fun toonTitleSubFit(
+    sub: String,
+    room: Float,
+    measure: (String, Float) -> Float,
+): ToonTitleSub {
+    if (sub.isEmpty()) return ToonTitleSub(emptyList(), SUB_SIZE)
+    var size = SUB_SIZE
+    while (true) {
+        val lines = wrapWords(sub, room) { measure(it, size) }
+        if (lines.size <= SUB_MAX_LINES && lines.all { measure(it, size) <= room }) return ToonTitleSub(lines, size)
+        if (size - 1f < SUB_FLOOR) {
+            val kept = lines.take(SUB_MAX_LINES).toMutableList()
+            val rest = lines.drop(kept.size - 1).joinToString(" ")
+            kept[kept.lastIndex] = ellipsized(rest, room) { measure(it, size) }
+            return ToonTitleSub(
+                kept.map {
+                    if (measure(it, size) <=
+                        room
+                    ) {
+                        it
+                    } else {
+                        ellipsized(it, room) { w -> measure(w, size) }
+                    }
+                },
+                size,
+            )
+        }
+        size -= 1f
+    }
+}
+
+/** Greedy: each line takes words while it measures [room] or less; a word too long for any line stands alone. */
+private fun wrapWords(
+    text: String,
+    room: Float,
+    width: (String) -> Float,
+): List<String> {
+    val lines = mutableListOf<String>()
+    var line = ""
+    for (word in text.split(' ').filter { it.isNotEmpty() }) {
+        val next = if (line.isEmpty()) word else "$line $word"
+        if (line.isEmpty() || width(next) <= room) {
+            line = next
+        } else {
+            lines += line
+            line = word
+        }
+    }
+    if (line.isNotEmpty()) lines += line
+    return lines
+}
+
+/** [text] cut to end in an ellipsis within [room]: whole words first, then letters. */
+private fun ellipsized(
+    text: String,
+    room: Float,
+    width: (String) -> Float,
+): String {
+    if (width(text) <= room) return text
+    val words = text.split(' ').filter { it.isNotEmpty() }
+    for (n in words.size - 1 downTo 1) {
+        val cut = words.take(n).joinToString(" ") + ELLIPSIS
+        if (width(cut) <= room) return cut
+    }
+    var letters = words.firstOrNull().orEmpty()
+    while (letters.isNotEmpty() && width(letters + ELLIPSIS) > room) letters = letters.dropLast(1)
+    return letters + ELLIPSIS
+}
 
 /** The title card's title style at [size], in the display face, as the scene draws it. */
 internal fun toonTitleStyle(size: Float): ToonTextStyle = ToonTextStyle(400, size, display = true)
@@ -320,23 +425,26 @@ internal fun toonTitleCardScene(
     }
     val px = cx - o.pw / 2
     val py = cy - o.ph / 2 + o.dy
+    val subs = o.subLines ?: listOf(o.sub).filter { it.isNotEmpty() }
+    // B-99: each line past the first makes the plaque taller by a line, downwards: the title and the first line stay.
+    val ph = o.ph + (subs.size - 1).coerceAtLeast(0) * SUB_LINE
     val plaque = mutableListOf<ToonLayer>()
     plaque +=
         bodyLayers(
-            shapePoints(px, py, o.pw, o.ph, PLAQUE_RADII, sh.insets, sh.wobble, sh.seed + 2200),
+            shapePoints(px, py, o.pw, ph, PLAQUE_RADII, sh.insets, sh.wobble, sh.seed + 2200),
             c.surface,
             c,
             sh.shadow + 3,
         )
     plaque +=
         smoothLayer(
-            wobblePoints(px + 9, py + 9, o.pw - 18, o.ph - 18, DASH_RADII, sh.wobble * .6f, sh.seed + 2201),
+            wobblePoints(px + 9, py + 9, o.pw - 18, ph - 18, DASH_RADII, sh.wobble * .6f, sh.seed + 2201),
             c.ink,
             .55f,
             stroke = 1.6f,
             dash = DASH,
         )
-    listOf(Triple(px + 20, py + 20, 0), Triple(px + o.pw - 20, py + o.ph - 20, 1)).forEach { (sx, sy, j) ->
+    listOf(Triple(px + 20, py + 20, 0), Triple(px + o.pw - 20, py + ph - 20, 1)).forEach { (sx, sy, j) ->
         plaque += ToonLayer(starPoints(7.5f, 3.4f, 90 + j), ToonSegments.Line, true, c.ink, dx = sx, dy = sy)
         plaque += ToonLayer(starPoints(5.4f, 2.4f, 90 + j), ToonSegments.Line, true, c.warning, dx = sx, dy = sy)
     }
@@ -346,15 +454,23 @@ internal fun toonTitleCardScene(
         ToonLabel(
             o.title,
             cx,
-            py + o.ph / 2 + (if (o.sub.isNotEmpty()) 4 else 15),
+            py + o.ph / 2 + (if (subs.isNotEmpty()) 4 else 15),
             c.text,
             top,
             toonTitleStyle(o.fs),
             ToonAnchor.Middle,
         )
-    if (o.sub.isNotEmpty()) {
+    subs.forEachIndexed { i, line ->
         labels +=
-            ToonLabel(o.sub, cx, py + o.ph / 2 + 32, c.textMuted, top, toonTitleSubStyle(o.subFs), ToonAnchor.Middle)
+            ToonLabel(
+                line,
+                cx,
+                py + o.ph / 2 + 32 + i * SUB_LINE,
+                c.textMuted,
+                top,
+                toonTitleSubStyle(o.subFs),
+                ToonAnchor.Middle,
+            )
     }
     return ToonScene(layers, emptyList()) + ToonScene(plaque, emptyList()).scaledAbout(cx, cy + o.dy, o.s, o.s) +
         ToonScene(emptyList(), labels)
@@ -409,8 +525,13 @@ internal fun toonTitleCardKitScene(
     a: ToonSplashMotion,
     titleWidth: Float = 0f,
     subWidth: Float = 0f,
+    subFit: ToonTitleSub? = null,
 ): ToonScene {
-    val fit = toonTitlePlaqueFit(w, empty, titleWidth, subWidth)
+    // B-99: a sub set by its fit — wrapped, smaller or cut — takes the widest plaque and is never scaled again.
+    val wrapped =
+        subFit != null && subFit.lines.isNotEmpty() &&
+            (subFit.lines.size > 1 || subFit.size != SUB_SIZE || subFit.lines[0] != sub)
+    val fit = toonTitlePlaqueFit(w, empty, titleWidth, if (wrapped) toonTitleWordRoom(w, empty) else subWidth)
     val look =
         ToonTitleLook(
             title = title,
@@ -419,7 +540,8 @@ internal fun toonTitleCardKitScene(
             pw = fit.pw,
             ph = if (empty) 110f else 120f,
             fs = toonTitleSize(empty) * fit.titleScale,
-            subFs = SUB_SIZE * fit.subScale,
+            subFs = if (wrapped) subFit.size else SUB_SIZE * fit.subScale,
+            subLines = subFit?.lines?.takeIf { wrapped },
             s = a.s,
             phase = a.phase,
             textOp = a.textOp,
@@ -456,3 +578,9 @@ internal fun toonTitlePlaqueFit(
     fun scale(width: Float) = if (width > room) room / width else 1f
     return ToonTitlePlaqueFit(pw, scale(titleWidth), scale(subWidth))
 }
+
+/** The room the widest plaque on a card [w] wide leaves its words: the card less [CARD_EDGE] and [PLAQUE_MARGIN] a side. */
+internal fun toonTitleWordRoom(
+    w: Float,
+    empty: Boolean,
+): Float = max(if (empty) EMPTY_PLAQUE else SPLASH_PLAQUE, w - 2 * CARD_EDGE) - 2 * PLAQUE_MARGIN
