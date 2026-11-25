@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.ShaderBrush
 import androidx.compose.ui.graphics.TileMode
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.scale
+import androidx.compose.ui.graphics.drawscope.translate
 import io.github.youndie.toon.resources.Res
 import io.github.youndie.toon.resources.gouache_light
 import io.github.youndie.toon.resources.gouache_night
@@ -55,6 +56,16 @@ internal fun toonStageTexture(tokens: ToonTokens): DrawableResource? =
 /** The stage's tile is drawn at 2 px a dp, as the design draws its own: 448 px every 224 dp (B-59). */
 internal const val STAGE_TILE_PX_PER_DP = 2f
 
+/**
+ * B-98: how far the tile is drawn off the canvas's origin, in texels, so that no pixel's centre falls on the line between
+ * two texels. Unshifted, at 1 px a dp every centre lands exactly on that line (texel 2x + 1), and nearest sampling breaks
+ * the tie by the last bit of the arithmetic: under viddik's capture matrix, whose perspective term is 1e-9, Intel and AMD
+ * runners broke it apart (#71). Shifted by an eighth, a centre stands at least 0.008 texel from a line at every density
+ * from 1 to 4 in quarters and at 2.625 and 2.75, where a shift of a quarter or a half lands on one at some density (B-98).
+ * At 1 and 2 px a dp it is the texel the Mac took before, so nothing drawn on it moved.
+ */
+internal const val STAGE_TILE_SHIFT = 0.125f
+
 /** The background colour, then [tile] repeated over it at [STAGE_TILE_PX_PER_DP], as the page's CSS layers them. */
 internal fun DrawScope.drawToonStage(
     tokens: ToonTokens,
@@ -64,13 +75,18 @@ internal fun DrawScope.drawToonStage(
     if (tile == null) return
     val k = density / STAGE_TILE_PX_PER_DP
     scale(k, k, Offset.Zero) {
-        drawRect(
-            ShaderBrush(ImageShader(tile, TileMode.Repeated, TileMode.Repeated)),
-            size =
-                Size(
-                    size.width / k,
-                    size.height / k,
-                ),
-        )
+        // The shader's origin moves with the canvas: moved by the shift, a pixel samples the tile that much earlier, and
+        // the rect, drawn from minus the shift, covers the same box.
+        translate(STAGE_TILE_SHIFT, STAGE_TILE_SHIFT) {
+            drawRect(
+                ShaderBrush(ImageShader(tile, TileMode.Repeated, TileMode.Repeated)),
+                topLeft = Offset(-STAGE_TILE_SHIFT, -STAGE_TILE_SHIFT),
+                size =
+                    Size(
+                        size.width / k + STAGE_TILE_SHIFT,
+                        size.height / k + STAGE_TILE_SHIFT,
+                    ),
+            )
+        }
     }
 }
