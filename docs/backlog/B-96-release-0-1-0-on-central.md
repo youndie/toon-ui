@@ -11,7 +11,7 @@ blocked_by: [B-95]
 # B-96 — Release toon-core 0.1.0 on Maven Central
 
 The tree can publish to Central ([B-95](B-95-central-release-preflight.md)). A version on Central can never be replaced
-or withdrawn, so the release is the owner's to start, after pyatiletka's verdict on its two weeks on the kit (its B-20).
+or withdrawn, so the release is the owner's to start, after the verdict of pyatiletka's trial of the kit on its board (its B-20).
 
 - **The release, in order**, once the owner says yes to 0.1.0 at a named commit of `main` whose `check` and `publish`
   runs are green:

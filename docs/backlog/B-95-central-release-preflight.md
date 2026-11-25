@@ -10,7 +10,7 @@ stage: stage-4-product
 # B-95 — The tree can publish toon-core to Maven Central: the pre-flight of the first release
 
 toon-core is published only as `0.1.0.<run>` to the snapshot repository (B-32, "Not covered: Maven Central"), so a
-stranger has to add a repository to take it. Its consumer, pyatiletka's board, has run on it since B-20 there. This item
+stranger has to add a repository to take it. Its consumer, pyatiletka's board, takes it from there. This item
 is everything a first release needs that does not itself publish, checked against how `appframe` 0.3.0 and `viddik` 0.8.0
 went out through sborka's `central.yaml`; the release is [B-96](B-96-release-0-1-0-on-central.md), which waits for the
 owner.
